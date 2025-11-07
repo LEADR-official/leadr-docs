@@ -22,7 +22,7 @@ markdown_extensions:
 
 nav:
   - Overview: index.md
-  - API: index.md
+  - API: api/index.md
   - SDKs:
       - Coming soon: sdks/index.md
 
