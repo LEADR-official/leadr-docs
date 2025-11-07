@@ -1,0 +1,31 @@
+site_name: LEADR Docs
+site_url: https://docs.leadr.gg
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.sections
+    - content.code.copy
+plugins:
+  - search
+  - autorefs
+  - section-index
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Overview: index.md
+  - API: index.md
+  - SDKs:
+      - Coming soon: sdks/index.md
+
+extra:
+  version:
+    provider: mike
