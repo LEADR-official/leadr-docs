@@ -20,11 +20,17 @@ markdown_extensions:
   - toc:
       permalink: true
 
+site_dir: site-md
+
 nav:
   - Overview: index.md
-  - API: api/index.md
+  - Concepts: concepts.md
+  - API:
+      - Overview: api/index.md
   - SDKs:
-      - Coming soon: sdks/index.md
+      - Overview: sdks/index.md
+  - About: about.md
+  - Changelog: changelog.md
 
 extra:
   version:
