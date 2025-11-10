@@ -52,11 +52,11 @@ jobs:
         env:
           CI: "true"
         run: |
-          mike deploy \
+          uv run mike deploy \
             --remote origin \
             --branch gh-pages \
             --update-aliases latest
-          mike set-default \
+          uv run mike set-default \
             --remote origin \
             --branch gh-pages \
             latest
