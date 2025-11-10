@@ -1,0 +1,12 @@
+	{% extends "base.html" %}
+
+	{% block site_meta %}
+	<!-- Add scripts that need to run before here -->
+
+	<script defer src="https://cloud.umami.is/script.js" data-website-id="1c543107-ded6-4eb1-8f34-01ee69bb95ef"></script>
+
+	{{ super() }}
+
+	<!-- Add scripts that need to run afterward here -->
+
+	{% endblock %}

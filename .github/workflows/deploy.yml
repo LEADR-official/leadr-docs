@@ -42,26 +42,61 @@ jobs:
         run: |
           git fetch origin gh-pages:gh-pages || echo "gh-pages branch doesn't exist yet (will be created by mike)"
 
-      - name: Deploy with mike (publish 'latest')
+      - name: Detect version from API docs
+        id: version
+        run: |
+          if [ -f "docs/api/.api-version" ]; then
+            FULL_VERSION=$(cat docs/api/.api-version | tr -d '[:space:]')
+            # Convert v1.2.3 to v1.2 (major.minor only)
+            VERSION=$(echo $FULL_VERSION | sed -E 's/^v?([0-9]+\.[0-9]+).*/v\1/')
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "detected=true" >> $GITHUB_OUTPUT
+            echo "Detected API version: $FULL_VERSION -> deploying as docs version: $VERSION"
+          else
+            echo "detected=false" >> $GITHUB_OUTPUT
+            echo "No .api-version file found - skipping deployment"
+          fi
+
+      - name: Deploy versioned docs with mike
+        if: steps.version.outputs.detected == 'true'
         env:
           CI: "true"
         run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          # Deploy the versioned documentation
           uv run mike deploy \
             --push \
             --remote origin \
             --branch gh-pages \
-            --update-aliases latest
+            --update-aliases $VERSION
+
+          # Update 'latest' alias to point to this version
+          uv run mike alias \
+            --push \
+            --remote origin \
+            --branch gh-pages \
+            $VERSION latest
+
+          # Set latest as the default version
           uv run mike set-default \
             --push \
             --remote origin \
             --branch gh-pages \
             latest
 
+          echo "✅ Deployed documentation version: $VERSION (aliased as 'latest')"
+
       - name: Verify deployment
+        if: steps.version.outputs.detected == 'true'
         run: |
           git fetch origin gh-pages
-          echo "Latest commit on gh-pages:"
+          echo "✅ Latest commit on gh-pages:"
           git log origin/gh-pages -1 --oneline
-          echo "Files in gh-pages root:"
+          echo ""
+          echo "📁 Files in gh-pages root:"
           git ls-tree --name-only origin/gh-pages
+          echo ""
+          echo "📚 Deployed versions:"
+          git show origin/gh-pages:versions.json || echo "No versions.json yet"
 
