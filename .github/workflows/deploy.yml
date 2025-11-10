@@ -1,0 +1,18 @@
+name: Build & publish docs
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install mkdocs mkdocs-material "mkdocstrings[python]" mkdocs-autorefs mkdocs-section-index mike
+      - run: mike deploy --push --update-aliases latest
+      - run: mike set-default --push latest
+
