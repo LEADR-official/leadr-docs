@@ -64,18 +64,12 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
 
-          # Deploy the versioned documentation
+          # Deploy the versioned documentation with 'latest' alias
           uv run mike deploy \
             --push \
             --remote origin \
             --branch gh-pages \
-            --update-aliases $VERSION
-
-          # Update 'latest' alias to point to this version
-          uv run mike alias \
-            --push \
-            --remote origin \
-            --branch gh-pages \
+            --update-aliases \
             $VERSION latest
 
           # Set latest as the default version
