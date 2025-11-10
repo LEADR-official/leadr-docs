@@ -1,5 +1,7 @@
 site_name: LEADR Docs
 site_url: https://docs.leadr.gg
+site_description: Documentation for LEADR - a cross-platform leaderboard backend for indie game developers
+site_author: LEADR
 theme:
   name: material
   custom_dir: docs/overrides
