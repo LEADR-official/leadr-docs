@@ -13,6 +13,7 @@ plugins:
 markdown_extensions:
   - admonition
   - pymdownx.details
+  - pymdownx.highlight
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
@@ -27,6 +28,8 @@ nav:
   - Concepts: concepts.md
   - API:
       - Overview: api/index.md
+      - Patterns: api/patterns.md
+      - Reference: api/reference.md
   - SDKs:
       - Overview: sdks/index.md
   - About: about.md

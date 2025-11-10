@@ -203,6 +203,9 @@ requires-dist = [
     { name = "mkdocs-section-index", specifier = ">=0.3.10" },
 ]
 
+[package.metadata.requires-dev]
+dev = []
+
 [[package]]
 name = "markdown"
 version = "3.10"

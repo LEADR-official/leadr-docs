@@ -11,3 +11,6 @@ dependencies = [
     "mkdocs-material>=9.6.23",
     "mkdocs-section-index>=0.3.10",
 ]
+
+[dependency-groups]
+dev = []
