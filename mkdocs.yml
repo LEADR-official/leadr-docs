@@ -41,3 +41,13 @@ nav:
 extra:
   version:
     provider: mike
+  social:
+    - icon: fontawesome/brands/bluesky
+      link: https://bsky.app/profile/leadr-official.bsky.social
+      name: LEADR on Bluesky
+    - icon: fontawesome/brands/mastodon
+      link: https://mastodon.social/@LEADR_official
+      name: LEADR on Mastodon
+    - icon: fontawesome/brands/github
+      link: https://github.com/LEADR-official
+      name: LEADR on GitHub
