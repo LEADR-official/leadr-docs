@@ -17,6 +17,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: "Set up Python"
         uses: actions/setup-python@v5
@@ -36,28 +38,30 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Ensure gh-pages branch exists (first run bootstrap)
+      - name: Fetch gh-pages branch
         run: |
-          if git ls-remote --exit-code --heads origin gh-pages; then
-            echo "gh-pages exists"
-          else
-            git checkout --orphan gh-pages
-            git reset --hard
-            git commit --allow-empty -m "Initialize gh-pages"
-            git push -u origin gh-pages
-            git checkout -
-          fi
+          git fetch origin gh-pages:gh-pages || echo "gh-pages branch doesn't exist yet (will be created by mike)"
 
       - name: Deploy with mike (publish 'latest')
         env:
           CI: "true"
         run: |
           uv run mike deploy \
+            --push \
             --remote origin \
             --branch gh-pages \
             --update-aliases latest
           uv run mike set-default \
+            --push \
             --remote origin \
             --branch gh-pages \
             latest
+
+      - name: Verify deployment
+        run: |
+          git fetch origin gh-pages
+          echo "Latest commit on gh-pages:"
+          git log origin/gh-pages -1 --oneline
+          echo "Files in gh-pages root:"
+          git ls-tree --name-only origin/gh-pages
 
