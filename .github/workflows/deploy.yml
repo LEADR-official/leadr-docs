@@ -2,17 +2,62 @@ name: Build & publish docs
 on:
   push:
     branches: [ main ]
+  workflow_dispatch: {}
+
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
+    concurrency:
+      group: docs
+      cancel-in-progress: true
+
+
     steps:
       - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
-      - uses: actions/setup-python@v5
-        with: { python-version: '3.11' }
-      - run: pip install mkdocs mkdocs-material mkdocs-autorefs mkdocs-section-index mike
-      - run: mike deploy --push --update-aliases latest
-      - run: mike set-default --push latest
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        run: uv sync --dev
+
+      - name: Configure git (for mike pushes)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Ensure gh-pages branch exists (first run bootstrap)
+        run: |
+          if git ls-remote --exit-code --heads origin gh-pages; then
+            echo "gh-pages exists"
+          else
+            git checkout --orphan gh-pages
+            git reset --hard
+            git commit --allow-empty -m "Initialize gh-pages"
+            git push -u origin gh-pages
+            git checkout -
+          fi
+
+      - name: Deploy with mike (publish 'latest')
+        env:
+          CI: "true"
+        run: |
+          mike deploy \
+            --remote origin \
+            --branch gh-pages \
+            --update-aliases latest
+          mike set-default \
+            --remote origin \
+            --branch gh-pages \
+            latest
 
