@@ -1,0 +1,2894 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
+      
+      
+        <meta name="author" content="LEADR">
+      
+      
+        <link rel="canonical" href="https://docs.leadr.gg/v0.1/api/reference/auth/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LEADR Docs">
+<meta property="og:title" content="Auth | LEADR Docs">
+<meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
+<meta property="og:url" content="https://docs.leadr.gg/v0.1/api/reference/auth/">
+<meta property="og:image" content="https://docs.leadr.gg/v0.1/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LEADR - Cross-platform leaderboard backend for indie game developers">
+<meta property="og:locale" content="en_US">
+
+<!-- Fediverse Meta Tags -->
+<meta name="fediverse:creator" content="@LEADR_official">
+<meta property="profile:username" content="leadr-official.bsky.social">
+
+<!-- Additional SEO Meta Tags -->
+<meta name="keywords" content="leaderboard, game backend, indie games, REST API, cross-platform, game development, FastAPI, open source">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<!-- Theme Color for Mobile Browsers -->
+<meta name="theme-color" content="#71FF05">
+<meta name="msapplication-TileColor" content="#71FF05">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "LEADR Docs",
+  "url": "https://docs.leadr.gg/v0.1",
+  "description": "Documentation for LEADR - the cross-platform leaderboard backend for indie game developers",
+  "publisher": {
+    "@type": "Organization",
+    "name": "LEADR",
+    "url": "https://github.com/LEADR-official"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://docs.leadr.gg/v0.1?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Analytics -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="1c543107-ded6-4eb1-8f34-01ee69bb95ef"></script>
+
+
+    
+      
+        <title>Auth - LEADR Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.84d31ad4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#leadrauth" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="LEADR Docs" class="md-header__button md-logo" aria-label="LEADR Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LEADR Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Auth
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="LEADR Docs" class="md-nav__button md-logo" aria-label="LEADR Docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    LEADR Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../http-api.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTTP API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    SDKs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            SDKs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../sdks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#leadrauth" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadapters" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.adapters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.adapters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.adapters.orm
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.adapters.orm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.adapters.orm.APIKeyORM
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormaccount_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.account_id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormcreated_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.created_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormdeleted_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.deleted_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormexpires_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.expires_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormid" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormkey_hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.key_hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormkey_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.key_prefix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormlast_used_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.last_used_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormname" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormstatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeyormupdated_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyORM.updated_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeystatusenum" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.adapters.orm.APIKeyStatusEnum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeystatusenumactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyStatusEnum.ACTIVE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthadaptersormapikeystatusenumrevoked" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.adapters.orm.APIKeyStatusEnum.REVOKED
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.api">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapiroutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.routes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.api.routes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapiroutescreate_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.routes.create_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapiroutesget_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.routes.get_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapirouteslist_api_keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.routes.list_api_keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapiroutesrouter" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.routes.router
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapiroutesupdate_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.routes.update_api_key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.schemas
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.api.schemas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.schemas.APIKeyResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponseaccount_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.account_id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponsecreated_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.created_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponseexpires_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.expires_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponsefrom_domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.from_domain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponseid" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponselast_used_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.last_used_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponsemodel_config" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.model_config
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponsename" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponseprefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.prefix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponsestatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasapikeyresponseupdated_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.APIKeyResponse.updated_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.schemas.CreateAPIKeyRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyrequestaccount_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyRequest.account_id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyrequestexpires_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyRequest.expires_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyrequestname" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyRequest.name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.schemas.CreateAPIKeyResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponsecreated_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyResponse.created_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponseexpires_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyResponse.expires_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponsefrom_domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyResponse.from_domain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponseid" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyResponse.id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponsekey" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyResponse.key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponsename" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyResponse.name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponseprefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyResponse.prefix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemascreateapikeyresponsestatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.CreateAPIKeyResponse.status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasupdateapikeyrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.api.schemas.UpdateAPIKeyRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasupdateapikeyrequestdeleted" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.UpdateAPIKeyRequest.deleted
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapischemasupdateapikeyrequeststatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.schemas.UpdateAPIKeyRequest.status
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.dependencies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdependenciesrequire_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.dependencies.require_api_key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomain" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.domain
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.domain">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.domain.api_key
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.domain.api_key">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikey" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.domain.api_key.APIKey
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyaccount_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.account_id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeycreated_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.created_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeydeleted_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.deleted_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyexpires_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.expires_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyid" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyis_deleted" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.is_deleted
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyis_expired" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.is_expired
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyis_valid" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.is_valid
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeykey_hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.key_hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeykey_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.key_prefix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeylast_used_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.last_used_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeymodel_config" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.model_config
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyname" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyrecord_usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.record_usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyrestore" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.restore
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyrevoke" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.revoke
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeysoft_delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.soft_delete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeystatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyupdated_at" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.updated_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeyvalidate_key_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKey.validate_key_prefix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeystatus_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.domain.api_key.APIKeyStatus
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeystatusactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKeyStatus.ACTIVE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdomainapi_keyapikeystatusrevoked" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.domain.api_key.APIKeyStatus.REVOKED
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservices" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_crypto" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.api_key_crypto
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.services.api_key_crypto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_cryptoapi_key_bytes" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.api_key_crypto.API_KEY_BYTES
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_cryptoapi_key_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.api_key_crypto.API_KEY_PREFIX
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_cryptogenerate_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.api_key_crypto.generate_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_cryptohash_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.api_key_crypto.hash_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_cryptoverify_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.api_key_crypto.verify_api_key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_service" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.api_key_service
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.services.api_key_service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.api_key_service.APIKeyService
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicecount_active_api_keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.count_active_api_keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicecreate_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.create_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicedelete" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.delete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyserviceget_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.get_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyserviceget_by_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.get_by_id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyserviceget_by_id_or_raise" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.get_by_id_or_raise
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicelist_account_api_keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.list_account_api_keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicelist_all" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.list_all
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicelist_api_keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.list_api_keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicerecord_usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.record_usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicerepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicerevoke_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.revoke_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicesoft_delete" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.soft_delete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyserviceupdate_api_key_status" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.update_api_key_status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicevalidate_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.validate_api_key
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesdependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.dependencies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.services.dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesdependenciesapikeyservicedep" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.dependencies.APIKeyServiceDep
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesdependenciesget_api_key_service" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.dependencies.get_api_key_service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.repositories
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.auth.services.repositories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.services.repositories.APIKeyRepository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositorycount_active_by_account" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.count_active_by_account
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositorycreate" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.create
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositorydelete" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.delete
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositoryfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.filter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositoryget_by_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.get_by_id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositoryget_by_prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.get_by_prefix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositorysession" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.session
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositoryupdate" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.update
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Auth</h1>
+
+<h3 id="leadrauth"><code>leadr.auth</code><a class="headerlink" href="#leadrauth" title="Permanent link">&para;</a></h3>
+<p><strong>Modules:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.adapters"><strong>adapters</strong></a> –</li>
+<li><a href="./#leadr.auth.api"><strong>api</strong></a> –</li>
+<li><a href="./#leadr.auth.dependencies"><strong>dependencies</strong></a> – Authentication dependencies for FastAPI.</li>
+<li><a href="./#leadr.auth.domain"><strong>domain</strong></a> –</li>
+<li><a href="./#leadr.auth.services"><strong>services</strong></a> –</li>
+</ul>
+<h4 id="leadrauthadapters"><code>leadr.auth.adapters</code><a class="headerlink" href="#leadrauthadapters" title="Permanent link">&para;</a></h4>
+<p><strong>Modules:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.adapters.orm"><strong>orm</strong></a> – API Key ORM models.</li>
+</ul>
+<h5 id="leadrauthadaptersorm"><code>leadr.auth.adapters.orm</code><a class="headerlink" href="#leadrauthadaptersorm" title="Permanent link">&para;</a></h5>
+<p>API Key ORM models.</p>
+<p><strong>Classes:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.adapters.orm.APIKeyORM"><strong>APIKeyORM</strong></a> – API Key ORM model.</li>
+<li><a href="./#leadr.auth.adapters.orm.APIKeyStatusEnum"><strong>APIKeyStatusEnum</strong></a> – API Key status enum for database.</li>
+</ul>
+<h6 id="leadrauthadaptersormapikeyorm"><code>leadr.auth.adapters.orm.APIKeyORM</code><a class="headerlink" href="#leadrauthadaptersormapikeyorm" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="../common/#leadr.common.orm.Base">Base</a></code></p>
+<p>API Key ORM model.</p>
+<p>Represents an API key for account authentication in the database.
+Maps to the api_keys table with foreign key to accounts.</p>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.adapters.orm.APIKeyORM.account_id"><strong>account_id</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#uuid.UUID">UUID</a>]</code>) –</li>
+<li><a href="#leadr.auth.adapters.orm.APIKeyORM.created_at"><strong>created_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="../common/#leadr.common.orm.timestamp">timestamp</a>]</code>) –</li>
+<li><a href="#leadr.auth.adapters.orm.APIKeyORM.deleted_at"><strong>deleted_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#leadr.common.orm.nullable_timestamp">nullable_timestamp</a>]</code>) –</li>
+<li><a href="#leadr.auth.adapters.orm.APIKeyORM.expires_at"><strong>expires_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#datetime.datetime">datetime</a> | None]</code>) –</li>
+<li><a href="./#leadr.auth.adapters.orm.APIKeyORM.id"><strong>id</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#leadr.common.orm.uuid_pk">uuid_pk</a>]</code>) –</li>
+<li><a href="#leadr.auth.adapters.orm.APIKeyORM.key_hash"><strong>key_hash</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.auth.adapters.orm.APIKeyORM.key_prefix"><strong>key_prefix</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.auth.adapters.orm.APIKeyORM.last_used_at"><strong>last_used_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#datetime.datetime">datetime</a> | None]</code>) –</li>
+<li><a href="./#leadr.auth.adapters.orm.APIKeyORM.name"><strong>name</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="./#leadr.auth.adapters.orm.APIKeyORM.status"><strong>status</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="./#leadr.auth.adapters.orm.APIKeyStatusEnum">APIKeyStatusEnum</a>]</code>) –</li>
+<li><a href="#leadr.auth.adapters.orm.APIKeyORM.updated_at"><strong>updated_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="../common/#leadr.common.orm.timestamp">timestamp</a>]</code>) –</li>
+</ul>
+<h6 id="leadrauthadaptersormapikeyormaccount_id"># <code>leadr.auth.adapters.orm.APIKeyORM.account_id</code><a class="headerlink" href="#leadrauthadaptersormapikeyormaccount_id" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">account_id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">UUID</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;accounts.id&#39;</span><span class="p">,</span> <span class="n">ondelete</span><span class="o">=</span><span class="s1">&#39;CASCADE&#39;</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormcreated_at"># <code>leadr.auth.adapters.orm.APIKeyORM.created_at</code><a class="headerlink" href="#leadrauthadaptersormapikeyormcreated_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">created_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">timestamp</span><span class="p">]</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormdeleted_at"># <code>leadr.auth.adapters.orm.APIKeyORM.deleted_at</code><a class="headerlink" href="#leadrauthadaptersormapikeyormdeleted_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">deleted_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">nullable_timestamp</span><span class="p">]</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormexpires_at"># <code>leadr.auth.adapters.orm.APIKeyORM.expires_at</code><a class="headerlink" href="#leadrauthadaptersormapikeyormexpires_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">expires_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormid"># <code>leadr.auth.adapters.orm.APIKeyORM.id</code><a class="headerlink" href="#leadrauthadaptersormapikeyormid" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="nb">id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">uuid_pk</span><span class="p">]</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormkey_hash"># <code>leadr.auth.adapters.orm.APIKeyORM.key_hash</code><a class="headerlink" href="#leadrauthadaptersormapikeyormkey_hash" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">key_hash</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormkey_prefix"># <code>leadr.auth.adapters.orm.APIKeyORM.key_prefix</code><a class="headerlink" href="#leadrauthadaptersormapikeyormkey_prefix" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">key_prefix</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormlast_used_at"># <code>leadr.auth.adapters.orm.APIKeyORM.last_used_at</code><a class="headerlink" href="#leadrauthadaptersormapikeyormlast_used_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">last_used_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">DateTime</span><span class="p">(</span><span class="n">timezone</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormname"># <code>leadr.auth.adapters.orm.APIKeyORM.name</code><a class="headerlink" href="#leadrauthadaptersormapikeyormname" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">name</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormstatus"># <code>leadr.auth.adapters.orm.APIKeyORM.status</code><a class="headerlink" href="#leadrauthadaptersormapikeyormstatus" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">APIKeyStatusEnum</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">Enum</span><span class="p">(</span><span class="n">APIKeyStatusEnum</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;api_key_status&#39;</span><span class="p">,</span> <span class="n">native_enum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">values_callable</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">APIKeyStatusEnum</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">),</span> <span class="n">server_default</span><span class="o">=</span><span class="s1">&#39;active&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeyormupdated_at"># <code>leadr.auth.adapters.orm.APIKeyORM.updated_at</code><a class="headerlink" href="#leadrauthadaptersormapikeyormupdated_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">updated_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">timestamp</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">onupdate</span><span class="o">=</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeystatusenum"><code>leadr.auth.adapters.orm.APIKeyStatusEnum</code><a class="headerlink" href="#leadrauthadaptersormapikeystatusenum" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#str">str</a></code>, <code><a href="#enum.Enum">Enum</a></code></p>
+<p>API Key status enum for database.</p>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.adapters.orm.APIKeyStatusEnum.ACTIVE"><strong>ACTIVE</strong></a> –</li>
+<li><a href="./#leadr.auth.adapters.orm.APIKeyStatusEnum.REVOKED"><strong>REVOKED</strong></a> –</li>
+</ul>
+<h6 id="leadrauthadaptersormapikeystatusenumactive"># <code>leadr.auth.adapters.orm.APIKeyStatusEnum.ACTIVE</code><a class="headerlink" href="#leadrauthadaptersormapikeystatusenumactive" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">ACTIVE</span> <span class="o">=</span> <span class="s1">&#39;active&#39;</span>
+</code></pre></div>
+<h6 id="leadrauthadaptersormapikeystatusenumrevoked"># <code>leadr.auth.adapters.orm.APIKeyStatusEnum.REVOKED</code><a class="headerlink" href="#leadrauthadaptersormapikeystatusenumrevoked" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">REVOKED</span> <span class="o">=</span> <span class="s1">&#39;revoked&#39;</span>
+</code></pre></div>
+<h4 id="leadrauthapi"><code>leadr.auth.api</code><a class="headerlink" href="#leadrauthapi" title="Permanent link">&para;</a></h4>
+<p><strong>Modules:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.api.routes"><strong>routes</strong></a> – API routes for authentication and API key management.</li>
+<li><a href="./#leadr.auth.api.schemas"><strong>schemas</strong></a> – API schemas for API Key endpoints.</li>
+</ul>
+<h5 id="leadrauthapiroutes"><code>leadr.auth.api.routes</code><a class="headerlink" href="#leadrauthapiroutes" title="Permanent link">&para;</a></h5>
+<p>API routes for authentication and API key management.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.api.routes.create_api_key"><strong>create_api_key</strong></a> – Create a new API key for an account.</li>
+<li><a href="#leadr.auth.api.routes.get_api_key"><strong>get_api_key</strong></a> – Get a single API key by ID.</li>
+<li><a href="#leadr.auth.api.routes.list_api_keys"><strong>list_api_keys</strong></a> – List API keys for an account with optional filters.</li>
+<li><a href="#leadr.auth.api.routes.update_api_key"><strong>update_api_key</strong></a> – Update an API key.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.api.routes.router"><strong>router</strong></a> –</li>
+</ul>
+<h6 id="leadrauthapiroutescreate_api_key"><code>leadr.auth.api.routes.create_api_key</code><a class="headerlink" href="#leadrauthapiroutescreate_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">create_api_key</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">service</span><span class="p">)</span>
+</code></pre></div>
+<p>Create a new API key for an account.</p>
+<p>The plain API key is returned only once in this response.
+Store it securely as it cannot be retrieved later.</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="./#leadr.auth.api.schemas.CreateAPIKeyResponse">CreateAPIKeyResponse</a></code> – CreateAPIKeyResponse with the plain key included.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code>404</code> – Account not found.</li>
+</ul>
+<h6 id="leadrauthapiroutesget_api_key"><code>leadr.auth.api.routes.get_api_key</code><a class="headerlink" href="#leadrauthapiroutesget_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_api_key</span><span class="p">(</span><span class="n">key_id</span><span class="p">,</span> <span class="n">service</span><span class="p">)</span>
+</code></pre></div>
+<p>Get a single API key by ID.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a></code>) – The UUID of the API key to retrieve.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="./#leadr.auth.api.schemas.APIKeyResponse">APIKeyResponse</a></code> – APIKeyResponse with key details (excludes the plain key).</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code>404</code> – API key not found.</li>
+</ul>
+<h6 id="leadrauthapirouteslist_api_keys"><code>leadr.auth.api.routes.list_api_keys</code><a class="headerlink" href="#leadrauthapirouteslist_api_keys" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">list_api_keys</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>List API keys for an account with optional filters.</p>
+<p>TODO: Replace account_id query param with account_id from auth token.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>account_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#pydantic.UUID4">UUID4</a>, <a href="#fastapi.Query">Query</a>(description='Account ID to filter by')]</code>) – Account ID to filter results (REQUIRED for multi-tenant safety).</li>
+<li><strong>status</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#leadr.auth.domain.api_key.APIKeyStatus">APIKeyStatus</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by status')]</code>) – Optional status to filter results (active or revoked).</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#list">list</a>[<a href="./#leadr.auth.api.schemas.APIKeyResponse">APIKeyResponse</a>]</code> – List of API keys matching the filters.</li>
+</ul>
+<h6 id="leadrauthapiroutesrouter"><code>leadr.auth.api.routes.router</code><a class="headerlink" href="#leadrauthapiroutesrouter" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
+</code></pre></div>
+<h6 id="leadrauthapiroutesupdate_api_key"><code>leadr.auth.api.routes.update_api_key</code><a class="headerlink" href="#leadrauthapiroutesupdate_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">update_api_key</span><span class="p">(</span><span class="n">key_id</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">service</span><span class="p">)</span>
+</code></pre></div>
+<p>Update an API key.</p>
+<p>Currently supports:</p>
+<ul>
+<li>Updating status (e.g., to revoke a key)</li>
+<li>Soft delete via deleted flag</li>
+</ul>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a></code>) – The UUID of the API key to update.</li>
+<li><strong>request</strong> (<code><a href="./#leadr.auth.api.schemas.UpdateAPIKeyRequest">UpdateAPIKeyRequest</a></code>) – Update request with optional status and deleted fields.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="./#leadr.auth.api.schemas.APIKeyResponse">APIKeyResponse</a></code> – APIKeyResponse with updated key details.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code>404</code> – API key not found.</li>
+</ul>
+<h5 id="leadrauthapischemas"><code>leadr.auth.api.schemas</code><a class="headerlink" href="#leadrauthapischemas" title="Permanent link">&para;</a></h5>
+<p>API schemas for API Key endpoints.</p>
+<p><strong>Classes:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.api.schemas.APIKeyResponse"><strong>APIKeyResponse</strong></a> – Response schema for API key details.</li>
+<li><a href="./#leadr.auth.api.schemas.CreateAPIKeyRequest"><strong>CreateAPIKeyRequest</strong></a> – Request schema for creating an API key.</li>
+<li><a href="./#leadr.auth.api.schemas.CreateAPIKeyResponse"><strong>CreateAPIKeyResponse</strong></a> – Response schema for creating an API key.</li>
+<li><a href="./#leadr.auth.api.schemas.UpdateAPIKeyRequest"><strong>UpdateAPIKeyRequest</strong></a> – Request schema for updating an API key.</li>
+</ul>
+<h6 id="leadrauthapischemasapikeyresponse"><code>leadr.auth.api.schemas.APIKeyResponse</code><a class="headerlink" href="#leadrauthapischemasapikeyresponse" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
+<p>Response schema for API key details.</p>
+<p>Excludes sensitive information like key_hash.
+The full key is never returned after creation.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.api.schemas.APIKeyResponse.from_domain"><strong>from_domain</strong></a> – Convert domain entity to response model.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.api.schemas.APIKeyResponse.account_id"><strong>account_id</strong></a> (<code><a href="#uuid.UUID">UUID</a></code>) –</li>
+<li><a href="#leadr.auth.api.schemas.APIKeyResponse.created_at"><strong>created_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
+<li><a href="#leadr.auth.api.schemas.APIKeyResponse.expires_at"><strong>expires_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.APIKeyResponse.id"><strong>id</strong></a> (<code><a href="#uuid.UUID">UUID</a></code>) –</li>
+<li><a href="#leadr.auth.api.schemas.APIKeyResponse.last_used_at"><strong>last_used_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
+<li><a href="#leadr.auth.api.schemas.APIKeyResponse.model_config"><strong>model_config</strong></a> –</li>
+<li><a href="./#leadr.auth.api.schemas.APIKeyResponse.name"><strong>name</strong></a> (<code><a href="#str">str</a></code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.APIKeyResponse.prefix"><strong>prefix</strong></a> (<code><a href="#str">str</a></code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.APIKeyResponse.status"><strong>status</strong></a> (<code><a href="#leadr.auth.domain.api_key.APIKeyStatus">APIKeyStatus</a></code>) –</li>
+<li><a href="#leadr.auth.api.schemas.APIKeyResponse.updated_at"><strong>updated_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
+</ul>
+<h6 id="leadrauthapischemasapikeyresponseaccount_id"># <code>leadr.auth.api.schemas.APIKeyResponse.account_id</code><a class="headerlink" href="#leadrauthapischemasapikeyresponseaccount_id" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">account_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ID of the account this key belongs to&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponsecreated_at"># <code>leadr.auth.api.schemas.APIKeyResponse.created_at</code><a class="headerlink" href="#leadrauthapischemasapikeyresponsecreated_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp when the key was created (UTC)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponseexpires_at"># <code>leadr.auth.api.schemas.APIKeyResponse.expires_at</code><a class="headerlink" href="#leadrauthapischemasapikeyresponseexpires_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">expires_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Expiration timestamp (UTC), or null if never expires&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponsefrom_domain"># <code>leadr.auth.api.schemas.APIKeyResponse.from_domain</code><a class="headerlink" href="#leadrauthapischemasapikeyresponsefrom_domain" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">from_domain</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+</code></pre></div>
+<p>Convert domain entity to response model.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>api_key</strong> (<code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a></code>) – The domain APIKey entity</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="./#leadr.auth.api.schemas.APIKeyResponse">APIKeyResponse</a></code> – APIKeyResponse with all fields populated</li>
+</ul>
+<h6 id="leadrauthapischemasapikeyresponseid"># <code>leadr.auth.api.schemas.APIKeyResponse.id</code><a class="headerlink" href="#leadrauthapischemasapikeyresponseid" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Unique identifier for the API key&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponselast_used_at"># <code>leadr.auth.api.schemas.APIKeyResponse.last_used_at</code><a class="headerlink" href="#leadrauthapischemasapikeyresponselast_used_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">last_used_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp of last successful authentication (UTC)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponsemodel_config"># <code>leadr.auth.api.schemas.APIKeyResponse.model_config</code><a class="headerlink" href="#leadrauthapischemasapikeyresponsemodel_config" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s1">&#39;forbid&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponsename"># <code>leadr.auth.api.schemas.APIKeyResponse.name</code><a class="headerlink" href="#leadrauthapischemasapikeyresponsename" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Human-readable name for the API key&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponseprefix"># <code>leadr.auth.api.schemas.APIKeyResponse.prefix</code><a class="headerlink" href="#leadrauthapischemasapikeyresponseprefix" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Key prefix for identification (first 8 characters)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponsestatus"># <code>leadr.auth.api.schemas.APIKeyResponse.status</code><a class="headerlink" href="#leadrauthapischemasapikeyresponsestatus" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">APIKeyStatus</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Current status (active, revoked, expired)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasapikeyresponseupdated_at"># <code>leadr.auth.api.schemas.APIKeyResponse.updated_at</code><a class="headerlink" href="#leadrauthapischemasapikeyresponseupdated_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp of last update (UTC)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyrequest"><code>leadr.auth.api.schemas.CreateAPIKeyRequest</code><a class="headerlink" href="#leadrauthapischemascreateapikeyrequest" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
+<p>Request schema for creating an API key.</p>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.api.schemas.CreateAPIKeyRequest.account_id"><strong>account_id</strong></a> (<code><a href="#uuid.UUID">UUID</a></code>) –</li>
+<li><a href="#leadr.auth.api.schemas.CreateAPIKeyRequest.expires_at"><strong>expires_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.CreateAPIKeyRequest.name"><strong>name</strong></a> (<code><a href="#str">str</a></code>) –</li>
+</ul>
+<h6 id="leadrauthapischemascreateapikeyrequestaccount_id"># <code>leadr.auth.api.schemas.CreateAPIKeyRequest.account_id</code><a class="headerlink" href="#leadrauthapischemascreateapikeyrequestaccount_id" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">account_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ID of the account this API key belongs to&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyrequestexpires_at"># <code>leadr.auth.api.schemas.CreateAPIKeyRequest.expires_at</code><a class="headerlink" href="#leadrauthapischemascreateapikeyrequestexpires_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">expires_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Optional expiration timestamp (UTC). Key never expires if omitted&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyrequestname"># <code>leadr.auth.api.schemas.CreateAPIKeyRequest.name</code><a class="headerlink" href="#leadrauthapischemascreateapikeyrequestname" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Human-readable name for the API key (e.g., &#39;Production Server&#39;)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyresponse"><code>leadr.auth.api.schemas.CreateAPIKeyResponse</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponse" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
+<p>Response schema for creating an API key.</p>
+<p>Includes the plain API key which is only shown once.
+The client must save this key as it cannot be retrieved later.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.api.schemas.CreateAPIKeyResponse.from_domain"><strong>from_domain</strong></a> – Convert domain entity to response model with plain key.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.api.schemas.CreateAPIKeyResponse.created_at"><strong>created_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
+<li><a href="#leadr.auth.api.schemas.CreateAPIKeyResponse.expires_at"><strong>expires_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.CreateAPIKeyResponse.id"><strong>id</strong></a> (<code><a href="#uuid.UUID">UUID</a></code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.CreateAPIKeyResponse.key"><strong>key</strong></a> (<code><a href="#str">str</a></code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.CreateAPIKeyResponse.name"><strong>name</strong></a> (<code><a href="#str">str</a></code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.CreateAPIKeyResponse.prefix"><strong>prefix</strong></a> (<code><a href="#str">str</a></code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.CreateAPIKeyResponse.status"><strong>status</strong></a> (<code><a href="#leadr.auth.domain.api_key.APIKeyStatus">APIKeyStatus</a></code>) –</li>
+</ul>
+<h6 id="leadrauthapischemascreateapikeyresponsecreated_at"># <code>leadr.auth.api.schemas.CreateAPIKeyResponse.created_at</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponsecreated_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp when the key was created (UTC)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyresponseexpires_at"># <code>leadr.auth.api.schemas.CreateAPIKeyResponse.expires_at</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponseexpires_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">expires_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Expiration timestamp (UTC), or null if never expires&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyresponsefrom_domain"># <code>leadr.auth.api.schemas.CreateAPIKeyResponse.from_domain</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponsefrom_domain" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">from_domain</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">plain_key</span><span class="p">)</span>
+</code></pre></div>
+<p>Convert domain entity to response model with plain key.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>api_key</strong> (<code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a></code>) – The domain APIKey entity</li>
+<li><strong>plain_key</strong> (<code><a href="#str">str</a></code>) – The plain text API key (only available at creation)</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="./#leadr.auth.api.schemas.CreateAPIKeyResponse">CreateAPIKeyResponse</a></code> – CreateAPIKeyResponse with all fields populated</li>
+</ul>
+<h6 id="leadrauthapischemascreateapikeyresponseid"># <code>leadr.auth.api.schemas.CreateAPIKeyResponse.id</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponseid" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Unique identifier for the API key&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyresponsekey"># <code>leadr.auth.api.schemas.CreateAPIKeyResponse.key</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponsekey" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Plain text API key. ONLY returned at creation - save this securely!&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyresponsename"># <code>leadr.auth.api.schemas.CreateAPIKeyResponse.name</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponsename" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Human-readable name for the API key&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyresponseprefix"># <code>leadr.auth.api.schemas.CreateAPIKeyResponse.prefix</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponseprefix" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Key prefix for identification (first 8 characters)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemascreateapikeyresponsestatus"># <code>leadr.auth.api.schemas.CreateAPIKeyResponse.status</code><a class="headerlink" href="#leadrauthapischemascreateapikeyresponsestatus" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">APIKeyStatus</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Current status of the API key&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasupdateapikeyrequest"><code>leadr.auth.api.schemas.UpdateAPIKeyRequest</code><a class="headerlink" href="#leadrauthapischemasupdateapikeyrequest" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
+<p>Request schema for updating an API key.</p>
+<p>Can update status (e.g., to revoke) or set deleted flag for soft delete.</p>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.api.schemas.UpdateAPIKeyRequest.deleted"><strong>deleted</strong></a> (<code><a href="#bool">bool</a> | None</code>) –</li>
+<li><a href="./#leadr.auth.api.schemas.UpdateAPIKeyRequest.status"><strong>status</strong></a> (<code><a href="#leadr.auth.domain.api_key.APIKeyStatus">APIKeyStatus</a> | None</code>) –</li>
+</ul>
+<h6 id="leadrauthapischemasupdateapikeyrequestdeleted"># <code>leadr.auth.api.schemas.UpdateAPIKeyRequest.deleted</code><a class="headerlink" href="#leadrauthapischemasupdateapikeyrequestdeleted" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">deleted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Set to true to soft delete the key&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapischemasupdateapikeyrequeststatus"># <code>leadr.auth.api.schemas.UpdateAPIKeyRequest.status</code><a class="headerlink" href="#leadrauthapischemasupdateapikeyrequeststatus" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">APIKeyStatus</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Updated status (use &#39;revoked&#39; to disable key)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="leadrauthdependencies"><code>leadr.auth.dependencies</code><a class="headerlink" href="#leadrauthdependencies" title="Permanent link">&para;</a></h4>
+<p>Authentication dependencies for FastAPI.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.dependencies.require_api_key"><strong>require_api_key</strong></a> – Require and validate API key authentication.</li>
+</ul>
+<h5 id="leadrauthdependenciesrequire_api_key"><code>leadr.auth.dependencies.require_api_key</code><a class="headerlink" href="#leadrauthdependenciesrequire_api_key" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">require_api_key</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Require and validate API key authentication.</p>
+<p>This dependency validates the API key from the 'leadr-api-key' header
+and returns the authenticated APIKey entity. It also records usage
+of the key by updating the last_used_at timestamp.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>api_key</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#str">str</a> | None, <a href="#fastapi.Header">Header</a>(alias=(<a href="#leadr">leadr</a> - <a href="./#leadr.auth.api">api</a> - <a href="#key">key</a>))]</code>) – The API key from the 'leadr-api-key' header.</li>
+<li><strong>service</strong> (<code><a href="./#leadr.auth.services.dependencies.APIKeyServiceDep">APIKeyServiceDep</a></code>) – APIKeyService dependency.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a></code> – The authenticated APIKey entity.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#fastapi.HTTPException">HTTPException</a></code> – 401 Unauthorized if the API key is missing or invalid.</li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > @router.get("/protected")
+> > > async def protected_endpoint(
+> > > authenticated_key: Annotated[APIKey, Depends(require_api_key)]
+> > > ):
+> > > return {"account_id": authenticated_key.account_id}
+
+</details>
+
+<h4 id="leadrauthdomain"><code>leadr.auth.domain</code><a class="headerlink" href="#leadrauthdomain" title="Permanent link">&para;</a></h4>
+<p><strong>Modules:</strong></p>
+<ul>
+<li><a href="#leadr.auth.domain.api_key"><strong>api_key</strong></a> – API Key domain model.</li>
+</ul>
+<h5 id="leadrauthdomainapi_key"><code>leadr.auth.domain.api_key</code><a class="headerlink" href="#leadrauthdomainapi_key" title="Permanent link">&para;</a></h5>
+<p>API Key domain model.</p>
+<p><strong>Classes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.domain.api_key.APIKey"><strong>APIKey</strong></a> – API Key domain entity.</li>
+<li><a href="#leadr.auth.domain.api_key.APIKeyStatus"><strong>APIKeyStatus</strong></a> – API Key status enumeration.</li>
+</ul>
+<h6 id="leadrauthdomainapi_keyapikey"><code>leadr.auth.domain.api_key.APIKey</code><a class="headerlink" href="#leadrauthdomainapi_keyapikey" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="../common/#leadr.common.domain.models.Entity">Entity</a></code></p>
+<p>API Key domain entity.</p>
+<p>Represents an API key used to authenticate requests to the admin API.
+Each account can have multiple API keys for different purposes.
+Keys are stored hashed for security and shown only once at creation.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.domain.api_key.APIKey.is_expired"><strong>is_expired</strong></a> – Check if the API key has expired.</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.is_valid"><strong>is_valid</strong></a> – Check if the API key is valid for use.</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.record_usage"><strong>record_usage</strong></a> – Record that the API key was used.</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.restore"><strong>restore</strong></a> – Restore a soft-deleted entity.</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.revoke"><strong>revoke</strong></a> – Revoke the API key, preventing further use.</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.soft_delete"><strong>soft_delete</strong></a> – Mark entity as soft-deleted.</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.validate_key_prefix"><strong>validate_key_prefix</strong></a> – Validate that key_prefix starts with 'ldr_'.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.domain.api_key.APIKey.account_id"><strong>account_id</strong></a> (<code><a href="#uuid.UUID">UUID</a></code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.created_at"><strong>created_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.deleted_at"><strong>deleted_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.expires_at"><strong>expires_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.id"><strong>id</strong></a> (<code><a href="#uuid.UUID">UUID</a></code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.is_deleted"><strong>is_deleted</strong></a> (<code><a href="#bool">bool</a></code>) – Check if entity is soft-deleted.</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.key_hash"><strong>key_hash</strong></a> (<code><a href="#str">str</a></code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.key_prefix"><strong>key_prefix</strong></a> (<code><a href="#str">str</a></code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.last_used_at"><strong>last_used_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.model_config"><strong>model_config</strong></a> –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.name"><strong>name</strong></a> (<code><a href="#str">str</a></code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.status"><strong>status</strong></a> (<code><a href="#leadr.auth.domain.api_key.APIKeyStatus">APIKeyStatus</a></code>) –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKey.updated_at"><strong>updated_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
+</ul>
+<h6 id="leadrauthdomainapi_keyapikeyaccount_id"># <code>leadr.auth.domain.api_key.APIKey.account_id</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyaccount_id" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">account_id</span><span class="p">:</span> <span class="n">UUID</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeycreated_at"># <code>leadr.auth.domain.api_key.APIKey.created_at</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeycreated_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp when entity was created (UTC)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeydeleted_at"># <code>leadr.auth.domain.api_key.APIKey.deleted_at</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeydeleted_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">deleted_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp when entity was soft-deleted (UTC), or null if active&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeyexpires_at"># <code>leadr.auth.domain.api_key.APIKey.expires_at</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyexpires_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">expires_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeyid"># <code>leadr.auth.domain.api_key.APIKey.id</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyid" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Unique identifier (auto-generated UUID)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeyis_deleted"># <code>leadr.auth.domain.api_key.APIKey.is_deleted</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyis_deleted" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">is_deleted</span><span class="p">:</span> <span class="nb">bool</span>
+</code></pre></div>
+<p>Check if entity is soft-deleted.</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#bool">bool</a></code> – True if the entity has a deleted_at timestamp, False otherwise.</li>
+</ul>
+<h6 id="leadrauthdomainapi_keyapikeyis_expired"># <code>leadr.auth.domain.api_key.APIKey.is_expired</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyis_expired" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">is_expired</span><span class="p">()</span>
+</code></pre></div>
+<p>Check if the API key has expired.</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#bool">bool</a></code> – True if the key has an expiration date and it's in the past.</li>
+</ul>
+<h6 id="leadrauthdomainapi_keyapikeyis_valid"># <code>leadr.auth.domain.api_key.APIKey.is_valid</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyis_valid" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">is_valid</span><span class="p">()</span>
+</code></pre></div>
+<p>Check if the API key is valid for use.</p>
+<p>A key is valid if it's active and not expired.</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#bool">bool</a></code> – True if the key can be used for authentication.</li>
+</ul>
+<h6 id="leadrauthdomainapi_keyapikeykey_hash"># <code>leadr.auth.domain.api_key.APIKey.key_hash</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeykey_hash" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">key_hash</span><span class="p">:</span> <span class="nb">str</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeykey_prefix"># <code>leadr.auth.domain.api_key.APIKey.key_prefix</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeykey_prefix" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">key_prefix</span><span class="p">:</span> <span class="nb">str</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeylast_used_at"># <code>leadr.auth.domain.api_key.APIKey.last_used_at</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeylast_used_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">last_used_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeymodel_config"># <code>leadr.auth.domain.api_key.APIKey.model_config</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeymodel_config" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">validate_assignment</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeyname"># <code>leadr.auth.domain.api_key.APIKey.name</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyname" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeyrecord_usage"># <code>leadr.auth.domain.api_key.APIKey.record_usage</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyrecord_usage" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">record_usage</span><span class="p">(</span><span class="n">used_at</span><span class="p">)</span>
+</code></pre></div>
+<p>Record that the API key was used.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>used_at</strong> (<code><a href="#datetime.datetime">datetime</a></code>) – Timestamp when the key was used.</li>
+</ul>
+<h6 id="leadrauthdomainapi_keyapikeyrestore"># <code>leadr.auth.domain.api_key.APIKey.restore</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyrestore" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">restore</span><span class="p">()</span>
+</code></pre></div>
+<p>Restore a soft-deleted entity.</p>
+<p>Clears the deleted_at timestamp, making the entity active again.</p>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > account.soft_delete()
+> > > account.restore()
+> > > assert account.is_deleted is False
+
+</details>
+
+<h6 id="leadrauthdomainapi_keyapikeyrevoke"># <code>leadr.auth.domain.api_key.APIKey.revoke</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyrevoke" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">revoke</span><span class="p">()</span>
+</code></pre></div>
+<p>Revoke the API key, preventing further use.</p>
+<h6 id="leadrauthdomainapi_keyapikeysoft_delete"># <code>leadr.auth.domain.api_key.APIKey.soft_delete</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeysoft_delete" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">soft_delete</span><span class="p">()</span>
+</code></pre></div>
+<p>Mark entity as soft-deleted.</p>
+<p>Sets the deleted_at timestamp to the current UTC time. Entities that are
+already deleted are not affected (deleted_at remains at original deletion time).</p>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > account = Account(name="Test", slug="test")
+> > > account.soft_delete()
+> > > assert account.is_deleted is True
+
+</details>
+
+<h6 id="leadrauthdomainapi_keyapikeystatus"># <code>leadr.auth.domain.api_key.APIKey.status</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeystatus" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">APIKeyStatus</span> <span class="o">=</span> <span class="n">APIKeyStatus</span><span class="o">.</span><span class="n">ACTIVE</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeyupdated_at"># <code>leadr.auth.domain.api_key.APIKey.updated_at</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyupdated_at" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp of last update (UTC)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeyvalidate_key_prefix"># <code>leadr.auth.domain.api_key.APIKey.validate_key_prefix</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeyvalidate_key_prefix" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">validate_key_prefix</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</code></pre></div>
+<p>Validate that key_prefix starts with 'ldr_'.</p>
+<h6 id="leadrauthdomainapi_keyapikeystatus_1"><code>leadr.auth.domain.api_key.APIKeyStatus</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeystatus_1" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#enum.Enum">Enum</a></code></p>
+<p>API Key status enumeration.</p>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.domain.api_key.APIKeyStatus.ACTIVE"><strong>ACTIVE</strong></a> –</li>
+<li><a href="#leadr.auth.domain.api_key.APIKeyStatus.REVOKED"><strong>REVOKED</strong></a> –</li>
+</ul>
+<h6 id="leadrauthdomainapi_keyapikeystatusactive"># <code>leadr.auth.domain.api_key.APIKeyStatus.ACTIVE</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeystatusactive" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">ACTIVE</span> <span class="o">=</span> <span class="s1">&#39;active&#39;</span>
+</code></pre></div>
+<h6 id="leadrauthdomainapi_keyapikeystatusrevoked"># <code>leadr.auth.domain.api_key.APIKeyStatus.REVOKED</code><a class="headerlink" href="#leadrauthdomainapi_keyapikeystatusrevoked" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">REVOKED</span> <span class="o">=</span> <span class="s1">&#39;revoked&#39;</span>
+</code></pre></div>
+<h4 id="leadrauthservices"><code>leadr.auth.services</code><a class="headerlink" href="#leadrauthservices" title="Permanent link">&para;</a></h4>
+<p><strong>Modules:</strong></p>
+<ul>
+<li><a href="#leadr.auth.services.api_key_crypto"><strong>api_key_crypto</strong></a> – Cryptographic operations for API keys.</li>
+<li><a href="#leadr.auth.services.api_key_service"><strong>api_key_service</strong></a> – API Key service for managing API key operations.</li>
+<li><a href="./#leadr.auth.services.dependencies"><strong>dependencies</strong></a> – API Key service dependency injection factory.</li>
+<li><a href="./#leadr.auth.services.repositories"><strong>repositories</strong></a> – API Key repository service.</li>
+</ul>
+<h5 id="leadrauthservicesapi_key_crypto"><code>leadr.auth.services.api_key_crypto</code><a class="headerlink" href="#leadrauthservicesapi_key_crypto" title="Permanent link">&para;</a></h5>
+<p>Cryptographic operations for API keys.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.services.api_key_crypto.generate_api_key"><strong>generate_api_key</strong></a> – Generate a secure random API key with 'ldr_' prefix.</li>
+<li><a href="#leadr.auth.services.api_key_crypto.hash_api_key"><strong>hash_api_key</strong></a> – Hash an API key for secure storage using HMAC-SHA256.</li>
+<li><a href="#leadr.auth.services.api_key_crypto.verify_api_key"><strong>verify_api_key</strong></a> – Verify an API key against its stored hash.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.services.api_key_crypto.API_KEY_BYTES"><strong>API_KEY_BYTES</strong></a> –</li>
+<li><a href="#leadr.auth.services.api_key_crypto.API_KEY_PREFIX"><strong>API_KEY_PREFIX</strong></a> –</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_cryptoapi_key_bytes"><code>leadr.auth.services.api_key_crypto.API_KEY_BYTES</code><a class="headerlink" href="#leadrauthservicesapi_key_cryptoapi_key_bytes" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">API_KEY_BYTES</span> <span class="o">=</span> <span class="mi">32</span>
+</code></pre></div>
+<h6 id="leadrauthservicesapi_key_cryptoapi_key_prefix"><code>leadr.auth.services.api_key_crypto.API_KEY_PREFIX</code><a class="headerlink" href="#leadrauthservicesapi_key_cryptoapi_key_prefix" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">API_KEY_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;ldr_&#39;</span>
+</code></pre></div>
+<h6 id="leadrauthservicesapi_key_cryptogenerate_api_key"><code>leadr.auth.services.api_key_crypto.generate_api_key</code><a class="headerlink" href="#leadrauthservicesapi_key_cryptogenerate_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">generate_api_key</span><span class="p">()</span>
+</code></pre></div>
+<p>Generate a secure random API key with 'ldr_' prefix.</p>
+<p>The key is generated using cryptographically secure random bytes
+and encoded using URL-safe base64 encoding for compatibility.</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#str">str</a></code> – A secure API key string starting with 'ldr_' followed by</li>
+<li><code><a href="#str">str</a></code> – URL-safe random characters (alphanumeric, hyphen, underscore).</li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > key = generate_api_key()
+> > > key.startswith('ldr\_')
+> > > True
+> > > len(key) > 36
+> > > True
+
+</details>
+
+<h6 id="leadrauthservicesapi_key_cryptohash_api_key"><code>leadr.auth.services.api_key_crypto.hash_api_key</code><a class="headerlink" href="#leadrauthservicesapi_key_cryptohash_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">hash_api_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">secret</span><span class="p">)</span>
+</code></pre></div>
+<p>Hash an API key for secure storage using HMAC-SHA256.</p>
+<p>Uses HMAC-SHA256 with a server-side secret (pepper) to create
+a one-way hash of the API key. This provides defense in depth:
+database compromise alone isn't enough to validate keys.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key</strong> (<code><a href="#str">str</a></code>) – The API key to hash.</li>
+<li><strong>secret</strong> (<code><a href="#str">str</a></code>) – Server-side secret for additional security.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#str">str</a></code> – A hexadecimal string representation of the HMAC-SHA256 hash.</li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > secret = "my-secret"
+> > > hash1 = hash_api_key('ldr_test123', secret)
+> > > hash2 = hash_api_key('ldr_test123', secret)
+> > > hash1 == hash2
+> > > True
+> > > len(hash1)
+> > > 64
+
+</details>
+
+<h6 id="leadrauthservicesapi_key_cryptoverify_api_key"><code>leadr.auth.services.api_key_crypto.verify_api_key</code><a class="headerlink" href="#leadrauthservicesapi_key_cryptoverify_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">verify_api_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">key_hash</span><span class="p">,</span> <span class="n">secret</span><span class="p">)</span>
+</code></pre></div>
+<p>Verify an API key against its stored hash.</p>
+<p>Uses timing-safe comparison to prevent timing attacks.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key</strong> (<code><a href="#str">str</a></code>) – The API key to verify.</li>
+<li><strong>key_hash</strong> (<code><a href="#str">str</a></code>) – The stored hash to compare against.</li>
+<li><strong>secret</strong> (<code><a href="#str">str</a></code>) – Server-side secret for HMAC verification.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#bool">bool</a></code> – True if the key matches the hash, False otherwise.</li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > secret = "my-secret"
+> > > key = 'ldr_test123'
+> > > hashed = hash_api_key(key, secret)
+> > > verify_api_key(key, hashed, secret)
+> > > True
+> > > verify_api_key('ldr_wrong', hashed, secret)
+> > > False
+
+</details>
+
+<h5 id="leadrauthservicesapi_key_service"><code>leadr.auth.services.api_key_service</code><a class="headerlink" href="#leadrauthservicesapi_key_service" title="Permanent link">&para;</a></h5>
+<p>API Key service for managing API key operations.</p>
+<p><strong>Classes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService"><strong>APIKeyService</strong></a> – Service for managing API key lifecycle and operations.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservice"><code>leadr.auth.services.api_key_service.APIKeyService</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservice" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="../common/#leadr.common.services.BaseService">BaseService</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>, <a href="./#leadr.auth.services.repositories.APIKeyRepository">APIKeyRepository</a>]</code></p>
+<p>Service for managing API key lifecycle and operations.</p>
+<p>This service orchestrates API key creation, validation, and management
+by coordinating between the domain models, cryptographic functions,
+and repository layer.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.count_active_api_keys"><strong>count_active_api_keys</strong></a> – Count active API keys for an account.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.create_api_key"><strong>create_api_key</strong></a> – Create a new API key for an account.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.delete"><strong>delete</strong></a> – Soft-delete an entity.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.get_api_key"><strong>get_api_key</strong></a> – Get an API key by its ID.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.get_by_id_or_raise"><strong>get_by_id_or_raise</strong></a> – Get an entity by its ID or raise EntityNotFoundError.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.list_account_api_keys"><strong>list_account_api_keys</strong></a> – List all API keys for an account.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.list_all"><strong>list_all</strong></a> – List all non-deleted entities.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.list_api_keys"><strong>list_api_keys</strong></a> – List API keys for an account with optional filters.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.record_usage"><strong>record_usage</strong></a> – Record that an API key was used at a specific time.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.revoke_api_key"><strong>revoke_api_key</strong></a> – Revoke an API key, preventing further use.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.soft_delete"><strong>soft_delete</strong></a> – Soft-delete an entity and return it before deletion.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.update_api_key_status"><strong>update_api_key_status</strong></a> – Update the status of an API key.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.validate_api_key"><strong>validate_api_key</strong></a> – Validate an API key and return the domain entity if valid.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.repository"><strong>repository</strong></a> –</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicecount_active_api_keys"># <code>leadr.auth.services.api_key_service.APIKeyService.count_active_api_keys</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicecount_active_api_keys" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">count_active_api_keys</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Count active API keys for an account.</p>
+<p>This is useful for enforcing limits on the number of active keys
+per account based on their plan or tier.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>account_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The account ID to count keys for.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#int">int</a></code> – Number of active (non-revoked) API keys.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicecreate_api_key"># <code>leadr.auth.services.api_key_service.APIKeyService.create_api_key</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicecreate_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">create_api_key</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">expires_at</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Create a new API key for an account.</p>
+<p>Generates a secure random key, hashes it for storage, and persists
+it to the database. The plain key is returned only once for the
+caller to provide to the user.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>account_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The account ID to create the key for.</li>
+<li><strong>name</strong> (<code><a href="#str">str</a></code>) – A descriptive name for the key.</li>
+<li><strong>expires_at</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional expiration timestamp for the key.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a></code> – A tuple of (APIKey domain entity, plain key string).</li>
+<li><code><a href="#str">str</a></code> – The plain key should be shown to the user once and not stored.</li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > api_key, plain_key = await service.create_api_key(
+> > > ... account_id=account_id,
+> > > ... name="Production API Key",
+> > > ... expires_at=datetime.now(UTC) + timedelta(days=90)
+> > > ... )
+> > > print(f"Your API key: {plain_key}")
+> > > Your API key: ldr_abc123...
+
+</details>
+
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicedelete"># <code>leadr.auth.services.api_key_service.APIKeyService.delete</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicedelete" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Soft-delete an entity.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>entity_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The ID of the entity to delete</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the entity doesn't exist</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyserviceget_api_key"># <code>leadr.auth.services.api_key_service.APIKeyService.get_api_key</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyserviceget_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_api_key</span><span class="p">(</span><span class="n">key_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Get an API key by its ID.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The ID of the API key to retrieve.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a> | None</code> – The APIKey domain entity if found, None otherwise.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyserviceget_by_id"># <code>leadr.auth.services.api_key_service.APIKeyService.get_by_id</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyserviceget_by_id" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Get an entity by its ID.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>entity_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The ID of the entity to retrieve</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a> | None</code> – The domain entity if found, None otherwise</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyserviceget_by_id_or_raise"># <code>leadr.auth.services.api_key_service.APIKeyService.get_by_id_or_raise</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyserviceget_by_id_or_raise" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_by_id_or_raise</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Get an entity by its ID or raise EntityNotFoundError.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>entity_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The ID of the entity to retrieve</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a></code> – The domain entity</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the entity is not found
+  (converted to HTTP 404 by global handler)</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicelist_account_api_keys"># <code>leadr.auth.services.api_key_service.APIKeyService.list_account_api_keys</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicelist_account_api_keys" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">list_account_api_keys</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">active_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>List all API keys for an account.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>account_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The account ID to list keys for.</li>
+<li><strong>active_only</strong> (<code><a href="#bool">bool</a></code>) – If True, only return active (non-revoked) keys.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#list">list</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>]</code> – List of APIKey domain entities.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicelist_all"># <code>leadr.auth.services.api_key_service.APIKeyService.list_all</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicelist_all" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">list_all</span><span class="p">()</span>
+</code></pre></div>
+<p>List all non-deleted entities.</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicelist_api_keys"># <code>leadr.auth.services.api_key_service.APIKeyService.list_api_keys</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicelist_api_keys" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">list_api_keys</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>List API keys for an account with optional filters.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>account_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – REQUIRED - Account ID to filter by (multi-tenant safety).</li>
+<li><strong>status</strong> (<code><a href="#str">str</a> | None</code>) – Optional status string to filter by.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#list">list</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>]</code> – List of APIKey domain entities matching the filters.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicerecord_usage"># <code>leadr.auth.services.api_key_service.APIKeyService.record_usage</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicerecord_usage" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">record_usage</span><span class="p">(</span><span class="n">key_id</span><span class="p">,</span> <span class="n">used_at</span><span class="p">)</span>
+</code></pre></div>
+<p>Record that an API key was used at a specific time.</p>
+<p>This is typically called automatically during validation, but can
+also be called explicitly if needed.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The ID of the API key that was used.</li>
+<li><strong>used_at</strong> (<code><a href="#datetime.datetime">datetime</a></code>) – The timestamp when the key was used.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a></code> – The updated APIKey domain entity.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the key doesn't exist.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicerepository"># <code>leadr.auth.services.api_key_service.APIKeyService.repository</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicerepository" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicerevoke_api_key"># <code>leadr.auth.services.api_key_service.APIKeyService.revoke_api_key</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicerevoke_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">revoke_api_key</span><span class="p">(</span><span class="n">key_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Revoke an API key, preventing further use.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The ID of the API key to revoke.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a></code> – The updated APIKey domain entity with REVOKED status.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the key doesn't exist.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicesoft_delete"># <code>leadr.auth.services.api_key_service.APIKeyService.soft_delete</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicesoft_delete" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">soft_delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Soft-delete an entity and return it before deletion.</p>
+<p>Useful for endpoints that need to return the deleted entity in the response.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>entity_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The ID of the entity to delete</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a></code> – The entity before it was deleted</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the entity doesn't exist</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyserviceupdate_api_key_status"># <code>leadr.auth.services.api_key_service.APIKeyService.update_api_key_status</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyserviceupdate_api_key_status" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">update_api_key_status</span><span class="p">(</span><span class="n">key_id</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+</code></pre></div>
+<p>Update the status of an API key.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The ID of the API key to update.</li>
+<li><strong>status</strong> (<code><a href="#str">str</a></code>) – The new status value (active or revoked).</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a></code> – The updated APIKey domain entity.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the key doesn't exist.</li>
+<li><code><a href="#ValueError">ValueError</a></code> – If the status is invalid.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicevalidate_api_key"># <code>leadr.auth.services.api_key_service.APIKeyService.validate_api_key</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicevalidate_api_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">validate_api_key</span><span class="p">(</span><span class="n">plain_key</span><span class="p">)</span>
+</code></pre></div>
+<p>Validate an API key and return the domain entity if valid.</p>
+<p>Performs the following checks:</p>
+<ol>
+<li>Extracts prefix and looks up key in database</li>
+<li>Verifies the hash matches</li>
+<li>Checks if key is active (not revoked)</li>
+<li>Checks if key is not expired</li>
+<li>Records usage timestamp if valid</li>
+</ol>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>plain_key</strong> (<code><a href="#str">str</a></code>) – The plain API key string to validate.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a> | None</code> – The APIKey domain entity if valid, None otherwise.</li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > api_key = await service.validate_api_key("ldr_abc123...")
+> > > if api_key:
+> > > ... print(f"Valid key for account {api_key.account_id}")
+> > > ... else:
+> > > ... print("Invalid or expired key")
+
+</details>
+
+<h5 id="leadrauthservicesdependencies"><code>leadr.auth.services.dependencies</code><a class="headerlink" href="#leadrauthservicesdependencies" title="Permanent link">&para;</a></h5>
+<p>API Key service dependency injection factory.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.services.dependencies.get_api_key_service"><strong>get_api_key_service</strong></a> – Get APIKeyService dependency.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.services.dependencies.APIKeyServiceDep"><strong>APIKeyServiceDep</strong></a> –</li>
+</ul>
+<h6 id="leadrauthservicesdependenciesapikeyservicedep"><code>leadr.auth.services.dependencies.APIKeyServiceDep</code><a class="headerlink" href="#leadrauthservicesdependenciesapikeyservicedep" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">APIKeyServiceDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">APIKeyService</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_api_key_service</span><span class="p">)]</span>
+</code></pre></div>
+<h6 id="leadrauthservicesdependenciesget_api_key_service"><code>leadr.auth.services.dependencies.get_api_key_service</code><a class="headerlink" href="#leadrauthservicesdependenciesget_api_key_service" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_api_key_service</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+</code></pre></div>
+<p>Get APIKeyService dependency.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>db</strong> (<code><a href="../common/#leadr.common.dependencies.DatabaseSession">DatabaseSession</a></code>) – Database session injected via dependency injection</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.auth.services.api_key_service.APIKeyService">APIKeyService</a></code> – APIKeyService instance configured with the database session</li>
+</ul>
+<h5 id="leadrauthservicesrepositories"><code>leadr.auth.services.repositories</code><a class="headerlink" href="#leadrauthservicesrepositories" title="Permanent link">&para;</a></h5>
+<p>API Key repository service.</p>
+<p><strong>Classes:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.services.repositories.APIKeyRepository"><strong>APIKeyRepository</strong></a> – API Key repository for managing API key persistence.</li>
+</ul>
+<h6 id="leadrauthservicesrepositoriesapikeyrepository"><code>leadr.auth.services.repositories.APIKeyRepository</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepository" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="../common/#leadr.common.repositories.BaseRepository">BaseRepository</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>, <a href="./#leadr.auth.adapters.orm.APIKeyORM">APIKeyORM</a>]</code></p>
+<p>API Key repository for managing API key persistence.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.auth.services.repositories.APIKeyRepository.count_active_by_account"><strong>count_active_by_account</strong></a> – Count active, non-deleted API keys for a given account.</li>
+<li><a href="./#leadr.auth.services.repositories.APIKeyRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
+<li><a href="./#leadr.auth.services.repositories.APIKeyRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
+<li><a href="./#leadr.auth.services.repositories.APIKeyRepository.filter"><strong>filter</strong></a> – Filter API keys by account and optional criteria.</li>
+<li><a href="#leadr.auth.services.repositories.APIKeyRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
+<li><a href="#leadr.auth.services.repositories.APIKeyRepository.get_by_prefix"><strong>get_by_prefix</strong></a> – Get API key by prefix, returns None if not found or soft-deleted.</li>
+<li><a href="./#leadr.auth.services.repositories.APIKeyRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="./#leadr.auth.services.repositories.APIKeyRepository.session"><strong>session</strong></a> –</li>
+</ul>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositorycount_active_by_account"># <code>leadr.auth.services.repositories.APIKeyRepository.count_active_by_account</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositorycount_active_by_account" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">count_active_by_account</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Count active, non-deleted API keys for a given account.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>account_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – The account ID to count keys for.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#int">int</a></code> – Number of active, non-deleted API keys for the account.</li>
+</ul>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositorycreate"># <code>leadr.auth.services.repositories.APIKeyRepository.create</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositorycreate" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+</code></pre></div>
+<p>Create a new entity in the database.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>entity</strong> (<code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code>) – Domain entity to create</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code> – Created domain entity with refreshed data</li>
+</ul>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositorydelete"># <code>leadr.auth.services.repositories.APIKeyRepository.delete</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositorydelete" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Soft delete an entity by setting its deleted_at timestamp.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>entity_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a></code>) – ID of entity to delete</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
+</ul>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositoryfilter"># <code>leadr.auth.services.repositories.APIKeyRepository.filter</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositoryfilter" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">active_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Filter API keys by account and optional criteria.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>account_id</strong> (<code><a href="#uuid.UUID">UUID</a></code>) – REQUIRED - Account ID to filter by (multi-tenant safety)</li>
+<li><strong>status</strong> (<code><a href="#leadr.auth.domain.api_key.APIKeyStatus">APIKeyStatus</a> | None</code>) – Optional APIKeyStatus to filter by</li>
+<li><strong>active_only</strong> (<code><a href="#bool">bool</a></code>) – If True, only return ACTIVE keys (bool)</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#list">list</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>]</code> – List of API keys for the account matching the filter criteria</li>
+</ul>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositoryget_by_id"># <code>leadr.auth.services.repositories.APIKeyRepository.get_by_id</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositoryget_by_id" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>Get an entity by its ID.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>entity_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a></code>) – Entity ID to retrieve</li>
+<li><strong>include_deleted</strong> (<code><a href="#bool">bool</a></code>) – If True, include soft-deleted entities. Defaults to False.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a> | None</code> – Domain entity if found, None otherwise</li>
+</ul>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositoryget_by_prefix"># <code>leadr.auth.services.repositories.APIKeyRepository.get_by_prefix</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositoryget_by_prefix" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_by_prefix</span><span class="p">(</span><span class="n">key_prefix</span><span class="p">)</span>
+</code></pre></div>
+<p>Get API key by prefix, returns None if not found or soft-deleted.</p>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositorysession"># <code>leadr.auth.services.repositories.APIKeyRepository.session</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositorysession" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">session</span> <span class="o">=</span> <span class="n">session</span>
+</code></pre></div>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositoryupdate"># <code>leadr.auth.services.repositories.APIKeyRepository.update</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositoryupdate" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">update</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+</code></pre></div>
+<p>Update an existing entity in the database.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>entity</strong> (<code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code>) – Domain entity with updated data</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code> – Updated domain entity with refreshed data</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://bsky.app/profile/leadr-official.bsky.social" target="_blank" rel="noopener" title="LEADR on Bluesky" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3 3.4.4 6.7.9 10 1.3M288 227.1c-26.1-50.7-97.1-145.2-163.1-191.8C61.6-9.4 37.5-1.7 21.6 5.5 3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7 3.3-.5 6.6-.9 10-1.4-3.3.5-6.6 1-10 1.4-93.9 14-177.3 48.2-67.9 169.9C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4 102.4-103.4 28.1-156-65.8-169.9-3.3-.4-6.7-.8-10-1.3 3.4.4 6.7.9 10 1.3 64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1"/></svg>
+    </a>
+  
+    
+    
+      
+    
+    
+    
+    <a href="https://mastodon.social/@LEADR_official" target="_blank" rel="noopener me" title="LEADR on Mastodon" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54-.6-4.6-.9-9.3-.9-13.9 85.6 20.9 158.7 9.1 178.7 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6V190.1c0-49.7-64-51.6-64 6.9v62.5H201V197c0-58.5-64-56.6-64-6.9v114.2H90.3c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://discord.gg/RMUukcAxSZ" target="_blank" rel="noopener" title="LEADR Discord Server" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M492.5 69.8c-.2-.3-.4-.6-.8-.7-38.1-17.5-78.4-30-119.7-37.1-.4-.1-.8 0-1.1.1s-.6.4-.8.8c-5.5 9.9-10.5 20.2-14.9 30.6-44.6-6.8-89.9-6.8-134.4 0-4.5-10.5-9.5-20.7-15.1-30.6-.2-.3-.5-.6-.8-.8s-.7-.2-1.1-.2C162.5 39 122.2 51.5 84.1 69c-.3.1-.6.4-.8.7C7.1 183.5-13.8 294.6-3.6 404.2c0 .3.1.5.2.8s.3.4.5.6c44.4 32.9 94 58 146.8 74.2.4.1.8.1 1.1 0s.7-.4.9-.7c11.3-15.4 21.4-31.8 30-48.8.1-.2.2-.5.2-.8s0-.5-.1-.8-.2-.5-.4-.6-.4-.3-.7-.4c-15.8-6.1-31.2-13.4-45.9-21.9-.3-.2-.5-.4-.7-.6s-.3-.6-.3-.9 0-.6.2-.9.3-.5.6-.7c3.1-2.3 6.2-4.7 9.1-7.1.3-.2.6-.4.9-.4s.7 0 1 .1c96.2 43.9 200.4 43.9 295.5 0 .3-.1.7-.2 1-.2s.7.2.9.4c2.9 2.4 6 4.9 9.1 7.2.2.2.4.4.6.7s.2.6.2.9-.1.6-.3.9-.4.5-.6.6c-14.7 8.6-30 15.9-45.9 21.8-.2.1-.5.2-.7.4s-.3.4-.4.7-.1.5-.1.8.1.5.2.8c8.8 17 18.8 33.3 30 48.8.2.3.6.6.9.7s.8.1 1.1 0c52.9-16.2 102.6-41.3 147.1-74.2.2-.2.4-.4.5-.6s.2-.5.2-.8c12.3-126.8-20.5-236.9-86.9-334.5zm-302 267.7c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.4 59.2-52.8 59.2m195.4 0c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.2 59.2-52.8 59.2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.reddit.com/r/LEADR/" target="_blank" rel="noopener" title="LEADR on Reddit" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M0 256C0 114.6 114.6 0 256 0s256 114.6 256 256-114.6 256-256 256H37.1c-13.7 0-20.5-16.5-10.9-26.2L75 437C28.7 390.7 0 326.7 0 256m349.6-102.4c23.6 0 42.7-19.1 42.7-42.7s-19.1-42.7-42.7-42.7c-20.6 0-37.8 14.6-41.8 34-34.5 3.7-61.4 33-61.4 68.4v.2c-37.5 1.6-71.8 12.3-99 29.1-10.1-7.8-22.8-12.5-36.5-12.5-33 0-59.8 26.8-59.8 59.8 0 24 14.1 44.6 34.4 54.1 2 69.4 77.6 125.2 170.6 125.2s168.7-55.9 170.6-125.3c20.2-9.6 34.1-30.2 34.1-54 0-33-26.8-59.8-59.8-59.8-13.7 0-26.3 4.6-36.4 12.4-27.4-17-62.1-27.7-100-29.1v-.2c0-25.4 18.9-46.5 43.4-49.9 4.4 18.8 21.3 32.8 41.5 32.8zm-172.5 93.3c16.7 0 29.5 17.6 28.5 39.3s-13.5 29.6-30.3 29.6-31.4-8.8-30.4-30.5S160.3 247 177 247zm190.1 38.3c1 21.7-13.7 30.5-30.4 30.5s-29.3-7.9-30.3-29.6 11.8-39.3 28.5-39.3 31.2 16.6 32.1 38.3zm-48.1 56.7c-10.3 24.6-34.6 41.9-63 41.9s-52.7-17.3-63-41.9c-1.2-2.9.8-6.2 3.9-6.5 18.4-1.9 38.3-2.9 59.1-2.9s40.7 1 59.1 2.9c3.1.3 5.1 3.6 3.9 6.5"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/LEADR-official" target="_blank" rel="noopener" title="LEADR on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.sections", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

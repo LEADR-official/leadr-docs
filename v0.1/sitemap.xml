@@ -21,15 +21,75 @@
          <lastmod>2025-11-11</lastmod>
     </url>
     <url>
-         <loc>https://docs.leadr.gg/v0.1/api/http-api/</loc>
-         <lastmod>2025-11-11</lastmod>
-    </url>
-    <url>
          <loc>https://docs.leadr.gg/v0.1/api/patterns/</loc>
          <lastmod>2025-11-11</lastmod>
     </url>
     <url>
+         <loc>https://docs.leadr.gg/v0.1/api/http-api/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/http-api/accounts/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/http-api/api-keys/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/http-api/boards/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/http-api/games/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/http-api/public/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/http-api/schemas/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
          <loc>https://docs.leadr.gg/v0.1/api/reference/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/accounts/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/auth/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/boards/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/common/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/config/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/games/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/infra/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/players/</loc>
+         <lastmod>2025-11-11</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.1/api/reference/scores/</loc>
          <lastmod>2025-11-11</lastmod>
     </url>
     <url>
