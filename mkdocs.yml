@@ -16,6 +16,7 @@ plugins:
 markdown_extensions:
   - admonition
   - pymdownx.details
+  - pymdownx.tabbed
   - pymdownx.highlight
   - pymdownx.superfences
   - pymdownx.tabbed:
