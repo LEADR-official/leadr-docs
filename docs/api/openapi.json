@@ -9,7 +9,7 @@
     "/v1/health": {
       "get": {
         "tags": [
-          "Health"
+          "Public"
         ],
         "summary": "Health Check",
         "description": "Health check endpoint.\n\nVerifies that the API is running and can connect to the database.\nReturns degraded status if database connectivity fails.\n\nArgs:\n    db: Database session dependency.\n\nReturns:\n    HealthResponse with API and database status.",
@@ -31,7 +31,7 @@
     "/v1/": {
       "get": {
         "tags": [
-          "Root"
+          "Public"
         ],
         "summary": "Root",
         "description": "Root endpoint.\n\nReturns basic API information including version and documentation URL.\n\nReturns:\n    Dict containing API metadata.",
@@ -1059,6 +1059,315 @@
           }
         }
       }
+    },
+    "/v1/boards": {
+      "post": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Create Board",
+        "description": "Create a new board.\n\nCreates a new leaderboard associated with an existing game and account.\nThe game must belong to the specified account.\n\nArgs:\n    request: Board creation details including account_id, game_id, name, and settings.\n    service: Injected board service dependency.\n\nReturns:\n    BoardResponse with the created board including auto-generated ID and timestamps.\n\nRaises:\n    404: Game or account not found.\n    400: Game doesn't belong to the specified account.",
+        "operationId": "create_board_v1_boards_post",
+        "parameters": [
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "List Boards",
+        "description": "List all boards for an account.\n\nArgs:\n    account_id: Account ID to filter boards by.\n    service: Injected board service dependency.\n\nReturns:\n    List of all active boards for the specified account.",
+        "operationId": "list_boards_v1_boards_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BoardResponse"
+                  },
+                  "title": "Response List Boards V1 Boards Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/boards/{board_id}": {
+      "get": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Get Board",
+        "description": "Get a board by ID.\n\nArgs:\n    board_id: Unique identifier for the board.\n    service: Injected board service dependency.\n\nReturns:\n    BoardResponse with full board details.\n\nRaises:\n    404: Board not found.",
+        "operationId": "get_board_v1_boards__board_id__get",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Update Board",
+        "description": "Update a board.\n\nSupports updating any board field or soft-deleting the board.\n\nArgs:\n    board_id: Unique identifier for the board.\n    request: Board update details (all fields optional).\n    service: Injected board service dependency.\n\nReturns:\n    BoardResponse with the updated board details.\n\nRaises:\n    404: Board not found.",
+        "operationId": "update_board_v1_boards__board_id__patch",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/boards/by-code/{short_code}": {
+      "get": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Get Board By Short Code",
+        "description": "Get a board by its short code.\n\nArgs:\n    short_code: Globally unique short code for the board.\n    service: Injected board service dependency.\n\nReturns:\n    BoardResponse with full board details.\n\nRaises:\n    404: Board not found.",
+        "operationId": "get_board_by_short_code_v1_boards_by_code__short_code__get",
+        "parameters": [
+          {
+            "name": "short_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Short Code"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1283,6 +1592,445 @@
         "type": "object",
         "title": "AccountUpdateRequest",
         "description": "Request model for updating an account."
+      },
+      "BoardCreateRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Account Id",
+            "description": "ID of the account this board belongs to"
+          },
+          "game_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Game Id",
+            "description": "ID of the game this board belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the board"
+          },
+          "icon": {
+            "type": "string",
+            "title": "Icon",
+            "description": "Icon identifier for the board"
+          },
+          "short_code": {
+            "type": "string",
+            "title": "Short Code",
+            "description": "Globally unique short code for direct sharing"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit",
+            "description": "Unit of measurement for scores (e.g., 'seconds', 'points')"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the board is currently active"
+          },
+          "sort_direction": {
+            "$ref": "#/components/schemas/SortDirection",
+            "description": "Direction to sort scores"
+          },
+          "keep_strategy": {
+            "$ref": "#/components/schemas/KeepStrategy",
+            "description": "Strategy for keeping multiple scores from the same user"
+          },
+          "template_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Id",
+            "description": "Optional template ID this board was created from"
+          },
+          "template_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Name",
+            "description": "Optional template name this board was created from"
+          },
+          "starts_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts At",
+            "description": "Optional start time for time-bounded boards (UTC)"
+          },
+          "ends_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ends At",
+            "description": "Optional end time for time-bounded boards (UTC)"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "Optional list of tags for categorization"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "game_id",
+          "name",
+          "icon",
+          "short_code",
+          "unit",
+          "is_active",
+          "sort_direction",
+          "keep_strategy"
+        ],
+        "title": "BoardCreateRequest",
+        "description": "Request model for creating a board."
+      },
+      "BoardResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier for the board"
+          },
+          "account_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Account Id",
+            "description": "ID of the account this board belongs to"
+          },
+          "game_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Game Id",
+            "description": "ID of the game this board belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the board"
+          },
+          "icon": {
+            "type": "string",
+            "title": "Icon",
+            "description": "Icon identifier for the board"
+          },
+          "short_code": {
+            "type": "string",
+            "title": "Short Code",
+            "description": "Globally unique short code for direct sharing"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit",
+            "description": "Unit of measurement for scores"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the board is currently active"
+          },
+          "sort_direction": {
+            "$ref": "#/components/schemas/SortDirection",
+            "description": "Direction to sort scores"
+          },
+          "keep_strategy": {
+            "$ref": "#/components/schemas/KeepStrategy",
+            "description": "Strategy for keeping scores from same user"
+          },
+          "template_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Id",
+            "description": "Template ID this board was created from, or null"
+          },
+          "template_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Name",
+            "description": "Template name this board was created from, or null"
+          },
+          "starts_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts At",
+            "description": "Start time for time-bounded boards (UTC)"
+          },
+          "ends_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ends At",
+            "description": "End time for time-bounded boards (UTC)"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "description": "List of tags for categorization"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the board was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "game_id",
+          "name",
+          "icon",
+          "short_code",
+          "unit",
+          "is_active",
+          "sort_direction",
+          "keep_strategy",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "BoardResponse",
+        "description": "Response model for a board."
+      },
+      "BoardUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Updated board name"
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icon",
+            "description": "Updated icon identifier"
+          },
+          "short_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Short Code",
+            "description": "Updated short code"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit",
+            "description": "Updated unit of measurement"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active",
+            "description": "Updated active status"
+          },
+          "sort_direction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated sort direction"
+          },
+          "keep_strategy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/KeepStrategy"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated keep strategy"
+          },
+          "template_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Id",
+            "description": "Updated template ID"
+          },
+          "template_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Name",
+            "description": "Updated template name"
+          },
+          "starts_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts At",
+            "description": "Updated start time"
+          },
+          "ends_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ends At",
+            "description": "Updated end time"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "Updated tags list"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the board"
+          }
+        },
+        "type": "object",
+        "title": "BoardUpdateRequest",
+        "description": "Request model for updating a board."
       },
       "CreateAPIKeyRequest": {
         "properties": {
@@ -1582,6 +2330,25 @@
         ],
         "title": "HealthResponse",
         "description": "Health check response model."
+      },
+      "KeepStrategy": {
+        "type": "string",
+        "enum": [
+          "BEST_ONLY",
+          "LATEST_ONLY",
+          "ALL"
+        ],
+        "title": "KeepStrategy",
+        "description": "Strategy for keeping scores from the same user."
+      },
+      "SortDirection": {
+        "type": "string",
+        "enum": [
+          "ASCENDING",
+          "DESCENDING"
+        ],
+        "title": "SortDirection",
+        "description": "Sort direction for board scores."
       },
       "UpdateAPIKeyRequest": {
         "properties": {
