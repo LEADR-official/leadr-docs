@@ -11,4 +11,4 @@ docs/sdks/<language>/<version or latest>/
   sdk.meta.json   # small metadata (version, commit, generator)
 ```
 
-
+![Umami pixel](https://cloud.umami.is/p/qE29SYTi9 "Umami pixel")

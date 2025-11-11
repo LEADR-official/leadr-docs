@@ -28,7 +28,9 @@ site_dir: site-md
 
 nav:
   - Overview: index.md
+  - Quick Start: quick_start.md
   - Concepts: concepts.md
+  - Self Host: self_host.md
   - API:
       - Overview: api/index.md
       - Patterns: api/patterns.md
