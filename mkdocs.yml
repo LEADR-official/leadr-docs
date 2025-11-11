@@ -32,8 +32,8 @@ nav:
   - API:
       - Overview: api/index.md
       - Patterns: api/patterns.md
-      - HTTP API: api/http-api.md
-      - Reference: api/reference.md
+      - HTTP API: api/http-api/index.md
+      - Reference: api/reference/index.md
   - SDKs:
       - Overview: sdks/index.md
   - About: about.md
