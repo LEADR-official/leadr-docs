@@ -1,6 +1,6 @@
 site_name: LEADR Docs
 site_url: https://docs.leadr.gg
-site_description: Documentation for LEADR - a cross-platform leaderboard backend for indie game developers
+site_description: Documentation for LEADR - the cross-platform leaderboard backend for indie game developers
 site_author: LEADR
 theme:
   name: material
@@ -48,6 +48,12 @@ extra:
     - icon: fontawesome/brands/mastodon
       link: https://mastodon.social/@LEADR_official
       name: LEADR on Mastodon
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/RMUukcAxSZ
+      name: LEADR Discord Server
+    - icon: fontawesome/brands/reddit
+      link: https://www.reddit.com/r/LEADR/
+      name: LEADR on Reddit
     - icon: fontawesome/brands/github
       link: https://github.com/LEADR-official
       name: LEADR on GitHub
