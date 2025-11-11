@@ -1,0 +1,1773 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LEADR - Admin & Client API",
+    "description": "LEADR is the cross-platform leaderboard backend for indie game devs",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/v1/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health Check",
+        "description": "Health check endpoint.\n\nVerifies that the API is running and can connect to the database.\nReturns degraded status if database connectivity fails.\n\nArgs:\n    db: Database session dependency.\n\nReturns:\n    HealthResponse with API and database status.",
+        "operationId": "health_check_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/": {
+      "get": {
+        "tags": [
+          "Root"
+        ],
+        "summary": "Root",
+        "description": "Root endpoint.\n\nReturns basic API information including version and documentation URL.\n\nReturns:\n    Dict containing API metadata.",
+        "operationId": "root_v1__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/accounts": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create Account",
+        "description": "Create a new account.\n\nArgs:\n    request: Account creation details including name and slug.\n    service: Injected account service dependency.\n\nReturns:\n    AccountResponse with the created account including auto-generated ID and timestamps.",
+        "operationId": "create_account_v1_accounts_post",
+        "parameters": [
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "List Accounts",
+        "description": "List all accounts.\n\nArgs:\n    service: Injected account service dependency.\n\nReturns:\n    List of all active accounts.",
+        "operationId": "list_accounts_v1_accounts_get",
+        "parameters": [
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountResponse"
+                  },
+                  "title": "Response List Accounts V1 Accounts Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/accounts/{account_id}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get Account",
+        "description": "Get an account by ID.\n\nArgs:\n    account_id: Unique identifier for the account.\n    service: Injected account service dependency.\n\nReturns:\n    AccountResponse with full account details.\n\nRaises:\n    404: Account not found.",
+        "operationId": "get_account_v1_accounts__account_id__get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Update Account",
+        "description": "Update an account.\n\nSupports updating name, slug, status, or soft-deleting the account.\nStatus changes (active/suspended) are handled through dedicated service methods.\n\nArgs:\n    account_id: Unique identifier for the account.\n    request: Account update details (all fields optional).\n    service: Injected account service dependency.\n\nReturns:\n    AccountResponse with the updated account details.\n\nRaises:\n    404: Account not found.",
+        "operationId": "update_account_v1_accounts__account_id__patch",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create User",
+        "description": "Create a new user.\n\nCreates a new user associated with an existing account.\n\nArgs:\n    request: User creation details including account_id, email, and display name.\n    service: Injected user service dependency.\n\nReturns:\n    UserResponse with the created user including auto-generated ID and timestamps.\n\nRaises:\n    404: Account not found.",
+        "operationId": "create_user_v1_users_post",
+        "parameters": [
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "List Users",
+        "description": "List users for an account.\n\nTODO: Replace account_id query param with account_id from auth token.\n\nArgs:\n    service: Injected user service dependency.\n    account_id: Account ID to filter results (REQUIRED for multi-tenant safety).\n\nReturns:\n    List of users for the account.",
+        "operationId": "list_users_v1_users_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "Account ID to filter by",
+              "title": "Account Id"
+            },
+            "description": "Account ID to filter by"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponse"
+                  },
+                  "title": "Response List Users V1 Users Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get User",
+        "description": "Get a user by ID.\n\nArgs:\n    user_id: Unique identifier for the user.\n    service: Injected user service dependency.\n\nReturns:\n    UserResponse with full user details.\n\nRaises:\n    404: User not found.",
+        "operationId": "get_user_v1_users__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "title": "User Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Update User",
+        "description": "Update a user.\n\nSupports updating email, display name, or soft-deleting the user.\n\nArgs:\n    user_id: Unique identifier for the user.\n    request: User update details (all fields optional).\n    service: Injected user service dependency.\n\nReturns:\n    UserResponse with the updated user details.\n\nRaises:\n    404: User not found.",
+        "operationId": "update_user_v1_users__user_id__patch",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "title": "User Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api-keys": {
+      "post": {
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Create Api Key",
+        "description": "Create a new API key for an account.\n\nThe plain API key is returned only once in this response.\nStore it securely as it cannot be retrieved later.\n\nReturns:\n    CreateAPIKeyResponse with the plain key included.\n\nRaises:\n    404: Account not found.",
+        "operationId": "create_api_key_v1_api_keys_post",
+        "parameters": [
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAPIKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAPIKeyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "List Api Keys",
+        "description": "List API keys for an account with optional filters.\n\nTODO: Replace account_id query param with account_id from auth token.\n\nArgs:\n    account_id: Account ID to filter results (REQUIRED for multi-tenant safety).\n    status: Optional status to filter results (active or revoked).\n\nReturns:\n    List of API keys matching the filters.",
+        "operationId": "list_api_keys_v1_api_keys_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "Account ID to filter by",
+              "title": "Account Id"
+            },
+            "description": "Account ID to filter by"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/APIKeyStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by status",
+              "title": "Status"
+            },
+            "description": "Filter by status"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/APIKeyResponse"
+                  },
+                  "title": "Response List Api Keys V1 Api Keys Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api-keys/{key_id}": {
+      "get": {
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Get Api Key",
+        "description": "Get a single API key by ID.\n\nArgs:\n    key_id: The UUID of the API key to retrieve.\n\nReturns:\n    APIKeyResponse with key details (excludes the plain key).\n\nRaises:\n    404: API key not found.",
+        "operationId": "get_api_key_v1_api_keys__key_id__get",
+        "parameters": [
+          {
+            "name": "key_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "title": "Key Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIKeyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Update Api Key",
+        "description": "Update an API key.\n\nCurrently supports:\n- Updating status (e.g., to revoke a key)\n- Soft delete via deleted flag\n\nArgs:\n    key_id: The UUID of the API key to update.\n    request: Update request with optional status and deleted fields.\n\nReturns:\n    APIKeyResponse with updated key details.\n\nRaises:\n    404: API key not found.",
+        "operationId": "update_api_key_v1_api_keys__key_id__patch",
+        "parameters": [
+          {
+            "name": "key_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "title": "Key Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAPIKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIKeyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/games": {
+      "post": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Create Game",
+        "description": "Create a new game.\n\nCreates a new game associated with an existing account. Games can optionally\nbe configured with Steam integration and a default leaderboard.\n\nArgs:\n    request: Game creation details including account_id, name, and optional settings.\n    service: Injected game service dependency.\n\nReturns:\n    GameResponse with the created game including auto-generated ID and timestamps.\n\nRaises:\n    404: Account not found.",
+        "operationId": "create_game_v1_games_post",
+        "parameters": [
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "List Games",
+        "description": "List all games for an account.\n\nArgs:\n    account_id: Account ID to filter games by.\n    service: Injected game service dependency.\n\nReturns:\n    List of all active games for the specified account.",
+        "operationId": "list_games_v1_games_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GameResponse"
+                  },
+                  "title": "Response List Games V1 Games Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/games/{game_id}": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Get Game",
+        "description": "Get a game by ID.\n\nArgs:\n    game_id: Unique identifier for the game.\n    service: Injected game service dependency.\n\nReturns:\n    GameResponse with full game details.\n\nRaises:\n    404: Game not found.",
+        "operationId": "get_game_v1_games__game_id__get",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Game Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Update Game",
+        "description": "Update a game.\n\nSupports updating name, Steam App ID, default board ID, or soft-deleting the game.\n\nArgs:\n    game_id: Unique identifier for the game.\n    request: Game update details (all fields optional).\n    service: Injected game service dependency.\n\nReturns:\n    GameResponse with the updated game details.\n\nRaises:\n    404: Game not found.",
+        "operationId": "update_game_v1_games__game_id__patch",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Game Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APIKeyResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier for the API key"
+          },
+          "account_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Account Id",
+            "description": "ID of the account this key belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable name for the API key"
+          },
+          "prefix": {
+            "type": "string",
+            "title": "Prefix",
+            "description": "Key prefix for identification (first 8 characters)"
+          },
+          "status": {
+            "$ref": "#/components/schemas/APIKeyStatus",
+            "description": "Current status (active, revoked, expired)"
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Used At",
+            "description": "Timestamp of last successful authentication (UTC)"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "Expiration timestamp (UTC), or null if never expires"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the key was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "name",
+          "prefix",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "APIKeyResponse",
+        "description": "Response schema for API key details.\n\nExcludes sensitive information like key_hash.\nThe full key is never returned after creation."
+      },
+      "APIKeyStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "revoked"
+        ],
+        "title": "APIKeyStatus",
+        "description": "API Key status enumeration."
+      },
+      "AccountCreateRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Account name (2-100 characters)"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "URL-friendly identifier for the account (lowercase, alphanumeric, hyphens)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "slug"
+        ],
+        "title": "AccountCreateRequest",
+        "description": "Request model for creating an account."
+      },
+      "AccountResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier for the account"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Account name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "URL-friendly identifier"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AccountStatus",
+            "description": "Current account status"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the account was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AccountResponse",
+        "description": "Response model for an account."
+      },
+      "AccountStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "suspended"
+        ],
+        "title": "AccountStatus",
+        "description": "Account status enumeration."
+      },
+      "AccountUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Updated account name"
+          },
+          "slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slug",
+            "description": "Updated URL-friendly identifier"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AccountStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Account status (active, suspended, deleted)"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the account"
+          }
+        },
+        "type": "object",
+        "title": "AccountUpdateRequest",
+        "description": "Request model for updating an account."
+      },
+      "CreateAPIKeyRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Account Id",
+            "description": "ID of the account this API key belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable name for the API key (e.g., 'Production Server')"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "Optional expiration timestamp (UTC). Key never expires if omitted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "name"
+        ],
+        "title": "CreateAPIKeyRequest",
+        "description": "Request schema for creating an API key."
+      },
+      "CreateAPIKeyResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier for the API key"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable name for the API key"
+          },
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "description": "Plain text API key. ONLY returned at creation - save this securely!"
+          },
+          "prefix": {
+            "type": "string",
+            "title": "Prefix",
+            "description": "Key prefix for identification (first 8 characters)"
+          },
+          "status": {
+            "$ref": "#/components/schemas/APIKeyStatus",
+            "description": "Current status of the API key"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "Expiration timestamp (UTC), or null if never expires"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the key was created (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "key",
+          "prefix",
+          "status",
+          "created_at"
+        ],
+        "title": "CreateAPIKeyResponse",
+        "description": "Response schema for creating an API key.\n\nIncludes the plain API key which is only shown once.\nThe client must save this key as it cannot be retrieved later."
+      },
+      "GameCreateRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Account Id",
+            "description": "ID of the account this game belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the game"
+          },
+          "steam_app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Steam App Id",
+            "description": "Optional Steam App ID for Steam integration"
+          },
+          "default_board_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Board Id",
+            "description": "Optional ID of the default leaderboard for this game"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "name"
+        ],
+        "title": "GameCreateRequest",
+        "description": "Request model for creating a game."
+      },
+      "GameResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier for the game"
+          },
+          "account_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Account Id",
+            "description": "ID of the account this game belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the game"
+          },
+          "steam_app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Steam App Id",
+            "description": "Steam App ID if Steam integration is configured"
+          },
+          "default_board_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Board Id",
+            "description": "ID of the default leaderboard, or null if not set"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the game was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "name",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "GameResponse",
+        "description": "Response model for a game."
+      },
+      "GameUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Updated game name"
+          },
+          "steam_app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Steam App Id",
+            "description": "Updated Steam App ID"
+          },
+          "default_board_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Board Id",
+            "description": "Updated default leaderboard ID"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the game"
+          }
+        },
+        "type": "object",
+        "title": "GameUpdateRequest",
+        "description": "Request model for updating a game."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Overall API health status (healthy, degraded, or unhealthy)"
+          },
+          "database": {
+            "type": "string",
+            "title": "Database",
+            "description": "Database connection status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "database"
+        ],
+        "title": "HealthResponse",
+        "description": "Health check response model."
+      },
+      "UpdateAPIKeyRequest": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/APIKeyStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated status (use 'revoked' to disable key)"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the key"
+          }
+        },
+        "type": "object",
+        "title": "UpdateAPIKeyRequest",
+        "description": "Request schema for updating an API key.\n\nCan update status (e.g., to revoke) or set deleted flag for soft delete."
+      },
+      "UserCreateRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Account Id",
+            "description": "ID of the account this user belongs to"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email",
+            "description": "User's email address (must be valid email format)"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name",
+            "description": "User's display name (2-100 characters)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "email",
+          "display_name"
+        ],
+        "title": "UserCreateRequest",
+        "description": "Request model for creating a user."
+      },
+      "UserResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique identifier for the user"
+          },
+          "account_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Account Id",
+            "description": "ID of the account this user belongs to"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "description": "User's email address"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name",
+            "description": "User's display name"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the user was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "email",
+          "display_name",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "UserResponse",
+        "description": "Response model for a user."
+      },
+      "UserUpdateRequest": {
+        "properties": {
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Updated email address"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name",
+            "description": "Updated display name"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the user"
+          }
+        },
+        "type": "object",
+        "title": "UserUpdateRequest",
+        "description": "Request model for updating a user."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
