@@ -13,13 +13,13 @@
         <meta name="author" content="LEADR">
       
       
-        <link rel="canonical" href="https://docs.leadr.gg/v0.1/sdks/">
+        <link rel="canonical" href="https://docs.leadr.gg/v0.1/features/">
       
       
-        <link rel="prev" href="../api/reference/">
+        <link rel="prev" href="../quick_start/">
       
       
-        <link rel="next" href="../about/">
+        <link rel="next" href="../concepts/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -29,9 +29,9 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LEADR Docs">
-<meta property="og:title" content="Overview | LEADR Docs">
+<meta property="og:title" content="Features | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
-<meta property="og:url" content="https://docs.leadr.gg/v0.1/sdks/">
+<meta property="og:url" content="https://docs.leadr.gg/v0.1/features/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.1/assets/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -78,7 +78,7 @@
 
     
       
-        <title>Overview - LEADR Docs</title>
+        <title>Features - LEADR Docs</title>
       
     
     
@@ -119,6 +119,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#features" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -155,7 +160,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Features
             
           </span>
         </div>
@@ -292,10 +297,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../features/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Features
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -306,6 +333,98 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#leaderboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Leaderboards
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#game-engine-sdks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Game Engine SDKs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anti-cheat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anti-Cheat
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-views-cloud-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web Views (cloud only)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timed-leaderboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timed Leaderboards
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ghosts-replays-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ghosts &amp; Replays (Coming soon)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invite-only-leaderboards-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Invite-Only Leaderboards (Coming soon)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#score-analytics-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Score Analytics (Coming soon)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -500,8 +619,6 @@
       
   
   
-    
-  
   
   
     
@@ -514,11 +631,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
@@ -534,7 +651,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             SDKs
@@ -545,17 +662,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../sdks/" class="md-nav__link">
         
   
   
@@ -566,7 +676,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -685,6 +794,88 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#leaderboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Leaderboards
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#game-engine-sdks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Game Engine SDKs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anti-cheat" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anti-Cheat
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-views-cloud-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web Views (cloud only)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timed-leaderboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Timed Leaderboards
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ghosts-replays-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ghosts &amp; Replays (Coming soon)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invite-only-leaderboards-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Invite-Only Leaderboards (Coming soon)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#score-analytics-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Score Analytics (Coming soon)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -700,9 +891,30 @@
 
 
 
-  <h1>Overview</h1>
-
-
+<h1 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h1>
+<p>LEADR provides everything you need to turn your game into a competitive, social experience. From flexible leaderboard configuration to anti-cheat protection, these features are designed to help you build engaged player communities without wrestling with backend complexity.</p>
+<h2 id="leaderboards">Leaderboards<a class="headerlink" href="#leaderboards" title="Permanent link">&para;</a></h2>
+<p>Create leaderboards that fit your game perfectly. Configure custom units (seconds for speedruns, points for scores, meters for distance challenges), choose ascending or descending sorting, and decide how to handle multiple scores from the same player. Keep only their best score, track their latest attempt, or store their entire history. Organize boards with tags, add icons for visual identification, and give each board a memorable short code for easy sharing.</p>
+<p><a href="../quick_start/">Make your first leaderboard</a></p>
+<h2 id="game-engine-sdks">Game Engine SDKs<a class="headerlink" href="#game-engine-sdks" title="Permanent link">&para;</a></h2>
+<p>Native SDKs for Godot, Unity, Unreal, and more game engines make integration straightforward. Drop the SDK into your project, add your API key, and you're ready to submit scores and query leaderboards. Each SDK is built specifically for its platform, providing idiomatic APIs that feel natural to developers already working in that engine.</p>
+<p><a href="sdks/">Get started with SDKs</a></p>
+<h2 id="anti-cheat">Anti-Cheat<a class="headerlink" href="#anti-cheat" title="Permanent link">&para;</a></h2>
+<p>Protect your leaderboards with industry-leading client authentication and built-in detection mechanisms. LEADR's client authentication system ensures scores come from legitimate game clients, while anomaly detection flags suspicious submissions automatically. Keep competition fair without building complex anti-cheat systems yourself.</p>
+<p><a href="api/client_auth/">Learn about client authentication</a></p>
+<h2 id="web-views-cloud-only">Web Views (cloud only)<a class="headerlink" href="#web-views-cloud-only" title="Permanent link">&para;</a></h2>
+<p>Every leaderboard in the hosted LEADR cloud service gets a beautiful, shareable web page. Players can compare their ranks, developers can embed leaderboards on game websites, and streamers can display live competition standings. No additional configuration needed - web views are automatically generated for every board you create.</p>
+<h2 id="timed-leaderboards">Timed Leaderboards<a class="headerlink" href="#timed-leaderboards" title="Permanent link">&para;</a></h2>
+<p>Run recurring competitions with seasonal boards that reset automatically from templates - perfect for weekly challenges or seasonal rankings. Create one-off tournaments for special events, streaming competitions, or limited-time modes. Set start and end times, and LEADR handles the rest, including archiving completed boards for historical reference.</p>
+<p><a href="api/reference/">Learn more in the API Reference</a></p>
+<h2 id="ghosts-replays-coming-soon">Ghosts &amp; Replays (Coming soon)<a class="headerlink" href="#ghosts-replays-coming-soon" title="Permanent link">&para;</a></h2>
+<p>Store and share gameplay recordings directly through LEADR. Players can download ghosts to race against top performers, study high-level strategies, or share their own achievements. Perfect for speedrunning communities, competitive multiplayer, or any game where "show, don't tell" matters. Store replay metadata alongside scores and retrieve them when needed.</p>
+<h2 id="invite-only-leaderboards-coming-soon">Invite-Only Leaderboards (Coming soon)<a class="headerlink" href="#invite-only-leaderboards-coming-soon" title="Permanent link">&para;</a></h2>
+<p>Create private boards for closed beta testing, streamer subscriber competitions, or exclusive community events. Control exactly who can submit scores while keeping the competitive experience intact. Perfect for pre-launch testing or building VIP experiences for your most dedicated players.</p>
+<h2 id="score-analytics-coming-soon">Score Analytics (Coming soon)<a class="headerlink" href="#score-analytics-coming-soon" title="Permanent link">&para;</a></h2>
+<p>Understand how players interact with your game through score distribution analytics. See where players struggle, identify difficulty spikes, and make data-driven decisions about balancing and progression. Analytics help you tune difficulty curves, adjust scoring systems, and build better player experiences based on real gameplay data.</p>
+<hr />
+<p>Looking for something not listed here? Check out our <a href="../roadmap/">roadmap</a> to see what's coming next, or join the conversation in our <a href="https://discord.gg/RMUukcAxSZ">Discord</a> to share your ideas.</p>
 
 
 
