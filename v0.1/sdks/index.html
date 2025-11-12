@@ -119,6 +119,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#sdks" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -554,6 +559,21 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -566,6 +586,52 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planned-sdks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned SDKs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST API
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -685,6 +751,43 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planned-sdks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Planned SDKs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST API
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -700,9 +803,30 @@
 
 
 
-  <h1>Overview</h1>
-
-
+<h1 id="sdks">SDKs<a class="headerlink" href="#sdks" title="Permanent link">&para;</a></h1>
+<p>Software Development Kits (SDKs) are native libraries for your game engine or programming language that make integrating LEADR straightforward. Instead of making raw HTTP requests, SDKs provide idiomatic APIs that feel natural in your development environmentwhether you're working in C# for Unity, GDScript for Godot, or C++ for Unreal. If you're using plugins, libraries or code assets that someone else made inside your game engine, you already know how to use a LEADR SDK.</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="../quick_start/">Quick Start Guide</a></strong> - Integration walkthrough</li>
+<li><strong><a href="../api/client_auth.md">Client Authentication</a></strong> - Secure player authentication</li>
+<li><strong><a href="../api/reference/">API Reference</a></strong> - Complete REST API documentation</li>
+</ul>
+<h2 id="planned-sdks">Planned SDKs<a class="headerlink" href="#planned-sdks" title="Permanent link">&para;</a></h2>
+<p>We're building native SDKs for the most popular game engines and platforms. SDKs are being developed in priority order based on indie game developer usage:</p>
+<ul>
+<li><strong><a href="https://godotengine.org">Godot</a></strong> - GDScript SDK for Godot Engine</li>
+<li><strong><a href="https://unity.com">Unity</a></strong> - C# SDK for Unity Engine</li>
+<li><strong><a href="https://www.unrealengine.com">Unreal Engine</a></strong> - C++ SDK for Unreal Engine</li>
+<li><strong><a href="https://gamemaker.io">GameMaker</a></strong> - GML SDK for GameMaker</li>
+<li><strong>Lua/Defold/LOVE2D</strong> - For games written in Lua or Lua-based game engines like Defold or LOVE2D</li>
+<li><strong>JavaScript/TypeScript</strong> - For web games and Node.js backends</li>
+<li><strong>Python</strong> - For game servers and tools</li>
+<li><strong>C++</strong> - Standalone C++ library for custom engines</li>
+<li><strong>C#</strong> - Standalone .NET library</li>
+</ul>
+<p>Want to see an SDK for your platform? Let us know on <a href="https://discord.gg/RMUukcAxSZ">Discord</a> or <a href="https://www.reddit.com/r/LEADR/">Reddit</a>.</p>
+<h2 id="rest-api">REST API<a class="headerlink" href="#rest-api" title="Permanent link">&para;</a></h2>
+<p>LEADR's REST API works with any engine or language that can make HTTP requests. Check the <a href="../api/reference/">API Reference</a> for complete endpoint documentation and examples.</p>
 
 
 
