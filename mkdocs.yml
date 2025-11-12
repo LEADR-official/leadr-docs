@@ -29,6 +29,7 @@ site_dir: site-md
 nav:
   - Overview: index.md
   - Quick Start: quick_start.md
+  - Features: features.md
   - Concepts: concepts.md
   - Self Host: self_host.md
   - API:
@@ -40,6 +41,7 @@ nav:
       - Overview: sdks/index.md
       - Client Authentication: api/client_auth.md
   - About: about.md
+  - Roadmap: roadmap.md
   - Changelog: changelog.md
 
 extra:
