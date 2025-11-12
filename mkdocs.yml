@@ -38,6 +38,7 @@ nav:
       - Reference: api/reference/index.md
   - SDKs:
       - Overview: sdks/index.md
+      - Client Authentication: api/client_auth.md
   - About: about.md
   - Changelog: changelog.md
 
