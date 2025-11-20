@@ -1,0 +1,21 @@
+# LEADR Docs
+
+> Documentation for LEADR - the cross-platform leaderboard backend for indie game developers
+
+Key topics: leaderboard, game backend, game development, Godot, Unity, Unreal, cross-platform
+
+Visit docs.leadr.gg for more information.
+
+## Documentation
+
+- [Quick Start](https://docs.leadr.gg/quick_start/): Quick start guide
+- [Overview](https://docs.leadr.gg/)
+- [Features](https://docs.leadr.gg/features/)
+- [Self Host](https://docs.leadr.gg/self_host/)
+- [Concepts](https://docs.leadr.gg/concepts/)
+- [SDKs](https://docs.leadr.gg/sdks/)
+- [Roadmap](https://docs.leadr.gg/roadmap/)
+- [Changelog](https://docs.leadr.gg/changelog/)
+- [About](https://docs.leadr.gg/about/): About the organization
+
+For full sitemap, see: https://docs.leadr.gg/latest/sitemap.xml

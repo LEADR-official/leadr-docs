@@ -18,17 +18,23 @@ Native SDKs for Godot, Unity, Unreal, and more game engines make integration str
 
 Protect your leaderboards with industry-leading client authentication and built-in detection mechanisms. LEADR's client authentication system ensures scores come from legitimate game clients, while anomaly detection flags suspicious submissions automatically. Keep competition fair without building complex anti-cheat systems yourself.
 
+[Learn about LEADR's anti-cheat system](api/anti_cheat/)
+
 [Learn about client authentication](api/client_auth/)
 
-## Web Views (cloud only)
+## Web Views
 
 Every leaderboard in the hosted LEADR cloud service gets a beautiful, shareable web page. Players can compare their ranks, developers can embed leaderboards on game websites, and streamers can display live competition standings. No additional configuration needed - web views are automatically generated for every board you create.
 
-## Timed Leaderboards
+## Time-Limited Leaderboards
 
 Run recurring competitions with seasonal boards that reset automatically from templates - perfect for weekly challenges or seasonal rankings. Create one-off tournaments for special events, streaming competitions, or limited-time modes. Set start and end times, and LEADR handles the rest, including archiving completed boards for historical reference.
 
 [Learn more in the API Reference](api/reference/)
+
+## Data Export (Coming soon)
+
+If you're needs change, or you just want to do some offline analysis, you can export your full LEADR data at any time.
 
 ## Ghosts & Replays (Coming soon)
 

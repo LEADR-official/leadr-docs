@@ -5,15 +5,16 @@ Software Development Kits (SDKs) are native libraries for your game engine or pr
 ## Getting Started
 
 - **[Quick Start Guide](../quick_start.md)** - Integration walkthrough
-- **[Client Authentication](../api/client_auth.md)** - Secure player authentication
-- **[API Reference](../api/reference/)** - Complete REST API documentation
+
+## SDKs (Coming soon)
+
+- **[Godot](https://godotengine.org)** - GDScript SDK for Godot Engine
+- **[Unity](https://unity.com)** - C# SDK for Unity Engine
 
 ## Planned SDKs
 
 We're building native SDKs for the most popular game engines and platforms. SDKs are being developed in priority order based on indie game developer usage:
 
-- **[Godot](https://godotengine.org)** - GDScript SDK for Godot Engine
-- **[Unity](https://unity.com)** - C# SDK for Unity Engine
 - **[Unreal Engine](https://www.unrealengine.com)** - C++ SDK for Unreal Engine
 - **[GameMaker](https://gamemaker.io)** - GML SDK for GameMaker
 - **Lua/Defold/LOVE2D** - For games written in Lua or Lua-based game engines like Defold or LOVE2D
@@ -24,6 +25,7 @@ We're building native SDKs for the most popular game engines and platforms. SDKs
 
 Want to see an SDK for your platform? Let us know on [Discord](https://discord.gg/RMUukcAxSZ) or [Reddit](https://www.reddit.com/r/LEADR/).
 
-## REST API
+## Advanced
 
-LEADR's REST API works with any engine or language that can make HTTP requests. Check the [API Reference](../api/reference/) for complete endpoint documentation and examples.
+- **[Client Authentication](../api/client_auth.md)** - Secure client authentication
+- **[API Reference](../api/reference/)** - LEADR's REST API works with any engine or language that can make HTTP requests. Check the [API Reference](../api/reference/) for complete endpoint documentation and examples.

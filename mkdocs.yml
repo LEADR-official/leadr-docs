@@ -30,11 +30,14 @@ nav:
   - Overview: index.md
   - Quick Start: quick_start.md
   - Features: features.md
-  - Concepts: concepts.md
+  - Concepts:
+      - Overview: concepts/index.md
+      - Board Template Naming: api/template_naming.md
   - Self Host: self_host.md
   - API:
       - Overview: api/index.md
       - Patterns: api/patterns.md
+      - Pagination: api/pagination.md
       - HTTP API: api/http-api/index.md
       - Reference: api/reference/index.md
   - SDKs:
