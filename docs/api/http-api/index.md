@@ -1,18 +1,8534 @@
 ---
-title: LEADR - Admin & Client API v0.1.0
+title: }
 ---
 
-# LEADR - Admin & Client API v0.1.0
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LEADR - Admin & Client API",
+    "description": "LEADR is the cross-platform leaderboard backend for indie game devs",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/v1/accounts": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Create Account",
+        "description": "Create a new account.\n\nOnly superadmins can create accounts.\n\nArgs:\n    request: Account creation details including name and slug.\n    service: Injected account service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    AccountResponse with the created account including auto-generated ID and timestamps.\n\nRaises:\n    403: User does not have permission to create accounts.",
+        "operationId": "create_account_v1_accounts_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "List Accounts",
+        "description": "List accounts with pagination.\n\nSuperadmins see all accounts (paginated). Regular users see only their own account.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/accounts?limit=50&sort=name:asc\n\nArgs:\n    service: Injected account service dependency.\n    auth: Authentication context with user info.\n    pagination: Pagination parameters (cursor, limit, sort).\n\nReturns:\n    PaginatedResponse with accounts and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.",
+        "operationId": "list_accounts_v1_accounts_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_AccountResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/accounts/{account_id}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get Account",
+        "description": "Get an account by ID.\n\nArgs:\n    account_id: Unique identifier for the account.\n    service: Injected account service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    AccountResponse with full account details.\n\nRaises:\n    403: User does not have access to this account.\n    404: Account not found.",
+        "operationId": "get_account_v1_accounts__account_id__get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Update Account",
+        "description": "Update an account.\n\nSupports updating name, slug, status, or soft-deleting the account.\nStatus changes (active/suspended) are handled through dedicated service methods.\n\nArgs:\n    account_id: Unique identifier for the account.\n    request: Account update details (all fields optional).\n    service: Injected account service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    AccountResponse with the updated account details.\n\nRaises:\n    403: User does not have access to this account.\n    404: Account not found.",
+        "operationId": "update_account_v1_accounts__account_id__patch",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create User",
+        "description": "Create a new user.\n\nCreates a new user associated with an existing account.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: User creation details including account_id, email, and display name.\n    service: Injected user service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    UserResponse with the created user including auto-generated ID and timestamps.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Account not found.",
+        "operationId": "create_user_v1_users_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List Users",
+        "description": "List users for an account with pagination.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=email:asc,created_at:desc\n- Valid sort fields: id, email, display_name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/users?account_id=acc_123&limit=50&sort=email:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected user service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n\nReturns:\n    PaginatedResponse with users and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_users_v1_users_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_UserResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get User",
+        "description": "Get a user by ID.\n\nArgs:\n    user_id: Unique identifier for the user.\n    service: Injected user service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    UserResponse with full user details.\n\nRaises:\n    403: User does not have access to this user's account.\n    404: User not found.",
+        "operationId": "get_user_v1_users__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update User",
+        "description": "Update a user.\n\nSupports updating email, display name, or soft-deleting the user.\n\nArgs:\n    user_id: Unique identifier for the user.\n    request: User update details (all fields optional).\n    service: Injected user service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    UserResponse with the updated user details.\n\nRaises:\n    403: User does not have access to this user's account.\n    404: User not found.",
+        "operationId": "update_user_v1_users__user_id__patch",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api-keys": {
+      "post": {
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Create Api Key",
+        "description": "Create a new API key for an account.\n\nThe plain API key is returned only once in this response.\nStore it securely as it cannot be retrieved later.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nReturns:\n    CreateAPIKeyResponse with the plain key included.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Account not found.",
+        "operationId": "create_api_key_v1_api_keys_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAPIKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAPIKeyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "List Api Keys",
+        "description": "List API keys for an account with optional filters and pagination.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/api-keys?account_id=acc_123&status=active&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected API key service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    key_status: Optional status to filter results (active or revoked).\n\nReturns:\n    PaginatedResponse with API keys and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_api_keys_v1_api_keys_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/APIKeyStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by status",
+              "title": "Status"
+            },
+            "description": "Filter by status"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_APIKeyResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/api-keys/{key_id}": {
+      "get": {
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Get Api Key",
+        "description": "Get a single API key by ID.\n\nArgs:\n    key_id: The UUID of the API key to retrieve.\n    service: Injected API key service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    APIKeyResponse with key details (excludes the plain key).\n\nRaises:\n    403: User does not have access to this API key's account.\n    404: API key not found.",
+        "operationId": "get_api_key_v1_api_keys__key_id__get",
+        "parameters": [
+          {
+            "name": "key_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIKeyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "API Keys"
+        ],
+        "summary": "Update Api Key",
+        "description": "Update an API key.\n\nCurrently supports:\n- Updating status (e.g., to revoke a key)\n- Soft delete via deleted flag\n\nArgs:\n    key_id: The UUID of the API key to update.\n    request: Update request with optional status and deleted fields.\n    service: Injected API key service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    APIKeyResponse with updated key details.\n\nRaises:\n    403: User does not have access to this API key's account.\n    404: API key not found.",
+        "operationId": "update_api_key_v1_api_keys__key_id__patch",
+        "parameters": [
+          {
+            "name": "key_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAPIKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIKeyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/games": {
+      "post": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Create Game",
+        "description": "Create a new game.\n\nCreates a new game associated with an existing account. Games can optionally\nbe configured with Steam integration and a default leaderboard.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Game creation details including account_id, name, and optional settings.\n    service: Injected game service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    GameResponse with the created game including auto-generated ID and timestamps.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Account not found.",
+        "operationId": "create_game_v1_games_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "List Games",
+        "description": "List all games for an account with pagination.\n\nReturns paginated games for the specified account. Supports cursor-based\npagination with bidirectional navigation and custom sorting.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/games?account_id=acc_123&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n\nReturns:\n    PaginatedResponse with games and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_games_v1_games_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_GameResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/games/{game_id}": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Get Game",
+        "description": "Get a game by ID.\n\nArgs:\n    game_id: Unique identifier for the game.\n    service: Injected game service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    GameResponse with full game details.\n\nRaises:\n    403: User does not have access to this game's account.\n    404: Game not found.",
+        "operationId": "get_game_v1_games__game_id__get",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Game Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Games"
+        ],
+        "summary": "Update Game",
+        "description": "Update a game.\n\nSupports updating name, Steam App ID, default board ID, or soft-deleting the game.\n\nArgs:\n    game_id: Unique identifier for the game.\n    request: Game update details (all fields optional).\n    service: Injected game service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    GameResponse with the updated game details.\n\nRaises:\n    403: User does not have access to this game's account.\n    404: Game not found.",
+        "operationId": "update_game_v1_games__game_id__patch",
+        "parameters": [
+          {
+            "name": "game_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Game Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GameUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GameResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/boards": {
+      "post": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Create Board",
+        "description": "Create a new board.\n\nCreates a new leaderboard associated with an existing game and account.\nThe game must belong to the specified account.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Board creation details including account_id, game_id, name, and settings.\n    service: Injected board service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardResponse with the created board including auto-generated ID and timestamps.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Game or account not found.\n    400: Game doesn't belong to the specified account.",
+        "operationId": "create_board_v1_boards_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "List Boards Admin",
+        "description": "List boards (Admin API).\n\nFor regular users:\n- If account_id not provided, defaults to their API key's account\n- If account_id provided and they are superadmin, can access any account\n- If account_id provided and NOT superadmin, must match their account (validated in AuthContext)\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/boards?account_id=acc_123&limit=50&sort=name:asc\n\nArgs:\n    auth: Admin authentication context with user info.\n    service: Injected board service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account ID to filter boards by.\n    code: Optional short code to filter boards by.\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.",
+        "operationId": "list_boards_admin_v1_boards_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Code"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_BoardResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/boards/{board_id}": {
+      "get": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Get Board",
+        "description": "Get a board by ID.\n\nArgs:\n    board_id: Unique identifier for the board.\n    service: Injected board service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardResponse with full board details.\n\nRaises:\n    403: User does not have access to this board's account.\n    404: Board not found.",
+        "operationId": "get_board_v1_boards__board_id__get",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Boards"
+        ],
+        "summary": "Update Board",
+        "description": "Update a board.\n\nSupports updating any board field or soft-deleting the board.\n\nArgs:\n    board_id: Unique identifier for the board.\n    request: Board update details (all fields optional).\n    service: Injected board service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardResponse with the updated board details.\n\nRaises:\n    403: User does not have access to this board's account.\n    404: Board not found.",
+        "operationId": "update_board_v1_boards__board_id__patch",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/board-templates": {
+      "post": {
+        "tags": [
+          "Board Templates"
+        ],
+        "summary": "Create Board Template",
+        "description": "Create a new board template.\n\nCreates a template for automatically generating boards at regular intervals.\nThe game must belong to the specified account.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Template creation details including repeat_interval and configuration.\n    service: Injected board template service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardTemplateResponse with the created template including auto-generated ID.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Game or account not found.\n    400: Game doesn't belong to the specified account.",
+        "operationId": "create_board_template_v1_board_templates_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardTemplateCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardTemplateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Board Templates"
+        ],
+        "summary": "List Board Templates",
+        "description": "List board templates for an account with pagination, optionally filtered by game.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected board template service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    game_id: Optional game ID to filter templates by.\n\nReturns:\n    PaginatedResponse with board templates and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_board_templates_v1_board_templates_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "game_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by game ID",
+              "title": "Game Id"
+            },
+            "description": "Filter by game ID"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_BoardTemplateResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/board-templates/{template_id}": {
+      "get": {
+        "tags": [
+          "Board Templates"
+        ],
+        "summary": "Get Board Template",
+        "description": "Get a board template by ID.\n\nArgs:\n    template_id: Unique identifier for the template.\n    service: Injected board template service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardTemplateResponse with full template details.\n\nRaises:\n    403: User does not have access to this template's account.\n    404: Template not found.",
+        "operationId": "get_board_template_v1_board_templates__template_id__get",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Template Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardTemplateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Board Templates"
+        ],
+        "summary": "Update Board Template",
+        "description": "Update a board template.\n\nSupports updating any template field or soft-deleting the template.\n\nArgs:\n    template_id: Unique identifier for the template.\n    request: Template update details (all fields optional).\n    service: Injected board template service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardTemplateResponse with the updated template details.\n\nRaises:\n    403: User does not have access to this template's account.\n    404: Template not found.",
+        "operationId": "update_board_template_v1_board_templates__template_id__patch",
+        "parameters": [
+          {
+            "name": "template_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Template Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BoardTemplateUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardTemplateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scores": {
+      "post": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Create Score Admin",
+        "description": "Create a new score (Admin API).\n\nCreates a new score submission for a board. Performs three-level validation:\nboard exists, board belongs to the specified account, and game matches\nthe board's game.\n\nFor regular admins: account_id is derived from auth, must provide game_id and device_id.\nFor superadmins: can provide account_id to create scores for any account.\n\nArgs:\n    score_request: Score creation details including board_id, player_name, value,\n                  and optionally account_id (superadmin only), game_id, device_id.\n    request: FastAPI request object for accessing geo data.\n    service: Injected score service dependency.\n    background_tasks: FastAPI background tasks for async metadata updates.\n    auth: Admin authentication context.\n\nReturns:\n    ScoreResponse with the created score including auto-generated ID and timestamps.\n\nRaises:\n    403: Non-superadmin tries to specify account_id, or access denied.\n    400: Missing required fields (game_id or device_id).\n    404: Account, game, board, or device not found.\n    400: Validation failed (board doesn't belong to account, or game doesn't\n        match board's game).",
+        "operationId": "create_score_admin_v1_scores_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "List Scores Admin",
+        "description": "List scores for an account with optional filters and pagination.\n\nReturns paginated scores for the specified account, with optional\nfiltering by board, game, or device. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nFor regular admin users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, filter_timezone, filter_country,\n  filter_city, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    device_id: Optional device ID to filter by.\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_scores_admin_v1_scores_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "board_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "game_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Game Id"
+            }
+          },
+          {
+            "name": "device_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Device Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_ScoreResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scores/{score_id}": {
+      "get": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Get Score",
+        "description": "Get a score by ID.\n\nArgs:\n    score_id: Score identifier to retrieve.\n    service: Injected score service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    ScoreResponse with the score details.\n\nRaises:\n    403: User does not have access to this score's account.\n    404: Score not found or soft-deleted.",
+        "operationId": "get_score_v1_scores__score_id__get",
+        "parameters": [
+          {
+            "name": "score_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Score Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Update Score",
+        "description": "Update a score.\n\nSupports partial updates of score fields. Any field not provided will\nremain unchanged. Set deleted: true to soft delete the score.\n\nArgs:\n    score_id: Score identifier to update.\n    request: Score update details with optional fields to modify.\n    service: Injected score service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    ScoreResponse with the updated score details.\n\nRaises:\n    403: User does not have access to this score's account.\n    404: Score not found or already soft-deleted.",
+        "operationId": "update_score_v1_scores__score_id__patch",
+        "parameters": [
+          {
+            "name": "score_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Score Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/score-flags": {
+      "get": {
+        "tags": [
+          "Score Flags"
+        ],
+        "summary": "List Score Flags",
+        "description": "List score flags for an account with optional filters.\n\nReturns all non-deleted flags for the specified account, with optional\nfiltering by board, game, status, or flag type.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score flag service dependency.\n    account_id: Optional account_id query parameter (required for superadmins).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    status: Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).\n    flag_type: Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).\n\nReturns:\n    List of ScoreFlagResponse objects matching the filter criteria.\n\nRaises:\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_score_flags_v1_score_flags_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "board_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "game_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Game Id"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "flag_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Flag Type"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ScoreFlagResponse"
+                  },
+                  "title": "Response List Score Flags V1 Score Flags Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/score-flags/{flag_id}": {
+      "get": {
+        "tags": [
+          "Score Flags"
+        ],
+        "summary": "Get Score Flag",
+        "description": "Get a score flag by ID.\n\nArgs:\n    flag_id: Flag identifier to retrieve.\n    service: Injected score flag service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    ScoreFlagResponse with the flag details.\n\nRaises:\n    403: User does not have access to this flag's account.\n    404: Flag not found or soft-deleted.",
+        "operationId": "get_score_flag_v1_score_flags__flag_id__get",
+        "parameters": [
+          {
+            "name": "flag_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Flag Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreFlagResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Score Flags"
+        ],
+        "summary": "Update Score Flag",
+        "description": "Update a score flag (review or soft-delete).\n\nAllows reviewing a flag (updating status and reviewer decision) or\nsoft-deleting the flag.\n\nArgs:\n    flag_id: Flag identifier to update.\n    request: Update details (status, reviewer_decision, or deleted flag).\n    service: Injected score flag service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    ScoreFlagResponse with the updated flag details.\n\nRaises:\n    403: User does not have access to this flag's account.\n    404: Flag not found.\n    400: Invalid update request.",
+        "operationId": "update_score_flag_v1_score_flags__flag_id__patch",
+        "parameters": [
+          {
+            "name": "flag_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Flag Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreFlagUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreFlagResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/score-submission-metadata": {
+      "get": {
+        "tags": [
+          "Score Submission Metadata"
+        ],
+        "summary": "List Submission Meta",
+        "description": "List score submission metadata for an account with optional filters.\n\nReturns all non-deleted submission metadata for the specified account, with optional\nfiltering by board or device.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected submission metadata service dependency.\n    account_id: Optional account_id query parameter (required for superadmins).\n    board_id: Optional board ID to filter by.\n    device_id: Optional device ID to filter by.\n\nReturns:\n    List of ScoreSubmissionMetaResponse objects matching the filter criteria.\n\nRaises:\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_submission_meta_v1_score_submission_metadata_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "board_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "device_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Device Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ScoreSubmissionMetaResponse"
+                  },
+                  "title": "Response List Submission Meta V1 Score Submission Metadata Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/score-submission-metadata/{meta_id}": {
+      "get": {
+        "tags": [
+          "Score Submission Metadata"
+        ],
+        "summary": "Get Submission Meta",
+        "description": "Get score submission metadata by ID.\n\nArgs:\n    meta_id: Submission metadata identifier to retrieve.\n    service: Injected submission metadata service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    ScoreSubmissionMetaResponse with the submission metadata details.\n\nRaises:\n    403: User does not have access to this metadata's account.\n    404: Submission metadata not found or soft-deleted.",
+        "operationId": "get_submission_meta_v1_score_submission_metadata__meta_id__get",
+        "parameters": [
+          {
+            "name": "meta_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Meta Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreSubmissionMetaResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/devices": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "List Devices",
+        "description": "List devices for an account with optional filters and pagination.\n\nReturns all non-deleted devices for the specified account, with optional\nfiltering by game or status.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, platform, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/devices?account_id=acc_123&game_id=game_456&status=active&limit=50\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected device service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    game_id: Optional game ID to filter by.\n    device_status: Optional status to filter by (active, banned, suspended).\n\nReturns:\n    PaginatedResponse with devices and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_devices_v1_devices_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "game_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by game ID",
+              "title": "Game Id"
+            },
+            "description": "Filter by game ID"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by status",
+              "title": "Status"
+            },
+            "description": "Filter by status"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_DeviceResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/devices/{device_id}": {
+      "get": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Get Device",
+        "description": "Get a device by ID.\n\nArgs:\n    device_id: Device identifier to retrieve.\n    service: Injected device service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    DeviceResponse with the device details.\n\nRaises:\n    403: User does not have access to this device's account.\n    404: Device not found or soft-deleted.",
+        "operationId": "get_device_v1_devices__device_id__get",
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Device Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Devices"
+        ],
+        "summary": "Update Device",
+        "description": "Update a device (change status).\n\nAllows changing device status to ban, suspend, or activate devices.\n\nArgs:\n    device_id: Device identifier to update.\n    request: Update details (status).\n    service: Injected device service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    DeviceResponse with the updated device details.\n\nRaises:\n    403: User does not have access to this device's account.\n    404: Device not found.\n    400: Invalid status value.",
+        "operationId": "update_device_v1_devices__device_id__patch",
+        "parameters": [
+          {
+            "name": "device_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Device Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/device-sessions": {
+      "get": {
+        "tags": [
+          "Device Sessions"
+        ],
+        "summary": "List Sessions",
+        "description": "List device sessions for an account with optional filters and pagination.\n\nReturns all non-deleted device sessions for the specified account, with optional\nfiltering by device.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=created_at:asc,id:desc\n- Valid sort fields: id, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/device-sessions?account_id=acc_123&device_id=dev_456&limit=50\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected device service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    device_id: Optional device ID to filter by.\n\nReturns:\n    PaginatedResponse with device sessions and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_sessions_v1_device_sessions_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "device_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by device ID",
+              "title": "Device Id"
+            },
+            "description": "Filter by device ID"
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_DeviceSessionResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/device-sessions/{session_id}": {
+      "get": {
+        "tags": [
+          "Device Sessions"
+        ],
+        "summary": "Get Session",
+        "description": "Get a device session by ID.\n\nArgs:\n    session_id: Session identifier to retrieve.\n    service: Injected device service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    DeviceSessionResponse with the session details.\n\nRaises:\n    403: User does not have access to this session's account.\n    404: Session not found or soft-deleted.",
+        "operationId": "get_session_v1_device_sessions__session_id__get",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceSessionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Device Sessions"
+        ],
+        "summary": "Update Session",
+        "description": "Update a device session (revoke).\n\nAllows revoking a device session to invalidate authentication.\n\nArgs:\n    session_id: Session identifier to update.\n    request: Update details (revoked status).\n    service: Injected device service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    DeviceSessionResponse with the updated session details.\n\nRaises:\n    403: User does not have access to this session's account.\n    404: Session not found.\n    400: Invalid request or no revoked field provided.",
+        "operationId": "update_session_v1_device_sessions__session_id__patch",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceSessionUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceSessionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/client/sessions/refresh": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Refresh Session",
+        "description": "Refresh an expired access token using a valid refresh token.\n\nThis endpoint implements token rotation for security:\n- Returns new access and refresh tokens\n- Increments the token version\n- Invalidates the old refresh token (prevents replay attacks)\n\nNo authentication is required (the refresh token itself is the credential).\n\nArgs:\n    request: Refresh token request\n    service: DeviceService dependency\n\nReturns:\n    RefreshTokenResponse with new tokens\n\nRaises:\n    401: Invalid or expired refresh token\n    422: Invalid request (missing refresh_token)",
+        "operationId": "refresh_session_v1_client_sessions_refresh_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/client/nonce": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Generate Nonce",
+        "description": "Generate a fresh nonce for replay protection.\n\nNonces are single-use tokens with short TTL (60 seconds) that clients must\nobtain before making mutating requests (POST, PATCH, DELETE). This prevents\nreplay attacks by ensuring each request is fresh and authorized.\n\nRequires device authentication via access token.\n\nArgs:\n    auth: Authenticated client auth context (device guaranteed non-None)\n    service: NonceService dependency\n\nReturns:\n    NonceResponse with nonce_value and expires_at\n\nRaises:\n    401: Invalid or missing device token\n\nExample:\n    1. Client calls GET /client/nonce with Authorization header\n    2. Server returns nonce_value and expires_at\n    3. Client includes nonce in leadr-client-nonce header for mutations\n    4. Server validates and consumes nonce (single-use)",
+        "operationId": "generate_nonce_v1_client_nonce_get",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NonceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/client/boards": {
+      "get": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "List Boards Client",
+        "description": "List boards (Client API).\n\nAccount ID is automatically derived from the authenticated device's account.\nClients can optionally filter by short code to find specific boards.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50\n\nArgs:\n    auth: Client authentication context with device info.\n    service: Injected board service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    code: Optional short code to filter boards by.\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.",
+        "operationId": "list_boards_client_v1_client_boards_get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Code"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_BoardResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/client/scores": {
+      "post": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Create Score Client",
+        "description": "Create a new score (Client API).\n\nCreates a new score submission for a board. All IDs (account_id, game_id, device_id)\nare automatically derived from the authenticated device session.\n\nArgs:\n    score_request: Score creation details including board_id, player_name, and value.\n    request: FastAPI request object for accessing geo data.\n    service: Injected score service dependency.\n    background_tasks: FastAPI background tasks for async metadata updates.\n    auth: Client authentication context with device info.\n\nReturns:\n    ScoreClientResponse with the created score (excludes device_id).\n\nRaises:\n    404: Board not found.\n    400: Validation failed (board doesn't belong to account, or game doesn't\n        match board's game).",
+        "operationId": "create_score_client_v1_client_scores_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreClientCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreClientResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "List Scores Client",
+        "description": "List scores for an account with optional filters and pagination.\n\nReturns paginated scores for the specified account, with optional\nfiltering by board. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, filter_timezone, filter_country,\n  filter_city, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    board_id: Optional board ID to filter by.\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "operationId": "list_scores_client_v1_client_scores_get",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_ScoreClientResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "tags": [
+          "Public"
+        ],
+        "summary": "Health Check",
+        "description": "Health check endpoint.\n\nVerifies that the API is running and can connect to the database.\nReturns degraded status if database connectivity fails.\n\nArgs:\n    db: Database session dependency.\n\nReturns:\n    HealthResponse with API and database status.",
+        "operationId": "health_check_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/": {
+      "get": {
+        "tags": [
+          "Public"
+        ],
+        "summary": "Root",
+        "description": "Root endpoint.\n\nReturns basic API information including version and documentation URL.\n\nReturns:\n    Dict containing API metadata.",
+        "operationId": "root_v1__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/client/sessions": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Start Session",
+        "description": "Start a new device session for a game client.\n\nThis endpoint authenticates game clients and provides JWT access tokens.\nIt is idempotent - calling multiple times for the same device updates last_seen_at\nand generates a new access token.\n\nNo authentication is required to call this endpoint (it IS the authentication).\n\nArgs:\n    request: Session start request with game_id and device_id\n    service: DeviceService dependency\n\nReturns:\n    StartSessionResponse with device info and access token\n\nRaises:\n    404: Game not found\n    422: Invalid request (missing required fields, invalid UUID format)",
+        "operationId": "start_session_v1_client_sessions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartSessionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APIKeyResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the API key"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this key belongs to"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id",
+            "description": "ID of the user who owns this API key"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable name for the API key"
+          },
+          "prefix": {
+            "type": "string",
+            "title": "Prefix",
+            "description": "Key prefix for identification (first 8 characters)"
+          },
+          "status": {
+            "$ref": "#/components/schemas/APIKeyStatus",
+            "description": "Current status (active, revoked, expired)"
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Used At",
+            "description": "Timestamp of last successful authentication (UTC)"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "Expiration timestamp (UTC), or null if never expires"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the key was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "user_id",
+          "name",
+          "prefix",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "APIKeyResponse",
+        "description": "Response schema for API key details.\n\nExcludes sensitive information like key_hash.\nThe full key is never returned after creation."
+      },
+      "APIKeyStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "revoked"
+        ],
+        "title": "APIKeyStatus",
+        "description": "API Key status enumeration."
+      },
+      "AccountCreateRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Account name (2-100 characters)"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "URL-friendly identifier for the account (lowercase, alphanumeric, hyphens)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "slug"
+        ],
+        "title": "AccountCreateRequest",
+        "description": "Request model for creating an account."
+      },
+      "AccountResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the account"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Account name"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "URL-friendly identifier"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AccountStatus",
+            "description": "Current account status"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the account was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AccountResponse",
+        "description": "Response model for an account."
+      },
+      "AccountStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "suspended"
+        ],
+        "title": "AccountStatus",
+        "description": "Account status enumeration."
+      },
+      "AccountUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Updated account name"
+          },
+          "slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slug",
+            "description": "Updated URL-friendly identifier"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AccountStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Account status (active, suspended, deleted)"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the account"
+          }
+        },
+        "type": "object",
+        "title": "AccountUpdateRequest",
+        "description": "Request model for updating an account."
+      },
+      "BoardCreateRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this board belongs to"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this board belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the board"
+          },
+          "icon": {
+            "type": "string",
+            "title": "Icon",
+            "description": "Icon identifier for the board"
+          },
+          "short_code": {
+            "type": "string",
+            "title": "Short Code",
+            "description": "Globally unique short code for direct sharing"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit",
+            "description": "Unit of measurement for scores (e.g., 'seconds', 'points')"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the board is currently active"
+          },
+          "sort_direction": {
+            "$ref": "#/components/schemas/SortDirection",
+            "description": "Direction to sort scores"
+          },
+          "keep_strategy": {
+            "$ref": "#/components/schemas/KeepStrategy",
+            "description": "Strategy for keeping multiple scores from the same user"
+          },
+          "created_from_template_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created From Template Id",
+            "description": "Optional template ID this board was created from"
+          },
+          "template_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Name",
+            "description": "Optional template name this board was created from"
+          },
+          "starts_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts At",
+            "description": "Optional start time for time-bounded boards (UTC)"
+          },
+          "ends_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ends At",
+            "description": "Optional end time for time-bounded boards (UTC)"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "Optional list of tags for categorization"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "game_id",
+          "name",
+          "icon",
+          "short_code",
+          "unit",
+          "is_active",
+          "sort_direction",
+          "keep_strategy"
+        ],
+        "title": "BoardCreateRequest",
+        "description": "Request model for creating a board."
+      },
+      "BoardResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the board"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this board belongs to"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this board belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the board"
+          },
+          "icon": {
+            "type": "string",
+            "title": "Icon",
+            "description": "Icon identifier for the board"
+          },
+          "short_code": {
+            "type": "string",
+            "title": "Short Code",
+            "description": "Globally unique short code for direct sharing"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit",
+            "description": "Unit of measurement for scores"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the board is currently active"
+          },
+          "sort_direction": {
+            "$ref": "#/components/schemas/SortDirection",
+            "description": "Direction to sort scores"
+          },
+          "keep_strategy": {
+            "$ref": "#/components/schemas/KeepStrategy",
+            "description": "Strategy for keeping scores from same user"
+          },
+          "created_from_template_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created From Template Id",
+            "description": "Template ID this board was created from, or null"
+          },
+          "template_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Name",
+            "description": "Template name this board was created from, or null"
+          },
+          "starts_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts At",
+            "description": "Start time for time-bounded boards (UTC)"
+          },
+          "ends_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ends At",
+            "description": "End time for time-bounded boards (UTC)"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "description": "List of tags for categorization"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the board was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "game_id",
+          "name",
+          "icon",
+          "short_code",
+          "unit",
+          "is_active",
+          "sort_direction",
+          "keep_strategy",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "BoardResponse",
+        "description": "Response model for a board."
+      },
+      "BoardTemplateCreateRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this template belongs to"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this template belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the template"
+          },
+          "repeat_interval": {
+            "type": "string",
+            "title": "Repeat Interval",
+            "description": "PostgreSQL interval syntax for repeat frequency (e.g., '7 days', '1 month')"
+          },
+          "next_run_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Next Run At",
+            "description": "Next scheduled time to create a board from this template (UTC)"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the template is currently active"
+          },
+          "name_template": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Template",
+            "description": "Optional template string for generating board names"
+          },
+          "series": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Series",
+            "description": "Optional series identifier for sequential board naming"
+          },
+          "config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config",
+            "description": "Optional configuration for boards created from this template"
+          },
+          "config_template": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Template",
+            "description": "Optional template configuration for random generation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "game_id",
+          "name",
+          "repeat_interval",
+          "next_run_at",
+          "is_active"
+        ],
+        "title": "BoardTemplateCreateRequest",
+        "description": "Request model for creating a board template."
+      },
+      "BoardTemplateResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the template"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this template belongs to"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this template belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the template"
+          },
+          "name_template": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Template",
+            "description": "Template string for generating board names, or null"
+          },
+          "series": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Series",
+            "description": "Series identifier for sequential board naming, or null"
+          },
+          "repeat_interval": {
+            "type": "string",
+            "title": "Repeat Interval",
+            "description": "Repeat frequency in PostgreSQL interval syntax"
+          },
+          "config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config",
+            "description": "Configuration for boards created from this template"
+          },
+          "config_template": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config Template",
+            "description": "Template configuration for random generation"
+          },
+          "next_run_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Next Run At",
+            "description": "Next scheduled run time (UTC)"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "Whether the template is currently active"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the template was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "game_id",
+          "name",
+          "repeat_interval",
+          "next_run_at",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "BoardTemplateResponse",
+        "description": "Response model for a board template."
+      },
+      "BoardTemplateUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Updated template name"
+          },
+          "name_template": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Template",
+            "description": "Updated name template"
+          },
+          "series": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Series",
+            "description": "Updated series identifier"
+          },
+          "repeat_interval": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Repeat Interval",
+            "description": "Updated repeat interval"
+          },
+          "config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config",
+            "description": "Updated config"
+          },
+          "config_template": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Template",
+            "description": "Updated config template"
+          },
+          "next_run_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Run At",
+            "description": "Updated next run time"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active",
+            "description": "Updated active status"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the template"
+          }
+        },
+        "type": "object",
+        "title": "BoardTemplateUpdateRequest",
+        "description": "Request model for updating a board template."
+      },
+      "BoardUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Updated board name"
+          },
+          "icon": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icon",
+            "description": "Updated icon identifier"
+          },
+          "short_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Short Code",
+            "description": "Updated short code"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit",
+            "description": "Updated unit of measurement"
+          },
+          "is_active": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Active",
+            "description": "Updated active status"
+          },
+          "sort_direction": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SortDirection"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated sort direction"
+          },
+          "keep_strategy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/KeepStrategy"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated keep strategy"
+          },
+          "created_from_template_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created From Template Id",
+            "description": "Updated template ID"
+          },
+          "template_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Template Name",
+            "description": "Updated template name"
+          },
+          "starts_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Starts At",
+            "description": "Updated start time"
+          },
+          "ends_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ends At",
+            "description": "Updated end time"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "Updated tags list"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the board"
+          }
+        },
+        "type": "object",
+        "title": "BoardUpdateRequest",
+        "description": "Request model for updating a board."
+      },
+      "CreateAPIKeyRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this API key belongs to"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id",
+            "description": "ID of the user who owns this API key"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable name for the API key (e.g., 'Production Server')"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "Optional expiration timestamp (UTC). Key never expires if omitted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "user_id",
+          "name"
+        ],
+        "title": "CreateAPIKeyRequest",
+        "description": "Request schema for creating an API key."
+      },
+      "CreateAPIKeyResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the API key"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Human-readable name for the API key"
+          },
+          "key": {
+            "type": "string",
+            "title": "Key",
+            "description": "Plain text API key. ONLY returned at creation - save this securely!"
+          },
+          "prefix": {
+            "type": "string",
+            "title": "Prefix",
+            "description": "Key prefix for identification (first 8 characters)"
+          },
+          "status": {
+            "$ref": "#/components/schemas/APIKeyStatus",
+            "description": "Current status of the API key"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At",
+            "description": "Expiration timestamp (UTC), or null if never expires"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the key was created (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "key",
+          "prefix",
+          "status",
+          "created_at"
+        ],
+        "title": "CreateAPIKeyResponse",
+        "description": "Response schema for creating an API key.\n\nIncludes the plain API key which is only shown once.\nThe client must save this key as it cannot be retrieved later."
+      },
+      "DeviceResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the device"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this device belongs to"
+          },
+          "client_fingerprint": {
+            "type": "string",
+            "title": "Client Fingerprint",
+            "description": "Client-generated SHA256 device fingerprint (64 hex characters)"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this device belongs to"
+          },
+          "platform": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platform",
+            "description": "Platform (iOS, Android, etc.), or null"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Device status: active, banned, or suspended"
+          },
+          "first_seen_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "First Seen At",
+            "description": "Timestamp when device was first seen (UTC)"
+          },
+          "last_seen_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Seen At",
+            "description": "Timestamp when device was last seen (UTC)"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Additional device metadata"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when device record was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "game_id",
+          "client_fingerprint",
+          "account_id",
+          "status",
+          "first_seen_at",
+          "last_seen_at",
+          "metadata",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "DeviceResponse",
+        "description": "Response model for a device."
+      },
+      "DeviceSessionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "device_id": {
+            "type": "string",
+            "title": "Device Id"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At"
+          },
+          "refresh_expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Refresh Expires At"
+          },
+          "ip_address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ip Address"
+          },
+          "user_agent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Agent"
+          },
+          "revoked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revoked At"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "device_id",
+          "expires_at",
+          "refresh_expires_at",
+          "ip_address",
+          "user_agent",
+          "revoked_at",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "DeviceSessionResponse",
+        "description": "Response model for device session."
+      },
+      "DeviceSessionUpdateRequest": {
+        "properties": {
+          "revoked": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revoked"
+          }
+        },
+        "type": "object",
+        "title": "DeviceSessionUpdateRequest",
+        "description": "Request model for updating device session."
+      },
+      "DeviceStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "banned",
+          "suspended"
+        ],
+        "title": "DeviceStatus",
+        "description": "Device status enumeration."
+      },
+      "DeviceUpdateRequest": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status",
+            "description": "Updated status: active, banned, or suspended"
+          }
+        },
+        "type": "object",
+        "title": "DeviceUpdateRequest",
+        "description": "Request model for updating a device."
+      },
+      "GameCreateRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this game belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the game"
+          },
+          "steam_app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Steam App Id",
+            "description": "Optional Steam App ID for Steam integration"
+          },
+          "default_board_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Board Id",
+            "description": "Optional ID of the default leaderboard for this game"
+          },
+          "anti_cheat_enabled": {
+            "type": "boolean",
+            "title": "Anti Cheat Enabled",
+            "description": "Whether anti-cheat is enabled for this game (defaults to True)",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "name"
+        ],
+        "title": "GameCreateRequest",
+        "description": "Request model for creating a game."
+      },
+      "GameResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the game"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this game belongs to"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Name of the game"
+          },
+          "steam_app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Steam App Id",
+            "description": "Steam App ID if Steam integration is configured"
+          },
+          "default_board_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Board Id",
+            "description": "ID of the default leaderboard, or null if not set"
+          },
+          "anti_cheat_enabled": {
+            "type": "boolean",
+            "title": "Anti Cheat Enabled",
+            "description": "Whether anti-cheat is enabled for this game"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the game was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "name",
+          "anti_cheat_enabled",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "GameResponse",
+        "description": "Response model for a game."
+      },
+      "GameUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Updated game name"
+          },
+          "steam_app_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Steam App Id",
+            "description": "Updated Steam App ID"
+          },
+          "default_board_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Default Board Id",
+            "description": "Updated default leaderboard ID"
+          },
+          "anti_cheat_enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Anti Cheat Enabled",
+            "description": "Whether anti-cheat is enabled for this game"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the game"
+          }
+        },
+        "type": "object",
+        "title": "GameUpdateRequest",
+        "description": "Request model for updating a game."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Overall API health status (healthy, degraded, or unhealthy)"
+          },
+          "database": {
+            "type": "string",
+            "title": "Database",
+            "description": "Database connection status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "database"
+        ],
+        "title": "HealthResponse",
+        "description": "Health check response model."
+      },
+      "KeepStrategy": {
+        "type": "string",
+        "enum": [
+          "FIRST_ONLY",
+          "BEST_ONLY",
+          "LATEST_ONLY",
+          "ALL"
+        ],
+        "title": "KeepStrategy",
+        "description": "Strategy for keeping scores from the same user."
+      },
+      "NonceResponse": {
+        "properties": {
+          "nonce_value": {
+            "type": "string",
+            "title": "Nonce Value",
+            "description": "Unique nonce value (UUID)"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Expires At",
+            "description": "Nonce expiration timestamp (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nonce_value",
+          "expires_at"
+        ],
+        "title": "NonceResponse",
+        "description": "Response schema for nonce generation.\n\nNonces are single-use tokens with short TTL (60 seconds) that clients must\nobtain before making mutating requests. This prevents replay attacks."
+      },
+      "PaginatedResponse_APIKeyResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/APIKeyResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[APIKeyResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_AccountResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/AccountResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[AccountResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_BoardResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/BoardResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[BoardResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_BoardTemplateResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/BoardTemplateResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[BoardTemplateResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_DeviceResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/DeviceResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[DeviceResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_DeviceSessionResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/DeviceSessionResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[DeviceSessionResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_GameResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/GameResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[GameResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_ScoreClientResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ScoreClientResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[ScoreClientResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_ScoreResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ScoreResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[ScoreResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_UserResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[UserResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginationMeta": {
+        "properties": {
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor",
+            "description": "Cursor for the next page of results"
+          },
+          "prev_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prev Cursor",
+            "description": "Cursor for the previous page of results"
+          },
+          "has_next": {
+            "type": "boolean",
+            "title": "Has Next",
+            "description": "Whether there are more results after this page"
+          },
+          "has_prev": {
+            "type": "boolean",
+            "title": "Has Prev",
+            "description": "Whether there are results before this page"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count",
+            "description": "Number of items in this page"
+          }
+        },
+        "type": "object",
+        "required": [
+          "has_next",
+          "has_prev",
+          "count"
+        ],
+        "title": "PaginationMeta",
+        "description": "Pagination metadata in API responses."
+      },
+      "RefreshTokenRequest": {
+        "properties": {
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token",
+            "description": "JWT refresh token obtained from start_session"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refresh_token"
+        ],
+        "title": "RefreshTokenRequest",
+        "description": "Request schema for refreshing an access token.\n\nUsed by clients when their access token has expired."
+      },
+      "RefreshTokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token",
+            "description": "New JWT access token"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token",
+            "description": "New JWT refresh token (old token is invalidated)"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In",
+            "description": "Access token expiration time in seconds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "refresh_token",
+          "expires_in"
+        ],
+        "title": "RefreshTokenResponse",
+        "description": "Response schema for token refresh.\n\nReturns new access and refresh tokens with incremented version.\nThe old refresh token is invalidated and cannot be reused."
+      },
+      "ScoreClientCreateRequest": {
+        "properties": {
+          "board_id": {
+            "type": "string",
+            "title": "Board Id",
+            "description": "ID of the board this score belongs to"
+          },
+          "player_name": {
+            "type": "string",
+            "title": "Player Name",
+            "description": "Display name of the player"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value",
+            "description": "Numeric value of the score for sorting/comparison"
+          },
+          "value_display": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Display",
+            "description": "Optional formatted display string (e.g., '1:23.45', '1,234 points')"
+          },
+          "metadata": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional JSON metadata for game-specific data (max 1KB)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "board_id",
+          "player_name",
+          "value"
+        ],
+        "title": "ScoreClientCreateRequest",
+        "description": "Request model for creating a score (Client API).\n\nFor client authentication, account_id, game_id, and device_id are automatically\nderived from the authenticated device session. Only game-specific fields are required.\n\nNote: Timezone, country, and city are automatically populated from the client's\nIP address via GeoIP middleware."
+      },
+      "ScoreClientResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the score"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this score belongs to"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this score belongs to"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id",
+            "description": "ID of the board this score belongs to"
+          },
+          "player_name": {
+            "type": "string",
+            "title": "Player Name",
+            "description": "Display name of the player"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value",
+            "description": "Numeric value of the score"
+          },
+          "value_display": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Display",
+            "description": "Formatted display string, or null"
+          },
+          "metadata": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Game-specific metadata, or null"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the score was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "game_id",
+          "board_id",
+          "player_name",
+          "value",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ScoreClientResponse",
+        "description": "Response model for a score (client API - excludes device_id and geo fields)."
+      },
+      "ScoreCreateRequest": {
+        "properties": {
+          "board_id": {
+            "type": "string",
+            "title": "Board Id",
+            "description": "ID of the board this score belongs to"
+          },
+          "player_name": {
+            "type": "string",
+            "title": "Player Name",
+            "description": "Display name of the player"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value",
+            "description": "Numeric value of the score for sorting/comparison"
+          },
+          "value_display": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Display",
+            "description": "Optional formatted display string (e.g., '1:23.45', '1,234 points')"
+          },
+          "metadata": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional JSON metadata for game-specific data (max 1KB)"
+          },
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account Id",
+            "description": "ID of the account (only for superadmins, regular admins use their auth account)"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this score belongs to (required for admin API)"
+          },
+          "device_id": {
+            "type": "string",
+            "title": "Device Id",
+            "description": "ID of the device that submitted this score (required for admin API)"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone",
+            "description": "Optional override of GeoIP metadata"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "Optional override of GeoIP metadata"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City",
+            "description": "Optional override of GeoIP metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "board_id",
+          "player_name",
+          "value",
+          "game_id",
+          "device_id"
+        ],
+        "title": "ScoreCreateRequest",
+        "description": "Request model for creating a score (Admin API).\n\nNote: Timezone, country, and city are automatically populated from the client's\nIP address via GeoIP middleware but can be overriden by admins in the request body.\n\nFor regular admins: account_id is derived from auth context, must provide game_id and\ndevice_id. For superadmins: can provide account_id to create scores for any account,\nmust provide game_id and device_id."
+      },
+      "ScoreFlagResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the score flag"
+          },
+          "score_id": {
+            "type": "string",
+            "title": "Score Id",
+            "description": "ID of the score that was flagged"
+          },
+          "flag_type": {
+            "type": "string",
+            "title": "Flag Type",
+            "description": "Type of flag (e.g., VELOCITY, DUPLICATE, RATE_LIMIT)"
+          },
+          "confidence": {
+            "type": "string",
+            "title": "Confidence",
+            "description": "Confidence level of the flag (LOW, MEDIUM, HIGH)"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Additional metadata about the flag"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED"
+          },
+          "reviewed_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewed At",
+            "description": "Timestamp when flag was reviewed, or null"
+          },
+          "reviewer_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewer Id",
+            "description": "ID of the user who reviewed this flag, or null"
+          },
+          "reviewer_decision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewer Decision",
+            "description": "Admin's decision/notes, or null"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the flag was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "score_id",
+          "flag_type",
+          "confidence",
+          "metadata",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ScoreFlagResponse",
+        "description": "Response model for a score flag."
+      },
+      "ScoreFlagUpdateRequest": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status",
+            "description": "Updated status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED"
+          },
+          "reviewer_decision": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewer Decision",
+            "description": "Admin's decision/notes about the flag"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the flag"
+          }
+        },
+        "type": "object",
+        "title": "ScoreFlagUpdateRequest",
+        "description": "Request model for updating a score flag (reviewing)."
+      },
+      "ScoreResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the score"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this score belongs to"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this score belongs to"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id",
+            "description": "ID of the board this score belongs to"
+          },
+          "device_id": {
+            "type": "string",
+            "title": "Device Id",
+            "description": "ID of the device that submitted this score"
+          },
+          "player_name": {
+            "type": "string",
+            "title": "Player Name",
+            "description": "Display name of the player"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value",
+            "description": "Numeric value of the score"
+          },
+          "value_display": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Display",
+            "description": "Formatted display string, or null"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone",
+            "description": "Timezone for categorization, or null"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "Country for categorization, or null"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City",
+            "description": "City for categorization, or null"
+          },
+          "metadata": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Game-specific metadata, or null"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the score was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "game_id",
+          "board_id",
+          "device_id",
+          "player_name",
+          "value",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ScoreResponse",
+        "description": "Response model for a score."
+      },
+      "ScoreSubmissionMetaResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "score_id": {
+            "type": "string",
+            "title": "Score Id"
+          },
+          "device_id": {
+            "type": "string",
+            "title": "Device Id"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "submission_count": {
+            "type": "integer",
+            "title": "Submission Count"
+          },
+          "last_submission_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Submission At"
+          },
+          "last_score_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Score Value"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "score_id",
+          "device_id",
+          "board_id",
+          "submission_count",
+          "last_submission_at",
+          "last_score_value",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ScoreSubmissionMetaResponse",
+        "description": "Response model for score submission metadata."
+      },
+      "ScoreUpdateRequest": {
+        "properties": {
+          "player_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Player Name",
+            "description": "Updated player name"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value",
+            "description": "Updated score value"
+          },
+          "value_display": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Display",
+            "description": "Updated display string"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone",
+            "description": "Updated timezone"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "Updated country"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City",
+            "description": "Updated city"
+          },
+          "metadata": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Updated metadata"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the score"
+          }
+        },
+        "type": "object",
+        "title": "ScoreUpdateRequest",
+        "description": "Request model for updating a score."
+      },
+      "SortDirection": {
+        "type": "string",
+        "enum": [
+          "ASCENDING",
+          "DESCENDING"
+        ],
+        "title": "SortDirection",
+        "description": "Sort direction for board scores."
+      },
+      "StartSessionRequest": {
+        "properties": {
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game this device belongs to"
+          },
+          "client_fingerprint": {
+            "type": "string",
+            "title": "Client Fingerprint",
+            "description": "Client-generated SHA256 device fingerprint (64 hex characters)"
+          },
+          "platform": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platform",
+            "description": "Device platform (e.g., 'ios', 'android', 'pc', 'console')"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional device metadata (e.g., OS version, device model)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "game_id",
+          "client_fingerprint"
+        ],
+        "title": "StartSessionRequest",
+        "description": "Request schema for starting a device session.\n\nUsed by game clients to authenticate and obtain an access token."
+      },
+      "StartSessionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the device"
+          },
+          "game_id": {
+            "type": "string",
+            "title": "Game Id",
+            "description": "ID of the game"
+          },
+          "client_fingerprint": {
+            "type": "string",
+            "title": "Client Fingerprint",
+            "description": "Client-generated SHA256 device fingerprint (64 hex characters)"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account that owns the game"
+          },
+          "platform": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Platform",
+            "description": "Device platform"
+          },
+          "status": {
+            "$ref": "#/components/schemas/DeviceStatus",
+            "description": "Device status (active, suspended, banned)"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata",
+            "description": "Device metadata"
+          },
+          "access_token": {
+            "type": "string",
+            "title": "Access Token",
+            "description": "JWT access token for authenticating API requests"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "Refresh Token",
+            "description": "JWT refresh token for obtaining new access tokens"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In",
+            "description": "Access token expiration time in seconds"
+          },
+          "first_seen_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "First Seen At",
+            "description": "Timestamp when device was first seen (UTC)"
+          },
+          "last_seen_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Seen At",
+            "description": "Timestamp when device was last seen (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "game_id",
+          "client_fingerprint",
+          "account_id",
+          "status",
+          "access_token",
+          "refresh_token",
+          "expires_in",
+          "first_seen_at",
+          "last_seen_at"
+        ],
+        "title": "StartSessionResponse",
+        "description": "Response schema for starting a device session.\n\nIncludes both access and refresh tokens which must be saved by the client.\n- Access token: Short-lived, used for API requests in Authorization header\n- Refresh token: Long-lived, used to obtain new access tokens when expired"
+      },
+      "UpdateAPIKeyRequest": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/APIKeyStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated status (use 'revoked' to disable key)"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the key"
+          }
+        },
+        "type": "object",
+        "title": "UpdateAPIKeyRequest",
+        "description": "Request schema for updating an API key.\n\nCan update status (e.g., to revoke) or set deleted flag for soft delete."
+      },
+      "UserCreateRequest": {
+        "properties": {
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this user belongs to"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email",
+            "description": "User's email address (must be valid email format)"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name",
+            "description": "User's display name (2-100 characters)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "account_id",
+          "email",
+          "display_name"
+        ],
+        "title": "UserCreateRequest",
+        "description": "Request model for creating a user."
+      },
+      "UserResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Unique identifier for the user"
+          },
+          "account_id": {
+            "type": "string",
+            "title": "Account Id",
+            "description": "ID of the account this user belongs to"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "description": "User's email address"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name",
+            "description": "User's display name"
+          },
+          "super_admin": {
+            "type": "boolean",
+            "title": "Super Admin",
+            "description": "Whether this user has superadmin privileges"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "Timestamp when the user was created (UTC)"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "Timestamp of last update (UTC)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "account_id",
+          "email",
+          "display_name",
+          "super_admin",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "UserResponse",
+        "description": "Response model for a user."
+      },
+      "UserUpdateRequest": {
+        "properties": {
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "email"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Updated email address"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name",
+            "description": "Updated display name"
+          },
+          "super_admin": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Super Admin",
+            "description": "Set superadmin privileges (true/false)"
+          },
+          "deleted": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deleted",
+            "description": "Set to true to soft delete the user"
+          }
+        },
+        "type": "object",
+        "title": "UserUpdateRequest",
+        "description": "Request model for updating a user."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
 
-> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
-
-LEADR is the cross-platform leaderboard backend for indie game devs
-
-## API Sections
-
-- [Public](./public.md)
-- [Accounts](./accounts.md)
-- [API Keys](./api-keys.md)
-- [Games](./games.md)
-- [Boards](./boards.md)
-- [Schemas](./schemas.md)
+> 2025-11-20T18:47:30.458|LEADR|CI|server [WARNING] Logging level is NOTSET

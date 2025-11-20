@@ -36,6 +36,7 @@ within the same account.
 
 - [**account**](./games.md#leadr.games.adapters.orm.GameORM.account) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[AccountORM](./accounts.md#leadr.accounts.adapters.orm.AccountORM)\]</code>) –
 - [**account_id**](#leadr.games.adapters.orm.GameORM.account_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**anti_cheat_enabled**](#leadr.games.adapters.orm.GameORM.anti_cheat_enabled) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
 - [**created_at**](#leadr.games.adapters.orm.GameORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**default_board_id**](#leadr.games.adapters.orm.GameORM.default_board_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID) | None\]</code>) –
 - [**deleted_at**](#leadr.games.adapters.orm.GameORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
@@ -54,6 +55,12 @@ account: Mapped[AccountORM] = relationship('AccountORM')
 
 ```python
 account_id: Mapped[UUID] = mapped_column(ForeignKey('accounts.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
+####### `leadr.games.adapters.orm.GameORM.anti_cheat_enabled`
+
+```python
+anti_cheat_enabled: Mapped[bool] = mapped_column(nullable=False, default=True)
 ```
 
 ####### `leadr.games.adapters.orm.GameORM.created_at`
@@ -102,28 +109,28 @@ updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
 
 **Modules:**
 
-- [**routes**](./games.md#leadr.games.api.routes) – Game API routes.
-- [**schemas**](./games.md#leadr.games.api.schemas) – API request and response models for games.
+- [**game_routes**](#leadr.games.api.game_routes) – Game API routes.
+- [**game_schemas**](#leadr.games.api.game_schemas) – API request and response models for games.
 
-##### `leadr.games.api.routes`
+##### `leadr.games.api.game_routes`
 
 Game API routes.
 
 **Functions:**
 
-- [**create_game**](#leadr.games.api.routes.create_game) – Create a new game.
-- [**get_game**](#leadr.games.api.routes.get_game) – Get a game by ID.
-- [**list_games**](#leadr.games.api.routes.list_games) – List all games for an account.
-- [**update_game**](#leadr.games.api.routes.update_game) – Update a game.
+- [**create_game**](#leadr.games.api.game_routes.create_game) – Create a new game.
+- [**get_game**](#leadr.games.api.game_routes.get_game) – Get a game by ID.
+- [**list_games**](#leadr.games.api.game_routes.list_games) – List all games for an account with pagination.
+- [**update_game**](#leadr.games.api.game_routes.update_game) – Update a game.
 
 **Attributes:**
 
-- [**router**](./games.md#leadr.games.api.routes.router) –
+- [**router**](#leadr.games.api.game_routes.router) –
 
-###### `leadr.games.api.routes.create_game`
+###### `leadr.games.api.game_routes.create_game`
 
 ```python
-create_game(request, service)
+create_game(request, service, auth)
 ```
 
 Create a new game.
@@ -131,67 +138,102 @@ Create a new game.
 Creates a new game associated with an existing account. Games can optionally
 be configured with Steam integration and a default leaderboard.
 
+For regular users, account_id must match their API key's account.
+For superadmins, any account_id is accepted.
+
 **Parameters:**
 
-- **request** (<code>[GameCreateRequest](./games.md#leadr.games.api.schemas.GameCreateRequest)</code>) – Game creation details including account_id, name, and optional settings.
+- **request** (<code>[GameCreateRequest](#leadr.games.api.game_schemas.GameCreateRequest)</code>) – Game creation details including account_id, name, and optional settings.
 - **service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 
 **Returns:**
 
-- <code>[GameResponse](./games.md#leadr.games.api.schemas.GameResponse)</code> – GameResponse with the created game including auto-generated ID and timestamps.
+- <code>[GameResponse](#leadr.games.api.game_schemas.GameResponse)</code> – GameResponse with the created game including auto-generated ID and timestamps.
 
 **Raises:**
 
+- <code>403</code> – User does not have access to the specified account.
 - <code>404</code> – Account not found.
 
-###### `leadr.games.api.routes.get_game`
+###### `leadr.games.api.game_routes.get_game`
 
 ```python
-get_game(game_id, service)
+get_game(game_id, service, auth)
 ```
 
 Get a game by ID.
 
 **Parameters:**
 
-- **game_id** (<code>[UUID](#uuid.UUID)</code>) – Unique identifier for the game.
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – Unique identifier for the game.
 - **service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 
 **Returns:**
 
-- <code>[GameResponse](./games.md#leadr.games.api.schemas.GameResponse)</code> – GameResponse with full game details.
+- <code>[GameResponse](#leadr.games.api.game_schemas.GameResponse)</code> – GameResponse with full game details.
 
 **Raises:**
 
+- <code>403</code> – User does not have access to this game's account.
 - <code>404</code> – Game not found.
 
-###### `leadr.games.api.routes.list_games`
+###### `leadr.games.api.game_routes.list_games`
 
 ```python
-list_games(account_id, service)
+list_games(auth, service, pagination, account_id=None)
 ```
 
-List all games for an account.
+List all games for an account with pagination.
+
+Returns paginated games for the specified account. Supports cursor-based
+pagination with bidirectional navigation and custom sorting.
+
+For regular users, account_id is automatically derived from their API key.
+For superadmins, account_id must be explicitly provided as a query parameter.
+
+Pagination:
+
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=name:asc,created_at:desc
+- Valid sort fields: id, name, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+GET /v1/games?account_id=acc_123&limit=50&sort=name:asc
+
+</details>
 
 **Parameters:**
 
-- **account_id** (<code>[UUID](#uuid.UUID)</code>) – Account ID to filter games by.
+- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
 - **service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
+- **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
 
 **Returns:**
 
-- <code>[list](#list)\[[GameResponse](./games.md#leadr.games.api.schemas.GameResponse)\]</code> – List of all active games for the specified account.
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[GameResponse](#leadr.games.api.game_schemas.GameResponse)\]</code> – PaginatedResponse with games and pagination metadata.
 
-###### `leadr.games.api.routes.router`
+**Raises:**
+
+- <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
+- <code>400</code> – Superadmin did not provide account_id.
+- <code>403</code> – User does not have access to the specified account.
+
+###### `leadr.games.api.game_routes.router`
 
 ```python
 router = APIRouter()
 ```
 
-###### `leadr.games.api.routes.update_game`
+###### `leadr.games.api.game_routes.update_game`
 
 ```python
-update_game(game_id, request, service)
+update_game(game_id, request, service, auth)
 ```
 
 Update a game.
@@ -200,29 +242,31 @@ Supports updating name, Steam App ID, default board ID, or soft-deleting the gam
 
 **Parameters:**
 
-- **game_id** (<code>[UUID](#uuid.UUID)</code>) – Unique identifier for the game.
-- **request** (<code>[GameUpdateRequest](./games.md#leadr.games.api.schemas.GameUpdateRequest)</code>) – Game update details (all fields optional).
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – Unique identifier for the game.
+- **request** (<code>[GameUpdateRequest](#leadr.games.api.game_schemas.GameUpdateRequest)</code>) – Game update details (all fields optional).
 - **service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 
 **Returns:**
 
-- <code>[GameResponse](./games.md#leadr.games.api.schemas.GameResponse)</code> – GameResponse with the updated game details.
+- <code>[GameResponse](#leadr.games.api.game_schemas.GameResponse)</code> – GameResponse with the updated game details.
 
 **Raises:**
 
+- <code>403</code> – User does not have access to this game's account.
 - <code>404</code> – Game not found.
 
-##### `leadr.games.api.schemas`
+##### `leadr.games.api.game_schemas`
 
 API request and response models for games.
 
 **Classes:**
 
-- [**GameCreateRequest**](./games.md#leadr.games.api.schemas.GameCreateRequest) – Request model for creating a game.
-- [**GameResponse**](./games.md#leadr.games.api.schemas.GameResponse) – Response model for a game.
-- [**GameUpdateRequest**](./games.md#leadr.games.api.schemas.GameUpdateRequest) – Request model for updating a game.
+- [**GameCreateRequest**](#leadr.games.api.game_schemas.GameCreateRequest) – Request model for creating a game.
+- [**GameResponse**](#leadr.games.api.game_schemas.GameResponse) – Response model for a game.
+- [**GameUpdateRequest**](#leadr.games.api.game_schemas.GameUpdateRequest) – Request model for updating a game.
 
-###### `leadr.games.api.schemas.GameCreateRequest`
+###### `leadr.games.api.game_schemas.GameCreateRequest`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -230,36 +274,43 @@ Request model for creating a game.
 
 **Attributes:**
 
-- [**account_id**](#leadr.games.api.schemas.GameCreateRequest.account_id) (<code>[UUID](#uuid.UUID)</code>) –
-- [**default_board_id**](#leadr.games.api.schemas.GameCreateRequest.default_board_id) (<code>[UUID](#uuid.UUID) | None</code>) –
-- [**name**](./games.md#leadr.games.api.schemas.GameCreateRequest.name) (<code>[str](#str)</code>) –
-- [**steam_app_id**](#leadr.games.api.schemas.GameCreateRequest.steam_app_id) (<code>[str](#str) | None</code>) –
+- [**account_id**](#leadr.games.api.game_schemas.GameCreateRequest.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**anti_cheat_enabled**](#leadr.games.api.game_schemas.GameCreateRequest.anti_cheat_enabled) (<code>[bool](#bool)</code>) –
+- [**default_board_id**](#leadr.games.api.game_schemas.GameCreateRequest.default_board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) –
+- [**name**](#leadr.games.api.game_schemas.GameCreateRequest.name) (<code>[str](#str)</code>) –
+- [**steam_app_id**](#leadr.games.api.game_schemas.GameCreateRequest.steam_app_id) (<code>[str](#str) | None</code>) –
 
-####### `leadr.games.api.schemas.GameCreateRequest.account_id`
-
-```python
-account_id: UUID = Field(description='ID of the account this game belongs to')
-```
-
-####### `leadr.games.api.schemas.GameCreateRequest.default_board_id`
+####### `leadr.games.api.game_schemas.GameCreateRequest.account_id`
 
 ```python
-default_board_id: UUID | None = Field(default=None, description='Optional ID of the default leaderboard for this game')
+account_id: AccountID = Field(description='ID of the account this game belongs to')
 ```
 
-####### `leadr.games.api.schemas.GameCreateRequest.name`
+####### `leadr.games.api.game_schemas.GameCreateRequest.anti_cheat_enabled`
+
+```python
+anti_cheat_enabled: bool = Field(default=True, description='Whether anti-cheat is enabled for this game (defaults to True)')
+```
+
+####### `leadr.games.api.game_schemas.GameCreateRequest.default_board_id`
+
+```python
+default_board_id: BoardID | None = Field(default=None, description='Optional ID of the default leaderboard for this game')
+```
+
+####### `leadr.games.api.game_schemas.GameCreateRequest.name`
 
 ```python
 name: str = Field(description='Name of the game')
 ```
 
-####### `leadr.games.api.schemas.GameCreateRequest.steam_app_id`
+####### `leadr.games.api.game_schemas.GameCreateRequest.steam_app_id`
 
 ```python
 steam_app_id: str | None = Field(default=None, description='Optional Steam App ID for Steam integration')
 ```
 
-###### `leadr.games.api.schemas.GameResponse`
+###### `leadr.games.api.game_schemas.GameResponse`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -267,37 +318,44 @@ Response model for a game.
 
 **Functions:**
 
-- [**from_domain**](#leadr.games.api.schemas.GameResponse.from_domain) – Convert domain entity to response model.
+- [**from_domain**](#leadr.games.api.game_schemas.GameResponse.from_domain) – Convert domain entity to response model.
 
 **Attributes:**
 
-- [**account_id**](#leadr.games.api.schemas.GameResponse.account_id) (<code>[UUID](#uuid.UUID)</code>) –
-- [**created_at**](#leadr.games.api.schemas.GameResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**default_board_id**](#leadr.games.api.schemas.GameResponse.default_board_id) (<code>[UUID](#uuid.UUID) | None</code>) –
-- [**id**](./games.md#leadr.games.api.schemas.GameResponse.id) (<code>[UUID](#uuid.UUID)</code>) –
-- [**name**](./games.md#leadr.games.api.schemas.GameResponse.name) (<code>[str](#str)</code>) –
-- [**steam_app_id**](#leadr.games.api.schemas.GameResponse.steam_app_id) (<code>[str](#str) | None</code>) –
-- [**updated_at**](#leadr.games.api.schemas.GameResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**account_id**](#leadr.games.api.game_schemas.GameResponse.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**anti_cheat_enabled**](#leadr.games.api.game_schemas.GameResponse.anti_cheat_enabled) (<code>[bool](#bool)</code>) –
+- [**created_at**](#leadr.games.api.game_schemas.GameResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**default_board_id**](#leadr.games.api.game_schemas.GameResponse.default_board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) –
+- [**id**](#leadr.games.api.game_schemas.GameResponse.id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
+- [**name**](#leadr.games.api.game_schemas.GameResponse.name) (<code>[str](#str)</code>) –
+- [**steam_app_id**](#leadr.games.api.game_schemas.GameResponse.steam_app_id) (<code>[str](#str) | None</code>) –
+- [**updated_at**](#leadr.games.api.game_schemas.GameResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
-####### `leadr.games.api.schemas.GameResponse.account_id`
+####### `leadr.games.api.game_schemas.GameResponse.account_id`
 
 ```python
-account_id: UUID = Field(description='ID of the account this game belongs to')
+account_id: AccountID = Field(description='ID of the account this game belongs to')
 ```
 
-####### `leadr.games.api.schemas.GameResponse.created_at`
+####### `leadr.games.api.game_schemas.GameResponse.anti_cheat_enabled`
+
+```python
+anti_cheat_enabled: bool = Field(description='Whether anti-cheat is enabled for this game')
+```
+
+####### `leadr.games.api.game_schemas.GameResponse.created_at`
 
 ```python
 created_at: datetime = Field(description='Timestamp when the game was created (UTC)')
 ```
 
-####### `leadr.games.api.schemas.GameResponse.default_board_id`
+####### `leadr.games.api.game_schemas.GameResponse.default_board_id`
 
 ```python
-default_board_id: UUID | None = Field(default=None, description='ID of the default leaderboard, or null if not set')
+default_board_id: BoardID | None = Field(default=None, description='ID of the default leaderboard, or null if not set')
 ```
 
-####### `leadr.games.api.schemas.GameResponse.from_domain`
+####### `leadr.games.api.game_schemas.GameResponse.from_domain`
 
 ```python
 from_domain(game)
@@ -311,33 +369,33 @@ Convert domain entity to response model.
 
 **Returns:**
 
-- <code>[GameResponse](./games.md#leadr.games.api.schemas.GameResponse)</code> – GameResponse with all fields populated from the domain entity.
+- <code>[GameResponse](#leadr.games.api.game_schemas.GameResponse)</code> – GameResponse with all fields populated from the domain entity.
 
-####### `leadr.games.api.schemas.GameResponse.id`
+####### `leadr.games.api.game_schemas.GameResponse.id`
 
 ```python
-id: UUID = Field(description='Unique identifier for the game')
+id: GameID = Field(description='Unique identifier for the game')
 ```
 
-####### `leadr.games.api.schemas.GameResponse.name`
+####### `leadr.games.api.game_schemas.GameResponse.name`
 
 ```python
 name: str = Field(description='Name of the game')
 ```
 
-####### `leadr.games.api.schemas.GameResponse.steam_app_id`
+####### `leadr.games.api.game_schemas.GameResponse.steam_app_id`
 
 ```python
 steam_app_id: str | None = Field(default=None, description='Steam App ID if Steam integration is configured')
 ```
 
-####### `leadr.games.api.schemas.GameResponse.updated_at`
+####### `leadr.games.api.game_schemas.GameResponse.updated_at`
 
 ```python
 updated_at: datetime = Field(description='Timestamp of last update (UTC)')
 ```
 
-###### `leadr.games.api.schemas.GameUpdateRequest`
+###### `leadr.games.api.game_schemas.GameUpdateRequest`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -345,30 +403,37 @@ Request model for updating a game.
 
 **Attributes:**
 
-- [**default_board_id**](#leadr.games.api.schemas.GameUpdateRequest.default_board_id) (<code>[UUID](#uuid.UUID) | None</code>) –
-- [**deleted**](./games.md#leadr.games.api.schemas.GameUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
-- [**name**](./games.md#leadr.games.api.schemas.GameUpdateRequest.name) (<code>[str](#str) | None</code>) –
-- [**steam_app_id**](#leadr.games.api.schemas.GameUpdateRequest.steam_app_id) (<code>[str](#str) | None</code>) –
+- [**anti_cheat_enabled**](#leadr.games.api.game_schemas.GameUpdateRequest.anti_cheat_enabled) (<code>[bool](#bool) | None</code>) –
+- [**default_board_id**](#leadr.games.api.game_schemas.GameUpdateRequest.default_board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) –
+- [**deleted**](#leadr.games.api.game_schemas.GameUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
+- [**name**](#leadr.games.api.game_schemas.GameUpdateRequest.name) (<code>[str](#str) | None</code>) –
+- [**steam_app_id**](#leadr.games.api.game_schemas.GameUpdateRequest.steam_app_id) (<code>[str](#str) | None</code>) –
 
-####### `leadr.games.api.schemas.GameUpdateRequest.default_board_id`
+####### `leadr.games.api.game_schemas.GameUpdateRequest.anti_cheat_enabled`
 
 ```python
-default_board_id: UUID | None = Field(default=None, description='Updated default leaderboard ID')
+anti_cheat_enabled: bool | None = Field(default=None, description='Whether anti-cheat is enabled for this game')
 ```
 
-####### `leadr.games.api.schemas.GameUpdateRequest.deleted`
+####### `leadr.games.api.game_schemas.GameUpdateRequest.default_board_id`
+
+```python
+default_board_id: BoardID | None = Field(default=None, description='Updated default leaderboard ID')
+```
+
+####### `leadr.games.api.game_schemas.GameUpdateRequest.deleted`
 
 ```python
 deleted: bool | None = Field(default=None, description='Set to true to soft delete the game')
 ```
 
-####### `leadr.games.api.schemas.GameUpdateRequest.name`
+####### `leadr.games.api.game_schemas.GameUpdateRequest.name`
 
 ```python
 name: str | None = Field(default=None, description='Updated game name')
 ```
 
-####### `leadr.games.api.schemas.GameUpdateRequest.steam_app_id`
+####### `leadr.games.api.game_schemas.GameUpdateRequest.steam_app_id`
 
 ```python
 steam_app_id: str | None = Field(default=None, description='Updated Steam App ID')
@@ -409,11 +474,12 @@ Steam platform features.
 
 **Attributes:**
 
-- [**account_id**](#leadr.games.domain.game.Game.account_id) (<code>[UUID](#uuid.UUID)</code>) –
+- [**account_id**](#leadr.games.domain.game.Game.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**anti_cheat_enabled**](#leadr.games.domain.game.Game.anti_cheat_enabled) (<code>[bool](#bool)</code>) –
 - [**created_at**](#leadr.games.domain.game.Game.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**default_board_id**](#leadr.games.domain.game.Game.default_board_id) (<code>[UUID](#uuid.UUID) | None</code>) –
+- [**default_board_id**](#leadr.games.domain.game.Game.default_board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) –
 - [**deleted_at**](#leadr.games.domain.game.Game.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**id**](./games.md#leadr.games.domain.game.Game.id) (<code>[UUID](#uuid.UUID)</code>) –
+- [**id**](./games.md#leadr.games.domain.game.Game.id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**is_deleted**](#leadr.games.domain.game.Game.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
 - [**model_config**](#leadr.games.domain.game.Game.model_config) –
 - [**name**](./games.md#leadr.games.domain.game.Game.name) (<code>[str](#str)</code>) –
@@ -423,7 +489,13 @@ Steam platform features.
 ####### `leadr.games.domain.game.Game.account_id`
 
 ```python
-account_id: UUID = Field(frozen=True, description='ID of the account this game belongs to (immutable)')
+account_id: AccountID = Field(frozen=True, description='ID of the account this game belongs to (immutable)')
+```
+
+####### `leadr.games.domain.game.Game.anti_cheat_enabled`
+
+```python
+anti_cheat_enabled: bool = Field(default=True, description='Whether anti-cheat is enabled for this game (defaults to enabled)')
 ```
 
 ####### `leadr.games.domain.game.Game.created_at`
@@ -435,7 +507,7 @@ created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), descri
 ####### `leadr.games.domain.game.Game.default_board_id`
 
 ```python
-default_board_id: UUID | None = Field(default=None, description='Optional default leaderboard ID for this game')
+default_board_id: BoardID | None = Field(default=None, description='Optional default leaderboard ID for this game')
 ```
 
 ####### `leadr.games.domain.game.Game.deleted_at`
@@ -447,7 +519,7 @@ deleted_at: datetime | None = Field(default=None, description='Timestamp when en
 ####### `leadr.games.domain.game.Game.id`
 
 ```python
-id: UUID = Field(frozen=True, default_factory=uuid4, description='Unique identifier (auto-generated UUID)')
+id: GameID = Field(frozen=True, default_factory=GameID, description='Unique game identifier')
 ```
 
 ####### `leadr.games.domain.game.Game.is_deleted`
@@ -604,7 +676,7 @@ by coordinating between the domain models and repository layer.
 - [**get_by_id_or_raise**](#leadr.games.services.game_service.GameService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**get_game**](#leadr.games.services.game_service.GameService.get_game) – Get a game by its ID.
 - [**list_all**](#leadr.games.services.game_service.GameService.list_all) – List all non-deleted entities.
-- [**list_games**](#leadr.games.services.game_service.GameService.list_games) – List all games for an account.
+- [**list_games**](#leadr.games.services.game_service.GameService.list_games) – List all games for an account with optional pagination.
 - [**soft_delete**](#leadr.games.services.game_service.GameService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_game**](#leadr.games.services.game_service.GameService.update_game) – Update game fields.
 
@@ -615,17 +687,18 @@ by coordinating between the domain models and repository layer.
 ####### `leadr.games.services.game_service.GameService.create_game`
 
 ```python
-create_game(account_id, name, steam_app_id=None, default_board_id=None)
+create_game(account_id, name, steam_app_id=None, default_board_id=None, anti_cheat_enabled=True)
 ```
 
 Create a new game.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the account that owns this game.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The ID of the account that owns this game.
 - **name** (<code>[str](#str)</code>) – The game name.
 - **steam_app_id** (<code>[str](#str) | None</code>) – Optional Steam application ID.
-- **default_board_id** (<code>[UUID](#uuid.UUID) | None</code>) – Optional default leaderboard ID.
+- **default_board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional default leaderboard ID.
+- **anti_cheat_enabled** (<code>[bool](#bool)</code>) – Whether anti-cheat is enabled (defaults to True).
 
 **Returns:**
 
@@ -652,7 +725,7 @@ Soft-delete an entity.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the entity to delete
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to delete
 
 **Raises:**
 
@@ -668,7 +741,7 @@ Get an entity by its ID.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the entity to retrieve
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to retrieve
 
 **Returns:**
 
@@ -684,7 +757,7 @@ Get an entity by its ID or raise EntityNotFoundError.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the entity to retrieve
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to retrieve
 
 **Returns:**
 
@@ -705,7 +778,7 @@ Get a game by its ID.
 
 **Parameters:**
 
-- **game_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the game to retrieve.
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The ID of the game to retrieve.
 
 **Returns:**
 
@@ -726,18 +799,19 @@ List all non-deleted entities.
 ####### `leadr.games.services.game_service.GameService.list_games`
 
 ```python
-list_games(account_id)
+list_games(account_id, pagination=None)
 ```
 
-List all games for an account.
+List all games for an account with optional pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the account to list games for.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The ID of the account to list games for.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
 
 **Returns:**
 
-- <code>[list](#list)\[[Game](./games.md#leadr.games.domain.game.Game)\]</code> – List of Game domain entities for the account.
+- <code>[list](#list)\[[Game](./games.md#leadr.games.domain.game.Game)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Game](./games.md#leadr.games.domain.game.Game)\]</code> – List of Game entities if no pagination, PaginatedResult if pagination provided.
 
 ####### `leadr.games.services.game_service.GameService.repository`
 
@@ -757,7 +831,7 @@ Useful for endpoints that need to return the deleted entity in the response.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the entity to delete
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to delete
 
 **Returns:**
 
@@ -770,17 +844,18 @@ Useful for endpoints that need to return the deleted entity in the response.
 ####### `leadr.games.services.game_service.GameService.update_game`
 
 ```python
-update_game(game_id, name=None, steam_app_id=None, default_board_id=None)
+update_game(game_id, name=None, steam_app_id=None, default_board_id=None, anti_cheat_enabled=None)
 ```
 
 Update game fields.
 
 **Parameters:**
 
-- **game_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the game to update
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The ID of the game to update
 - **name** (<code>[str](#str) | None</code>) – New game name, if provided
 - **steam_app_id** (<code>[str](#str) | None</code>) – New Steam app ID, if provided
-- **default_board_id** (<code>[UUID](#uuid.UUID) | None</code>) – New default board ID, if provided
+- **default_board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – New default board ID, if provided
+- **anti_cheat_enabled** (<code>[bool](#bool) | None</code>) – Whether anti-cheat is enabled, if provided
 
 **Returns:**
 
@@ -814,7 +889,14 @@ Game repository for managing game persistence.
 
 **Attributes:**
 
+- [**SORTABLE_FIELDS**](#leadr.games.services.repositories.GameRepository.SORTABLE_FIELDS) –
 - [**session**](./games.md#leadr.games.services.repositories.GameRepository.session) –
+
+####### `leadr.games.services.repositories.GameRepository.SORTABLE_FIELDS`
+
+```python
+SORTABLE_FIELDS = {'id', 'name', 'created_at', 'updated_at'}
+```
 
 ####### `leadr.games.services.repositories.GameRepository.create`
 
@@ -842,7 +924,7 @@ Soft delete an entity by setting its deleted_at timestamp.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID4](#pydantic.UUID4)</code>) – ID of entity to delete
+- **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – ID of entity to delete
 
 **Raises:**
 
@@ -851,19 +933,26 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.games.services.repositories.GameRepository.filter`
 
 ```python
-filter(account_id, **kwargs)
+filter(account_id=None, pagination=None, **kwargs)
 ```
 
 Filter games by account and optional criteria.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4)</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[Game](./games.md#leadr.games.domain.game.Game)\]</code> – List of games for the account matching the filter criteria
+- <code>[list](#list)\[[Game](./games.md#leadr.games.domain.game.Game)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Game](./games.md#leadr.games.domain.game.Game)\]</code> – List of games if no pagination, PaginatedResult if pagination provided
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If account_id is None (required for multi-tenant safety)
+- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
+- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
 ####### `leadr.games.services.repositories.GameRepository.get_by_id`
 
@@ -875,7 +964,7 @@ Get an entity by its ID.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID4](#pydantic.UUID4)</code>) – Entity ID to retrieve
+- **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – Entity ID to retrieve
 - **include_deleted** (<code>[bool](#bool)</code>) – If True, include soft-deleted entities. Defaults to False.
 
 **Returns:**

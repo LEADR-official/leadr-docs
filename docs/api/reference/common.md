@@ -3,9 +3,11 @@
 **Modules:**
 
 - [**api**](./common.md#leadr.common.api) – API utilities and exception handlers.
+- [**background_tasks**](#leadr.common.background_tasks) – Background task scheduler using asyncio.
 - [**database**](./common.md#leadr.common.database) – Database connection and session management.
 - [**dependencies**](./common.md#leadr.common.dependencies) – Shared FastAPI dependencies for the application.
 - [**domain**](./common.md#leadr.common.domain) –
+- [**geoip**](./common.md#leadr.common.geoip) – GeoIP service for IP address geolocation using MaxMind databases.
 - [**orm**](./common.md#leadr.common.orm) – Common ORM base classes and utilities.
 - [**repositories**](./common.md#leadr.common.repositories) – Base repository abstraction for common CRUD operations.
 - [**services**](./common.md#leadr.common.services) – Base service abstraction for common business logic patterns.
@@ -17,6 +19,7 @@ API utilities and exception handlers.
 **Modules:**
 
 - [**exceptions**](./common.md#leadr.common.api.exceptions) – Global exception handlers for API layer.
+- [**pagination**](./common.md#leadr.common.api.pagination) – API pagination models and dependencies.
 
 ##### `leadr.common.api.exceptions`
 
@@ -24,7 +27,32 @@ Global exception handlers for API layer.
 
 **Functions:**
 
+- [**catchall_exception_handler**](#leadr.common.api.exceptions.catchall_exception_handler) – Convert all unhandled Exceptions to a 500 HTTP response with
 - [**entity_not_found_handler**](#leadr.common.api.exceptions.entity_not_found_handler) – Convert EntityNotFoundError to 404 HTTP response.
+- [**http_exception_handler**](#leadr.common.api.exceptions.http_exception_handler) – Convert all FastAPI HTTPExceptions to ensure our response envelope.
+- [**validation_error_handler**](#leadr.common.api.exceptions.validation_error_handler) – Convert RequestValidationError to 422 HTTP response with our
+
+**Attributes:**
+
+- [**logger**](./common.md#leadr.common.api.exceptions.logger) –
+
+###### `leadr.common.api.exceptions.catchall_exception_handler`
+
+```python
+catchall_exception_handler(request, exc)
+```
+
+Convert all unhandled Exceptions to a 500 HTTP response with
+our response envelope.
+
+**Parameters:**
+
+- **request** (<code>[Request](#fastapi.Request)</code>) – The incoming request
+- **exc** (<code>[Exception](#Exception)</code>) – The exception
+
+**Returns:**
+
+- <code>[JSONResponse](#fastapi.responses.JSONResponse)</code> – JSONResponse with 500 status and error detail
 
 ###### `leadr.common.api.exceptions.entity_not_found_handler`
 
@@ -37,11 +65,391 @@ Convert EntityNotFoundError to 404 HTTP response.
 **Parameters:**
 
 - **request** (<code>[Request](#fastapi.Request)</code>) – The incoming request
-- **exc** (<code>[Exception](#Exception)</code>) – The domain exception
+- **exc** (<code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code>) – The domain exception
 
 **Returns:**
 
 - <code>[JSONResponse](#fastapi.responses.JSONResponse)</code> – JSONResponse with 404 status and error detail
+
+###### `leadr.common.api.exceptions.http_exception_handler`
+
+```python
+http_exception_handler(request, exc)
+```
+
+Convert all FastAPI HTTPExceptions to ensure our response envelope.
+
+**Parameters:**
+
+- **request** (<code>[Request](#fastapi.Request)</code>) – The incoming request
+- **exc** (<code>[HTTPException](#fastapi.HTTPException)</code>) – The exception
+
+**Returns:**
+
+- <code>[JSONResponse](#fastapi.responses.JSONResponse)</code> – JSONResponse with HTTP status code and error detail
+
+###### `leadr.common.api.exceptions.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
+
+###### `leadr.common.api.exceptions.validation_error_handler`
+
+```python
+validation_error_handler(request, exc)
+```
+
+Convert RequestValidationError to 422 HTTP response with our
+error response envelope.
+
+**Parameters:**
+
+- **request** (<code>[Request](#fastapi.Request)</code>) – The incoming request
+- **exc** (<code>[RequestValidationError](#fastapi.exceptions.RequestValidationError)</code>) – The validation exception
+
+**Returns:**
+
+- <code>[JSONResponse](#fastapi.responses.JSONResponse)</code> – JSONResponse with 422 status and list of validation errors
+
+##### `leadr.common.api.pagination`
+
+API pagination models and dependencies.
+
+**Classes:**
+
+- [**PaginatedResponse**](./common.md#leadr.common.api.pagination.PaginatedResponse) – Generic paginated response wrapper.
+- [**PaginationMeta**](./common.md#leadr.common.api.pagination.PaginationMeta) – Pagination metadata in API responses.
+- [**PaginationParams**](./common.md#leadr.common.api.pagination.PaginationParams) – FastAPI dependency for parsing pagination query parameters.
+
+**Attributes:**
+
+- [**DomainT**](./common.md#leadr.common.api.pagination.DomainT) –
+- [**ResponseT**](./common.md#leadr.common.api.pagination.ResponseT) –
+- [**T**](./common.md#leadr.common.api.pagination.T) –
+
+###### `leadr.common.api.pagination.DomainT`
+
+```python
+DomainT = TypeVar('DomainT')
+```
+
+###### `leadr.common.api.pagination.PaginatedResponse`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>, <code>[Generic](#typing.Generic)\[[T](./common.md#leadr.common.api.pagination.T)\]</code>
+
+Generic paginated response wrapper.
+
+Wraps a list of items with pagination metadata.
+
+**Functions:**
+
+- [**from_paginated_result**](#leadr.common.api.pagination.PaginatedResponse.from_paginated_result) – Create a PaginatedResponse from a PaginatedResult.
+
+**Attributes:**
+
+- [**data**](./common.md#leadr.common.api.pagination.PaginatedResponse.data) (<code>[list](#list)\[[T](./common.md#leadr.common.api.pagination.T)\]</code>) –
+- [**model_config**](#leadr.common.api.pagination.PaginatedResponse.model_config) –
+- [**pagination**](./common.md#leadr.common.api.pagination.PaginatedResponse.pagination) (<code>[PaginationMeta](./common.md#leadr.common.api.pagination.PaginationMeta)</code>) –
+
+####### `leadr.common.api.pagination.PaginatedResponse.data`
+
+```python
+data: list[T] = Field(description='List of items in this page')
+```
+
+####### `leadr.common.api.pagination.PaginatedResponse.from_paginated_result`
+
+```python
+from_paginated_result(result, pagination, filters, response_model)
+```
+
+Create a PaginatedResponse from a PaginatedResult.
+
+This factory method abstracts away cursor construction, converting a repository-layer
+PaginatedResult into an API-layer PaginatedResponse with encoded cursors.
+
+**Parameters:**
+
+- **result** (<code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DomainT](./common.md#leadr.common.api.pagination.DomainT)\]</code>) – The paginated result from the repository layer
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – The pagination parameters from the request
+- **filters** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code>) – Dict of active filters to include in cursors (e.g., {"game_id": "123"})
+- **response_model** (<code>[type](#type)\[[ResponseT](./common.md#leadr.common.api.pagination.ResponseT)\]</code>) – The response model class with a from_domain() method
+
+**Returns:**
+
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[ResponseT](./common.md#leadr.common.api.pagination.ResponseT)\]</code> – A fully constructed PaginatedResponse with encoded cursors and converted items
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > return PaginatedResponse.from_paginated_result(
+> > > ... result=result,
+> > > ... pagination=pagination,
+> > > ... filters={"game_id": str(game_id)} if game_id else {},
+> > > ... response_model=ScoreResponse,
+> > > ... )
+
+</details>
+
+####### `leadr.common.api.pagination.PaginatedResponse.model_config`
+
+```python
+model_config = ConfigDict(json_schema_extra={'example': {'data': [{'id': 'scr_123', 'value': 1000}], 'pagination': {'next_cursor': 'eyJwdiI6WzEwMDAsMTIzXX0=', 'prev_cursor': None, 'has_next': True, 'has_prev': False, 'count': 20}}})
+```
+
+####### `leadr.common.api.pagination.PaginatedResponse.pagination`
+
+```python
+pagination: PaginationMeta = Field(description='Pagination metadata')
+```
+
+###### `leadr.common.api.pagination.PaginationMeta`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Pagination metadata in API responses.
+
+**Attributes:**
+
+- [**count**](./common.md#leadr.common.api.pagination.PaginationMeta.count) (<code>[int](#int)</code>) –
+- [**has_next**](#leadr.common.api.pagination.PaginationMeta.has_next) (<code>[bool](#bool)</code>) –
+- [**has_prev**](#leadr.common.api.pagination.PaginationMeta.has_prev) (<code>[bool](#bool)</code>) –
+- [**next_cursor**](#leadr.common.api.pagination.PaginationMeta.next_cursor) (<code>[str](#str) | None</code>) –
+- [**prev_cursor**](#leadr.common.api.pagination.PaginationMeta.prev_cursor) (<code>[str](#str) | None</code>) –
+
+####### `leadr.common.api.pagination.PaginationMeta.count`
+
+```python
+count: int = Field(description='Number of items in this page')
+```
+
+####### `leadr.common.api.pagination.PaginationMeta.has_next`
+
+```python
+has_next: bool = Field(description='Whether there are more results after this page')
+```
+
+####### `leadr.common.api.pagination.PaginationMeta.has_prev`
+
+```python
+has_prev: bool = Field(description='Whether there are results before this page')
+```
+
+####### `leadr.common.api.pagination.PaginationMeta.next_cursor`
+
+```python
+next_cursor: str | None = Field(None, description='Cursor for the next page of results')
+```
+
+####### `leadr.common.api.pagination.PaginationMeta.prev_cursor`
+
+```python
+prev_cursor: str | None = Field(None, description='Cursor for the previous page of results')
+```
+
+###### `leadr.common.api.pagination.PaginationParams`
+
+```python
+PaginationParams(cursor=Query(None, description='Pagination cursor for navigating results'), limit=Query(20, ge=1, le=100, description='Number of items per page (1-100)'), sort=Query(None, description="Sort specification (e.g., 'value:desc,created_at:asc')"))
+```
+
+FastAPI dependency for parsing pagination query parameters.
+
+Parses cursor, limit, and sort parameters from the query string.
+Always appends 'id:asc' to sort specification for stable sorting.
+
+**Functions:**
+
+- [**decode_cursor**](#leadr.common.api.pagination.PaginationParams.decode_cursor) – Decode the cursor if present.
+- [**has_cursor**](#leadr.common.api.pagination.PaginationParams.has_cursor) – Check if a cursor is present.
+
+**Attributes:**
+
+- [**cursor_str**](#leadr.common.api.pagination.PaginationParams.cursor_str) –
+- [**limit**](./common.md#leadr.common.api.pagination.PaginationParams.limit) –
+- [**sort_spec**](#leadr.common.api.pagination.PaginationParams.sort_spec) –
+
+**Parameters:**
+
+- **cursor** (<code>[str](#str) | None</code>) – Optional base64-encoded cursor string
+- **limit** (<code>[int](#int)</code>) – Page size (1-100, default 20)
+- **sort** (<code>[str](#str) | None</code>) – Comma-separated sort spec (e.g., "score:desc,created_at:asc")
+
+####### `leadr.common.api.pagination.PaginationParams.cursor_str`
+
+```python
+cursor_str = cursor
+```
+
+####### `leadr.common.api.pagination.PaginationParams.decode_cursor`
+
+```python
+decode_cursor()
+```
+
+Decode the cursor if present.
+
+**Returns:**
+
+- <code>[Cursor](./common.md#leadr.common.domain.cursor.Cursor) | None</code> – Decoded Cursor object or None if no cursor
+
+**Raises:**
+
+- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid
+
+####### `leadr.common.api.pagination.PaginationParams.has_cursor`
+
+```python
+has_cursor()
+```
+
+Check if a cursor is present.
+
+####### `leadr.common.api.pagination.PaginationParams.limit`
+
+```python
+limit = limit
+```
+
+####### `leadr.common.api.pagination.PaginationParams.sort_spec`
+
+```python
+sort_spec = self._parse_sort(sort)
+```
+
+###### `leadr.common.api.pagination.ResponseT`
+
+```python
+ResponseT = TypeVar('ResponseT', bound=BaseModel)
+```
+
+###### `leadr.common.api.pagination.T`
+
+```python
+T = TypeVar('T')
+```
+
+#### `leadr.common.background_tasks`
+
+Background task scheduler using asyncio.
+
+Provides a simple background task scheduler that runs periodic tasks
+within the FastAPI application process.
+
+**Classes:**
+
+- [**BackgroundTaskScheduler**](#leadr.common.background_tasks.BackgroundTaskScheduler) – Manages periodic background tasks using asyncio.
+
+**Functions:**
+
+- [**get_scheduler**](#leadr.common.background_tasks.get_scheduler) – Get the global scheduler instance.
+
+**Attributes:**
+
+- [**logger**](#leadr.common.background_tasks.logger) –
+
+##### `leadr.common.background_tasks.BackgroundTaskScheduler`
+
+```python
+BackgroundTaskScheduler()
+```
+
+Manages periodic background tasks using asyncio.
+
+Tasks run in the same process as the FastAPI application,
+making them easy to test and deploy without additional infrastructure.
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > scheduler = BackgroundTaskScheduler()
+> > > async def my_task():
+> > > ... print("Task running")
+> > > scheduler.add_task("my-task", my_task, interval_seconds=60)
+> > > await scheduler.start()
+
+</details>
+
+**Functions:**
+
+- [**add_task**](#leadr.common.background_tasks.BackgroundTaskScheduler.add_task) – Register a periodic task.
+- [**start**](#leadr.common.background_tasks.BackgroundTaskScheduler.start) – Start all registered tasks.
+- [**stop**](#leadr.common.background_tasks.BackgroundTaskScheduler.stop) – Stop all running tasks gracefully.
+
+**Attributes:**
+
+- [**running**](#leadr.common.background_tasks.BackgroundTaskScheduler.running) –
+- [**tasks**](#leadr.common.background_tasks.BackgroundTaskScheduler.tasks) (<code>[dict](#dict)\[[str](#str), [dict](#dict)\[[str](#str), [Any](#typing.Any)\]\]</code>) –
+
+###### `leadr.common.background_tasks.BackgroundTaskScheduler.add_task`
+
+```python
+add_task(name, func, interval_seconds)
+```
+
+Register a periodic task.
+
+**Parameters:**
+
+- **name** (<code>[str](#str)</code>) – Unique identifier for the task.
+- **func** (<code>[Callable](#collections.abc.Callable)\[[], [Awaitable](#collections.abc.Awaitable)[None]\]</code>) – Async function to call periodically.
+- **interval_seconds** (<code>[int](#int)</code>) – How often to run the task (in seconds).
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If task with the same name already exists.
+
+###### `leadr.common.background_tasks.BackgroundTaskScheduler.running`
+
+```python
+running = False
+```
+
+###### `leadr.common.background_tasks.BackgroundTaskScheduler.start`
+
+```python
+start()
+```
+
+Start all registered tasks.
+
+This method starts all background task loops concurrently.
+It returns immediately after starting the tasks.
+
+###### `leadr.common.background_tasks.BackgroundTaskScheduler.stop`
+
+```python
+stop()
+```
+
+Stop all running tasks gracefully.
+
+Waits for currently executing tasks to complete before stopping.
+
+###### `leadr.common.background_tasks.BackgroundTaskScheduler.tasks`
+
+```python
+tasks: dict[str, dict[str, Any]] = {}
+```
+
+##### `leadr.common.background_tasks.get_scheduler`
+
+```python
+get_scheduler()
+```
+
+Get the global scheduler instance.
+
+**Returns:**
+
+- <code>[BackgroundTaskScheduler](#leadr.common.background_tasks.BackgroundTaskScheduler)</code> – The singleton BackgroundTaskScheduler instance.
+
+##### `leadr.common.background_tasks.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
 
 #### `leadr.common.database`
 
@@ -107,8 +515,142 @@ DatabaseSession = Annotated[AsyncSession, Depends(get_db)]
 
 **Modules:**
 
+- [**cursor**](./common.md#leadr.common.domain.cursor) – Cursor-based pagination implementation.
 - [**exceptions**](./common.md#leadr.common.domain.exceptions) – Domain-specific exceptions for LEADR.
+- [**ids**](./common.md#leadr.common.domain.ids) – Prefixed ID types for entity identification.
 - [**models**](./common.md#leadr.common.domain.models) – Common domain models and value objects.
+- [**pagination**](./common.md#leadr.common.domain.pagination) – Pagination domain models.
+- [**pagination_result**](#leadr.common.domain.pagination_result) – Pagination result from repository layer.
+
+##### `leadr.common.domain.cursor`
+
+Cursor-based pagination implementation.
+
+**Classes:**
+
+- [**Cursor**](./common.md#leadr.common.domain.cursor.Cursor) – Opaque cursor for pagination that encodes position, sort, filters, and direction.
+- [**CursorValidationError**](./common.md#leadr.common.domain.cursor.CursorValidationError) – Raised when cursor validation fails.
+
+**Attributes:**
+
+- [**logger**](./common.md#leadr.common.domain.cursor.logger) –
+
+###### `leadr.common.domain.cursor.Cursor`
+
+```python
+Cursor(position, sort_fields, filters, direction)
+```
+
+Opaque cursor for pagination that encodes position, sort, filters, and direction.
+
+The cursor ensures that pagination state (sort order, filters) remains consistent
+across page requests. If the client changes sort/filter parameters while using
+a cursor, validation will fail.
+
+**Functions:**
+
+- [**decode**](./common.md#leadr.common.domain.cursor.Cursor.decode) – Decode cursor from base64 string.
+- [**encode**](./common.md#leadr.common.domain.cursor.Cursor.encode) – Encode cursor to base64 string.
+- [**validate_state**](#leadr.common.domain.cursor.Cursor.validate_state) – Validate that current query state matches cursor state.
+
+**Attributes:**
+
+- [**direction**](./common.md#leadr.common.domain.cursor.Cursor.direction) –
+- [**filters**](./common.md#leadr.common.domain.cursor.Cursor.filters) –
+- [**position**](./common.md#leadr.common.domain.cursor.Cursor.position) –
+- [**sort_fields**](#leadr.common.domain.cursor.Cursor.sort_fields) –
+
+**Parameters:**
+
+- **position** (<code>[CursorPosition](./common.md#leadr.common.domain.pagination.CursorPosition)</code>) – The position in the result set (values + entity_id)
+- **sort_fields** (<code>[list](#list)\[[SortField](./common.md#leadr.common.domain.pagination.SortField)\]</code>) – List of sort fields that were applied
+- **filters** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code>) – Dictionary of filter parameters that were applied
+- **direction** (<code>[PaginationDirection](./common.md#leadr.common.domain.pagination.PaginationDirection)</code>) – Direction of pagination (forward or backward)
+
+####### `leadr.common.domain.cursor.Cursor.decode`
+
+```python
+decode(cursor_str)
+```
+
+Decode cursor from base64 string.
+
+**Parameters:**
+
+- **cursor_str** (<code>[str](#str)</code>) – Base64-encoded cursor string
+
+**Returns:**
+
+- <code>[Cursor](./common.md#leadr.common.domain.cursor.Cursor)</code> – Decoded Cursor object
+
+**Raises:**
+
+- <code>[CursorValidationError](./common.md#leadr.common.domain.cursor.CursorValidationError)</code> – If cursor is invalid or malformed
+
+####### `leadr.common.domain.cursor.Cursor.direction`
+
+```python
+direction = direction
+```
+
+####### `leadr.common.domain.cursor.Cursor.encode`
+
+```python
+encode()
+```
+
+Encode cursor to base64 string.
+
+**Returns:**
+
+- <code>[str](#str)</code> – Base64-encoded JSON string representing the cursor state
+
+####### `leadr.common.domain.cursor.Cursor.filters`
+
+```python
+filters = filters
+```
+
+####### `leadr.common.domain.cursor.Cursor.position`
+
+```python
+position = position
+```
+
+####### `leadr.common.domain.cursor.Cursor.sort_fields`
+
+```python
+sort_fields = sort_fields
+```
+
+####### `leadr.common.domain.cursor.Cursor.validate_state`
+
+```python
+validate_state(sort_fields, filters)
+```
+
+Validate that current query state matches cursor state.
+
+**Parameters:**
+
+- **sort_fields** (<code>[list](#list)\[[SortField](./common.md#leadr.common.domain.pagination.SortField)\]</code>) – Current sort fields
+- **filters** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code>) – Current filter parameters
+
+**Raises:**
+
+- <code>[CursorValidationError](./common.md#leadr.common.domain.cursor.CursorValidationError)</code> – If state doesn't match
+
+###### `leadr.common.domain.cursor.CursorValidationError`
+
+Bases: <code>[ValueError](#ValueError)</code>
+
+Raised when cursor validation fails.
+
+###### `leadr.common.domain.cursor.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
 
 ##### `leadr.common.domain.exceptions`
 
@@ -317,6 +859,351 @@ message = message
 reason = reason
 ```
 
+##### `leadr.common.domain.ids`
+
+Prefixed ID types for entity identification.
+
+**Classes:**
+
+- [**APIKeyID**](./common.md#leadr.common.domain.ids.APIKeyID) – API key entity identifier.
+- [**AccountID**](./common.md#leadr.common.domain.ids.AccountID) – Account entity identifier.
+- [**BoardID**](./common.md#leadr.common.domain.ids.BoardID) – Board entity identifier.
+- [**BoardTemplateID**](./common.md#leadr.common.domain.ids.BoardTemplateID) – Board template entity identifier.
+- [**DeviceID**](./common.md#leadr.common.domain.ids.DeviceID) – Device entity identifier.
+- [**DeviceSessionID**](./common.md#leadr.common.domain.ids.DeviceSessionID) – Device session entity identifier.
+- [**GameID**](./common.md#leadr.common.domain.ids.GameID) – Game entity identifier.
+- [**NonceID**](./common.md#leadr.common.domain.ids.NonceID) – Nonce entity identifier.
+- [**PrefixedID**](./common.md#leadr.common.domain.ids.PrefixedID) – Base class for entity IDs with type prefixes.
+- [**ScoreFlagID**](./common.md#leadr.common.domain.ids.ScoreFlagID) – Score flag entity identifier.
+- [**ScoreID**](./common.md#leadr.common.domain.ids.ScoreID) – Score entity identifier.
+- [**ScoreSubmissionMetaID**](./common.md#leadr.common.domain.ids.ScoreSubmissionMetaID) – Score submission metadata entity identifier.
+- [**UserID**](./common.md#leadr.common.domain.ids.UserID) – User entity identifier.
+
+###### `leadr.common.domain.ids.APIKeyID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+API key entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.APIKeyID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.APIKeyID.uuid) –
+
+####### `leadr.common.domain.ids.APIKeyID.prefix`
+
+```python
+prefix = 'key'
+```
+
+####### `leadr.common.domain.ids.APIKeyID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.AccountID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Account entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.AccountID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.AccountID.uuid) –
+
+####### `leadr.common.domain.ids.AccountID.prefix`
+
+```python
+prefix = 'acc'
+```
+
+####### `leadr.common.domain.ids.AccountID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.BoardID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Board entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.BoardID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.BoardID.uuid) –
+
+####### `leadr.common.domain.ids.BoardID.prefix`
+
+```python
+prefix = 'brd'
+```
+
+####### `leadr.common.domain.ids.BoardID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.BoardTemplateID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Board template entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.BoardTemplateID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.BoardTemplateID.uuid) –
+
+####### `leadr.common.domain.ids.BoardTemplateID.prefix`
+
+```python
+prefix = 'tpl'
+```
+
+####### `leadr.common.domain.ids.BoardTemplateID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.DeviceID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Device entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.DeviceID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.DeviceID.uuid) –
+
+####### `leadr.common.domain.ids.DeviceID.prefix`
+
+```python
+prefix = 'dev'
+```
+
+####### `leadr.common.domain.ids.DeviceID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.DeviceSessionID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Device session entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.DeviceSessionID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.DeviceSessionID.uuid) –
+
+####### `leadr.common.domain.ids.DeviceSessionID.prefix`
+
+```python
+prefix = 'ses'
+```
+
+####### `leadr.common.domain.ids.DeviceSessionID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.GameID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Game entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.GameID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.GameID.uuid) –
+
+####### `leadr.common.domain.ids.GameID.prefix`
+
+```python
+prefix = 'gam'
+```
+
+####### `leadr.common.domain.ids.GameID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.NonceID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Nonce entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.NonceID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.NonceID.uuid) –
+
+####### `leadr.common.domain.ids.NonceID.prefix`
+
+```python
+prefix = 'non'
+```
+
+####### `leadr.common.domain.ids.NonceID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.PrefixedID`
+
+```python
+PrefixedID(value=None)
+```
+
+Base class for entity IDs with type prefixes.
+
+Provides Stripe-style prefixed UUIDs (e.g., "acc_123e4567-e89b-...") while
+maintaining internal UUID representation for database efficiency.
+
+<details class="usage" open markdown="1">
+<summary>Usage</summary>
+
+- AccountID() → generates new ID
+- AccountID("acc_123...") → parses prefixed string
+- AccountID(uuid_obj) → wraps existing UUID
+
+</details>
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.PrefixedID.prefix) (<code>[str](#str)</code>) –
+- [**uuid**](./common.md#leadr.common.domain.ids.PrefixedID.uuid) –
+
+**Parameters:**
+
+- **value** (<code>[str](#str) | [UUID](#uuid.UUID) | [Self](#typing.Self) | None</code>) – Optional value to initialize from:
+- None: Generate new UUID
+- str: Parse "prefix_uuid" format
+- UUID: Wrap existing UUID
+- PrefixedID: Extract UUID from another PrefixedID
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If string format is invalid or prefix doesn't match
+
+####### `leadr.common.domain.ids.PrefixedID.prefix`
+
+```python
+prefix: str = ''
+```
+
+####### `leadr.common.domain.ids.PrefixedID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.ScoreFlagID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Score flag entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.ScoreFlagID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.ScoreFlagID.uuid) –
+
+####### `leadr.common.domain.ids.ScoreFlagID.prefix`
+
+```python
+prefix = 'flg'
+```
+
+####### `leadr.common.domain.ids.ScoreFlagID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.ScoreID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Score entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.ScoreID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.ScoreID.uuid) –
+
+####### `leadr.common.domain.ids.ScoreID.prefix`
+
+```python
+prefix = 'scr'
+```
+
+####### `leadr.common.domain.ids.ScoreID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.ScoreSubmissionMetaID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Score submission metadata entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.ScoreSubmissionMetaID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.ScoreSubmissionMetaID.uuid) –
+
+####### `leadr.common.domain.ids.ScoreSubmissionMetaID.prefix`
+
+```python
+prefix = 'sub'
+```
+
+####### `leadr.common.domain.ids.ScoreSubmissionMetaID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.UserID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+User entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.UserID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.UserID.uuid) –
+
+####### `leadr.common.domain.ids.UserID.prefix`
+
+```python
+prefix = 'usr'
+```
+
+####### `leadr.common.domain.ids.UserID.uuid`
+
+```python
+uuid = uuid4()
+```
+
 ##### `leadr.common.domain.models`
 
 Common domain models and value objects.
@@ -333,7 +1220,7 @@ Base class for all domain entities with ID and timestamps.
 
 Provides common functionality for domain entities including:
 
-- Auto-generated UUID primary key
+- Auto-generated UUID primary key (or typed prefixed ID in subclasses)
 - Created/updated timestamps (UTC)
 - Soft delete support with deleted_at timestamp
 - Equality and hashing based on ID
@@ -341,6 +1228,9 @@ Provides common functionality for domain entities including:
 All domain entities should extend this base class. The ID and timestamps
 are automatically populated on entity creation and don't need to be
 provided by consumers.
+
+Subclasses can override the `id` field with a typed PrefixedID for better
+type safety and API clarity.
 
 **Functions:**
 
@@ -351,7 +1241,7 @@ provided by consumers.
 
 - [**created_at**](#leadr.common.domain.models.Entity.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**deleted_at**](#leadr.common.domain.models.Entity.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**id**](./common.md#leadr.common.domain.models.Entity.id) (<code>[UUID](#uuid.UUID)</code>) –
+- [**id**](./common.md#leadr.common.domain.models.Entity.id) (<code>[Any](#typing.Any)</code>) –
 - [**is_deleted**](#leadr.common.domain.models.Entity.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
 - [**model_config**](#leadr.common.domain.models.Entity.model_config) –
 - [**updated_at**](#leadr.common.domain.models.Entity.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
@@ -371,7 +1261,7 @@ deleted_at: datetime | None = Field(default=None, description='Timestamp when en
 ####### `leadr.common.domain.models.Entity.id`
 
 ```python
-id: UUID = Field(frozen=True, default_factory=uuid4, description='Unique identifier (auto-generated UUID)')
+id: Any = Field(frozen=True, default_factory=uuid4, description='Unique identifier (auto-generated UUID or typed ID)')
 ```
 
 ####### `leadr.common.domain.models.Entity.is_deleted`
@@ -435,6 +1325,369 @@ already deleted are not affected (deleted_at remains at original deletion time).
 
 ```python
 updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp of last update (UTC)')
+```
+
+##### `leadr.common.domain.pagination`
+
+Pagination domain models.
+
+**Classes:**
+
+- [**CursorPosition**](./common.md#leadr.common.domain.pagination.CursorPosition) – Position in a paginated result set.
+- [**PaginationDirection**](./common.md#leadr.common.domain.pagination.PaginationDirection) – Direction of pagination.
+- [**SortDirection**](./common.md#leadr.common.domain.pagination.SortDirection) – Sort direction for fields.
+- [**SortField**](./common.md#leadr.common.domain.pagination.SortField) – Specification for sorting a field.
+
+###### `leadr.common.domain.pagination.CursorPosition`
+
+```python
+CursorPosition(values, entity_id)
+```
+
+Position in a paginated result set.
+
+**Attributes:**
+
+- [**values**](./common.md#leadr.common.domain.pagination.CursorPosition.values) (<code>[tuple](#tuple)\[[Any](#typing.Any), ...\]</code>) – List of values for each sort field at this position
+- [**entity_id**](#leadr.common.domain.pagination.CursorPosition.entity_id) (<code>[str](#str)</code>) – The ID of the entity at this position (for stable sorting)
+
+####### `leadr.common.domain.pagination.CursorPosition.entity_id`
+
+```python
+entity_id: str
+```
+
+####### `leadr.common.domain.pagination.CursorPosition.values`
+
+```python
+values: tuple[Any, ...]
+```
+
+###### `leadr.common.domain.pagination.PaginationDirection`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Direction of pagination.
+
+**Attributes:**
+
+- [**BACKWARD**](./common.md#leadr.common.domain.pagination.PaginationDirection.BACKWARD) –
+- [**FORWARD**](./common.md#leadr.common.domain.pagination.PaginationDirection.FORWARD) –
+
+####### `leadr.common.domain.pagination.PaginationDirection.BACKWARD`
+
+```python
+BACKWARD = 'backward'
+```
+
+####### `leadr.common.domain.pagination.PaginationDirection.FORWARD`
+
+```python
+FORWARD = 'forward'
+```
+
+###### `leadr.common.domain.pagination.SortDirection`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Sort direction for fields.
+
+**Attributes:**
+
+- [**ASC**](./common.md#leadr.common.domain.pagination.SortDirection.ASC) –
+- [**DESC**](./common.md#leadr.common.domain.pagination.SortDirection.DESC) –
+
+####### `leadr.common.domain.pagination.SortDirection.ASC`
+
+```python
+ASC = 'asc'
+```
+
+####### `leadr.common.domain.pagination.SortDirection.DESC`
+
+```python
+DESC = 'desc'
+```
+
+###### `leadr.common.domain.pagination.SortField`
+
+```python
+SortField(name, direction)
+```
+
+Specification for sorting a field.
+
+**Attributes:**
+
+- [**name**](./common.md#leadr.common.domain.pagination.SortField.name) (<code>[str](#str)</code>) – Field name to sort by
+- [**direction**](./common.md#leadr.common.domain.pagination.SortField.direction) (<code>[SortDirection](./common.md#leadr.common.domain.pagination.SortDirection)</code>) – ASC or DESC
+
+####### `leadr.common.domain.pagination.SortField.direction`
+
+```python
+direction: SortDirection
+```
+
+####### `leadr.common.domain.pagination.SortField.name`
+
+```python
+name: str
+```
+
+##### `leadr.common.domain.pagination_result`
+
+Pagination result from repository layer.
+
+**Classes:**
+
+- [**PaginatedResult**](#leadr.common.domain.pagination_result.PaginatedResult) – Result of a paginated query from the repository layer.
+
+**Attributes:**
+
+- [**T**](#leadr.common.domain.pagination_result.T) –
+
+###### `leadr.common.domain.pagination_result.PaginatedResult`
+
+```python
+PaginatedResult(items, has_next, has_prev, next_position, prev_position)
+```
+
+Bases: <code>[Generic](#typing.Generic)\[[T](#leadr.common.domain.pagination_result.T)\]</code>
+
+Result of a paginated query from the repository layer.
+
+**Attributes:**
+
+- [**items**](#leadr.common.domain.pagination_result.PaginatedResult.items) (<code>[list](#list)\[[T](#leadr.common.domain.pagination_result.T)\]</code>) – List of entities returned by the query
+- [**has_next**](#leadr.common.domain.pagination_result.PaginatedResult.has_next) (<code>[bool](#bool)</code>) – Whether there are more results after these items
+- [**has_prev**](#leadr.common.domain.pagination_result.PaginatedResult.has_prev) (<code>[bool](#bool)</code>) – Whether there are results before these items
+- [**next_position**](#leadr.common.domain.pagination_result.PaginatedResult.next_position) (<code>[CursorPosition](./common.md#leadr.common.domain.pagination.CursorPosition) | None</code>) – Position for the next page cursor (if has_next)
+- [**prev_position**](#leadr.common.domain.pagination_result.PaginatedResult.prev_position) (<code>[CursorPosition](./common.md#leadr.common.domain.pagination.CursorPosition) | None</code>) – Position for the previous page cursor (if has_prev)
+
+####### `leadr.common.domain.pagination_result.PaginatedResult.count`
+
+```python
+count: int
+```
+
+Return the number of items in this page.
+
+####### `leadr.common.domain.pagination_result.PaginatedResult.has_next`
+
+```python
+has_next: bool
+```
+
+####### `leadr.common.domain.pagination_result.PaginatedResult.has_prev`
+
+```python
+has_prev: bool
+```
+
+####### `leadr.common.domain.pagination_result.PaginatedResult.items`
+
+```python
+items: list[T]
+```
+
+####### `leadr.common.domain.pagination_result.PaginatedResult.next_position`
+
+```python
+next_position: CursorPosition | None
+```
+
+####### `leadr.common.domain.pagination_result.PaginatedResult.prev_position`
+
+```python
+prev_position: CursorPosition | None
+```
+
+###### `leadr.common.domain.pagination_result.T`
+
+```python
+T = TypeVar('T')
+```
+
+#### `leadr.common.geoip`
+
+GeoIP service for IP address geolocation using MaxMind databases.
+
+**Classes:**
+
+- [**GeoIPService**](./common.md#leadr.common.geoip.GeoIPService) – Service for IP address geolocation using MaxMind GeoLite2 databases.
+- [**GeoInfo**](./common.md#leadr.common.geoip.GeoInfo) – Geolocation information extracted from IP address.
+
+**Attributes:**
+
+- [**logger**](./common.md#leadr.common.geoip.logger) –
+
+##### `leadr.common.geoip.GeoIPService`
+
+```python
+GeoIPService(account_id, license_key, city_db_url, country_db_url, database_path, refresh_days=7)
+```
+
+Service for IP address geolocation using MaxMind GeoLite2 databases.
+
+This service downloads and manages MaxMind GeoLite2 databases for IP geolocation.
+Databases are cached locally and refreshed periodically.
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > service = GeoIPService(
+> > > ... account_id="12345",
+> > > ... license_key="your_key",
+> > > ... city_db_url="https://download.maxmind.com/...",
+> > > ... country_db_url="https://download.maxmind.com/...",
+> > > ... database_path=Path(".geoip"),
+> > > ... refresh_days=7,
+> > > ... )
+> > > await service.initialize()
+> > > geo_info = service.get_geo_info("8.8.8.8")
+> > > print(geo_info.country)
+> > > 'US'
+
+</details>
+
+**Functions:**
+
+- [**close**](./common.md#leadr.common.geoip.GeoIPService.close) – Close database readers and release resources.
+- [**get_geo_info**](#leadr.common.geoip.GeoIPService.get_geo_info) – Look up geolocation information for an IP address.
+- [**initialize**](./common.md#leadr.common.geoip.GeoIPService.initialize) – Initialize the GeoIP service by downloading and loading databases.
+
+**Attributes:**
+
+- [**account_id**](#leadr.common.geoip.GeoIPService.account_id) –
+- [**city_db_url**](#leadr.common.geoip.GeoIPService.city_db_url) –
+- [**country_db_url**](#leadr.common.geoip.GeoIPService.country_db_url) –
+- [**database_path**](#leadr.common.geoip.GeoIPService.database_path) –
+- [**license_key**](#leadr.common.geoip.GeoIPService.license_key) –
+- [**refresh_days**](#leadr.common.geoip.GeoIPService.refresh_days) –
+
+**Parameters:**
+
+- **account_id** (<code>[str](#str)</code>) – MaxMind account ID for basic auth
+- **license_key** (<code>[str](#str)</code>) – MaxMind license key for basic auth
+- **city_db_url** (<code>[str](#str)</code>) – URL to download GeoLite2 City database (tar.gz)
+- **country_db_url** (<code>[str](#str)</code>) – URL to download GeoLite2 Country database (tar.gz)
+- **database_path** (<code>[Path](#pathlib.Path)</code>) – Directory path to store database files
+- **refresh_days** (<code>[int](#int)</code>) – Number of days before refreshing databases (default: 7)
+
+###### `leadr.common.geoip.GeoIPService.account_id`
+
+```python
+account_id = account_id
+```
+
+###### `leadr.common.geoip.GeoIPService.city_db_url`
+
+```python
+city_db_url = city_db_url
+```
+
+###### `leadr.common.geoip.GeoIPService.close`
+
+```python
+close()
+```
+
+Close database readers and release resources.
+
+###### `leadr.common.geoip.GeoIPService.country_db_url`
+
+```python
+country_db_url = country_db_url
+```
+
+###### `leadr.common.geoip.GeoIPService.database_path`
+
+```python
+database_path = database_path
+```
+
+###### `leadr.common.geoip.GeoIPService.get_geo_info`
+
+```python
+get_geo_info(ip_address)
+```
+
+Look up geolocation information for an IP address.
+
+**Parameters:**
+
+- **ip_address** (<code>[str](#str)</code>) – IP address to look up (e.g., '8.8.8.8')
+
+**Returns:**
+
+- <code>[GeoInfo](./common.md#leadr.common.geoip.GeoInfo) | None</code> – GeoInfo with timezone, country, and city, or None if lookup fails
+
+###### `leadr.common.geoip.GeoIPService.initialize`
+
+```python
+initialize()
+```
+
+Initialize the GeoIP service by downloading and loading databases.
+
+This method:
+
+1. Creates the database directory if it doesn't exist
+1. Downloads databases if they don't exist or are stale
+1. Extracts tar.gz files to get .mmdb files
+1. Opens database readers
+
+Errors are logged but not raised - the service will work without databases
+(get_geo_info will return None).
+
+###### `leadr.common.geoip.GeoIPService.license_key`
+
+```python
+license_key = license_key
+```
+
+###### `leadr.common.geoip.GeoIPService.refresh_days`
+
+```python
+refresh_days = refresh_days
+```
+
+##### `leadr.common.geoip.GeoInfo`
+
+```python
+GeoInfo(timezone, country, city)
+```
+
+Geolocation information extracted from IP address.
+
+**Attributes:**
+
+- [**timezone**](./common.md#leadr.common.geoip.GeoInfo.timezone) (<code>[str](#str) | None</code>) – IANA timezone identifier (e.g., 'America/New_York')
+- [**country**](./common.md#leadr.common.geoip.GeoInfo.country) (<code>[str](#str) | None</code>) – ISO country code (e.g., 'US')
+- [**city**](./common.md#leadr.common.geoip.GeoInfo.city) (<code>[str](#str) | None</code>) – City name (e.g., 'New York')
+
+###### `leadr.common.geoip.GeoInfo.city`
+
+```python
+city: str | None
+```
+
+###### `leadr.common.geoip.GeoInfo.country`
+
+```python
+country: str | None
+```
+
+###### `leadr.common.geoip.GeoInfo.timezone`
+
+```python
+timezone: str | None
+```
+
+##### `leadr.common.geoip.logger`
+
+```python
+logger = logging.getLogger(__name__)
 ```
 
 #### `leadr.common.orm`
@@ -576,7 +1829,7 @@ Soft delete an entity by setting its deleted_at timestamp.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID4](#pydantic.UUID4)</code>) – ID of entity to delete
+- **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – ID of entity to delete
 
 **Raises:**
 
@@ -585,7 +1838,7 @@ Soft delete an entity by setting its deleted_at timestamp.
 ###### `leadr.common.repositories.BaseRepository.filter`
 
 ```python
-filter(account_id, **kwargs)
+filter(account_id=None, **kwargs)
 ```
 
 Filter entities based on criteria.
@@ -596,7 +1849,7 @@ account_id can remain optional and unused.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4)</code>) – Optional account ID for filtering. Multi-tenant entities
+- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – Optional account ID for filtering. Multi-tenant entities
   MUST override to make this required (account_id: UUID).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters specific to the entity type.
 
@@ -632,7 +1885,7 @@ Get an entity by its ID.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID4](#pydantic.UUID4)</code>) – Entity ID to retrieve
+- **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – Entity ID to retrieve
 - **include_deleted** (<code>[bool](#bool)</code>) – If True, include soft-deleted entities. Defaults to False.
 
 **Returns:**
@@ -739,7 +1992,7 @@ Soft-delete an entity.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the entity to delete
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to delete
 
 **Raises:**
 
@@ -755,7 +2008,7 @@ Get an entity by its ID.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the entity to retrieve
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to retrieve
 
 **Returns:**
 
@@ -771,7 +2024,7 @@ Get an entity by its ID or raise EntityNotFoundError.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the entity to retrieve
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to retrieve
 
 **Returns:**
 
@@ -812,7 +2065,7 @@ Useful for endpoints that need to return the deleted entity in the response.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the entity to delete
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to delete
 
 **Returns:**
 
