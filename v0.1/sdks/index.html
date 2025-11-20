@@ -321,9 +321,25 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../concepts/" class="md-nav__link">
+    
+    
+    
+    
+      
         
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
@@ -332,7 +348,65 @@
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/template_naming.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Board Template Naming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -438,6 +512,29 @@
   
   <span class="md-ellipsis">
     Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/pagination.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pagination
     
   </span>
   
@@ -612,6 +709,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sdks-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      SDKs (Coming soon)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#planned-sdks" class="md-nav__link">
     <span class="md-ellipsis">
       Planned SDKs
@@ -621,9 +727,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rest-api" class="md-nav__link">
+  <a href="#advanced" class="md-nav__link">
     <span class="md-ellipsis">
-      REST API
+      Advanced
     </span>
   </a>
   
@@ -770,6 +876,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sdks-coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      SDKs (Coming soon)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#planned-sdks" class="md-nav__link">
     <span class="md-ellipsis">
       Planned SDKs
@@ -779,9 +894,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rest-api" class="md-nav__link">
+  <a href="#advanced" class="md-nav__link">
     <span class="md-ellipsis">
-      REST API
+      Advanced
     </span>
   </a>
   
@@ -808,14 +923,15 @@
 <h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong><a href="../quick_start/">Quick Start Guide</a></strong> - Integration walkthrough</li>
-<li><strong><a href="../api/client_auth.md">Client Authentication</a></strong> - Secure player authentication</li>
-<li><strong><a href="../api/reference/">API Reference</a></strong> - Complete REST API documentation</li>
+</ul>
+<h2 id="sdks-coming-soon">SDKs (Coming soon)<a class="headerlink" href="#sdks-coming-soon" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="https://godotengine.org">Godot</a></strong> - GDScript SDK for Godot Engine</li>
+<li><strong><a href="https://unity.com">Unity</a></strong> - C# SDK for Unity Engine</li>
 </ul>
 <h2 id="planned-sdks">Planned SDKs<a class="headerlink" href="#planned-sdks" title="Permanent link">&para;</a></h2>
 <p>We're building native SDKs for the most popular game engines and platforms. SDKs are being developed in priority order based on indie game developer usage:</p>
 <ul>
-<li><strong><a href="https://godotengine.org">Godot</a></strong> - GDScript SDK for Godot Engine</li>
-<li><strong><a href="https://unity.com">Unity</a></strong> - C# SDK for Unity Engine</li>
 <li><strong><a href="https://www.unrealengine.com">Unreal Engine</a></strong> - C++ SDK for Unreal Engine</li>
 <li><strong><a href="https://gamemaker.io">GameMaker</a></strong> - GML SDK for GameMaker</li>
 <li><strong>Lua/Defold/LOVE2D</strong> - For games written in Lua or Lua-based game engines like Defold or LOVE2D</li>
@@ -825,8 +941,11 @@
 <li><strong>C#</strong> - Standalone .NET library</li>
 </ul>
 <p>Want to see an SDK for your platform? Let us know on <a href="https://discord.gg/RMUukcAxSZ">Discord</a> or <a href="https://www.reddit.com/r/LEADR/">Reddit</a>.</p>
-<h2 id="rest-api">REST API<a class="headerlink" href="#rest-api" title="Permanent link">&para;</a></h2>
-<p>LEADR's REST API works with any engine or language that can make HTTP requests. Check the <a href="../api/reference/">API Reference</a> for complete endpoint documentation and examples.</p>
+<h2 id="advanced">Advanced<a class="headerlink" href="#advanced" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="../api/client_auth.md">Client Authentication</a></strong> - Secure client authentication</li>
+<li><strong><a href="../api/reference/">API Reference</a></strong> - LEADR's REST API works with any engine or language that can make HTTP requests. Check the <a href="../api/reference/">API Reference</a> for complete endpoint documentation and examples.</li>
+</ul>
 
 
 
