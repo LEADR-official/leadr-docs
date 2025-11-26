@@ -1,6 +1,6 @@
-# Games
+# Board Templates
 
-## Create Game
+## Create Board Template
 
 === "Python"
 
@@ -14,7 +14,7 @@
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.post('/v1/games', headers = headers)
+    r = requests.post('/v1/board-templates', headers = headers)
 
     print(r.json())
 
@@ -25,11 +25,25 @@
     ```javascript
     const inputBody = '{
       "account_id": "string",
+      "game_id": "string",
       "name": "string",
       "slug": "string",
-      "steam_app_id": "string",
-      "default_board_id": "string",
-      "anti_cheat_enabled": true
+      "repeat_interval": "string",
+      "next_run_at": "2019-08-24T14:15:22Z",
+      "is_active": true,
+      "is_published": true,
+      "name_template": "string",
+      "series": "string",
+      "icon": "fa-crown",
+      "unit": "string",
+      "sort_direction": "ASCENDING",
+      "keep_strategy": "FIRST_ONLY",
+      "starts_at": "2019-08-24T14:15:22Z",
+      "ends_at": "2019-08-24T14:15:22Z",
+      "tags": [
+        "string"
+      ],
+      "config": {}
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -39,7 +53,7 @@
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/games',
+    fetch('/v1/board-templates',
     {
       method: 'POST',
       body: inputBody,
@@ -52,38 +66,53 @@
     });
 
     ```
-`POST /v1/games`
+`POST /v1/board-templates`
 
-Create a new game.
+Create a new board template.
 
-Creates a new game associated with an existing account. Games can optionally
-be configured with Steam integration and a default leaderboard.
+Creates a template for automatically generating boards at regular intervals.
+The game must belong to the specified account.
 
 For regular users, account_id must match their API key's account.
 For superadmins, any account_id is accepted.
 
 Args:
-    request: Game creation details including account_id, name, and optional settings.
-    service: Injected game service dependency.
+    request: Template creation details including repeat_interval and configuration.
+    service: Injected board template service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    GameResponse with the created game including auto-generated ID and timestamps.
+    BoardTemplateResponse with the created template including auto-generated ID.
 
 Raises:
     403: User does not have access to the specified account.
-    404: Account not found.
+    404: Game or account not found.
+    400: Game doesn't belong to the specified account.
 
 > Body parameter
 
 ```json
 {
   "account_id": "string",
+  "game_id": "string",
   "name": "string",
   "slug": "string",
-  "steam_app_id": "string",
-  "default_board_id": "string",
-  "anti_cheat_enabled": true
+  "repeat_interval": "string",
+  "next_run_at": "2019-08-24T14:15:22Z",
+  "is_active": true,
+  "is_published": true,
+  "name_template": "string",
+  "series": "string",
+  "icon": "fa-crown",
+  "unit": "string",
+  "sort_direction": "ASCENDING",
+  "keep_strategy": "FIRST_ONLY",
+  "starts_at": "2019-08-24T14:15:22Z",
+  "ends_at": "2019-08-24T14:15:22Z",
+  "tags": [
+    "string"
+  ],
+  "config": {}
 }
 ```
 
@@ -95,7 +124,7 @@ Raises:
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
-|body|body|[GameCreateRequest](./schemas.md#gamecreaterequest)|true|none|
+|body|body|[BoardTemplateCreateRequest](./schemas.md#boardtemplatecreaterequest)|true|none|
 
 > Example responses
 
@@ -105,11 +134,25 @@ Raises:
 {
   "id": "string",
   "account_id": "string",
+  "game_id": "string",
   "name": "string",
   "slug": "string",
-  "steam_app_id": "string",
-  "default_board_id": "string",
-  "anti_cheat_enabled": true,
+  "name_template": "string",
+  "series": "string",
+  "icon": "string",
+  "unit": "string",
+  "sort_direction": "ASCENDING",
+  "keep_strategy": "FIRST_ONLY",
+  "starts_at": "2019-08-24T14:15:22Z",
+  "ends_at": "2019-08-24T14:15:22Z",
+  "tags": [
+    "string"
+  ],
+  "repeat_interval": "string",
+  "config": {},
+  "next_run_at": "2019-08-24T14:15:22Z",
+  "is_active": true,
+  "is_published": true,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -119,13 +162,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[GameResponse](./schemas.md#gameresponse)|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[BoardTemplateResponse](./schemas.md#boardtemplateresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## List Games
+## List Board Templates
 
 === "Python"
 
@@ -138,7 +181,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/games', headers = headers)
+    r = requests.get('/v1/board-templates', headers = headers)
 
     print(r.json())
 
@@ -155,7 +198,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/games',
+    fetch('/v1/board-templates',
     {
       method: 'GET',
 
@@ -168,51 +211,43 @@ Raises:
     });
 
     ```
-`GET /v1/games`
+`GET /v1/board-templates`
 
-List all games for an account with pagination and optional filtering.
-
-Returns paginated games for the specified account. Supports cursor-based
-pagination with bidirectional navigation and custom sorting.
+List board templates for an account with pagination, optionally filtered by game.
 
 For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id must be explicitly provided as a query parameter.
 
-Filtering:
-- Use ?slug={slug} to find a specific game by its globally unique slug
-
 Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=name:asc,created_at:desc
-- Valid sort fields: id, name, slug, created_at, updated_at
+- Valid sort fields: id, name, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Example:
-    GET /v1/games?slug=my-game
-    GET /v1/games?account_id=acc_123&limit=50&sort=name:asc
+    GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:asc
 
 Args:
     auth: Authentication context with user info.
-    service: Injected game service dependency.
+    service: Injected board template service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
     account_id: Optional account_id query parameter (required for superadmins).
-    slug: Optional slug filter to find a specific game.
+    game_id: Optional game ID to filter templates by.
 
 Returns:
-    PaginatedResponse with games and pagination metadata.
+    PaginatedResponse with board templates and pagination metadata.
 
 Raises:
     400: Invalid cursor, sort field, or cursor state mismatch.
     400: Superadmin did not provide account_id.
     403: User does not have access to the specified account.
-    404: Game not found when filtering by slug.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |account_id|query|any|false|none|
-|slug|query|any|false|Filter by game slug|
+|game_id|query|any|false|Filter by game ID|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
 |sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
@@ -245,13 +280,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_GameResponse_](./schemas.md#paginatedresponse_gameresponse_)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_BoardTemplateResponse_](./schemas.md#paginatedresponse_boardtemplateresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Get Game
+## Get Board Template
 
 === "Python"
 
@@ -264,7 +299,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/games/{game_id}', headers = headers)
+    r = requests.get('/v1/board-templates/{template_id}', headers = headers)
 
     print(r.json())
 
@@ -281,7 +316,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/games/{game_id}',
+    fetch('/v1/board-templates/{template_id}',
     {
       method: 'GET',
 
@@ -294,27 +329,27 @@ Raises:
     });
 
     ```
-`GET /v1/games/{game_id}`
+`GET /v1/board-templates/{template_id}`
 
-Get a game by ID.
+Get a board template by ID.
 
 Args:
-    game_id: Unique identifier for the game.
-    service: Injected game service dependency.
+    template_id: Unique identifier for the template.
+    service: Injected board template service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    GameResponse with full game details.
+    BoardTemplateResponse with full template details.
 
 Raises:
-    403: User does not have access to this game's account.
-    404: Game not found.
+    403: User does not have access to this template's account.
+    404: Template not found.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|game_id|path|string|true|none|
+|template_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
@@ -328,11 +363,25 @@ Raises:
 {
   "id": "string",
   "account_id": "string",
+  "game_id": "string",
   "name": "string",
   "slug": "string",
-  "steam_app_id": "string",
-  "default_board_id": "string",
-  "anti_cheat_enabled": true,
+  "name_template": "string",
+  "series": "string",
+  "icon": "string",
+  "unit": "string",
+  "sort_direction": "ASCENDING",
+  "keep_strategy": "FIRST_ONLY",
+  "starts_at": "2019-08-24T14:15:22Z",
+  "ends_at": "2019-08-24T14:15:22Z",
+  "tags": [
+    "string"
+  ],
+  "repeat_interval": "string",
+  "config": {},
+  "next_run_at": "2019-08-24T14:15:22Z",
+  "is_active": true,
+  "is_published": true,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -342,13 +391,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[GameResponse](./schemas.md#gameresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[BoardTemplateResponse](./schemas.md#boardtemplateresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Update Game
+## Update Board Template
 
 === "Python"
 
@@ -362,7 +411,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.patch('/v1/games/{game_id}', headers = headers)
+    r = requests.patch('/v1/board-templates/{template_id}', headers = headers)
 
     print(r.json())
 
@@ -373,9 +422,23 @@ Raises:
     ```javascript
     const inputBody = '{
       "name": "string",
-      "steam_app_id": "string",
-      "default_board_id": "string",
-      "anti_cheat_enabled": true,
+      "slug": "string",
+      "name_template": "string",
+      "series": "string",
+      "icon": "string",
+      "unit": "string",
+      "sort_direction": "ASCENDING",
+      "keep_strategy": "FIRST_ONLY",
+      "starts_at": "2019-08-24T14:15:22Z",
+      "ends_at": "2019-08-24T14:15:22Z",
+      "tags": [
+        "string"
+      ],
+      "repeat_interval": "string",
+      "config": {},
+      "next_run_at": "2019-08-24T14:15:22Z",
+      "is_active": true,
+      "is_published": true,
       "deleted": true
     }';
     const headers = {
@@ -386,7 +449,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/games/{game_id}',
+    fetch('/v1/board-templates/{template_id}',
     {
       method: 'PATCH',
       body: inputBody,
@@ -399,33 +462,47 @@ Raises:
     });
 
     ```
-`PATCH /v1/games/{game_id}`
+`PATCH /v1/board-templates/{template_id}`
 
-Update a game.
+Update a board template.
 
-Supports updating name, Steam App ID, default board ID, or soft-deleting the game.
+Supports updating any template field or soft-deleting the template.
 
 Args:
-    game_id: Unique identifier for the game.
-    request: Game update details (all fields optional).
-    service: Injected game service dependency.
+    template_id: Unique identifier for the template.
+    request: Template update details (all fields optional).
+    service: Injected board template service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    GameResponse with the updated game details.
+    BoardTemplateResponse with the updated template details.
 
 Raises:
-    403: User does not have access to this game's account.
-    404: Game not found.
+    403: User does not have access to this template's account.
+    404: Template not found.
 
 > Body parameter
 
 ```json
 {
   "name": "string",
-  "steam_app_id": "string",
-  "default_board_id": "string",
-  "anti_cheat_enabled": true,
+  "slug": "string",
+  "name_template": "string",
+  "series": "string",
+  "icon": "string",
+  "unit": "string",
+  "sort_direction": "ASCENDING",
+  "keep_strategy": "FIRST_ONLY",
+  "starts_at": "2019-08-24T14:15:22Z",
+  "ends_at": "2019-08-24T14:15:22Z",
+  "tags": [
+    "string"
+  ],
+  "repeat_interval": "string",
+  "config": {},
+  "next_run_at": "2019-08-24T14:15:22Z",
+  "is_active": true,
+  "is_published": true,
   "deleted": true
 }
 ```
@@ -434,12 +511,12 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|game_id|path|string|true|none|
+|template_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
-|body|body|[GameUpdateRequest](./schemas.md#gameupdaterequest)|true|none|
+|body|body|[BoardTemplateUpdateRequest](./schemas.md#boardtemplateupdaterequest)|true|none|
 
 > Example responses
 
@@ -449,11 +526,25 @@ Raises:
 {
   "id": "string",
   "account_id": "string",
+  "game_id": "string",
   "name": "string",
   "slug": "string",
-  "steam_app_id": "string",
-  "default_board_id": "string",
-  "anti_cheat_enabled": true,
+  "name_template": "string",
+  "series": "string",
+  "icon": "string",
+  "unit": "string",
+  "sort_direction": "ASCENDING",
+  "keep_strategy": "FIRST_ONLY",
+  "starts_at": "2019-08-24T14:15:22Z",
+  "ends_at": "2019-08-24T14:15:22Z",
+  "tags": [
+    "string"
+  ],
+  "repeat_interval": "string",
+  "config": {},
+  "next_run_at": "2019-08-24T14:15:22Z",
+  "is_active": true,
+  "is_published": true,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -463,104 +554,7 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[GameResponse](./schemas.md#gameresponse)|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-!!! success
-    This operation does not require authentication
-
-## Get Game By Slug
-
-=== "Python"
-
-    ```python
-    import requests
-    headers = {
-      'Accept': 'application/json',
-      'leadr-api-key': 'string',
-      'authorization': 'string',
-      'leadr-client-nonce': 'string'
-    }
-
-    r = requests.get('/v1/games/by-slug/{slug}', headers = headers)
-
-    print(r.json())
-
-    ```
-
-=== "JavaScript"
-
-    ```javascript
-
-    const headers = {
-      'Accept':'application/json',
-      'leadr-api-key':'string',
-      'authorization':'string',
-      'leadr-client-nonce':'string'
-    };
-
-    fetch('/v1/games/by-slug/{slug}',
-    {
-      method: 'GET',
-
-      headers: headers
-    })
-    .then(function(res) {
-        return res.json();
-    }).then(function(body) {
-        console.log(body);
-    });
-
-    ```
-`GET /v1/games/by-slug/{slug}`
-
-Get a game by its slug (globally unique).
-
-Args:
-    slug: The URL-friendly slug of the game.
-    service: Injected game service dependency.
-    auth: Authentication context with user info.
-
-Returns:
-    GameResponse with full game details.
-
-Raises:
-    403: User does not have access to this game's account.
-    404: Game not found.
-
-### Parameters
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|slug|path|string|true|none|
-|account_id|query|any|false|none|
-|leadr-api-key|header|any|false|none|
-|authorization|header|any|false|none|
-|leadr-client-nonce|header|any|false|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "id": "string",
-  "account_id": "string",
-  "name": "string",
-  "slug": "string",
-  "steam_app_id": "string",
-  "default_board_id": "string",
-  "anti_cheat_enabled": true,
-  "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
-}
-```
-
-### Responses
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[GameResponse](./schemas.md#gameresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[BoardTemplateResponse](./schemas.md#boardtemplateresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
