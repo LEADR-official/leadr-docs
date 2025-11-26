@@ -384,7 +384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../template_naming.md" class="md-nav__link">
+      <a href="../../template_naming/" class="md-nav__link">
         
   
   
@@ -525,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pagination.md" class="md-nav__link">
+      <a href="../../pagination/" class="md-nav__link">
         
   
   
@@ -667,7 +667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_auth.md" class="md-nav__link">
+      <a href="../../client_auth/" class="md-nav__link">
         
   
   
@@ -843,30 +843,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#response-schema" class="md-nav__link">
-    <span class="md-ellipsis">
-      Response Schema
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Response Schema">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#enumerated-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enumerated Values
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -963,7 +939,9 @@
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -973,14 +951,17 @@
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">inputBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;account_id&quot;: &quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;,</span>
+<span class="s1">  &quot;account_id&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;user_id&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;name&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;expires_at&quot;: &quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="s1">}&#39;</span><span class="p">;</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys&#39;</span><span class="p">,</span>
@@ -1002,15 +983,19 @@
 <p>Create a new API key for an account.</p>
 <p>The plain API key is returned only once in this response.
 Store it securely as it cannot be retrieved later.</p>
+<p>For regular users, account_id must match their API key's account.
+For superadmins, any account_id is accepted.</p>
 <p>Returns:
     CreateAPIKeyResponse with the plain key included.</p>
 <p>Raises:
+    403: User does not have access to the specified account.
     404: Account not found.</p>
 <blockquote>
 <p>Body parameter</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;expires_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -1028,7 +1013,28 @@ Store it securely as it cannot be retrieved later.</p>
 </thead>
 <tbody>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1048,7 +1054,7 @@ Store it securely as it cannot be retrieved later.</p>
 <p>201 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -1093,12 +1099,12 @@ Store it securely as it cannot be retrieved later.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-  <span class="s1">&#39;account_id&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
-<span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
@@ -1106,10 +1112,12 @@ Store it securely as it cannot be retrieved later.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys?account_id=string&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
 
@@ -1125,13 +1133,28 @@ Store it securely as it cannot be retrieved later.</p>
 </div>
 </div>
 <p><code>GET /v1/api-keys</code></p>
-<p>List API keys for an account with optional filters.</p>
-<p>TODO: Replace account_id query param with account_id from auth token.</p>
+<p>List API keys for an account with optional filters and pagination.</p>
+<p>For regular users, account_id is automatically derived from their API key.
+For superadmins, account_id must be explicitly provided as a query parameter.</p>
+<p>Pagination:
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=name:asc,created_at:desc
+- Valid sort fields: id, name, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response</p>
+<p>Example:
+    GET /v1/api-keys?account_id=acc_123&amp;status=active&amp;limit=50&amp;sort=name:asc</p>
 <p>Args:
-    account_id: Account ID to filter results (REQUIRED for multi-tenant safety).
-    status: Optional status to filter results (active or revoked).</p>
+    auth: Authentication context with user info.
+    service: Injected API key service dependency.
+    pagination: Pagination parameters (cursor, limit, sort).
+    account_id: Optional account_id query parameter (required for superadmins).
+    key_status: Optional status to filter results (active or revoked).</p>
 <p>Returns:
-    List of API keys matching the filters.</p>
+    PaginatedResponse with API keys and pagination metadata.</p>
+<p>Raises:
+    400: Invalid cursor, sort field, or cursor state mismatch.
+    400: Superadmin did not provide account_id.
+    403: User does not have access to the specified account.</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1147,9 +1170,9 @@ Store it securely as it cannot be retrieved later.</p>
 <tr>
 <td>account_id</td>
 <td>query</td>
-<td>string(uuid4)</td>
-<td>true</td>
-<td>Account ID to filter by</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
 </tr>
 <tr>
 <td>status</td>
@@ -1159,7 +1182,42 @@ Store it securely as it cannot be retrieved later.</p>
 <td>Filter by status</td>
 </tr>
 <tr>
+<td>cursor</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Pagination cursor for navigating results</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>query</td>
+<td>integer</td>
+<td>false</td>
+<td>Number of items per page (1-100)</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Sort specification (e.g., 'value:desc,created_at:asc')</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1171,19 +1229,20 @@ Store it securely as it cannot be retrieved later.</p>
 <p>Example responses</p>
 <p>200 Response</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;last_used_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;expires_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scr_123&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;pagination&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;has_next&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;has_prev&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;next_cursor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJwdiI6WzEwMDAsMTIzXX0=&quot;</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="responses_1">Responses<a class="headerlink" href="#responses_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -1200,237 +1259,13 @@ Store it securely as it cannot be retrieved later.</p>
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>Successful Response</td>
-<td>Inline</td>
+<td><a href="../schemas/#paginatedresponse_apikeyresponse_">PaginatedResponse_APIKeyResponse_</a></td>
 </tr>
 <tr>
 <td>422</td>
 <td><a href="https://tools.ietf.org/html/rfc2518#section-10.3">Unprocessable Entity</a></td>
 <td>Validation Error</td>
 <td><a href="../schemas/#httpvalidationerror">HTTPValidationError</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="response-schema">Response Schema<a class="headerlink" href="#response-schema" title="Permanent link">&para;</a></h3>
-<p>Status Code <strong>200</strong></p>
-<p><em>Response List Api Keys V1 Api Keys Get</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Response List Api Keys V1 Api Keys Get</td>
-<td>[<a href="../schemas/#apikeyresponse">APIKeyResponse</a>]</td>
-<td>false</td>
-<td>none</td>
-<td>[Response schema for API key details.<br><br>Excludes sensitive information like key_hash.<br>The full key is never returned after creation.]</td>
-</tr>
-<tr>
-<td>» APIKeyResponse</td>
-<td><a href="../schemas/#apikeyresponse">APIKeyResponse</a></td>
-<td>false</td>
-<td>none</td>
-<td>Response schema for API key details.<br><br>Excludes sensitive information like key_hash.<br>The full key is never returned after creation.</td>
-</tr>
-<tr>
-<td>»» id</td>
-<td>string(uuid)</td>
-<td>true</td>
-<td>none</td>
-<td>Unique identifier for the API key</td>
-</tr>
-<tr>
-<td>»» account_id</td>
-<td>string(uuid)</td>
-<td>true</td>
-<td>none</td>
-<td>ID of the account this key belongs to</td>
-</tr>
-<tr>
-<td>»» name</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>Human-readable name for the API key</td>
-</tr>
-<tr>
-<td>»» prefix</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>Key prefix for identification (first 8 characters)</td>
-</tr>
-<tr>
-<td>»» status</td>
-<td><a href="../schemas/#apikeystatus">APIKeyStatus</a></td>
-<td>true</td>
-<td>none</td>
-<td>API Key status enumeration.</td>
-</tr>
-<tr>
-<td>»» last_used_at</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-<td>Timestamp of last successful authentication (UTC)</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string(date-time)</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» expires_at</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-<td>Expiration timestamp (UTC), or null if never expires</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string(date-time)</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» created_at</td>
-<td>string(date-time)</td>
-<td>true</td>
-<td>none</td>
-<td>Timestamp when the key was created (UTC)</td>
-</tr>
-<tr>
-<td>»» updated_at</td>
-<td>string(date-time)</td>
-<td>true</td>
-<td>none</td>
-<td>Timestamp of last update (UTC)</td>
-</tr>
-</tbody>
-</table>
-<h4 id="enumerated-values">Enumerated Values<a class="headerlink" href="#enumerated-values" title="Permanent link">&para;</a></h4>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>status</td>
-<td>active</td>
-</tr>
-<tr>
-<td>status</td>
-<td>revoked</td>
 </tr>
 </tbody>
 </table>
@@ -1445,7 +1280,9 @@ Store it securely as it cannot be retrieved later.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys/</span><span class="si">{key_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -1456,7 +1293,9 @@ Store it securely as it cannot be retrieved later.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys/{key_id}&#39;</span><span class="p">,</span>
@@ -1477,10 +1316,13 @@ Store it securely as it cannot be retrieved later.</p>
 <p><code>GET /v1/api-keys/{key_id}</code></p>
 <p>Get a single API key by ID.</p>
 <p>Args:
-    key_id: The UUID of the API key to retrieve.</p>
+    key_id: The UUID of the API key to retrieve.
+    service: Injected API key service dependency.
+    auth: Authentication context with user info.</p>
 <p>Returns:
     APIKeyResponse with key details (excludes the plain key).</p>
 <p>Raises:
+    403: User does not have access to this API key's account.
     404: API key not found.</p>
 <h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -1497,12 +1339,33 @@ Store it securely as it cannot be retrieved later.</p>
 <tr>
 <td>key_id</td>
 <td>path</td>
-<td>string(uuid4)</td>
+<td>string</td>
 <td>true</td>
 <td>none</td>
 </tr>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1515,8 +1378,9 @@ Store it securely as it cannot be retrieved later.</p>
 <p>200 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
@@ -1563,7 +1427,9 @@ Store it securely as it cannot be retrieved later.</p>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys/</span><span class="si">{key_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -1579,7 +1445,9 @@ Store it securely as it cannot be retrieved later.</p>
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/api-keys/{key_id}&#39;</span><span class="p">,</span>
@@ -1604,10 +1472,13 @@ Store it securely as it cannot be retrieved later.</p>
 - Soft delete via deleted flag</p>
 <p>Args:
     key_id: The UUID of the API key to update.
-    request: Update request with optional status and deleted fields.</p>
+    request: Update request with optional status and deleted fields.
+    service: Injected API key service dependency.
+    auth: Authentication context with user info.</p>
 <p>Returns:
     APIKeyResponse with updated key details.</p>
 <p>Raises:
+    403: User does not have access to this API key's account.
     404: API key not found.</p>
 <blockquote>
 <p>Body parameter</p>
@@ -1632,12 +1503,33 @@ Store it securely as it cannot be retrieved later.</p>
 <tr>
 <td>key_id</td>
 <td>path</td>
-<td>string(uuid4)</td>
+<td>string</td>
 <td>true</td>
 <td>none</td>
 </tr>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1657,8 +1549,9 @@ Store it securely as it cannot be retrieved later.</p>
 <p>200 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;prefix&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>

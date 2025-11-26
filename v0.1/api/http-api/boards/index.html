@@ -384,7 +384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../template_naming.md" class="md-nav__link">
+      <a href="../../template_naming/" class="md-nav__link">
         
   
   
@@ -525,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pagination.md" class="md-nav__link">
+      <a href="../../pagination/" class="md-nav__link">
         
   
   
@@ -667,7 +667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_auth.md" class="md-nav__link">
+      <a href="../../client_auth/" class="md-nav__link">
         
   
   
@@ -816,13 +816,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#list-boards" class="md-nav__link">
+  <a href="#list-boards-admin" class="md-nav__link">
     <span class="md-ellipsis">
-      List Boards
+      List Boards Admin
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="List Boards">
+    <nav class="md-nav" aria-label="List Boards Admin">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -840,30 +840,6 @@
       Responses
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#response-schema" class="md-nav__link">
-    <span class="md-ellipsis">
-      Response Schema
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Response Schema">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#enumerated-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enumerated Values
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -938,39 +914,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#get-board-by-short-code" class="md-nav__link">
-    <span class="md-ellipsis">
-      Get Board By Short Code
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Get Board By Short Code">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#parameters_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parameters
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#responses_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Responses
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -996,7 +939,9 @@
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/v1/boards&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -1006,16 +951,18 @@
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">inputBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;account_id&quot;: &quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;,</span>
-<span class="s1">  &quot;game_id&quot;: &quot;129babd7-0a5a-4108-81e4-77c8f2b49aed&quot;,</span>
+<span class="s1">  &quot;account_id&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;game_id&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;name&quot;: &quot;string&quot;,</span>
-<span class="s1">  &quot;icon&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;slug&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;icon&quot;: &quot;fa-crown&quot;,</span>
 <span class="s1">  &quot;short_code&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;unit&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;is_active&quot;: true,</span>
+<span class="s1">  &quot;is_published&quot;: true,</span>
 <span class="s1">  &quot;sort_direction&quot;: &quot;ASCENDING&quot;,</span>
-<span class="s1">  &quot;keep_strategy&quot;: &quot;BEST_ONLY&quot;,</span>
-<span class="s1">  &quot;template_id&quot;: &quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;,</span>
+<span class="s1">  &quot;keep_strategy&quot;: &quot;FIRST_ONLY&quot;,</span>
+<span class="s1">  &quot;created_from_template_id&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;template_name&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;starts_at&quot;: &quot;2019-08-24T14:15:22Z&quot;,</span>
 <span class="s1">  &quot;ends_at&quot;: &quot;2019-08-24T14:15:22Z&quot;,</span>
@@ -1026,7 +973,9 @@
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/boards&#39;</span><span class="p">,</span>
@@ -1048,28 +997,34 @@
 <p>Create a new board.</p>
 <p>Creates a new leaderboard associated with an existing game and account.
 The game must belong to the specified account.</p>
+<p>For regular users, account_id must match their API key's account.
+For superadmins, any account_id is accepted.</p>
 <p>Args:
     request: Board creation details including account_id, game_id, name, and settings.
-    service: Injected board service dependency.</p>
+    service: Injected board service dependency.
+    auth: Authentication context with user info.</p>
 <p>Returns:
     BoardResponse with the created board including auto-generated ID and timestamps.</p>
 <p>Raises:
+    403: User does not have access to the specified account.
     404: Game or account not found.
     400: Game doesn't belong to the specified account.</p>
 <blockquote>
 <p>Body parameter</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;129babd7-0a5a-4108-81e4-77c8f2b49aed&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fa-crown&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;short_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_published&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BEST_ONLY&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FIRST_ONLY&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_from_template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;template_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
@@ -1091,7 +1046,28 @@ The game must belong to the specified account.</p>
 </thead>
 <tbody>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1111,17 +1087,19 @@ The game must belong to the specified account.</p>
 <p>201 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;129babd7-0a5a-4108-81e4-77c8f2b49aed&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;short_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_published&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BEST_ONLY&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FIRST_ONLY&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_from_template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;template_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
@@ -1161,19 +1139,19 @@ The game must belong to the specified account.</p>
 <p class="admonition-title">Success</p>
 <p>This operation does not require authentication</p>
 </div>
-<h2 id="list-boards">List Boards<a class="headerlink" href="#list-boards" title="Permanent link">&para;</a></h2>
+<h2 id="list-boards-admin">List Boards Admin<a class="headerlink" href="#list-boards-admin" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/boards&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-  <span class="s1">&#39;account_id&#39;</span><span class="p">:</span> <span class="s1">&#39;497f6eca-6276-4993-bfeb-53cbbbba6f08&#39;</span>
-<span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/boards&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
@@ -1181,10 +1159,12 @@ The game must belong to the specified account.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/boards?account_id=497f6eca-6276-4993-bfeb-53cbbbba6f08&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/boards&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
 
@@ -1200,12 +1180,39 @@ The game must belong to the specified account.</p>
 </div>
 </div>
 <p><code>GET /v1/boards</code></p>
-<p>List all boards for an account.</p>
+<p>List boards (Admin API).</p>
+<p>For regular users:
+- If account_id not provided, defaults to their API key's account
+- If account_id provided and they are superadmin, can access any account
+- If account_id provided and NOT superadmin, must match their account (validated in AuthContext)</p>
+<p>Filtering:
+- Use ?game_slug={slug} to filter boards by game
+- Use ?game_slug={game_slug}&amp;slug={slug} to find a specific board within a game
+- Use ?code={code} to filter boards by short code
+- Note: board slug filter requires game_slug parameter</p>
+<p>Pagination:
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=name:asc,created_at:desc
+- Valid sort fields: id, name, short_code, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response</p>
+<p>Example:
+    GET /v1/boards?account_id=acc_123&amp;limit=50&amp;sort=name:asc
+    GET /v1/boards?game_slug=my-game
+    GET /v1/boards?game_slug=my-game&amp;slug=weekly-challenge</p>
 <p>Args:
-    account_id: Account ID to filter boards by.
-    service: Injected board service dependency.</p>
+    auth: Admin authentication context with user info.
+    service: Injected board service dependency.
+    game_service: Injected game service dependency.
+    pagination: Pagination parameters (cursor, limit, sort).
+    account_id: Optional account ID to filter boards by.
+    code: Optional short code to filter boards by.
+    game_slug: Optional game slug to filter boards by game.
+    slug: Optional board slug to filter by specific board (requires game_slug).</p>
 <p>Returns:
-    List of all active boards for the specified account.</p>
+    PaginatedResponse with boards and pagination metadata.</p>
+<p>Raises:
+    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.
+    404: Game or board not found when using slug filters.</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1221,12 +1228,68 @@ The game must belong to the specified account.</p>
 <tr>
 <td>account_id</td>
 <td>query</td>
-<td>string(uuid)</td>
-<td>true</td>
+<td>any</td>
+<td>false</td>
 <td>none</td>
 </tr>
 <tr>
+<td>code</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Filter by short code</td>
+</tr>
+<tr>
+<td>game_slug</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Filter by game slug</td>
+</tr>
+<tr>
+<td>slug</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Filter by board slug (requires game_slug)</td>
+</tr>
+<tr>
+<td>cursor</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Pagination cursor for navigating results</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>query</td>
+<td>integer</td>
+<td>false</td>
+<td>Number of items per page (1-100)</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Sort specification (e.g., 'value:desc,created_at:asc')</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1238,29 +1301,20 @@ The game must belong to the specified account.</p>
 <p>Example responses</p>
 <p>200 Response</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;129babd7-0a5a-4108-81e4-77c8f2b49aed&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;short_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BEST_ONLY&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;template_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;string&quot;</span>
-<span class="w">    </span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scr_123&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;pagination&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;has_next&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;has_prev&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;next_cursor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJwdiI6WzEwMDAsMTIzXX0=&quot;</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="responses_1">Responses<a class="headerlink" href="#responses_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -1277,417 +1331,13 @@ The game must belong to the specified account.</p>
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>Successful Response</td>
-<td>Inline</td>
+<td><a href="../schemas/#paginatedresponse_boardresponse_">PaginatedResponse_BoardResponse_</a></td>
 </tr>
 <tr>
 <td>422</td>
 <td><a href="https://tools.ietf.org/html/rfc2518#section-10.3">Unprocessable Entity</a></td>
 <td>Validation Error</td>
 <td><a href="../schemas/#httpvalidationerror">HTTPValidationError</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="response-schema">Response Schema<a class="headerlink" href="#response-schema" title="Permanent link">&para;</a></h3>
-<p>Status Code <strong>200</strong></p>
-<p><em>Response List Boards V1 Boards Get</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Response List Boards V1 Boards Get</td>
-<td>[<a href="../schemas/#boardresponse">BoardResponse</a>]</td>
-<td>false</td>
-<td>none</td>
-<td>[Response model for a board.]</td>
-</tr>
-<tr>
-<td>» BoardResponse</td>
-<td><a href="../schemas/#boardresponse">BoardResponse</a></td>
-<td>false</td>
-<td>none</td>
-<td>Response model for a board.</td>
-</tr>
-<tr>
-<td>»» id</td>
-<td>string(uuid)</td>
-<td>true</td>
-<td>none</td>
-<td>Unique identifier for the board</td>
-</tr>
-<tr>
-<td>»» account_id</td>
-<td>string(uuid)</td>
-<td>true</td>
-<td>none</td>
-<td>ID of the account this board belongs to</td>
-</tr>
-<tr>
-<td>»» game_id</td>
-<td>string(uuid)</td>
-<td>true</td>
-<td>none</td>
-<td>ID of the game this board belongs to</td>
-</tr>
-<tr>
-<td>»» name</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>Name of the board</td>
-</tr>
-<tr>
-<td>»» icon</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>Icon identifier for the board</td>
-</tr>
-<tr>
-<td>»» short_code</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>Globally unique short code for direct sharing</td>
-</tr>
-<tr>
-<td>»» unit</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>Unit of measurement for scores</td>
-</tr>
-<tr>
-<td>»» is_active</td>
-<td>boolean</td>
-<td>true</td>
-<td>none</td>
-<td>Whether the board is currently active</td>
-</tr>
-<tr>
-<td>»» sort_direction</td>
-<td><a href="../schemas/#sortdirection">SortDirection</a></td>
-<td>true</td>
-<td>none</td>
-<td>Sort direction for board scores.</td>
-</tr>
-<tr>
-<td>»» keep_strategy</td>
-<td><a href="../schemas/#keepstrategy">KeepStrategy</a></td>
-<td>true</td>
-<td>none</td>
-<td>Strategy for keeping scores from the same user.</td>
-</tr>
-<tr>
-<td>»» template_id</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-<td>Template ID this board was created from, or null</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string(uuid)</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» template_name</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-<td>Template name this board was created from, or null</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» starts_at</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-<td>Start time for time-bounded boards (UTC)</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string(date-time)</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» ends_at</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-<td>End time for time-bounded boards (UTC)</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string(date-time)</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» tags</td>
-<td>[string]</td>
-<td>false</td>
-<td>none</td>
-<td>List of tags for categorization</td>
-</tr>
-<tr>
-<td>»» created_at</td>
-<td>string(date-time)</td>
-<td>true</td>
-<td>none</td>
-<td>Timestamp when the board was created (UTC)</td>
-</tr>
-<tr>
-<td>»» updated_at</td>
-<td>string(date-time)</td>
-<td>true</td>
-<td>none</td>
-<td>Timestamp of last update (UTC)</td>
-</tr>
-</tbody>
-</table>
-<h4 id="enumerated-values">Enumerated Values<a class="headerlink" href="#enumerated-values" title="Permanent link">&para;</a></h4>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>sort_direction</td>
-<td>ASCENDING</td>
-</tr>
-<tr>
-<td>sort_direction</td>
-<td>DESCENDING</td>
-</tr>
-<tr>
-<td>keep_strategy</td>
-<td>BEST_ONLY</td>
-</tr>
-<tr>
-<td>keep_strategy</td>
-<td>LATEST_ONLY</td>
-</tr>
-<tr>
-<td>keep_strategy</td>
-<td>ALL</td>
 </tr>
 </tbody>
 </table>
@@ -1702,7 +1352,9 @@ The game must belong to the specified account.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/boards/</span><span class="si">{board_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -1713,7 +1365,9 @@ The game must belong to the specified account.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/boards/{board_id}&#39;</span><span class="p">,</span>
@@ -1735,10 +1389,12 @@ The game must belong to the specified account.</p>
 <p>Get a board by ID.</p>
 <p>Args:
     board_id: Unique identifier for the board.
-    service: Injected board service dependency.</p>
+    service: Injected board service dependency.
+    auth: Authentication context with user info.</p>
 <p>Returns:
     BoardResponse with full board details.</p>
 <p>Raises:
+    403: User does not have access to this board's account.
     404: Board not found.</p>
 <h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -1755,12 +1411,33 @@ The game must belong to the specified account.</p>
 <tr>
 <td>board_id</td>
 <td>path</td>
-<td>string(uuid)</td>
+<td>string</td>
 <td>true</td>
 <td>none</td>
 </tr>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1773,17 +1450,19 @@ The game must belong to the specified account.</p>
 <p>200 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;129babd7-0a5a-4108-81e4-77c8f2b49aed&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;short_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_published&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BEST_ONLY&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FIRST_ONLY&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_from_template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;template_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
@@ -1831,7 +1510,9 @@ The game must belong to the specified account.</p>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;/v1/boards/</span><span class="si">{board_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -1846,9 +1527,10 @@ The game must belong to the specified account.</p>
 <span class="s1">  &quot;short_code&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;unit&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;is_active&quot;: true,</span>
+<span class="s1">  &quot;is_published&quot;: true,</span>
 <span class="s1">  &quot;sort_direction&quot;: &quot;ASCENDING&quot;,</span>
-<span class="s1">  &quot;keep_strategy&quot;: &quot;BEST_ONLY&quot;,</span>
-<span class="s1">  &quot;template_id&quot;: &quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;,</span>
+<span class="s1">  &quot;keep_strategy&quot;: &quot;FIRST_ONLY&quot;,</span>
+<span class="s1">  &quot;created_from_template_id&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;template_name&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;starts_at&quot;: &quot;2019-08-24T14:15:22Z&quot;,</span>
 <span class="s1">  &quot;ends_at&quot;: &quot;2019-08-24T14:15:22Z&quot;,</span>
@@ -1860,7 +1542,9 @@ The game must belong to the specified account.</p>
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/boards/{board_id}&#39;</span><span class="p">,</span>
@@ -1884,10 +1568,12 @@ The game must belong to the specified account.</p>
 <p>Args:
     board_id: Unique identifier for the board.
     request: Board update details (all fields optional).
-    service: Injected board service dependency.</p>
+    service: Injected board service dependency.
+    auth: Authentication context with user info.</p>
 <p>Returns:
     BoardResponse with the updated board details.</p>
 <p>Raises:
+    403: User does not have access to this board's account.
     404: Board not found.</p>
 <blockquote>
 <p>Body parameter</p>
@@ -1898,9 +1584,10 @@ The game must belong to the specified account.</p>
 <span class="w">  </span><span class="nt">&quot;short_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_published&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BEST_ONLY&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FIRST_ONLY&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_from_template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;template_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
@@ -1925,12 +1612,33 @@ The game must belong to the specified account.</p>
 <tr>
 <td>board_id</td>
 <td>path</td>
-<td>string(uuid)</td>
+<td>string</td>
 <td>true</td>
 <td>none</td>
 </tr>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1950,17 +1658,19 @@ The game must belong to the specified account.</p>
 <p>200 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;129babd7-0a5a-4108-81e4-77c8f2b49aed&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;short_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_published&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BEST_ONLY&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FIRST_ONLY&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_from_template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;template_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
@@ -1972,134 +1682,6 @@ The game must belong to the specified account.</p>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="responses_3">Responses<a class="headerlink" href="#responses_3" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Status</th>
-<th>Meaning</th>
-<th>Description</th>
-<th>Schema</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>200</td>
-<td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
-<td>Successful Response</td>
-<td><a href="../schemas/#boardresponse">BoardResponse</a></td>
-</tr>
-<tr>
-<td>422</td>
-<td><a href="https://tools.ietf.org/html/rfc2518#section-10.3">Unprocessable Entity</a></td>
-<td>Validation Error</td>
-<td><a href="../schemas/#httpvalidationerror">HTTPValidationError</a></td>
-</tr>
-</tbody>
-</table>
-<div class="admonition success">
-<p class="admonition-title">Success</p>
-<p>This operation does not require authentication</p>
-</div>
-<h2 id="get-board-by-short-code">Get Board By Short Code<a class="headerlink" href="#get-board-by-short-code" title="Permanent link">&para;</a></h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python</label><label for="__tabbed_5_2">JavaScript</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
-<span class="p">}</span>
-
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/boards/by-code/</span><span class="si">{short_code}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
-<span class="p">};</span>
-
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/boards/by-code/{short_code}&#39;</span><span class="p">,</span>
-<span class="p">{</span>
-<span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
-
-<span class="w">  </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="nx">headers</span>
-<span class="p">})</span>
-<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
-<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-<span class="p">});</span>
-</code></pre></div>
-</div>
-</div>
-</div>
-<p><code>GET /v1/boards/by-code/{short_code}</code></p>
-<p>Get a board by its short code.</p>
-<p>Args:
-    short_code: Globally unique short code for the board.
-    service: Injected board service dependency.</p>
-<p>Returns:
-    BoardResponse with full board details.</p>
-<p>Raises:
-    404: Board not found.</p>
-<h3 id="parameters_4">Parameters<a class="headerlink" href="#parameters_4" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>In</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>short_code</td>
-<td>path</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-</tr>
-<tr>
-<td>leadr-api-key</td>
-<td>header</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>Example responses</p>
-<p>200 Response</p>
-</blockquote>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;129babd7-0a5a-4108-81e4-77c8f2b49aed&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;short_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BEST_ONLY&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;template_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c6d67e98-83ea-49f0-8812-e4abae2b68bc&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;template_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="s2">&quot;string&quot;</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="responses_4">Responses<a class="headerlink" href="#responses_4" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>

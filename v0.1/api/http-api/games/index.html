@@ -384,7 +384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../template_naming.md" class="md-nav__link">
+      <a href="../../template_naming/" class="md-nav__link">
         
   
   
@@ -525,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pagination.md" class="md-nav__link">
+      <a href="../../pagination/" class="md-nav__link">
         
   
   
@@ -667,7 +667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_auth.md" class="md-nav__link">
+      <a href="../../client_auth/" class="md-nav__link">
         
   
   
@@ -843,15 +843,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#response-schema" class="md-nav__link">
-    <span class="md-ellipsis">
-      Response Schema
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -923,6 +914,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#get-game-by-slug" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Game By Slug
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Get Game By Slug">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responses_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Responses
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -948,7 +972,9 @@
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/v1/games&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -958,15 +984,19 @@
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">inputBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;account_id&quot;: &quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;,</span>
+<span class="s1">  &quot;account_id&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;name&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;slug&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;steam_app_id&quot;: &quot;string&quot;,</span>
-<span class="s1">  &quot;default_board_id&quot;: &quot;d242572a-54cf-433e-9831-a8453b36773b&quot;</span>
+<span class="s1">  &quot;default_board_id&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;anti_cheat_enabled&quot;: true</span>
 <span class="s1">}&#39;</span><span class="p">;</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/games&#39;</span><span class="p">,</span>
@@ -988,21 +1018,27 @@
 <p>Create a new game.</p>
 <p>Creates a new game associated with an existing account. Games can optionally
 be configured with Steam integration and a default leaderboard.</p>
+<p>For regular users, account_id must match their API key's account.
+For superadmins, any account_id is accepted.</p>
 <p>Args:
     request: Game creation details including account_id, name, and optional settings.
-    service: Injected game service dependency.</p>
+    service: Injected game service dependency.
+    auth: Authentication context with user info.</p>
 <p>Returns:
     GameResponse with the created game including auto-generated ID and timestamps.</p>
 <p>Raises:
+    403: User does not have access to the specified account.
     404: Account not found.</p>
 <blockquote>
 <p>Body parameter</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;steam_app_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d242572a-54cf-433e-9831-a8453b36773b&quot;</span>
+<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;anti_cheat_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
@@ -1018,7 +1054,28 @@ be configured with Steam integration and a default leaderboard.</p>
 </thead>
 <tbody>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1038,11 +1095,13 @@ be configured with Steam integration and a default leaderboard.</p>
 <p>201 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;steam_app_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d242572a-54cf-433e-9831-a8453b36773b&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;anti_cheat_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -1083,12 +1142,12 @@ be configured with Steam integration and a default leaderboard.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/games&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-  <span class="s1">&#39;account_id&#39;</span><span class="p">:</span> <span class="s1">&#39;497f6eca-6276-4993-bfeb-53cbbbba6f08&#39;</span>
-<span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/games&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
@@ -1096,10 +1155,12 @@ be configured with Steam integration and a default leaderboard.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/games?account_id=497f6eca-6276-4993-bfeb-53cbbbba6f08&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/games&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
 
@@ -1115,12 +1176,34 @@ be configured with Steam integration and a default leaderboard.</p>
 </div>
 </div>
 <p><code>GET /v1/games</code></p>
-<p>List all games for an account.</p>
+<p>List all games for an account with pagination and optional filtering.</p>
+<p>Returns paginated games for the specified account. Supports cursor-based
+pagination with bidirectional navigation and custom sorting.</p>
+<p>For regular users, account_id is automatically derived from their API key.
+For superadmins, account_id must be explicitly provided as a query parameter.</p>
+<p>Filtering:
+- Use ?slug={slug} to find a specific game by its globally unique slug</p>
+<p>Pagination:
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=name:asc,created_at:desc
+- Valid sort fields: id, name, slug, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response</p>
+<p>Example:
+    GET /v1/games?slug=my-game
+    GET /v1/games?account_id=acc_123&amp;limit=50&amp;sort=name:asc</p>
 <p>Args:
-    account_id: Account ID to filter games by.
-    service: Injected game service dependency.</p>
+    auth: Authentication context with user info.
+    service: Injected game service dependency.
+    pagination: Pagination parameters (cursor, limit, sort).
+    account_id: Optional account_id query parameter (required for superadmins).
+    slug: Optional slug filter to find a specific game.</p>
 <p>Returns:
-    List of all active games for the specified account.</p>
+    PaginatedResponse with games and pagination metadata.</p>
+<p>Raises:
+    400: Invalid cursor, sort field, or cursor state mismatch.
+    400: Superadmin did not provide account_id.
+    403: User does not have access to the specified account.
+    404: Game not found when filtering by slug.</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1136,12 +1219,54 @@ be configured with Steam integration and a default leaderboard.</p>
 <tr>
 <td>account_id</td>
 <td>query</td>
-<td>string(uuid)</td>
-<td>true</td>
+<td>any</td>
+<td>false</td>
 <td>none</td>
 </tr>
 <tr>
+<td>slug</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Filter by game slug</td>
+</tr>
+<tr>
+<td>cursor</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Pagination cursor for navigating results</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>query</td>
+<td>integer</td>
+<td>false</td>
+<td>Number of items per page (1-100)</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Sort specification (e.g., 'value:desc,created_at:asc')</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1153,17 +1278,20 @@ be configured with Steam integration and a default leaderboard.</p>
 <p>Example responses</p>
 <p>200 Response</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;steam_app_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d242572a-54cf-433e-9831-a8453b36773b&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scr_123&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;pagination&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;has_next&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;has_prev&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;next_cursor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJwdiI6WzEwMDAsMTIzXX0=&quot;</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="responses_1">Responses<a class="headerlink" href="#responses_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -1180,204 +1308,13 @@ be configured with Steam integration and a default leaderboard.</p>
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>Successful Response</td>
-<td>Inline</td>
+<td><a href="../schemas/#paginatedresponse_gameresponse_">PaginatedResponse_GameResponse_</a></td>
 </tr>
 <tr>
 <td>422</td>
 <td><a href="https://tools.ietf.org/html/rfc2518#section-10.3">Unprocessable Entity</a></td>
 <td>Validation Error</td>
 <td><a href="../schemas/#httpvalidationerror">HTTPValidationError</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="response-schema">Response Schema<a class="headerlink" href="#response-schema" title="Permanent link">&para;</a></h3>
-<p>Status Code <strong>200</strong></p>
-<p><em>Response List Games V1 Games Get</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Response List Games V1 Games Get</td>
-<td>[<a href="../schemas/#gameresponse">GameResponse</a>]</td>
-<td>false</td>
-<td>none</td>
-<td>[Response model for a game.]</td>
-</tr>
-<tr>
-<td>» GameResponse</td>
-<td><a href="../schemas/#gameresponse">GameResponse</a></td>
-<td>false</td>
-<td>none</td>
-<td>Response model for a game.</td>
-</tr>
-<tr>
-<td>»» id</td>
-<td>string(uuid)</td>
-<td>true</td>
-<td>none</td>
-<td>Unique identifier for the game</td>
-</tr>
-<tr>
-<td>»» account_id</td>
-<td>string(uuid)</td>
-<td>true</td>
-<td>none</td>
-<td>ID of the account this game belongs to</td>
-</tr>
-<tr>
-<td>»» name</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>Name of the game</td>
-</tr>
-<tr>
-<td>»» steam_app_id</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-<td>Steam App ID if Steam integration is configured</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» default_board_id</td>
-<td>any</td>
-<td>false</td>
-<td>none</td>
-<td>ID of the default leaderboard, or null if not set</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string(uuid)</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» created_at</td>
-<td>string(date-time)</td>
-<td>true</td>
-<td>none</td>
-<td>Timestamp when the game was created (UTC)</td>
-</tr>
-<tr>
-<td>»» updated_at</td>
-<td>string(date-time)</td>
-<td>true</td>
-<td>none</td>
-<td>Timestamp of last update (UTC)</td>
 </tr>
 </tbody>
 </table>
@@ -1392,7 +1329,9 @@ be configured with Steam integration and a default leaderboard.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/games/</span><span class="si">{game_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -1403,7 +1342,9 @@ be configured with Steam integration and a default leaderboard.</p>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/games/{game_id}&#39;</span><span class="p">,</span>
@@ -1425,10 +1366,12 @@ be configured with Steam integration and a default leaderboard.</p>
 <p>Get a game by ID.</p>
 <p>Args:
     game_id: Unique identifier for the game.
-    service: Injected game service dependency.</p>
+    service: Injected game service dependency.
+    auth: Authentication context with user info.</p>
 <p>Returns:
     GameResponse with full game details.</p>
 <p>Raises:
+    403: User does not have access to this game's account.
     404: Game not found.</p>
 <h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
 <table>
@@ -1445,12 +1388,33 @@ be configured with Steam integration and a default leaderboard.</p>
 <tr>
 <td>game_id</td>
 <td>path</td>
-<td>string(uuid)</td>
+<td>string</td>
 <td>true</td>
 <td>none</td>
 </tr>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1463,11 +1427,13 @@ be configured with Steam integration and a default leaderboard.</p>
 <p>200 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;steam_app_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d242572a-54cf-433e-9831-a8453b36773b&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;anti_cheat_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -1509,7 +1475,9 @@ be configured with Steam integration and a default leaderboard.</p>
 <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
   <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;/v1/games/</span><span class="si">{game_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
@@ -1521,13 +1489,16 @@ be configured with Steam integration and a default leaderboard.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">inputBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{</span>
 <span class="s1">  &quot;name&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;steam_app_id&quot;: &quot;string&quot;,</span>
-<span class="s1">  &quot;default_board_id&quot;: &quot;d242572a-54cf-433e-9831-a8453b36773b&quot;,</span>
+<span class="s1">  &quot;default_board_id&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;anti_cheat_enabled&quot;: true,</span>
 <span class="s1">  &quot;deleted&quot;: true</span>
 <span class="s1">}&#39;</span><span class="p">;</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
 <span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
-<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
 <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/games/{game_id}&#39;</span><span class="p">,</span>
@@ -1551,10 +1522,12 @@ be configured with Steam integration and a default leaderboard.</p>
 <p>Args:
     game_id: Unique identifier for the game.
     request: Game update details (all fields optional).
-    service: Injected game service dependency.</p>
+    service: Injected game service dependency.
+    auth: Authentication context with user info.</p>
 <p>Returns:
     GameResponse with the updated game details.</p>
 <p>Raises:
+    403: User does not have access to this game's account.
     404: Game not found.</p>
 <blockquote>
 <p>Body parameter</p>
@@ -1562,7 +1535,8 @@ be configured with Steam integration and a default leaderboard.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;steam_app_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d242572a-54cf-433e-9831-a8453b36773b&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;anti_cheat_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;deleted&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1581,12 +1555,33 @@ be configured with Steam integration and a default leaderboard.</p>
 <tr>
 <td>game_id</td>
 <td>path</td>
-<td>string(uuid)</td>
+<td>string</td>
 <td>true</td>
 <td>none</td>
 </tr>
 <tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
 <td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
 <td>header</td>
 <td>any</td>
 <td>false</td>
@@ -1606,16 +1601,163 @@ be configured with Steam integration and a default leaderboard.</p>
 <p>200 Response</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;497f6eca-6276-4993-bfeb-53cbbbba6f08&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;steam_app_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d242572a-54cf-433e-9831-a8453b36773b&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;anti_cheat_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="responses_3">Responses<a class="headerlink" href="#responses_3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Description</th>
+<th>Schema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
+<td>Successful Response</td>
+<td><a href="../schemas/#gameresponse">GameResponse</a></td>
+</tr>
+<tr>
+<td>422</td>
+<td><a href="https://tools.ietf.org/html/rfc2518#section-10.3">Unprocessable Entity</a></td>
+<td>Validation Error</td>
+<td><a href="../schemas/#httpvalidationerror">HTTPValidationError</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition success">
+<p class="admonition-title">Success</p>
+<p>This operation does not require authentication</p>
+</div>
+<h2 id="get-game-by-slug">Get Game By Slug<a class="headerlink" href="#get-game-by-slug" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python</label><label for="__tabbed_5_2">JavaScript</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+<span class="p">}</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/games/by-slug/</span><span class="si">{slug}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="p">};</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/games/by-slug/{slug}&#39;</span><span class="p">,</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+
+<span class="w">  </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="nx">headers</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><code>GET /v1/games/by-slug/{slug}</code></p>
+<p>Get a game by its slug (globally unique).</p>
+<p>Args:
+    slug: The URL-friendly slug of the game.
+    service: Injected game service dependency.
+    auth: Authentication context with user info.</p>
+<p>Returns:
+    GameResponse with full game details.</p>
+<p>Raises:
+    403: User does not have access to this game's account.
+    404: Game not found.</p>
+<h3 id="parameters_4">Parameters<a class="headerlink" href="#parameters_4" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slug</td>
+<td>path</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Example responses</p>
+<p>200 Response</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;steam_app_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;default_board_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;anti_cheat_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="responses_4">Responses<a class="headerlink" href="#responses_4" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>

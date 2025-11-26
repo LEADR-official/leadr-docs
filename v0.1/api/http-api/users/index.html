@@ -13,7 +13,7 @@
         <meta name="author" content="LEADR">
       
       
-        <link rel="canonical" href="https://docs.leadr.gg/v0.1/api/http-api/accounts/">
+        <link rel="canonical" href="https://docs.leadr.gg/v0.1/api/http-api/users/">
       
       
       
@@ -25,9 +25,9 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LEADR Docs">
-<meta property="og:title" content="Accounts | LEADR Docs">
+<meta property="og:title" content="Users | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
-<meta property="og:url" content="https://docs.leadr.gg/v0.1/api/http-api/accounts/">
+<meta property="og:url" content="https://docs.leadr.gg/v0.1/api/http-api/users/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.1/assets/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -74,7 +74,7 @@
 
     
       
-        <title>Accounts - LEADR Docs</title>
+        <title>Users - LEADR Docs</title>
       
     
     
@@ -116,7 +116,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#accounts" class="md-skip">
+        <a href="#users" class="md-skip">
           Skip to content
         </a>
       
@@ -156,7 +156,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Accounts
+              Users
             
           </span>
         </div>
@@ -783,13 +783,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#create-account" class="md-nav__link">
+  <a href="#create-user" class="md-nav__link">
     <span class="md-ellipsis">
-      Create Account
+      Create User
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Create Account">
+    <nav class="md-nav" aria-label="Create User">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -816,13 +816,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#list-accounts" class="md-nav__link">
+  <a href="#list-users" class="md-nav__link">
     <span class="md-ellipsis">
-      List Accounts
+      List Users
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="List Accounts">
+    <nav class="md-nav" aria-label="List Users">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -849,13 +849,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-account" class="md-nav__link">
+  <a href="#get-user" class="md-nav__link">
     <span class="md-ellipsis">
-      Get Account
+      Get User
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Get Account">
+    <nav class="md-nav" aria-label="Get User">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -882,13 +882,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#update-account" class="md-nav__link">
+  <a href="#update-user" class="md-nav__link">
     <span class="md-ellipsis">
-      Update Account
+      Update User
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Update Account">
+    <nav class="md-nav" aria-label="Update User">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -930,8 +930,8 @@
 
 
 
-<h1 id="accounts">Accounts<a class="headerlink" href="#accounts" title="Permanent link">&para;</a></h1>
-<h2 id="create-account">Create Account<a class="headerlink" href="#create-account" title="Permanent link">&para;</a></h2>
+<h1 id="users">Users<a class="headerlink" href="#users" title="Permanent link">&para;</a></h1>
+<h2 id="create-user">Create User<a class="headerlink" href="#create-user" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -944,15 +944,16 @@
   <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/v1/accounts&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/v1/users&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">inputBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;name&quot;: &quot;string&quot;,</span>
-<span class="s1">  &quot;slug&quot;: &quot;string&quot;</span>
+<span class="s1">  &quot;account_id&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;email&quot;: &quot;user@example.com&quot;,</span>
+<span class="s1">  &quot;display_name&quot;: &quot;string&quot;</span>
 <span class="s1">}&#39;</span><span class="p">;</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
@@ -962,7 +963,7 @@
 <span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/accounts&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/users&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
 <span class="w">  </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nx">inputBody</span><span class="p">,</span>
@@ -977,23 +978,27 @@
 </div>
 </div>
 </div>
-<p><code>POST /v1/accounts</code></p>
-<p>Create a new account.</p>
-<p>Only superadmins can create accounts.</p>
+<p><code>POST /v1/users</code></p>
+<p>Create a new user.</p>
+<p>Creates a new user associated with an existing account.</p>
+<p>For regular users, account_id must match their API key's account.
+For superadmins, any account_id is accepted.</p>
 <p>Args:
-    request: Account creation details including name and slug.
-    service: Injected account service dependency.
+    request: User creation details including account_id, email, and display name.
+    service: Injected user service dependency.
     auth: Authentication context with user info.</p>
 <p>Returns:
-    AccountResponse with the created account including auto-generated ID and timestamps.</p>
+    UserResponse with the created user including auto-generated ID and timestamps.</p>
 <p>Raises:
-    403: User does not have permission to create accounts.</p>
+    403: User does not have access to the specified account.
+    404: Account not found.</p>
 <blockquote>
 <p>Body parameter</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user@example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;display_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
@@ -1039,7 +1044,7 @@
 <tr>
 <td>body</td>
 <td>body</td>
-<td><a href="../schemas/#accountcreaterequest">AccountCreateRequest</a></td>
+<td><a href="../schemas/#usercreaterequest">UserCreateRequest</a></td>
 <td>true</td>
 <td>none</td>
 </tr>
@@ -1051,9 +1056,10 @@
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;display_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;super_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -1073,7 +1079,7 @@
 <td>201</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.2">Created</a></td>
 <td>Successful Response</td>
-<td><a href="../schemas/#accountresponse">AccountResponse</a></td>
+<td><a href="../schemas/#userresponse">UserResponse</a></td>
 </tr>
 <tr>
 <td>422</td>
@@ -1087,7 +1093,7 @@
 <p class="admonition-title">Success</p>
 <p>This operation does not require authentication</p>
 </div>
-<h2 id="list-accounts">List Accounts<a class="headerlink" href="#list-accounts" title="Permanent link">&para;</a></h2>
+<h2 id="list-users">List Users<a class="headerlink" href="#list-users" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1099,7 +1105,7 @@
   <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/accounts&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/users&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
@@ -1112,7 +1118,7 @@
 <span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/accounts&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/users&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
 
@@ -1127,29 +1133,28 @@
 </div>
 </div>
 </div>
-<p><code>GET /v1/accounts</code></p>
-<p>List accounts with pagination and optional filtering.</p>
-<p>Superadmins see all accounts (paginated). Regular users see only their own account.</p>
-<p>Filtering:
-- Use ?slug={slug} to find a specific account by its slug</p>
+<p><code>GET /v1/users</code></p>
+<p>List users for an account with pagination.</p>
+<p>For regular users, account_id is automatically derived from their API key.
+For superadmins, account_id must be explicitly provided as a query parameter.</p>
 <p>Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
-- Custom sort: Use ?sort=name:asc,created_at:desc
-- Valid sort fields: id, name, slug, created_at, updated_at
+- Custom sort: Use ?sort=email:asc,created_at:desc
+- Valid sort fields: id, email, display_name, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response</p>
 <p>Example:
-    GET /v1/accounts?slug=acme-corp
-    GET /v1/accounts?limit=50&amp;sort=name:asc</p>
+    GET /v1/users?account_id=acc_123&amp;limit=50&amp;sort=email:asc</p>
 <p>Args:
-    service: Injected account service dependency.
     auth: Authentication context with user info.
+    service: Injected user service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    slug: Optional slug filter to find a specific account.</p>
+    account_id: Optional account_id query parameter (required for superadmins).</p>
 <p>Returns:
-    PaginatedResponse with accounts and pagination metadata.</p>
+    PaginatedResponse with users and pagination metadata.</p>
 <p>Raises:
     400: Invalid cursor, sort field, or cursor state mismatch.
-    404: Account not found when filtering by slug.</p>
+    400: Superadmin did not provide account_id.
+    403: User does not have access to the specified account.</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1162,13 +1167,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>slug</td>
-<td>query</td>
-<td>any</td>
-<td>false</td>
-<td>Filter by account slug</td>
-</tr>
 <tr>
 <td>account_id</td>
 <td>query</td>
@@ -1254,7 +1252,7 @@
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>Successful Response</td>
-<td><a href="../schemas/#paginatedresponse_accountresponse_">PaginatedResponse_AccountResponse_</a></td>
+<td><a href="../schemas/#paginatedresponse_userresponse_">PaginatedResponse_UserResponse_</a></td>
 </tr>
 <tr>
 <td>422</td>
@@ -1268,7 +1266,7 @@
 <p class="admonition-title">Success</p>
 <p>This operation does not require authentication</p>
 </div>
-<h2 id="get-account">Get Account<a class="headerlink" href="#get-account" title="Permanent link">&para;</a></h2>
+<h2 id="get-user">Get User<a class="headerlink" href="#get-user" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python</label><label for="__tabbed_3_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1280,7 +1278,7 @@
   <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/accounts/</span><span class="si">{account_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/users/</span><span class="si">{user_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
@@ -1293,7 +1291,7 @@
 <span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/accounts/{account_id}&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/users/{user_id}&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
 
@@ -1308,17 +1306,17 @@
 </div>
 </div>
 </div>
-<p><code>GET /v1/accounts/{account_id}</code></p>
-<p>Get an account by ID.</p>
+<p><code>GET /v1/users/{user_id}</code></p>
+<p>Get a user by ID.</p>
 <p>Args:
-    account_id: Unique identifier for the account.
-    service: Injected account service dependency.
+    user_id: Unique identifier for the user.
+    service: Injected user service dependency.
     auth: Authentication context with user info.</p>
 <p>Returns:
-    AccountResponse with full account details.</p>
+    UserResponse with full user details.</p>
 <p>Raises:
-    403: User does not have access to this account.
-    404: Account not found.</p>
+    403: User does not have access to this user's account.
+    404: User not found.</p>
 <h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1332,7 +1330,7 @@
 </thead>
 <tbody>
 <tr>
-<td>account_id</td>
+<td>user_id</td>
 <td>path</td>
 <td>string</td>
 <td>true</td>
@@ -1374,9 +1372,10 @@
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;display_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;super_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -1396,7 +1395,7 @@
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>Successful Response</td>
-<td><a href="../schemas/#accountresponse">AccountResponse</a></td>
+<td><a href="../schemas/#userresponse">UserResponse</a></td>
 </tr>
 <tr>
 <td>422</td>
@@ -1410,7 +1409,7 @@
 <p class="admonition-title">Success</p>
 <p>This operation does not require authentication</p>
 </div>
-<h2 id="update-account">Update Account<a class="headerlink" href="#update-account" title="Permanent link">&para;</a></h2>
+<h2 id="update-user">Update User<a class="headerlink" href="#update-user" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python</label><label for="__tabbed_4_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1423,16 +1422,16 @@
   <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;/v1/accounts/</span><span class="si">{account_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;/v1/users/</span><span class="si">{user_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">inputBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;name&quot;: &quot;string&quot;,</span>
-<span class="s1">  &quot;slug&quot;: &quot;string&quot;,</span>
-<span class="s1">  &quot;status&quot;: &quot;active&quot;,</span>
+<span class="s1">  &quot;email&quot;: &quot;user@example.com&quot;,</span>
+<span class="s1">  &quot;display_name&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;super_admin&quot;: true,</span>
 <span class="s1">  &quot;deleted&quot;: true</span>
 <span class="s1">}&#39;</span><span class="p">;</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
@@ -1443,7 +1442,7 @@
 <span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/accounts/{account_id}&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/users/{user_id}&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;PATCH&#39;</span><span class="p">,</span>
 <span class="w">  </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nx">inputBody</span><span class="p">,</span>
@@ -1458,27 +1457,26 @@
 </div>
 </div>
 </div>
-<p><code>PATCH /v1/accounts/{account_id}</code></p>
-<p>Update an account.</p>
-<p>Supports updating name, slug, status, or soft-deleting the account.
-Status changes (active/suspended) are handled through dedicated service methods.</p>
+<p><code>PATCH /v1/users/{user_id}</code></p>
+<p>Update a user.</p>
+<p>Supports updating email, display name, or soft-deleting the user.</p>
 <p>Args:
-    account_id: Unique identifier for the account.
-    request: Account update details (all fields optional).
-    service: Injected account service dependency.
+    user_id: Unique identifier for the user.
+    request: User update details (all fields optional).
+    service: Injected user service dependency.
     auth: Authentication context with user info.</p>
 <p>Returns:
-    AccountResponse with the updated account details.</p>
+    UserResponse with the updated user details.</p>
 <p>Raises:
-    403: User does not have access to this account.
-    404: Account not found.</p>
+    403: User does not have access to this user's account.
+    404: User not found.</p>
 <blockquote>
 <p>Body parameter</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user@example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;display_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;super_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;deleted&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1495,7 +1493,7 @@ Status changes (active/suspended) are handled through dedicated service methods.
 </thead>
 <tbody>
 <tr>
-<td>account_id</td>
+<td>user_id</td>
 <td>path</td>
 <td>string</td>
 <td>true</td>
@@ -1532,7 +1530,7 @@ Status changes (active/suspended) are handled through dedicated service methods.
 <tr>
 <td>body</td>
 <td>body</td>
-<td><a href="../schemas/#accountupdaterequest">AccountUpdateRequest</a></td>
+<td><a href="../schemas/#userupdaterequest">UserUpdateRequest</a></td>
 <td>true</td>
 <td>none</td>
 </tr>
@@ -1544,9 +1542,10 @@ Status changes (active/suspended) are handled through dedicated service methods.
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;account_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;display_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;super_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -1566,7 +1565,7 @@ Status changes (active/suspended) are handled through dedicated service methods.
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>Successful Response</td>
-<td><a href="../schemas/#accountresponse">AccountResponse</a></td>
+<td><a href="../schemas/#userresponse">UserResponse</a></td>
 </tr>
 <tr>
 <td>422</td>
