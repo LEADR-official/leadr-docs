@@ -1,6 +1,6 @@
-# Accounts
+# Users
 
-## Create Account
+## Create User
 
 === "Python"
 
@@ -14,7 +14,7 @@
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.post('/v1/accounts', headers = headers)
+    r = requests.post('/v1/users', headers = headers)
 
     print(r.json())
 
@@ -24,8 +24,9 @@
 
     ```javascript
     const inputBody = '{
-      "name": "string",
-      "slug": "string"
+      "account_id": "string",
+      "email": "user@example.com",
+      "display_name": "string"
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -35,7 +36,7 @@
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/accounts',
+    fetch('/v1/users',
     {
       method: 'POST',
       body: inputBody,
@@ -48,29 +49,34 @@
     });
 
     ```
-`POST /v1/accounts`
+`POST /v1/users`
 
-Create a new account.
+Create a new user.
 
-Only superadmins can create accounts.
+Creates a new user associated with an existing account.
+
+For regular users, account_id must match their API key's account.
+For superadmins, any account_id is accepted.
 
 Args:
-    request: Account creation details including name and slug.
-    service: Injected account service dependency.
+    request: User creation details including account_id, email, and display name.
+    service: Injected user service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    AccountResponse with the created account including auto-generated ID and timestamps.
+    UserResponse with the created user including auto-generated ID and timestamps.
 
 Raises:
-    403: User does not have permission to create accounts.
+    403: User does not have access to the specified account.
+    404: Account not found.
 
 > Body parameter
 
 ```json
 {
-  "name": "string",
-  "slug": "string"
+  "account_id": "string",
+  "email": "user@example.com",
+  "display_name": "string"
 }
 ```
 
@@ -82,7 +88,7 @@ Raises:
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
-|body|body|[AccountCreateRequest](./schemas.md#accountcreaterequest)|true|none|
+|body|body|[UserCreateRequest](./schemas.md#usercreaterequest)|true|none|
 
 > Example responses
 
@@ -91,9 +97,10 @@ Raises:
 ```json
 {
   "id": "string",
-  "name": "string",
-  "slug": "string",
-  "status": "active",
+  "account_id": "string",
+  "email": "string",
+  "display_name": "string",
+  "super_admin": true,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -103,13 +110,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[AccountResponse](./schemas.md#accountresponse)|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[UserResponse](./schemas.md#userresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## List Accounts
+## List Users
 
 === "Python"
 
@@ -122,7 +129,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/accounts', headers = headers)
+    r = requests.get('/v1/users', headers = headers)
 
     print(r.json())
 
@@ -139,7 +146,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/accounts',
+    fetch('/v1/users',
     {
       method: 'GET',
 
@@ -152,43 +159,40 @@ Raises:
     });
 
     ```
-`GET /v1/accounts`
+`GET /v1/users`
 
-List accounts with pagination and optional filtering.
+List users for an account with pagination.
 
-Superadmins see all accounts (paginated). Regular users see only their own account.
-
-Filtering:
-- Use ?slug={slug} to find a specific account by its slug
+For regular users, account_id is automatically derived from their API key.
+For superadmins, account_id must be explicitly provided as a query parameter.
 
 Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
-- Custom sort: Use ?sort=name:asc,created_at:desc
-- Valid sort fields: id, name, slug, created_at, updated_at
+- Custom sort: Use ?sort=email:asc,created_at:desc
+- Valid sort fields: id, email, display_name, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Example:
-    GET /v1/accounts?slug=acme-corp
-    GET /v1/accounts?limit=50&sort=name:asc
+    GET /v1/users?account_id=acc_123&limit=50&sort=email:asc
 
 Args:
-    service: Injected account service dependency.
     auth: Authentication context with user info.
+    service: Injected user service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    slug: Optional slug filter to find a specific account.
+    account_id: Optional account_id query parameter (required for superadmins).
 
 Returns:
-    PaginatedResponse with accounts and pagination metadata.
+    PaginatedResponse with users and pagination metadata.
 
 Raises:
     400: Invalid cursor, sort field, or cursor state mismatch.
-    404: Account not found when filtering by slug.
+    400: Superadmin did not provide account_id.
+    403: User does not have access to the specified account.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|slug|query|any|false|Filter by account slug|
 |account_id|query|any|false|none|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
@@ -222,13 +226,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_AccountResponse_](./schemas.md#paginatedresponse_accountresponse_)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_UserResponse_](./schemas.md#paginatedresponse_userresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Get Account
+## Get User
 
 === "Python"
 
@@ -241,7 +245,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/accounts/{account_id}', headers = headers)
+    r = requests.get('/v1/users/{user_id}', headers = headers)
 
     print(r.json())
 
@@ -258,7 +262,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/accounts/{account_id}',
+    fetch('/v1/users/{user_id}',
     {
       method: 'GET',
 
@@ -271,27 +275,27 @@ Raises:
     });
 
     ```
-`GET /v1/accounts/{account_id}`
+`GET /v1/users/{user_id}`
 
-Get an account by ID.
+Get a user by ID.
 
 Args:
-    account_id: Unique identifier for the account.
-    service: Injected account service dependency.
+    user_id: Unique identifier for the user.
+    service: Injected user service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    AccountResponse with full account details.
+    UserResponse with full user details.
 
 Raises:
-    403: User does not have access to this account.
-    404: Account not found.
+    403: User does not have access to this user's account.
+    404: User not found.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|account_id|path|string|true|none|
+|user_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
@@ -304,9 +308,10 @@ Raises:
 ```json
 {
   "id": "string",
-  "name": "string",
-  "slug": "string",
-  "status": "active",
+  "account_id": "string",
+  "email": "string",
+  "display_name": "string",
+  "super_admin": true,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -316,13 +321,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[AccountResponse](./schemas.md#accountresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[UserResponse](./schemas.md#userresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Update Account
+## Update User
 
 === "Python"
 
@@ -336,7 +341,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.patch('/v1/accounts/{account_id}', headers = headers)
+    r = requests.patch('/v1/users/{user_id}', headers = headers)
 
     print(r.json())
 
@@ -346,9 +351,9 @@ Raises:
 
     ```javascript
     const inputBody = '{
-      "name": "string",
-      "slug": "string",
-      "status": "active",
+      "email": "user@example.com",
+      "display_name": "string",
+      "super_admin": true,
       "deleted": true
     }';
     const headers = {
@@ -359,7 +364,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/accounts/{account_id}',
+    fetch('/v1/users/{user_id}',
     {
       method: 'PATCH',
       body: inputBody,
@@ -372,33 +377,32 @@ Raises:
     });
 
     ```
-`PATCH /v1/accounts/{account_id}`
+`PATCH /v1/users/{user_id}`
 
-Update an account.
+Update a user.
 
-Supports updating name, slug, status, or soft-deleting the account.
-Status changes (active/suspended) are handled through dedicated service methods.
+Supports updating email, display name, or soft-deleting the user.
 
 Args:
-    account_id: Unique identifier for the account.
-    request: Account update details (all fields optional).
-    service: Injected account service dependency.
+    user_id: Unique identifier for the user.
+    request: User update details (all fields optional).
+    service: Injected user service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    AccountResponse with the updated account details.
+    UserResponse with the updated user details.
 
 Raises:
-    403: User does not have access to this account.
-    404: Account not found.
+    403: User does not have access to this user's account.
+    404: User not found.
 
 > Body parameter
 
 ```json
 {
-  "name": "string",
-  "slug": "string",
-  "status": "active",
+  "email": "user@example.com",
+  "display_name": "string",
+  "super_admin": true,
   "deleted": true
 }
 ```
@@ -407,12 +411,12 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|account_id|path|string|true|none|
+|user_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
-|body|body|[AccountUpdateRequest](./schemas.md#accountupdaterequest)|true|none|
+|body|body|[UserUpdateRequest](./schemas.md#userupdaterequest)|true|none|
 
 > Example responses
 
@@ -421,9 +425,10 @@ Raises:
 ```json
 {
   "id": "string",
-  "name": "string",
-  "slug": "string",
-  "status": "active",
+  "account_id": "string",
+  "email": "string",
+  "display_name": "string",
+  "super_admin": true,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -433,7 +438,7 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[AccountResponse](./schemas.md#accountresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[UserResponse](./schemas.md#userresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success

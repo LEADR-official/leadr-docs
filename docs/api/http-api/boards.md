@@ -9,7 +9,9 @@
     headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'leadr-api-key': 'string'
+      'leadr-api-key': 'string',
+      'authorization': 'string',
+      'leadr-client-nonce': 'string'
     }
 
     r = requests.post('/v1/boards', headers = headers)
@@ -22,16 +24,18 @@
 
     ```javascript
     const inputBody = '{
-      "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-      "game_id": "129babd7-0a5a-4108-81e4-77c8f2b49aed",
+      "account_id": "string",
+      "game_id": "string",
       "name": "string",
-      "icon": "string",
+      "slug": "string",
+      "icon": "fa-crown",
       "short_code": "string",
       "unit": "string",
       "is_active": true,
+      "is_published": true,
       "sort_direction": "ASCENDING",
-      "keep_strategy": "BEST_ONLY",
-      "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
+      "keep_strategy": "FIRST_ONLY",
+      "created_from_template_id": "string",
       "template_name": "string",
       "starts_at": "2019-08-24T14:15:22Z",
       "ends_at": "2019-08-24T14:15:22Z",
@@ -42,7 +46,9 @@
     const headers = {
       'Content-Type':'application/json',
       'Accept':'application/json',
-      'leadr-api-key':'string'
+      'leadr-api-key':'string',
+      'authorization':'string',
+      'leadr-client-nonce':'string'
     };
 
     fetch('/v1/boards',
@@ -65,14 +71,19 @@ Create a new board.
 Creates a new leaderboard associated with an existing game and account.
 The game must belong to the specified account.
 
+For regular users, account_id must match their API key's account.
+For superadmins, any account_id is accepted.
+
 Args:
     request: Board creation details including account_id, game_id, name, and settings.
     service: Injected board service dependency.
+    auth: Authentication context with user info.
 
 Returns:
     BoardResponse with the created board including auto-generated ID and timestamps.
 
 Raises:
+    403: User does not have access to the specified account.
     404: Game or account not found.
     400: Game doesn't belong to the specified account.
 
@@ -80,16 +91,18 @@ Raises:
 
 ```json
 {
-  "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-  "game_id": "129babd7-0a5a-4108-81e4-77c8f2b49aed",
+  "account_id": "string",
+  "game_id": "string",
   "name": "string",
-  "icon": "string",
+  "slug": "string",
+  "icon": "fa-crown",
   "short_code": "string",
   "unit": "string",
   "is_active": true,
+  "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "BEST_ONLY",
-  "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
+  "keep_strategy": "FIRST_ONLY",
+  "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
@@ -103,7 +116,10 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
+|account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
+|authorization|header|any|false|none|
+|leadr-client-nonce|header|any|false|none|
 |body|body|[BoardCreateRequest](./schemas.md#boardcreaterequest)|true|none|
 
 > Example responses
@@ -112,17 +128,19 @@ Raises:
 
 ```json
 {
-  "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-  "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-  "game_id": "129babd7-0a5a-4108-81e4-77c8f2b49aed",
+  "id": "string",
+  "account_id": "string",
+  "game_id": "string",
   "name": "string",
+  "slug": "string",
   "icon": "string",
   "short_code": "string",
   "unit": "string",
   "is_active": true,
+  "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "BEST_ONLY",
-  "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
+  "keep_strategy": "FIRST_ONLY",
+  "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
@@ -144,7 +162,7 @@ Raises:
 !!! success
     This operation does not require authentication
 
-## List Boards
+## List Boards Admin
 
 === "Python"
 
@@ -152,12 +170,12 @@ Raises:
     import requests
     headers = {
       'Accept': 'application/json',
-      'leadr-api-key': 'string'
+      'leadr-api-key': 'string',
+      'authorization': 'string',
+      'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/boards', params={
-      'account_id': '497f6eca-6276-4993-bfeb-53cbbbba6f08'
-    }, headers = headers)
+    r = requests.get('/v1/boards', headers = headers)
 
     print(r.json())
 
@@ -169,10 +187,12 @@ Raises:
 
     const headers = {
       'Accept':'application/json',
-      'leadr-api-key':'string'
+      'leadr-api-key':'string',
+      'authorization':'string',
+      'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/boards?account_id=497f6eca-6276-4993-bfeb-53cbbbba6f08',
+    fetch('/v1/boards',
     {
       method: 'GET',
 
@@ -187,164 +207,89 @@ Raises:
     ```
 `GET /v1/boards`
 
-List all boards for an account.
+List boards (Admin API).
+
+For regular users:
+- If account_id not provided, defaults to their API key's account
+- If account_id provided and they are superadmin, can access any account
+- If account_id provided and NOT superadmin, must match their account (validated in AuthContext)
+
+Filtering:
+- Use ?game_slug={slug} to filter boards by game
+- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game
+- Use ?code={code} to filter boards by short code
+- Note: board slug filter requires game_slug parameter
+
+Pagination:
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=name:asc,created_at:desc
+- Valid sort fields: id, name, short_code, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response
+
+Example:
+    GET /v1/boards?account_id=acc_123&limit=50&sort=name:asc
+    GET /v1/boards?game_slug=my-game
+    GET /v1/boards?game_slug=my-game&slug=weekly-challenge
 
 Args:
-    account_id: Account ID to filter boards by.
+    auth: Admin authentication context with user info.
     service: Injected board service dependency.
+    game_service: Injected game service dependency.
+    pagination: Pagination parameters (cursor, limit, sort).
+    account_id: Optional account ID to filter boards by.
+    code: Optional short code to filter boards by.
+    game_slug: Optional game slug to filter boards by game.
+    slug: Optional board slug to filter by specific board (requires game_slug).
 
 Returns:
-    List of all active boards for the specified account.
+    PaginatedResponse with boards and pagination metadata.
+
+Raises:
+    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.
+    404: Game or board not found when using slug filters.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|account_id|query|string(uuid)|true|none|
+|account_id|query|any|false|none|
+|code|query|any|false|Filter by short code|
+|game_slug|query|any|false|Filter by game slug|
+|slug|query|any|false|Filter by board slug (requires game_slug)|
+|cursor|query|any|false|Pagination cursor for navigating results|
+|limit|query|integer|false|Number of items per page (1-100)|
+|sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
 |leadr-api-key|header|any|false|none|
+|authorization|header|any|false|none|
+|leadr-client-nonce|header|any|false|none|
 
 > Example responses
 
 > 200 Response
 
 ```json
-[
-  {
-    "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-    "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-    "game_id": "129babd7-0a5a-4108-81e4-77c8f2b49aed",
-    "name": "string",
-    "icon": "string",
-    "short_code": "string",
-    "unit": "string",
-    "is_active": true,
-    "sort_direction": "ASCENDING",
-    "keep_strategy": "BEST_ONLY",
-    "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
-    "template_name": "string",
-    "starts_at": "2019-08-24T14:15:22Z",
-    "ends_at": "2019-08-24T14:15:22Z",
-    "tags": [
-      "string"
-    ],
-    "created_at": "2019-08-24T14:15:22Z",
-    "updated_at": "2019-08-24T14:15:22Z"
+{
+  "data": [
+    {
+      "id": "scr_123",
+      "value": 1000
+    }
+  ],
+  "pagination": {
+    "count": 20,
+    "has_next": true,
+    "has_prev": false,
+    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
   }
-]
+}
 ```
 
 ### Responses
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_BoardResponse_](./schemas.md#paginatedresponse_boardresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-### Response Schema
-
-Status Code **200**
-
-*Response List Boards V1 Boards Get*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Response List Boards V1 Boards Get|[[BoardResponse](./schemas.md#boardresponse)]|false|none|[Response model for a board.]|
-|» BoardResponse|[BoardResponse](./schemas.md#boardresponse)|false|none|Response model for a board.|
-|»» id|string(uuid)|true|none|Unique identifier for the board|
-|»» account_id|string(uuid)|true|none|ID of the account this board belongs to|
-|»» game_id|string(uuid)|true|none|ID of the game this board belongs to|
-|»» name|string|true|none|Name of the board|
-|»» icon|string|true|none|Icon identifier for the board|
-|»» short_code|string|true|none|Globally unique short code for direct sharing|
-|»» unit|string|true|none|Unit of measurement for scores|
-|»» is_active|boolean|true|none|Whether the board is currently active|
-|»» sort_direction|[SortDirection](./schemas.md#sortdirection)|true|none|Sort direction for board scores.|
-|»» keep_strategy|[KeepStrategy](./schemas.md#keepstrategy)|true|none|Strategy for keeping scores from the same user.|
-|»» template_id|any|false|none|Template ID this board was created from, or null|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|string(uuid)|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» template_name|any|false|none|Template name this board was created from, or null|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|string|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» starts_at|any|false|none|Start time for time-bounded boards (UTC)|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|string(date-time)|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» ends_at|any|false|none|End time for time-bounded boards (UTC)|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|string(date-time)|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» tags|[string]|false|none|List of tags for categorization|
-|»» created_at|string(date-time)|true|none|Timestamp when the board was created (UTC)|
-|»» updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
-
-#### Enumerated Values
-
-|Property|Value|
-|---|---|
-|sort_direction|ASCENDING|
-|sort_direction|DESCENDING|
-|keep_strategy|BEST_ONLY|
-|keep_strategy|LATEST_ONLY|
-|keep_strategy|ALL|
 
 !!! success
     This operation does not require authentication
@@ -357,7 +302,9 @@ Status Code **200**
     import requests
     headers = {
       'Accept': 'application/json',
-      'leadr-api-key': 'string'
+      'leadr-api-key': 'string',
+      'authorization': 'string',
+      'leadr-client-nonce': 'string'
     }
 
     r = requests.get('/v1/boards/{board_id}', headers = headers)
@@ -372,7 +319,9 @@ Status Code **200**
 
     const headers = {
       'Accept':'application/json',
-      'leadr-api-key':'string'
+      'leadr-api-key':'string',
+      'authorization':'string',
+      'leadr-client-nonce':'string'
     };
 
     fetch('/v1/boards/{board_id}',
@@ -395,19 +344,24 @@ Get a board by ID.
 Args:
     board_id: Unique identifier for the board.
     service: Injected board service dependency.
+    auth: Authentication context with user info.
 
 Returns:
     BoardResponse with full board details.
 
 Raises:
+    403: User does not have access to this board's account.
     404: Board not found.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|board_id|path|string(uuid)|true|none|
+|board_id|path|string|true|none|
+|account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
+|authorization|header|any|false|none|
+|leadr-client-nonce|header|any|false|none|
 
 > Example responses
 
@@ -415,17 +369,19 @@ Raises:
 
 ```json
 {
-  "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-  "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-  "game_id": "129babd7-0a5a-4108-81e4-77c8f2b49aed",
+  "id": "string",
+  "account_id": "string",
+  "game_id": "string",
   "name": "string",
+  "slug": "string",
   "icon": "string",
   "short_code": "string",
   "unit": "string",
   "is_active": true,
+  "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "BEST_ONLY",
-  "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
+  "keep_strategy": "FIRST_ONLY",
+  "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
@@ -456,7 +412,9 @@ Raises:
     headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'leadr-api-key': 'string'
+      'leadr-api-key': 'string',
+      'authorization': 'string',
+      'leadr-client-nonce': 'string'
     }
 
     r = requests.patch('/v1/boards/{board_id}', headers = headers)
@@ -474,9 +432,10 @@ Raises:
       "short_code": "string",
       "unit": "string",
       "is_active": true,
+      "is_published": true,
       "sort_direction": "ASCENDING",
-      "keep_strategy": "BEST_ONLY",
-      "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
+      "keep_strategy": "FIRST_ONLY",
+      "created_from_template_id": "string",
       "template_name": "string",
       "starts_at": "2019-08-24T14:15:22Z",
       "ends_at": "2019-08-24T14:15:22Z",
@@ -488,7 +447,9 @@ Raises:
     const headers = {
       'Content-Type':'application/json',
       'Accept':'application/json',
-      'leadr-api-key':'string'
+      'leadr-api-key':'string',
+      'authorization':'string',
+      'leadr-client-nonce':'string'
     };
 
     fetch('/v1/boards/{board_id}',
@@ -514,11 +475,13 @@ Args:
     board_id: Unique identifier for the board.
     request: Board update details (all fields optional).
     service: Injected board service dependency.
+    auth: Authentication context with user info.
 
 Returns:
     BoardResponse with the updated board details.
 
 Raises:
+    403: User does not have access to this board's account.
     404: Board not found.
 
 > Body parameter
@@ -530,9 +493,10 @@ Raises:
   "short_code": "string",
   "unit": "string",
   "is_active": true,
+  "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "BEST_ONLY",
-  "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
+  "keep_strategy": "FIRST_ONLY",
+  "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
@@ -547,8 +511,11 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|board_id|path|string(uuid)|true|none|
+|board_id|path|string|true|none|
+|account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
+|authorization|header|any|false|none|
+|leadr-client-nonce|header|any|false|none|
 |body|body|[BoardUpdateRequest](./schemas.md#boardupdaterequest)|true|none|
 
 > Example responses
@@ -557,115 +524,19 @@ Raises:
 
 ```json
 {
-  "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-  "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-  "game_id": "129babd7-0a5a-4108-81e4-77c8f2b49aed",
+  "id": "string",
+  "account_id": "string",
+  "game_id": "string",
   "name": "string",
+  "slug": "string",
   "icon": "string",
   "short_code": "string",
   "unit": "string",
   "is_active": true,
+  "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "BEST_ONLY",
-  "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
-  "template_name": "string",
-  "starts_at": "2019-08-24T14:15:22Z",
-  "ends_at": "2019-08-24T14:15:22Z",
-  "tags": [
-    "string"
-  ],
-  "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
-}
-```
-
-### Responses
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[BoardResponse](./schemas.md#boardresponse)|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-!!! success
-    This operation does not require authentication
-
-## Get Board By Short Code
-
-=== "Python"
-
-    ```python
-    import requests
-    headers = {
-      'Accept': 'application/json',
-      'leadr-api-key': 'string'
-    }
-
-    r = requests.get('/v1/boards/by-code/{short_code}', headers = headers)
-
-    print(r.json())
-
-    ```
-
-=== "JavaScript"
-
-    ```javascript
-
-    const headers = {
-      'Accept':'application/json',
-      'leadr-api-key':'string'
-    };
-
-    fetch('/v1/boards/by-code/{short_code}',
-    {
-      method: 'GET',
-
-      headers: headers
-    })
-    .then(function(res) {
-        return res.json();
-    }).then(function(body) {
-        console.log(body);
-    });
-
-    ```
-`GET /v1/boards/by-code/{short_code}`
-
-Get a board by its short code.
-
-Args:
-    short_code: Globally unique short code for the board.
-    service: Injected board service dependency.
-
-Returns:
-    BoardResponse with full board details.
-
-Raises:
-    404: Board not found.
-
-### Parameters
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|short_code|path|string|true|none|
-|leadr-api-key|header|any|false|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-  "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-  "game_id": "129babd7-0a5a-4108-81e4-77c8f2b49aed",
-  "name": "string",
-  "icon": "string",
-  "short_code": "string",
-  "unit": "string",
-  "is_active": true,
-  "sort_direction": "ASCENDING",
-  "keep_strategy": "BEST_ONLY",
-  "template_id": "c6d67e98-83ea-49f0-8812-e4abae2b68bc",
+  "keep_strategy": "FIRST_ONLY",
+  "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",

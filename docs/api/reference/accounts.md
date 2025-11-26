@@ -131,6 +131,7 @@ Maps to the users table with foreign key to accounts.
 - [**display_name**](#leadr.accounts.adapters.orm.UserORM.display_name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**email**](./accounts.md#leadr.accounts.adapters.orm.UserORM.email) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**id**](./accounts.md#leadr.accounts.adapters.orm.UserORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**super_admin**](#leadr.accounts.adapters.orm.UserORM.super_admin) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
 - [**updated_at**](#leadr.accounts.adapters.orm.UserORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 
 ####### `leadr.accounts.adapters.orm.UserORM.account`
@@ -175,6 +176,12 @@ email: Mapped[str] = mapped_column(String, nullable=False, unique=True, index=Tr
 id: Mapped[uuid_pk]
 ```
 
+####### `leadr.accounts.adapters.orm.UserORM.super_admin`
+
+```python
+super_admin: Mapped[bool] = mapped_column(nullable=False, default=False, server_default='false')
+```
+
 ####### `leadr.accounts.adapters.orm.UserORM.updated_at`
 
 ```python
@@ -185,155 +192,128 @@ updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
 
 **Modules:**
 
-- [**routes**](./accounts.md#leadr.accounts.api.routes) – Account and User API routes.
-- [**schemas**](./accounts.md#leadr.accounts.api.schemas) – API request and response models for accounts.
+- [**account_routes**](#leadr.accounts.api.account_routes) – Account API routes.
+- [**account_schemas**](#leadr.accounts.api.account_schemas) – API request and response models for accounts.
+- [**user_routes**](#leadr.accounts.api.user_routes) – User API routes.
+- [**user_schemas**](#leadr.accounts.api.user_schemas) – API request and response models for users.
 
-##### `leadr.accounts.api.routes`
+##### `leadr.accounts.api.account_routes`
 
-Account and User API routes.
+Account API routes.
 
 **Functions:**
 
-- [**create_account**](#leadr.accounts.api.routes.create_account) – Create a new account.
-- [**create_user**](#leadr.accounts.api.routes.create_user) – Create a new user.
-- [**get_account**](#leadr.accounts.api.routes.get_account) – Get an account by ID.
-- [**get_user**](#leadr.accounts.api.routes.get_user) – Get a user by ID.
-- [**list_accounts**](#leadr.accounts.api.routes.list_accounts) – List all accounts.
-- [**list_users**](#leadr.accounts.api.routes.list_users) – List users for an account.
-- [**update_account**](#leadr.accounts.api.routes.update_account) – Update an account.
-- [**update_user**](#leadr.accounts.api.routes.update_user) – Update a user.
+- [**create_account**](#leadr.accounts.api.account_routes.create_account) – Create a new account.
+- [**get_account**](#leadr.accounts.api.account_routes.get_account) – Get an account by ID.
+- [**list_accounts**](#leadr.accounts.api.account_routes.list_accounts) – List accounts with pagination and optional filtering.
+- [**update_account**](#leadr.accounts.api.account_routes.update_account) – Update an account.
 
 **Attributes:**
 
-- [**router**](./accounts.md#leadr.accounts.api.routes.router) –
+- [**router**](#leadr.accounts.api.account_routes.router) –
 
-###### `leadr.accounts.api.routes.create_account`
+###### `leadr.accounts.api.account_routes.create_account`
 
 ```python
-create_account(request, service)
+create_account(request, service, auth)
 ```
 
 Create a new account.
 
+Only superadmins can create accounts.
+
 **Parameters:**
 
-- **request** (<code>[AccountCreateRequest](./accounts.md#leadr.accounts.api.schemas.AccountCreateRequest)</code>) – Account creation details including name and slug.
+- **request** (<code>[AccountCreateRequest](#leadr.accounts.api.account_schemas.AccountCreateRequest)</code>) – Account creation details including name and slug.
 - **service** (<code>[AccountServiceDep](#leadr.accounts.services.dependencies.AccountServiceDep)</code>) – Injected account service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 
 **Returns:**
 
-- <code>[AccountResponse](./accounts.md#leadr.accounts.api.schemas.AccountResponse)</code> – AccountResponse with the created account including auto-generated ID and timestamps.
-
-###### `leadr.accounts.api.routes.create_user`
-
-```python
-create_user(request, service)
-```
-
-Create a new user.
-
-Creates a new user associated with an existing account.
-
-**Parameters:**
-
-- **request** (<code>[UserCreateRequest](./accounts.md#leadr.accounts.api.schemas.UserCreateRequest)</code>) – User creation details including account_id, email, and display name.
-- **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
-
-**Returns:**
-
-- <code>[UserResponse](./accounts.md#leadr.accounts.api.schemas.UserResponse)</code> – UserResponse with the created user including auto-generated ID and timestamps.
+- <code>[AccountResponse](#leadr.accounts.api.account_schemas.AccountResponse)</code> – AccountResponse with the created account including auto-generated ID and timestamps.
 
 **Raises:**
 
-- <code>404</code> – Account not found.
+- <code>403</code> – User does not have permission to create accounts.
 
-###### `leadr.accounts.api.routes.get_account`
+###### `leadr.accounts.api.account_routes.get_account`
 
 ```python
-get_account(account_id, service)
+get_account(account_id, service, auth)
 ```
 
 Get an account by ID.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4)</code>) – Unique identifier for the account.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – Unique identifier for the account.
 - **service** (<code>[AccountServiceDep](#leadr.accounts.services.dependencies.AccountServiceDep)</code>) – Injected account service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 
 **Returns:**
 
-- <code>[AccountResponse](./accounts.md#leadr.accounts.api.schemas.AccountResponse)</code> – AccountResponse with full account details.
+- <code>[AccountResponse](#leadr.accounts.api.account_schemas.AccountResponse)</code> – AccountResponse with full account details.
 
 **Raises:**
 
+- <code>403</code> – User does not have access to this account.
 - <code>404</code> – Account not found.
 
-###### `leadr.accounts.api.routes.get_user`
+###### `leadr.accounts.api.account_routes.list_accounts`
 
 ```python
-get_user(user_id, service)
+list_accounts(service, auth, pagination, slug=None)
 ```
 
-Get a user by ID.
+List accounts with pagination and optional filtering.
 
-**Parameters:**
+Superadmins see all accounts (paginated). Regular users see only their own account.
 
-- **user_id** (<code>[UUID4](#pydantic.UUID4)</code>) – Unique identifier for the user.
-- **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
+Filtering:
 
-**Returns:**
+- Use ?slug={slug} to find a specific account by its slug
 
-- <code>[UserResponse](./accounts.md#leadr.accounts.api.schemas.UserResponse)</code> – UserResponse with full user details.
+Pagination:
 
-**Raises:**
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=name:asc,created_at:desc
+- Valid sort fields: id, name, slug, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response
 
-- <code>404</code> – User not found.
+<details class="example" open markdown="1">
+<summary>Example</summary>
 
-###### `leadr.accounts.api.routes.list_accounts`
+GET /v1/accounts?slug=acme-corp
+GET /v1/accounts?limit=50&sort=name:asc
 
-```python
-list_accounts(service)
-```
-
-List all accounts.
+</details>
 
 **Parameters:**
 
 - **service** (<code>[AccountServiceDep](#leadr.accounts.services.dependencies.AccountServiceDep)</code>) – Injected account service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+- **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
+- **slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by account slug')\]</code>) – Optional slug filter to find a specific account.
 
 **Returns:**
 
-- <code>[list](#list)\[[AccountResponse](./accounts.md#leadr.accounts.api.schemas.AccountResponse)\]</code> – List of all active accounts.
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[AccountResponse](#leadr.accounts.api.account_schemas.AccountResponse)\]</code> – PaginatedResponse with accounts and pagination metadata.
 
-###### `leadr.accounts.api.routes.list_users`
+**Raises:**
 
-```python
-list_users(service, account_id)
-```
+- <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
+- <code>404</code> – Account not found when filtering by slug.
 
-List users for an account.
-
-TODO: Replace account_id query param with account_id from auth token.
-
-**Parameters:**
-
-- **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[UUID4](#pydantic.UUID4), [Query](#fastapi.Query)(description='Account ID to filter by')\]</code>) – Account ID to filter results (REQUIRED for multi-tenant safety).
-
-**Returns:**
-
-- <code>[list](#list)\[[UserResponse](./accounts.md#leadr.accounts.api.schemas.UserResponse)\]</code> – List of users for the account.
-
-###### `leadr.accounts.api.routes.router`
+###### `leadr.accounts.api.account_routes.router`
 
 ```python
 router = APIRouter()
 ```
 
-###### `leadr.accounts.api.routes.update_account`
+###### `leadr.accounts.api.account_routes.update_account`
 
 ```python
-update_account(account_id, request, service)
+update_account(account_id, request, service, auth)
 ```
 
 Update an account.
@@ -343,56 +323,31 @@ Status changes (active/suspended) are handled through dedicated service methods.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4)</code>) – Unique identifier for the account.
-- **request** (<code>[AccountUpdateRequest](./accounts.md#leadr.accounts.api.schemas.AccountUpdateRequest)</code>) – Account update details (all fields optional).
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – Unique identifier for the account.
+- **request** (<code>[AccountUpdateRequest](#leadr.accounts.api.account_schemas.AccountUpdateRequest)</code>) – Account update details (all fields optional).
 - **service** (<code>[AccountServiceDep](#leadr.accounts.services.dependencies.AccountServiceDep)</code>) – Injected account service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 
 **Returns:**
 
-- <code>[AccountResponse](./accounts.md#leadr.accounts.api.schemas.AccountResponse)</code> – AccountResponse with the updated account details.
+- <code>[AccountResponse](#leadr.accounts.api.account_schemas.AccountResponse)</code> – AccountResponse with the updated account details.
 
 **Raises:**
 
+- <code>403</code> – User does not have access to this account.
 - <code>404</code> – Account not found.
 
-###### `leadr.accounts.api.routes.update_user`
-
-```python
-update_user(user_id, request, service)
-```
-
-Update a user.
-
-Supports updating email, display name, or soft-deleting the user.
-
-**Parameters:**
-
-- **user_id** (<code>[UUID4](#pydantic.UUID4)</code>) – Unique identifier for the user.
-- **request** (<code>[UserUpdateRequest](./accounts.md#leadr.accounts.api.schemas.UserUpdateRequest)</code>) – User update details (all fields optional).
-- **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
-
-**Returns:**
-
-- <code>[UserResponse](./accounts.md#leadr.accounts.api.schemas.UserResponse)</code> – UserResponse with the updated user details.
-
-**Raises:**
-
-- <code>404</code> – User not found.
-
-##### `leadr.accounts.api.schemas`
+##### `leadr.accounts.api.account_schemas`
 
 API request and response models for accounts.
 
 **Classes:**
 
-- [**AccountCreateRequest**](./accounts.md#leadr.accounts.api.schemas.AccountCreateRequest) – Request model for creating an account.
-- [**AccountResponse**](./accounts.md#leadr.accounts.api.schemas.AccountResponse) – Response model for an account.
-- [**AccountUpdateRequest**](./accounts.md#leadr.accounts.api.schemas.AccountUpdateRequest) – Request model for updating an account.
-- [**UserCreateRequest**](./accounts.md#leadr.accounts.api.schemas.UserCreateRequest) – Request model for creating a user.
-- [**UserResponse**](./accounts.md#leadr.accounts.api.schemas.UserResponse) – Response model for a user.
-- [**UserUpdateRequest**](./accounts.md#leadr.accounts.api.schemas.UserUpdateRequest) – Request model for updating a user.
+- [**AccountCreateRequest**](#leadr.accounts.api.account_schemas.AccountCreateRequest) – Request model for creating an account.
+- [**AccountResponse**](#leadr.accounts.api.account_schemas.AccountResponse) – Response model for an account.
+- [**AccountUpdateRequest**](#leadr.accounts.api.account_schemas.AccountUpdateRequest) – Request model for updating an account.
 
-###### `leadr.accounts.api.schemas.AccountCreateRequest`
+###### `leadr.accounts.api.account_schemas.AccountCreateRequest`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -400,22 +355,22 @@ Request model for creating an account.
 
 **Attributes:**
 
-- [**name**](./accounts.md#leadr.accounts.api.schemas.AccountCreateRequest.name) (<code>[str](#str)</code>) –
-- [**slug**](./accounts.md#leadr.accounts.api.schemas.AccountCreateRequest.slug) (<code>[str](#str)</code>) –
+- [**name**](#leadr.accounts.api.account_schemas.AccountCreateRequest.name) (<code>[str](#str)</code>) –
+- [**slug**](#leadr.accounts.api.account_schemas.AccountCreateRequest.slug) (<code>[str](#str) | None</code>) –
 
-####### `leadr.accounts.api.schemas.AccountCreateRequest.name`
+####### `leadr.accounts.api.account_schemas.AccountCreateRequest.name`
 
 ```python
 name: str = Field(description='Account name (2-100 characters)')
 ```
 
-####### `leadr.accounts.api.schemas.AccountCreateRequest.slug`
+####### `leadr.accounts.api.account_schemas.AccountCreateRequest.slug`
 
 ```python
-slug: str = Field(description='URL-friendly identifier for the account (lowercase, alphanumeric, hyphens)')
+slug: str | None = Field(default=None, description='Optional URL-friendly slug (globally unique). If not provided, will be auto-generated from name')
 ```
 
-###### `leadr.accounts.api.schemas.AccountResponse`
+###### `leadr.accounts.api.account_schemas.AccountResponse`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -423,24 +378,24 @@ Response model for an account.
 
 **Functions:**
 
-- [**from_domain**](#leadr.accounts.api.schemas.AccountResponse.from_domain) – Convert domain entity to response model.
+- [**from_domain**](#leadr.accounts.api.account_schemas.AccountResponse.from_domain) – Convert domain entity to response model.
 
 **Attributes:**
 
-- [**created_at**](#leadr.accounts.api.schemas.AccountResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**id**](./accounts.md#leadr.accounts.api.schemas.AccountResponse.id) (<code>[UUID](#uuid.UUID)</code>) –
-- [**name**](./accounts.md#leadr.accounts.api.schemas.AccountResponse.name) (<code>[str](#str)</code>) –
-- [**slug**](./accounts.md#leadr.accounts.api.schemas.AccountResponse.slug) (<code>[str](#str)</code>) –
-- [**status**](./accounts.md#leadr.accounts.api.schemas.AccountResponse.status) (<code>[AccountStatus](./accounts.md#leadr.accounts.domain.account.AccountStatus)</code>) –
-- [**updated_at**](#leadr.accounts.api.schemas.AccountResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**created_at**](#leadr.accounts.api.account_schemas.AccountResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**id**](#leadr.accounts.api.account_schemas.AccountResponse.id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**name**](#leadr.accounts.api.account_schemas.AccountResponse.name) (<code>[str](#str)</code>) –
+- [**slug**](#leadr.accounts.api.account_schemas.AccountResponse.slug) (<code>[str](#str)</code>) –
+- [**status**](#leadr.accounts.api.account_schemas.AccountResponse.status) (<code>[AccountStatus](./accounts.md#leadr.accounts.domain.account.AccountStatus)</code>) –
+- [**updated_at**](#leadr.accounts.api.account_schemas.AccountResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
-####### `leadr.accounts.api.schemas.AccountResponse.created_at`
+####### `leadr.accounts.api.account_schemas.AccountResponse.created_at`
 
 ```python
 created_at: datetime = Field(description='Timestamp when the account was created (UTC)')
 ```
 
-####### `leadr.accounts.api.schemas.AccountResponse.from_domain`
+####### `leadr.accounts.api.account_schemas.AccountResponse.from_domain`
 
 ```python
 from_domain(account)
@@ -454,39 +409,39 @@ Convert domain entity to response model.
 
 **Returns:**
 
-- <code>[AccountResponse](./accounts.md#leadr.accounts.api.schemas.AccountResponse)</code> – AccountResponse with all fields populated from the domain entity.
+- <code>[AccountResponse](#leadr.accounts.api.account_schemas.AccountResponse)</code> – AccountResponse with all fields populated from the domain entity.
 
-####### `leadr.accounts.api.schemas.AccountResponse.id`
+####### `leadr.accounts.api.account_schemas.AccountResponse.id`
 
 ```python
-id: UUID = Field(description='Unique identifier for the account')
+id: AccountID = Field(description='Unique identifier for the account')
 ```
 
-####### `leadr.accounts.api.schemas.AccountResponse.name`
+####### `leadr.accounts.api.account_schemas.AccountResponse.name`
 
 ```python
 name: str = Field(description='Account name')
 ```
 
-####### `leadr.accounts.api.schemas.AccountResponse.slug`
+####### `leadr.accounts.api.account_schemas.AccountResponse.slug`
 
 ```python
 slug: str = Field(description='URL-friendly identifier')
 ```
 
-####### `leadr.accounts.api.schemas.AccountResponse.status`
+####### `leadr.accounts.api.account_schemas.AccountResponse.status`
 
 ```python
 status: AccountStatus = Field(description='Current account status')
 ```
 
-####### `leadr.accounts.api.schemas.AccountResponse.updated_at`
+####### `leadr.accounts.api.account_schemas.AccountResponse.updated_at`
 
 ```python
 updated_at: datetime = Field(description='Timestamp of last update (UTC)')
 ```
 
-###### `leadr.accounts.api.schemas.AccountUpdateRequest`
+###### `leadr.accounts.api.account_schemas.AccountUpdateRequest`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -494,36 +449,186 @@ Request model for updating an account.
 
 **Attributes:**
 
-- [**deleted**](./accounts.md#leadr.accounts.api.schemas.AccountUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
-- [**name**](./accounts.md#leadr.accounts.api.schemas.AccountUpdateRequest.name) (<code>[str](#str) | None</code>) –
-- [**slug**](./accounts.md#leadr.accounts.api.schemas.AccountUpdateRequest.slug) (<code>[str](#str) | None</code>) –
-- [**status**](./accounts.md#leadr.accounts.api.schemas.AccountUpdateRequest.status) (<code>[AccountStatus](./accounts.md#leadr.accounts.domain.account.AccountStatus) | None</code>) –
+- [**deleted**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
+- [**name**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.name) (<code>[str](#str) | None</code>) –
+- [**slug**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.slug) (<code>[str](#str) | None</code>) –
+- [**status**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.status) (<code>[AccountStatus](./accounts.md#leadr.accounts.domain.account.AccountStatus) | None</code>) –
 
-####### `leadr.accounts.api.schemas.AccountUpdateRequest.deleted`
+####### `leadr.accounts.api.account_schemas.AccountUpdateRequest.deleted`
 
 ```python
 deleted: bool | None = Field(default=None, description='Set to true to soft delete the account')
 ```
 
-####### `leadr.accounts.api.schemas.AccountUpdateRequest.name`
+####### `leadr.accounts.api.account_schemas.AccountUpdateRequest.name`
 
 ```python
 name: str | None = Field(default=None, description='Updated account name')
 ```
 
-####### `leadr.accounts.api.schemas.AccountUpdateRequest.slug`
+####### `leadr.accounts.api.account_schemas.AccountUpdateRequest.slug`
 
 ```python
 slug: str | None = Field(default=None, description='Updated URL-friendly identifier')
 ```
 
-####### `leadr.accounts.api.schemas.AccountUpdateRequest.status`
+####### `leadr.accounts.api.account_schemas.AccountUpdateRequest.status`
 
 ```python
 status: AccountStatus | None = Field(default=None, description='Account status (active, suspended, deleted)')
 ```
 
-###### `leadr.accounts.api.schemas.UserCreateRequest`
+##### `leadr.accounts.api.user_routes`
+
+User API routes.
+
+**Functions:**
+
+- [**create_user**](#leadr.accounts.api.user_routes.create_user) – Create a new user.
+- [**get_user**](#leadr.accounts.api.user_routes.get_user) – Get a user by ID.
+- [**list_users**](#leadr.accounts.api.user_routes.list_users) – List users for an account with pagination.
+- [**update_user**](#leadr.accounts.api.user_routes.update_user) – Update a user.
+
+**Attributes:**
+
+- [**router**](#leadr.accounts.api.user_routes.router) –
+
+###### `leadr.accounts.api.user_routes.create_user`
+
+```python
+create_user(request, service, auth)
+```
+
+Create a new user.
+
+Creates a new user associated with an existing account.
+
+For regular users, account_id must match their API key's account.
+For superadmins, any account_id is accepted.
+
+**Parameters:**
+
+- **request** (<code>[UserCreateRequest](#leadr.accounts.api.user_schemas.UserCreateRequest)</code>) – User creation details including account_id, email, and display name.
+- **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+
+**Returns:**
+
+- <code>[UserResponse](#leadr.accounts.api.user_schemas.UserResponse)</code> – UserResponse with the created user including auto-generated ID and timestamps.
+
+**Raises:**
+
+- <code>403</code> – User does not have access to the specified account.
+- <code>404</code> – Account not found.
+
+###### `leadr.accounts.api.user_routes.get_user`
+
+```python
+get_user(user_id, service, auth)
+```
+
+Get a user by ID.
+
+**Parameters:**
+
+- **user_id** (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) – Unique identifier for the user.
+- **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+
+**Returns:**
+
+- <code>[UserResponse](#leadr.accounts.api.user_schemas.UserResponse)</code> – UserResponse with full user details.
+
+**Raises:**
+
+- <code>403</code> – User does not have access to this user's account.
+- <code>404</code> – User not found.
+
+###### `leadr.accounts.api.user_routes.list_users`
+
+```python
+list_users(auth, service, pagination, account_id=None)
+```
+
+List users for an account with pagination.
+
+For regular users, account_id is automatically derived from their API key.
+For superadmins, account_id must be explicitly provided as a query parameter.
+
+Pagination:
+
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=email:asc,created_at:desc
+- Valid sort fields: id, email, display_name, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+GET /v1/users?account_id=acc_123&limit=50&sort=email:asc
+
+</details>
+
+**Parameters:**
+
+- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
+- **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+
+**Returns:**
+
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[UserResponse](#leadr.accounts.api.user_schemas.UserResponse)\]</code> – PaginatedResponse with users and pagination metadata.
+
+**Raises:**
+
+- <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
+- <code>400</code> – Superadmin did not provide account_id.
+- <code>403</code> – User does not have access to the specified account.
+
+###### `leadr.accounts.api.user_routes.router`
+
+```python
+router = APIRouter()
+```
+
+###### `leadr.accounts.api.user_routes.update_user`
+
+```python
+update_user(user_id, request, service, auth)
+```
+
+Update a user.
+
+Supports updating email, display name, or soft-deleting the user.
+
+**Parameters:**
+
+- **user_id** (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) – Unique identifier for the user.
+- **request** (<code>[UserUpdateRequest](#leadr.accounts.api.user_schemas.UserUpdateRequest)</code>) – User update details (all fields optional).
+- **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+
+**Returns:**
+
+- <code>[UserResponse](#leadr.accounts.api.user_schemas.UserResponse)</code> – UserResponse with the updated user details.
+
+**Raises:**
+
+- <code>403</code> – User does not have access to this user's account.
+- <code>404</code> – User not found.
+
+##### `leadr.accounts.api.user_schemas`
+
+API request and response models for users.
+
+**Classes:**
+
+- [**UserCreateRequest**](#leadr.accounts.api.user_schemas.UserCreateRequest) – Request model for creating a user.
+- [**UserResponse**](#leadr.accounts.api.user_schemas.UserResponse) – Response model for a user.
+- [**UserUpdateRequest**](#leadr.accounts.api.user_schemas.UserUpdateRequest) – Request model for updating a user.
+
+###### `leadr.accounts.api.user_schemas.UserCreateRequest`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -531,29 +636,29 @@ Request model for creating a user.
 
 **Attributes:**
 
-- [**account_id**](#leadr.accounts.api.schemas.UserCreateRequest.account_id) (<code>[UUID](#uuid.UUID)</code>) –
-- [**display_name**](#leadr.accounts.api.schemas.UserCreateRequest.display_name) (<code>[str](#str)</code>) –
-- [**email**](./accounts.md#leadr.accounts.api.schemas.UserCreateRequest.email) (<code>[EmailStr](#pydantic.EmailStr)</code>) –
+- [**account_id**](#leadr.accounts.api.user_schemas.UserCreateRequest.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**display_name**](#leadr.accounts.api.user_schemas.UserCreateRequest.display_name) (<code>[str](#str)</code>) –
+- [**email**](#leadr.accounts.api.user_schemas.UserCreateRequest.email) (<code>[EmailStr](#pydantic.EmailStr)</code>) –
 
-####### `leadr.accounts.api.schemas.UserCreateRequest.account_id`
+####### `leadr.accounts.api.user_schemas.UserCreateRequest.account_id`
 
 ```python
-account_id: UUID = Field(description='ID of the account this user belongs to')
+account_id: AccountID = Field(description='ID of the account this user belongs to')
 ```
 
-####### `leadr.accounts.api.schemas.UserCreateRequest.display_name`
+####### `leadr.accounts.api.user_schemas.UserCreateRequest.display_name`
 
 ```python
 display_name: str = Field(description="User's display name (2-100 characters)")
 ```
 
-####### `leadr.accounts.api.schemas.UserCreateRequest.email`
+####### `leadr.accounts.api.user_schemas.UserCreateRequest.email`
 
 ```python
 email: EmailStr = Field(description="User's email address (must be valid email format)")
 ```
 
-###### `leadr.accounts.api.schemas.UserResponse`
+###### `leadr.accounts.api.user_schemas.UserResponse`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -561,42 +666,43 @@ Response model for a user.
 
 **Functions:**
 
-- [**from_domain**](#leadr.accounts.api.schemas.UserResponse.from_domain) – Convert domain entity to response model.
+- [**from_domain**](#leadr.accounts.api.user_schemas.UserResponse.from_domain) – Convert domain entity to response model.
 
 **Attributes:**
 
-- [**account_id**](#leadr.accounts.api.schemas.UserResponse.account_id) (<code>[UUID](#uuid.UUID)</code>) –
-- [**created_at**](#leadr.accounts.api.schemas.UserResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**display_name**](#leadr.accounts.api.schemas.UserResponse.display_name) (<code>[str](#str)</code>) –
-- [**email**](./accounts.md#leadr.accounts.api.schemas.UserResponse.email) (<code>[str](#str)</code>) –
-- [**id**](./accounts.md#leadr.accounts.api.schemas.UserResponse.id) (<code>[UUID](#uuid.UUID)</code>) –
-- [**updated_at**](#leadr.accounts.api.schemas.UserResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**account_id**](#leadr.accounts.api.user_schemas.UserResponse.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**created_at**](#leadr.accounts.api.user_schemas.UserResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**display_name**](#leadr.accounts.api.user_schemas.UserResponse.display_name) (<code>[str](#str)</code>) –
+- [**email**](#leadr.accounts.api.user_schemas.UserResponse.email) (<code>[str](#str)</code>) –
+- [**id**](#leadr.accounts.api.user_schemas.UserResponse.id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) –
+- [**super_admin**](#leadr.accounts.api.user_schemas.UserResponse.super_admin) (<code>[bool](#bool)</code>) –
+- [**updated_at**](#leadr.accounts.api.user_schemas.UserResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
-####### `leadr.accounts.api.schemas.UserResponse.account_id`
+####### `leadr.accounts.api.user_schemas.UserResponse.account_id`
 
 ```python
-account_id: UUID = Field(description='ID of the account this user belongs to')
+account_id: AccountID = Field(description='ID of the account this user belongs to')
 ```
 
-####### `leadr.accounts.api.schemas.UserResponse.created_at`
+####### `leadr.accounts.api.user_schemas.UserResponse.created_at`
 
 ```python
 created_at: datetime = Field(description='Timestamp when the user was created (UTC)')
 ```
 
-####### `leadr.accounts.api.schemas.UserResponse.display_name`
+####### `leadr.accounts.api.user_schemas.UserResponse.display_name`
 
 ```python
 display_name: str = Field(description="User's display name")
 ```
 
-####### `leadr.accounts.api.schemas.UserResponse.email`
+####### `leadr.accounts.api.user_schemas.UserResponse.email`
 
 ```python
 email: str = Field(description="User's email address")
 ```
 
-####### `leadr.accounts.api.schemas.UserResponse.from_domain`
+####### `leadr.accounts.api.user_schemas.UserResponse.from_domain`
 
 ```python
 from_domain(user)
@@ -610,21 +716,27 @@ Convert domain entity to response model.
 
 **Returns:**
 
-- <code>[UserResponse](./accounts.md#leadr.accounts.api.schemas.UserResponse)</code> – UserResponse with all fields populated from the domain entity.
+- <code>[UserResponse](#leadr.accounts.api.user_schemas.UserResponse)</code> – UserResponse with all fields populated from the domain entity.
 
-####### `leadr.accounts.api.schemas.UserResponse.id`
+####### `leadr.accounts.api.user_schemas.UserResponse.id`
 
 ```python
-id: UUID = Field(description='Unique identifier for the user')
+id: UserID = Field(description='Unique identifier for the user')
 ```
 
-####### `leadr.accounts.api.schemas.UserResponse.updated_at`
+####### `leadr.accounts.api.user_schemas.UserResponse.super_admin`
+
+```python
+super_admin: bool = Field(description='Whether this user has superadmin privileges')
+```
+
+####### `leadr.accounts.api.user_schemas.UserResponse.updated_at`
 
 ```python
 updated_at: datetime = Field(description='Timestamp of last update (UTC)')
 ```
 
-###### `leadr.accounts.api.schemas.UserUpdateRequest`
+###### `leadr.accounts.api.user_schemas.UserUpdateRequest`
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
@@ -632,26 +744,33 @@ Request model for updating a user.
 
 **Attributes:**
 
-- [**deleted**](./accounts.md#leadr.accounts.api.schemas.UserUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
-- [**display_name**](#leadr.accounts.api.schemas.UserUpdateRequest.display_name) (<code>[str](#str) | None</code>) –
-- [**email**](./accounts.md#leadr.accounts.api.schemas.UserUpdateRequest.email) (<code>[EmailStr](#pydantic.EmailStr) | None</code>) –
+- [**deleted**](#leadr.accounts.api.user_schemas.UserUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
+- [**display_name**](#leadr.accounts.api.user_schemas.UserUpdateRequest.display_name) (<code>[str](#str) | None</code>) –
+- [**email**](#leadr.accounts.api.user_schemas.UserUpdateRequest.email) (<code>[EmailStr](#pydantic.EmailStr) | None</code>) –
+- [**super_admin**](#leadr.accounts.api.user_schemas.UserUpdateRequest.super_admin) (<code>[bool](#bool) | None</code>) –
 
-####### `leadr.accounts.api.schemas.UserUpdateRequest.deleted`
+####### `leadr.accounts.api.user_schemas.UserUpdateRequest.deleted`
 
 ```python
 deleted: bool | None = Field(default=None, description='Set to true to soft delete the user')
 ```
 
-####### `leadr.accounts.api.schemas.UserUpdateRequest.display_name`
+####### `leadr.accounts.api.user_schemas.UserUpdateRequest.display_name`
 
 ```python
 display_name: str | None = Field(default=None, description='Updated display name')
 ```
 
-####### `leadr.accounts.api.schemas.UserUpdateRequest.email`
+####### `leadr.accounts.api.user_schemas.UserUpdateRequest.email`
 
 ```python
 email: EmailStr | None = Field(default=None, description='Updated email address')
+```
+
+####### `leadr.accounts.api.user_schemas.UserUpdateRequest.super_admin`
+
+```python
+super_admin: bool | None = Field(default=None, description='Set superadmin privileges (true/false)')
 ```
 
 #### `leadr.accounts.domain`
@@ -693,7 +812,7 @@ active or suspended.
 
 - [**created_at**](#leadr.accounts.domain.account.Account.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**deleted_at**](#leadr.accounts.domain.account.Account.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**id**](./accounts.md#leadr.accounts.domain.account.Account.id) (<code>[UUID](#uuid.UUID)</code>) –
+- [**id**](./accounts.md#leadr.accounts.domain.account.Account.id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
 - [**is_deleted**](#leadr.accounts.domain.account.Account.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
 - [**model_config**](#leadr.accounts.domain.account.Account.model_config) –
 - [**name**](./accounts.md#leadr.accounts.domain.account.Account.name) (<code>[str](#str)</code>) –
@@ -724,7 +843,7 @@ deleted_at: datetime | None = Field(default=None, description='Timestamp when en
 ####### `leadr.accounts.domain.account.Account.id`
 
 ```python
-id: UUID = Field(frozen=True, default_factory=uuid4, description='Unique identifier (auto-generated UUID)')
+id: AccountID = Field(frozen=True, default_factory=AccountID, description='Unique account identifier')
 ```
 
 ####### `leadr.accounts.domain.account.Account.is_deleted`
@@ -877,6 +996,9 @@ Each user belongs to exactly one account, and users cannot be
 transferred between accounts. The email must be unique within
 an account.
 
+Superadmin users have elevated privileges and can access resources
+across all accounts in the system.
+
 **Functions:**
 
 - [**restore**](./accounts.md#leadr.accounts.domain.user.User.restore) – Restore a soft-deleted entity.
@@ -885,20 +1007,21 @@ an account.
 
 **Attributes:**
 
-- [**account_id**](#leadr.accounts.domain.user.User.account_id) (<code>[UUID](#uuid.UUID)</code>) –
+- [**account_id**](#leadr.accounts.domain.user.User.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
 - [**created_at**](#leadr.accounts.domain.user.User.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**deleted_at**](#leadr.accounts.domain.user.User.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**display_name**](#leadr.accounts.domain.user.User.display_name) (<code>[str](#str)</code>) –
 - [**email**](./accounts.md#leadr.accounts.domain.user.User.email) (<code>[EmailStr](#pydantic.EmailStr)</code>) –
-- [**id**](./accounts.md#leadr.accounts.domain.user.User.id) (<code>[UUID](#uuid.UUID)</code>) –
+- [**id**](./accounts.md#leadr.accounts.domain.user.User.id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) –
 - [**is_deleted**](#leadr.accounts.domain.user.User.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
 - [**model_config**](#leadr.accounts.domain.user.User.model_config) –
+- [**super_admin**](#leadr.accounts.domain.user.User.super_admin) (<code>[bool](#bool)</code>) –
 - [**updated_at**](#leadr.accounts.domain.user.User.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
 ####### `leadr.accounts.domain.user.User.account_id`
 
 ```python
-account_id: UUID = Field(frozen=True, description='ID of the account this user belongs to (immutable)')
+account_id: AccountID = Field(frozen=True, description='ID of the account this user belongs to (immutable)')
 ```
 
 ####### `leadr.accounts.domain.user.User.created_at`
@@ -928,7 +1051,7 @@ email: EmailStr = Field(description="User's email address (validated format)")
 ####### `leadr.accounts.domain.user.User.id`
 
 ```python
-id: UUID = Field(frozen=True, default_factory=uuid4, description='Unique identifier (auto-generated UUID)')
+id: UserID = Field(frozen=True, default_factory=UserID, description='Unique user identifier')
 ```
 
 ####### `leadr.accounts.domain.user.User.is_deleted`
@@ -987,6 +1110,12 @@ already deleted are not affected (deleted_at remains at original deletion time).
 > > > assert account.is_deleted is True
 
 </details>
+
+####### `leadr.accounts.domain.user.User.super_admin`
+
+```python
+super_admin: bool = Field(default=False, description='Whether this user has superadmin privileges')
+```
 
 ####### `leadr.accounts.domain.user.User.updated_at`
 

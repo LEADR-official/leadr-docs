@@ -1,120 +1,6 @@
-# API Keys
+# Devices
 
-## Create Api Key
-
-=== "Python"
-
-    ```python
-    import requests
-    headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'leadr-api-key': 'string',
-      'authorization': 'string',
-      'leadr-client-nonce': 'string'
-    }
-
-    r = requests.post('/v1/api-keys', headers = headers)
-
-    print(r.json())
-
-    ```
-
-=== "JavaScript"
-
-    ```javascript
-    const inputBody = '{
-      "account_id": "string",
-      "user_id": "string",
-      "name": "string",
-      "expires_at": "2019-08-24T14:15:22Z"
-    }';
-    const headers = {
-      'Content-Type':'application/json',
-      'Accept':'application/json',
-      'leadr-api-key':'string',
-      'authorization':'string',
-      'leadr-client-nonce':'string'
-    };
-
-    fetch('/v1/api-keys',
-    {
-      method: 'POST',
-      body: inputBody,
-      headers: headers
-    })
-    .then(function(res) {
-        return res.json();
-    }).then(function(body) {
-        console.log(body);
-    });
-
-    ```
-`POST /v1/api-keys`
-
-Create a new API key for an account.
-
-The plain API key is returned only once in this response.
-Store it securely as it cannot be retrieved later.
-
-For regular users, account_id must match their API key's account.
-For superadmins, any account_id is accepted.
-
-Returns:
-    CreateAPIKeyResponse with the plain key included.
-
-Raises:
-    403: User does not have access to the specified account.
-    404: Account not found.
-
-> Body parameter
-
-```json
-{
-  "account_id": "string",
-  "user_id": "string",
-  "name": "string",
-  "expires_at": "2019-08-24T14:15:22Z"
-}
-```
-
-### Parameters
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|account_id|query|any|false|none|
-|leadr-api-key|header|any|false|none|
-|authorization|header|any|false|none|
-|leadr-client-nonce|header|any|false|none|
-|body|body|[CreateAPIKeyRequest](./schemas.md#createapikeyrequest)|true|none|
-
-> Example responses
-
-> 201 Response
-
-```json
-{
-  "id": "string",
-  "name": "string",
-  "key": "string",
-  "prefix": "string",
-  "status": "active",
-  "expires_at": "2019-08-24T14:15:22Z",
-  "created_at": "2019-08-24T14:15:22Z"
-}
-```
-
-### Responses
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[CreateAPIKeyResponse](./schemas.md#createapikeyresponse)|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-!!! success
-    This operation does not require authentication
-
-## List Api Keys
+## List Devices
 
 === "Python"
 
@@ -127,7 +13,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/api-keys', headers = headers)
+    r = requests.get('/v1/devices', headers = headers)
 
     print(r.json())
 
@@ -144,7 +30,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/api-keys',
+    fetch('/v1/devices',
     {
       method: 'GET',
 
@@ -157,9 +43,12 @@ Raises:
     });
 
     ```
-`GET /v1/api-keys`
+`GET /v1/devices`
 
-List API keys for an account with optional filters and pagination.
+List devices for an account with optional filters and pagination.
+
+Returns all non-deleted devices for the specified account, with optional
+filtering by game or status.
 
 For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id must be explicitly provided as a query parameter.
@@ -167,21 +56,22 @@ For superadmins, account_id must be explicitly provided as a query parameter.
 Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=name:asc,created_at:desc
-- Valid sort fields: id, name, created_at, updated_at
+- Valid sort fields: id, platform, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Example:
-    GET /v1/api-keys?account_id=acc_123&status=active&limit=50&sort=name:asc
+    GET /v1/devices?account_id=acc_123&game_id=game_456&status=active&limit=50
 
 Args:
     auth: Authentication context with user info.
-    service: Injected API key service dependency.
+    service: Injected device service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
     account_id: Optional account_id query parameter (required for superadmins).
-    key_status: Optional status to filter results (active or revoked).
+    game_id: Optional game ID to filter by.
+    device_status: Optional status to filter by (active, banned, suspended).
 
 Returns:
-    PaginatedResponse with API keys and pagination metadata.
+    PaginatedResponse with devices and pagination metadata.
 
 Raises:
     400: Invalid cursor, sort field, or cursor state mismatch.
@@ -193,6 +83,7 @@ Raises:
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |account_id|query|any|false|none|
+|game_id|query|any|false|Filter by game ID|
 |status|query|any|false|Filter by status|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
@@ -226,13 +117,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_APIKeyResponse_](./schemas.md#paginatedresponse_apikeyresponse_)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_DeviceResponse_](./schemas.md#paginatedresponse_deviceresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Get Api Key
+## Get Device
 
 === "Python"
 
@@ -245,7 +136,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/api-keys/{key_id}', headers = headers)
+    r = requests.get('/v1/devices/{device_id}', headers = headers)
 
     print(r.json())
 
@@ -262,7 +153,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/api-keys/{key_id}',
+    fetch('/v1/devices/{device_id}',
     {
       method: 'GET',
 
@@ -275,27 +166,27 @@ Raises:
     });
 
     ```
-`GET /v1/api-keys/{key_id}`
+`GET /v1/devices/{device_id}`
 
-Get a single API key by ID.
+Get a device by ID.
 
 Args:
-    key_id: The UUID of the API key to retrieve.
-    service: Injected API key service dependency.
+    device_id: Device identifier to retrieve.
+    service: Injected device service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    APIKeyResponse with key details (excludes the plain key).
+    DeviceResponse with the device details.
 
 Raises:
-    403: User does not have access to this API key's account.
-    404: API key not found.
+    403: User does not have access to this device's account.
+    404: Device not found or soft-deleted.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|key_id|path|string|true|none|
+|device_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
@@ -308,13 +199,14 @@ Raises:
 ```json
 {
   "id": "string",
+  "game_id": "string",
+  "client_fingerprint": "string",
   "account_id": "string",
-  "user_id": "string",
-  "name": "string",
-  "prefix": "string",
-  "status": "active",
-  "last_used_at": "2019-08-24T14:15:22Z",
-  "expires_at": "2019-08-24T14:15:22Z",
+  "platform": "string",
+  "status": "string",
+  "first_seen_at": "2019-08-24T14:15:22Z",
+  "last_seen_at": "2019-08-24T14:15:22Z",
+  "metadata": {},
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -324,13 +216,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[APIKeyResponse](./schemas.md#apikeyresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[DeviceResponse](./schemas.md#deviceresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Update Api Key
+## Update Device
 
 === "Python"
 
@@ -344,7 +236,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.patch('/v1/api-keys/{key_id}', headers = headers)
+    r = requests.patch('/v1/devices/{device_id}', headers = headers)
 
     print(r.json())
 
@@ -354,8 +246,7 @@ Raises:
 
     ```javascript
     const inputBody = '{
-      "status": "active",
-      "deleted": true
+      "status": "string"
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -365,7 +256,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/api-keys/{key_id}',
+    fetch('/v1/devices/{device_id}',
     {
       method: 'PATCH',
       body: inputBody,
@@ -378,33 +269,31 @@ Raises:
     });
 
     ```
-`PATCH /v1/api-keys/{key_id}`
+`PATCH /v1/devices/{device_id}`
 
-Update an API key.
+Update a device (change status).
 
-Currently supports:
-- Updating status (e.g., to revoke a key)
-- Soft delete via deleted flag
+Allows changing device status to ban, suspend, or activate devices.
 
 Args:
-    key_id: The UUID of the API key to update.
-    request: Update request with optional status and deleted fields.
-    service: Injected API key service dependency.
+    device_id: Device identifier to update.
+    request: Update details (status).
+    service: Injected device service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    APIKeyResponse with updated key details.
+    DeviceResponse with the updated device details.
 
 Raises:
-    403: User does not have access to this API key's account.
-    404: API key not found.
+    403: User does not have access to this device's account.
+    404: Device not found.
+    400: Invalid status value.
 
 > Body parameter
 
 ```json
 {
-  "status": "active",
-  "deleted": true
+  "status": "string"
 }
 ```
 
@@ -412,12 +301,12 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|key_id|path|string|true|none|
+|device_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
-|body|body|[UpdateAPIKeyRequest](./schemas.md#updateapikeyrequest)|true|none|
+|body|body|[DeviceUpdateRequest](./schemas.md#deviceupdaterequest)|true|none|
 
 > Example responses
 
@@ -426,13 +315,14 @@ Raises:
 ```json
 {
   "id": "string",
+  "game_id": "string",
+  "client_fingerprint": "string",
   "account_id": "string",
-  "user_id": "string",
-  "name": "string",
-  "prefix": "string",
-  "status": "active",
-  "last_used_at": "2019-08-24T14:15:22Z",
-  "expires_at": "2019-08-24T14:15:22Z",
+  "platform": "string",
+  "status": "string",
+  "first_seen_at": "2019-08-24T14:15:22Z",
+  "last_seen_at": "2019-08-24T14:15:22Z",
+  "metadata": {},
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -442,7 +332,7 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[APIKeyResponse](./schemas.md#apikeyresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[DeviceResponse](./schemas.md#deviceresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success

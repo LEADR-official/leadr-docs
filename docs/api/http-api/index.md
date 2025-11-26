@@ -10,9 +10,18 @@ LEADR is the cross-platform leaderboard backend for indie game devs
 
 ## API Sections
 
-- [Public](./public.md)
 - [Accounts](./accounts.md)
+- [Users](./users.md)
 - [API Keys](./api-keys.md)
 - [Games](./games.md)
 - [Boards](./boards.md)
+- [Board Templates](./board-templates.md)
+- [Scores](./scores.md)
+- [Score Flags](./score-flags.md)
+- [Score Submission Metadata](./score-submission-metadata.md)
+- [Devices](./devices.md)
+- [Device Sessions](./device-sessions.md)
+- [Registration](./registration.md)
+- [Authentication](./authentication.md)
+- [Public](./public.md)
 - [Schemas](./schemas.md)
