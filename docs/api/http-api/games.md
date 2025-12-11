@@ -176,7 +176,7 @@ Returns paginated games for the specified account. Supports cursor-based
 pagination with bidirectional navigation and custom sorting.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns games from all accounts.
 
 Filtering:
 - Use ?slug={slug} to find a specific game by its globally unique slug
@@ -195,7 +195,7 @@ Args:
     auth: Authentication context with user info.
     service: Injected game service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    account_id: Optional account_id query parameter (required for superadmins).
+    account_id: Optional account_id query parameter (superadmins can omit to see all).
     slug: Optional slug filter to find a specific game.
 
 Returns:
@@ -203,7 +203,6 @@ Returns:
 
 Raises:
     400: Invalid cursor, sort field, or cursor state mismatch.
-    400: Superadmin did not provide account_id.
     403: User does not have access to the specified account.
     404: Game not found when filtering by slug.
 
@@ -440,103 +439,6 @@ Raises:
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
 |body|body|[GameUpdateRequest](./schemas.md#gameupdaterequest)|true|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "id": "string",
-  "account_id": "string",
-  "name": "string",
-  "slug": "string",
-  "steam_app_id": "string",
-  "default_board_id": "string",
-  "anti_cheat_enabled": true,
-  "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
-}
-```
-
-### Responses
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[GameResponse](./schemas.md#gameresponse)|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-!!! success
-    This operation does not require authentication
-
-## Get Game By Slug
-
-=== "Python"
-
-    ```python
-    import requests
-    headers = {
-      'Accept': 'application/json',
-      'leadr-api-key': 'string',
-      'authorization': 'string',
-      'leadr-client-nonce': 'string'
-    }
-
-    r = requests.get('/v1/games/by-slug/{slug}', headers = headers)
-
-    print(r.json())
-
-    ```
-
-=== "JavaScript"
-
-    ```javascript
-
-    const headers = {
-      'Accept':'application/json',
-      'leadr-api-key':'string',
-      'authorization':'string',
-      'leadr-client-nonce':'string'
-    };
-
-    fetch('/v1/games/by-slug/{slug}',
-    {
-      method: 'GET',
-
-      headers: headers
-    })
-    .then(function(res) {
-        return res.json();
-    }).then(function(body) {
-        console.log(body);
-    });
-
-    ```
-`GET /v1/games/by-slug/{slug}`
-
-Get a game by its slug (globally unique).
-
-Args:
-    slug: The URL-friendly slug of the game.
-    service: Injected game service dependency.
-    auth: Authentication context with user info.
-
-Returns:
-    GameResponse with full game details.
-
-Raises:
-    403: User does not have access to this game's account.
-    404: Game not found.
-
-### Parameters
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|slug|path|string|true|none|
-|account_id|query|any|false|none|
-|leadr-api-key|header|any|false|none|
-|authorization|header|any|false|none|
-|leadr-client-nonce|header|any|false|none|
 
 > Example responses
 

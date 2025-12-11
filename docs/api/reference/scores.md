@@ -441,13 +441,13 @@ Returns all non-deleted flags for the specified account, with optional
 filtering by board, game, status, or flag type.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns flags from all accounts.
 
 **Parameters:**
 
-- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[ScoreFlagServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreFlagServiceDep)</code>) – Injected score flag service dependency.
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
 - **status** (<code>[str](#str) | None</code>) – Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).
@@ -459,7 +459,6 @@ For superadmins, account_id must be explicitly provided as a query parameter.
 
 **Raises:**
 
-- <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.scores.api.score_flag_routes.router`
@@ -1462,13 +1461,13 @@ Returns all non-deleted submission metadata for the specified account, with opti
 filtering by board or device.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns metadata from all accounts.
 
 **Parameters:**
 
-- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[ScoreSubmissionMetaServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreSubmissionMetaServiceDep)</code>) – Injected submission metadata service dependency.
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
 
@@ -1478,7 +1477,6 @@ For superadmins, account_id must be explicitly provided as a query parameter.
 
 **Raises:**
 
-- <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.scores.api.score_submission_meta_routes.router`
@@ -3127,7 +3125,8 @@ a direct account relation.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all flags
+  (superadmin use case). Regular users should always pass account_id.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **status** (<code>[str](#str) | None</code>) – Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.)
@@ -3273,7 +3272,8 @@ a direct account relation.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all metadata
+  (superadmin use case). Regular users should always pass account_id.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
@@ -3567,7 +3567,8 @@ Filter scores by account and optional criteria.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – Optional account ID to filter by. If None, returns all scores
+  (superadmin use case). Regular users should always pass account_id.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
@@ -3580,7 +3581,6 @@ Filter scores by account and optional criteria.
 
 **Raises:**
 
-- <code>[ValueError](#ValueError)</code> – If account_id is None (required for multi-tenant safety)
 - <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
 - <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
@@ -3758,7 +3758,8 @@ List score flags for an account with optional filters.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all flags
+  (superadmin use case).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **status** (<code>[str](#str) | None</code>) – Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.)
@@ -4045,7 +4046,8 @@ List scores for an account with optional filters and pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – REQUIRED - Account ID to filter by (multi-tenant safety).
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all scores
+  (superadmin use case).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
@@ -4256,7 +4258,8 @@ List score submission metadata for an account with optional filters.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all metadata
+  (superadmin use case).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
 

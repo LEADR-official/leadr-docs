@@ -127,7 +127,6 @@ Game API routes.
 
 - [**create_game**](#leadr.games.api.game_routes.create_game) – Create a new game.
 - [**get_game**](#leadr.games.api.game_routes.get_game) – Get a game by ID.
-- [**get_game_by_slug**](#leadr.games.api.game_routes.get_game_by_slug) – Get a game by its slug (globally unique).
 - [**list_games**](#leadr.games.api.game_routes.list_games) – List all games for an account with pagination and optional filtering.
 - [**update_game**](#leadr.games.api.game_routes.update_game) – Update a game.
 
@@ -187,29 +186,6 @@ Get a game by ID.
 - <code>403</code> – User does not have access to this game's account.
 - <code>404</code> – Game not found.
 
-###### `leadr.games.api.game_routes.get_game_by_slug`
-
-```python
-get_game_by_slug(slug, service, auth)
-```
-
-Get a game by its slug (globally unique).
-
-**Parameters:**
-
-- **slug** (<code>[str](#str)</code>) – The URL-friendly slug of the game.
-- **service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
-- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
-
-**Returns:**
-
-- <code>[GameResponse](#leadr.games.api.game_schemas.GameResponse)</code> – GameResponse with full game details.
-
-**Raises:**
-
-- <code>403</code> – User does not have access to this game's account.
-- <code>404</code> – Game not found.
-
 ###### `leadr.games.api.game_routes.list_games`
 
 ```python
@@ -222,7 +198,7 @@ Returns paginated games for the specified account. Supports cursor-based
 pagination with bidirectional navigation and custom sorting.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns games from all accounts.
 
 Filtering:
 
@@ -245,10 +221,10 @@ GET /v1/games?account_id=acc_123&limit=50&sort=name:asc
 
 **Parameters:**
 
-- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by game slug')\]</code>) – Optional slug filter to find a specific game.
 
 **Returns:**
@@ -258,7 +234,6 @@ GET /v1/games?account_id=acc_123&limit=50&sort=name:asc
 **Raises:**
 
 - <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
-- <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 - <code>404</code> – Game not found when filtering by slug.
 
@@ -908,7 +883,8 @@ List all games for an account with optional pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The ID of the account to list games for.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – The ID of the account to list games for. If None, returns all
+  games (superadmin use case).
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
 
 **Returns:**
@@ -1043,7 +1019,8 @@ Filter games by account and optional criteria.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – Optional account ID to filter by. If None, returns all games
+  (superadmin use case). Regular users should always pass account_id.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
@@ -1053,7 +1030,6 @@ Filter games by account and optional criteria.
 
 **Raises:**
 
-- <code>[ValueError](#ValueError)</code> – If account_id is None (required for multi-tenant safety)
 - <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
 - <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 

@@ -15,6 +15,7 @@ Auto-generated reference documentation for all Python modules in the LEADR codeb
 - **[config](./config.md)** - `leadr.config`
 - **[games](./games.md)** - `leadr.games`
 - **[infra](./infra.md)** - `leadr.infra`
+- **[logging](./logging.md)** - `leadr.logging`
 - **[players](./players.md)** - `leadr.players`
 - **[registration](./registration.md)** - `leadr.registration`
 - **[scores](./scores.md)** - `leadr.scores`

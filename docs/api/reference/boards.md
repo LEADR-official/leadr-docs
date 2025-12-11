@@ -505,7 +505,7 @@ Shared handler for listing boards with filtering.
 - **service** (<code>[BoardService](#leadr.boards.services.board_service.BoardService)</code>) – Board service instance.
 - **game_service** (<code>[GameService](#leadr.games.services.game_service.GameService)</code>) – Game service instance for game_slug resolution.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (cursor, limit, sort).
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – Optional account ID to filter boards by.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter boards by.
 - **code** (<code>[str](#str) | None</code>) – Optional short code to filter boards by.
 - **game_slug** (<code>[str](#str) | None</code>) – Optional game slug to filter boards by game.
 - **slug** (<code>[str](#str) | None</code>) – Optional board slug to filter by specific board.
@@ -688,7 +688,7 @@ Request model for creating a board.
 - [**is_published**](#leadr.boards.api.board_schemas.BoardCreateRequest.is_published) (<code>[bool](#bool)</code>) –
 - [**keep_strategy**](#leadr.boards.api.board_schemas.BoardCreateRequest.keep_strategy) (<code>[KeepStrategy](./boards.md#leadr.boards.domain.board.KeepStrategy)</code>) –
 - [**name**](#leadr.boards.api.board_schemas.BoardCreateRequest.name) (<code>[str](#str)</code>) –
-- [**short_code**](#leadr.boards.api.board_schemas.BoardCreateRequest.short_code) (<code>[str](#str)</code>) –
+- [**short_code**](#leadr.boards.api.board_schemas.BoardCreateRequest.short_code) (<code>[str](#str) | None</code>) –
 - [**slug**](#leadr.boards.api.board_schemas.BoardCreateRequest.slug) (<code>[str](#str) | None</code>) –
 - [**sort_direction**](#leadr.boards.api.board_schemas.BoardCreateRequest.sort_direction) (<code>[SortDirection](./boards.md#leadr.boards.domain.board.SortDirection)</code>) –
 - [**starts_at**](#leadr.boards.api.board_schemas.BoardCreateRequest.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
@@ -753,7 +753,7 @@ name: str = Field(description='Name of the board')
 ####### `leadr.boards.api.board_schemas.BoardCreateRequest.short_code`
 
 ```python
-short_code: str = Field(description='Globally unique short code for direct sharing')
+short_code: str | None = Field(default=None, description='Globally unique short code for direct sharing. Auto-generated if not provided')
 ```
 
 ####### `leadr.boards.api.board_schemas.BoardCreateRequest.slug`
@@ -1138,7 +1138,7 @@ list_board_templates(auth, service, pagination, account_id=None, game_id=None)
 List board templates for an account with pagination, optionally filtered by game.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns templates from all accounts.
 
 Pagination:
 
@@ -1156,10 +1156,10 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 
 **Parameters:**
 
-- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[BoardTemplateServiceDep](./boards.md#leadr.boards.services.dependencies.BoardTemplateServiceDep)</code>) – Injected board template service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **game_id** (<code>[Annotated](#typing.Annotated)\[[GameID](./common.md#leadr.common.domain.ids.GameID) | None, [Query](#fastapi.Query)(description='Filter by game ID')\]</code>) – Optional game ID to filter templates by.
 
 **Returns:**
@@ -1169,7 +1169,6 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 **Raises:**
 
 - <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
-- <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.boards.api.board_template_routes.router`
@@ -2984,7 +2983,8 @@ List all board templates for an account with optional pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The ID of the account to list templates for.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – The ID of the account to list templates for. If None, returns all
+  templates (superadmin use case).
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
 
 **Returns:**
@@ -3001,7 +3001,8 @@ List all board templates for a specific game with optional pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The ID of the account (for multi-tenant safety).
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – The ID of the account. If None, returns templates from all accounts
+  (superadmin use case).
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The ID of the game to list templates for.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
 
@@ -3220,16 +3221,13 @@ Filter boards by account and optional criteria.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – Optional account ID to filter by. If None, returns all boards
+  (superadmin use case). Regular users should always pass account_id.
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
 - <code>[list](#list)\[[Board](./boards.md#leadr.boards.domain.board.Board)\]</code> – List of boards for the account matching the filter criteria
-
-**Raises:**
-
-- <code>[ValueError](#ValueError)</code> – If account_id is None (required for multi-tenant safety)
 
 ####### `leadr.boards.services.repositories.BoardRepository.get_by_id`
 
@@ -3405,7 +3403,8 @@ Filter board templates by account and optional game.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all templates
+  (superadmin use case). Regular users should always pass account_id.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – OPTIONAL - Game ID to filter by
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
@@ -3416,7 +3415,6 @@ Filter board templates by account and optional game.
 
 **Raises:**
 
-- <code>[ValueError](#ValueError)</code> – If account_id is None (required for multi-tenant safety)
 - <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
 - <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
