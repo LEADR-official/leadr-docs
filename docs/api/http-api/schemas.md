@@ -278,7 +278,8 @@ or
   "ends_at": "2019-08-24T14:15:22Z",
   "tags": [
     "string"
-  ]
+  ],
+  "description": "string"
 }
 
 ```
@@ -454,6 +455,24 @@ or
 |---|---|---|---|---|
 |» *anonymous*|null|false|none|none|
 
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|description|any|false|none|Optional short description of the board|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
 ## BoardResponse
 
 ```json
@@ -477,6 +496,7 @@ or
   "tags": [
     "string"
   ],
+  "description": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -608,6 +628,24 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |tags|[string]|false|none|List of tags for categorization|
+|description|any|false|none|Short description of the board|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
 |created_at|string(date-time)|true|none|Timestamp when the board was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
@@ -1344,6 +1382,7 @@ or
   "tags": [
     "string"
   ],
+  "description": "string",
   "deleted": true
 }
 
@@ -1578,6 +1617,24 @@ anyOf
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» *anonymous*|[string]|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|description|any|false|none|Updated board description|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
 
 or
 
@@ -2060,7 +2117,12 @@ or
   "slug": "string",
   "steam_app_id": "string",
   "default_board_id": "string",
-  "anti_cheat_enabled": true
+  "anti_cheat_enabled": true,
+  "description": "string",
+  "tags": [
+    "string"
+  ],
+  "page_url": "string"
 }
 
 ```
@@ -2128,6 +2190,55 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |anti_cheat_enabled|boolean|false|none|Whether anti-cheat is enabled for this game (defaults to True)|
+|description|any|false|none|Optional game description|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|tags|any|false|none|Optional list of tags for categorization|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[string]|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|page_url|any|false|none|Optional URL to the game's page|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
 
 ## GameResponse
 
@@ -2140,6 +2251,11 @@ continued
   "steam_app_id": "string",
   "default_board_id": "string",
   "anti_cheat_enabled": true,
+  "description": "string",
+  "tags": [
+    "string"
+  ],
+  "page_url": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -2193,6 +2309,43 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |anti_cheat_enabled|boolean|true|none|Whether anti-cheat is enabled for this game|
+|description|any|false|none|Game description|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|tags|[string]|false|none|List of tags for categorization|
+|page_url|any|false|none|URL to the game's page|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
 |created_at|string(date-time)|true|none|Timestamp when the game was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
@@ -2204,6 +2357,11 @@ continued
   "steam_app_id": "string",
   "default_board_id": "string",
   "anti_cheat_enabled": true,
+  "description": "string",
+  "tags": [
+    "string"
+  ],
+  "page_url": "string",
   "deleted": true
 }
 
@@ -2276,6 +2434,60 @@ anyOf
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» *anonymous*|boolean|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|description|any|false|none|Updated game description|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|tags|any|false|none|Updated tags list|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[string]|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|page_url|any|false|none|Updated page URL|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
 
 or
 

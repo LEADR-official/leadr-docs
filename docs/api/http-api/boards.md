@@ -41,7 +41,8 @@
       "ends_at": "2019-08-24T14:15:22Z",
       "tags": [
         "string"
-      ]
+      ],
+      "description": "string"
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -108,7 +109,8 @@ Raises:
   "ends_at": "2019-08-24T14:15:22Z",
   "tags": [
     "string"
-  ]
+  ],
+  "description": "string"
 }
 ```
 
@@ -147,6 +149,7 @@ Raises:
   "tags": [
     "string"
   ],
+  "description": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -215,21 +218,26 @@ For regular users:
 - If account_id provided and NOT superadmin, must match their account (validated in AuthContext)
 
 Filtering:
-- Use ?game_slug={slug} to filter boards by game
+- Use ?game_id={id} or ?game_slug={slug} to filter boards by game
 - Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game
 - Use ?code={code} to filter boards by short code
+- Use ?is_active=true/false to filter by active status
+- Use ?is_published=true/false to filter by published status
+- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range
+- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range
 - Note: board slug filter requires game_slug parameter
 
 Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=name:asc,created_at:desc
-- Valid sort fields: id, name, short_code, created_at, updated_at
+- Valid sort fields: id, name, slug, short_code, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Example:
     GET /v1/boards?account_id=acc_123&limit=50&sort=name:asc
-    GET /v1/boards?game_slug=my-game
+    GET /v1/boards?game_slug=my-game&is_active=true
     GET /v1/boards?game_slug=my-game&slug=weekly-challenge
+    GET /v1/boards?starts_after=2025-01-01T00:00:00Z&ends_before=2025-12-31T23:59:59Z
 
 Args:
     auth: Admin authentication context with user info.
@@ -237,9 +245,16 @@ Args:
     game_service: Injected game service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
     account_id: Optional account ID to filter boards by.
+    game_id: Optional game ID to filter boards by.
     code: Optional short code to filter boards by.
-    game_slug: Optional game slug to filter boards by game.
+    game_slug: Optional game slug to filter boards by game (resolves to game_id).
     slug: Optional board slug to filter by specific board (requires game_slug).
+    is_active: Optional filter for active status.
+    is_published: Optional filter for published status.
+    starts_before: Optional filter for boards starting before this time.
+    starts_after: Optional filter for boards starting after this time.
+    ends_before: Optional filter for boards ending before this time.
+    ends_after: Optional filter for boards ending after this time.
 
 Returns:
     PaginatedResponse with boards and pagination metadata.
@@ -253,9 +268,16 @@ Raises:
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |account_id|query|any|false|none|
+|game_id|query|any|false|Filter by game ID|
 |code|query|any|false|Filter by short code|
 |game_slug|query|any|false|Filter by game slug|
 |slug|query|any|false|Filter by board slug (requires game_slug)|
+|is_active|query|any|false|Filter by active status|
+|is_published|query|any|false|Filter by published status|
+|starts_before|query|any|false|Filter boards starting before this time (ISO 8601)|
+|starts_after|query|any|false|Filter boards starting after this time (ISO 8601)|
+|ends_before|query|any|false|Filter boards ending before this time (ISO 8601)|
+|ends_after|query|any|false|Filter boards ending after this time (ISO 8601)|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
 |sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
@@ -388,6 +410,7 @@ Raises:
   "tags": [
     "string"
   ],
+  "description": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -442,6 +465,7 @@ Raises:
       "tags": [
         "string"
       ],
+      "description": "string",
       "deleted": true
     }';
     const headers = {
@@ -503,6 +527,7 @@ Raises:
   "tags": [
     "string"
   ],
+  "description": "string",
   "deleted": true
 }
 ```
@@ -543,6 +568,7 @@ Raises:
   "tags": [
     "string"
   ],
+  "description": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }

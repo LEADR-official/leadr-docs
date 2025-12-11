@@ -557,33 +557,45 @@ Raises:
 List boards (Client API).
 
 Account ID is automatically derived from the authenticated device's account.
-Clients can optionally filter by short code, game slug, or board slug to find specific boards.
+Clients can optionally filter by various criteria to find specific boards.
 
 Filtering:
-- Use ?game_slug={slug} to filter boards by game
+- Use ?game_id={id} or ?game_slug={slug} to filter boards by game
 - Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game
 - Use ?code={code} to filter boards by short code
+- Use ?is_active=true/false to filter by active status
+- Use ?is_published=true/false to filter by published status
+- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range
+- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range
 - Note: board slug filter requires game_slug parameter
 
 Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=name:asc,created_at:desc
-- Valid sort fields: id, name, short_code, created_at, updated_at
+- Valid sort fields: id, name, slug, short_code, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Example:
     GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50
-    GET /v1/client/boards?game_slug=my-game
+    GET /v1/client/boards?game_slug=my-game&is_active=true
     GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
+    GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 
 Args:
     auth: Client authentication context with device info.
     service: Injected board service dependency.
     game_service: Injected game service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
+    game_id: Optional game ID to filter boards by.
     code: Optional short code to filter boards by.
-    game_slug: Optional game slug to filter boards by game.
+    game_slug: Optional game slug to filter boards by game (resolves to game_id).
     slug: Optional board slug to filter by specific board (requires game_slug).
+    is_active: Optional filter for active status.
+    is_published: Optional filter for published status.
+    starts_before: Optional filter for boards starting before this time.
+    starts_after: Optional filter for boards starting after this time.
+    ends_before: Optional filter for boards ending before this time.
+    ends_after: Optional filter for boards ending after this time.
 
 Returns:
     PaginatedResponse with boards and pagination metadata.
@@ -596,9 +608,16 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
+|game_id|query|any|false|Filter by game ID|
 |code|query|any|false|Filter by short code|
 |game_slug|query|any|false|Filter by game slug|
 |slug|query|any|false|Filter by board slug (requires game_slug)|
+|is_active|query|any|false|Filter by active status|
+|is_published|query|any|false|Filter by published status|
+|starts_before|query|any|false|Filter boards starting before this time (ISO 8601)|
+|starts_after|query|any|false|Filter boards starting after this time (ISO 8601)|
+|ends_before|query|any|false|Filter boards ending before this time (ISO 8601)|
+|ends_after|query|any|false|Filter boards ending after this time (ISO 8601)|
 |account_id|query|any|false|none|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|

@@ -41,6 +41,7 @@ active boards only.
 - [**created_at**](#leadr.boards.adapters.orm.BoardORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**created_from_template_id**](#leadr.boards.adapters.orm.BoardORM.created_from_template_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID) | None\]</code>) –
 - [**deleted_at**](#leadr.boards.adapters.orm.BoardORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
+- [**description**](./boards.md#leadr.boards.adapters.orm.BoardORM.description) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
 - [**ends_at**](#leadr.boards.adapters.orm.BoardORM.ends_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime) | None\]</code>) –
 - [**game**](./boards.md#leadr.boards.adapters.orm.BoardORM.game) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[GameORM](./games.md#leadr.games.adapters.orm.GameORM)\]</code>) –
 - [**game_id**](#leadr.boards.adapters.orm.BoardORM.game_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
@@ -87,6 +88,12 @@ created_from_template_id: Mapped[UUID | None] = mapped_column(nullable=True, def
 
 ```python
 deleted_at: Mapped[nullable_timestamp]
+```
+
+####### `leadr.boards.adapters.orm.BoardORM.description`
+
+```python
+description: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
 ```
 
 ####### `leadr.boards.adapters.orm.BoardORM.ends_at`
@@ -430,6 +437,7 @@ Board API routes.
 **Attributes:**
 
 - [**client_router**](#leadr.boards.api.board_routes.client_router) –
+- [**logger**](#leadr.boards.api.board_routes.logger) –
 - [**router**](#leadr.boards.api.board_routes.router) –
 
 ###### `leadr.boards.api.board_routes.client_router`
@@ -494,7 +502,7 @@ Get a board by ID.
 ###### `leadr.boards.api.board_routes.handle_list_boards`
 
 ```python
-handle_list_boards(auth, service, game_service, pagination, account_id, code, game_slug, slug)
+handle_list_boards(auth, service, game_service, pagination, account_id, game_id, code, game_slug, slug, is_active, is_published, starts_before, starts_after, ends_before, ends_after)
 ```
 
 Shared handler for listing boards with filtering.
@@ -506,9 +514,16 @@ Shared handler for listing boards with filtering.
 - **game_service** (<code>[GameService](#leadr.games.services.game_service.GameService)</code>) – Game service instance for game_slug resolution.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (cursor, limit, sort).
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter boards by.
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter boards by.
 - **code** (<code>[str](#str) | None</code>) – Optional short code to filter boards by.
-- **game_slug** (<code>[str](#str) | None</code>) – Optional game slug to filter boards by game.
-- **slug** (<code>[str](#str) | None</code>) – Optional board slug to filter by specific board.
+- **game_slug** (<code>[str](#str) | None</code>) – Optional game slug to filter boards by game (resolves to game_id).
+- **slug** (<code>[str](#str) | None</code>) – Optional board slug to filter by specific board (requires game_slug).
+- **is_active** (<code>[bool](#bool) | None</code>) – Optional filter for active status.
+- **is_published** (<code>[bool](#bool) | None</code>) – Optional filter for published status.
+- **starts_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting before this time.
+- **starts_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting after this time.
+- **ends_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending before this time.
+- **ends_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending after this time.
 
 **Returns:**
 
@@ -522,7 +537,7 @@ Shared handler for listing boards with filtering.
 ###### `leadr.boards.api.board_routes.list_boards_admin`
 
 ```python
-list_boards_admin(auth, service, game_service, pagination, account_id=None, code=None, game_slug=None, slug=None)
+list_boards_admin(auth, service, game_service, pagination, account_id=None, game_id=None, code=None, game_slug=None, slug=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None)
 ```
 
 List boards (Admin API).
@@ -535,24 +550,29 @@ For regular users:
 
 Filtering:
 
-- Use ?game_slug={slug} to filter boards by game
+- Use ?game_id={id} or ?game_slug={slug} to filter boards by game
 - Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game
 - Use ?code={code} to filter boards by short code
+- Use ?is_active=true/false to filter by active status
+- Use ?is_published=true/false to filter by published status
+- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range
+- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range
 - Note: board slug filter requires game_slug parameter
 
 Pagination:
 
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=name:asc,created_at:desc
-- Valid sort fields: id, name, short_code, created_at, updated_at
+- Valid sort fields: id, name, slug, short_code, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
 GET /v1/boards?account_id=acc_123&limit=50&sort=name:asc
-GET /v1/boards?game_slug=my-game
+GET /v1/boards?game_slug=my-game&is_active=true
 GET /v1/boards?game_slug=my-game&slug=weekly-challenge
+GET /v1/boards?starts_after=2025-01-01T00:00:00Z&ends_before=2025-12-31T23:59:59Z
 
 </details>
 
@@ -563,9 +583,16 @@ GET /v1/boards?game_slug=my-game&slug=weekly-challenge
 - **game_service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
 - **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Filter by account ID')\]</code>) – Optional account ID to filter boards by.
+- **game_id** (<code>[Annotated](#typing.Annotated)\[[GameID](./common.md#leadr.common.domain.ids.GameID) | None, [Query](#fastapi.Query)(description='Filter by game ID')\]</code>) – Optional game ID to filter boards by.
 - **code** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by short code')\]</code>) – Optional short code to filter boards by.
-- **game_slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by game slug')\]</code>) – Optional game slug to filter boards by game.
+- **game_slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by game slug')\]</code>) – Optional game slug to filter boards by game (resolves to game_id).
 - **slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by board slug (requires game_slug)')\]</code>) – Optional board slug to filter by specific board (requires game_slug).
+- **is_active** (<code>[Annotated](#typing.Annotated)\[[bool](#bool) | None, [Query](#fastapi.Query)(description='Filter by active status')\]</code>) – Optional filter for active status.
+- **is_published** (<code>[Annotated](#typing.Annotated)\[[bool](#bool) | None, [Query](#fastapi.Query)(description='Filter by published status')\]</code>) – Optional filter for published status.
+- **starts_before** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards starting before this time (ISO 8601)')\]</code>) – Optional filter for boards starting before this time.
+- **starts_after** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards starting after this time (ISO 8601)')\]</code>) – Optional filter for boards starting after this time.
+- **ends_before** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards ending before this time (ISO 8601)')\]</code>) – Optional filter for boards ending before this time.
+- **ends_after** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards ending after this time (ISO 8601)')\]</code>) – Optional filter for boards ending after this time.
 
 **Returns:**
 
@@ -579,34 +606,39 @@ GET /v1/boards?game_slug=my-game&slug=weekly-challenge
 ###### `leadr.boards.api.board_routes.list_boards_client`
 
 ```python
-list_boards_client(auth, service, game_service, pagination, code=None, game_slug=None, slug=None)
+list_boards_client(auth, service, game_service, pagination, game_id=None, code=None, game_slug=None, slug=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None)
 ```
 
 List boards (Client API).
 
 Account ID is automatically derived from the authenticated device's account.
-Clients can optionally filter by short code, game slug, or board slug to find specific boards.
+Clients can optionally filter by various criteria to find specific boards.
 
 Filtering:
 
-- Use ?game_slug={slug} to filter boards by game
+- Use ?game_id={id} or ?game_slug={slug} to filter boards by game
 - Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game
 - Use ?code={code} to filter boards by short code
+- Use ?is_active=true/false to filter by active status
+- Use ?is_published=true/false to filter by published status
+- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range
+- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range
 - Note: board slug filter requires game_slug parameter
 
 Pagination:
 
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=name:asc,created_at:desc
-- Valid sort fields: id, name, short_code, created_at, updated_at
+- Valid sort fields: id, name, slug, short_code, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
 GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50
-GET /v1/client/boards?game_slug=my-game
+GET /v1/client/boards?game_slug=my-game&is_active=true
 GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
+GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 
 </details>
 
@@ -616,9 +648,16 @@ GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
 - **service** (<code>[BoardServiceDep](./boards.md#leadr.boards.services.dependencies.BoardServiceDep)</code>) – Injected board service dependency.
 - **game_service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
+- **game_id** (<code>[Annotated](#typing.Annotated)\[[GameID](./common.md#leadr.common.domain.ids.GameID) | None, [Query](#fastapi.Query)(description='Filter by game ID')\]</code>) – Optional game ID to filter boards by.
 - **code** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by short code')\]</code>) – Optional short code to filter boards by.
-- **game_slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by game slug')\]</code>) – Optional game slug to filter boards by game.
+- **game_slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by game slug')\]</code>) – Optional game slug to filter boards by game (resolves to game_id).
 - **slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by board slug (requires game_slug)')\]</code>) – Optional board slug to filter by specific board (requires game_slug).
+- **is_active** (<code>[Annotated](#typing.Annotated)\[[bool](#bool) | None, [Query](#fastapi.Query)(description='Filter by active status')\]</code>) – Optional filter for active status.
+- **is_published** (<code>[Annotated](#typing.Annotated)\[[bool](#bool) | None, [Query](#fastapi.Query)(description='Filter by published status')\]</code>) – Optional filter for published status.
+- **starts_before** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards starting before this time (ISO 8601)')\]</code>) – Optional filter for boards starting before this time.
+- **starts_after** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards starting after this time (ISO 8601)')\]</code>) – Optional filter for boards starting after this time.
+- **ends_before** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards ending before this time (ISO 8601)')\]</code>) – Optional filter for boards ending before this time.
+- **ends_after** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards ending after this time (ISO 8601)')\]</code>) – Optional filter for boards ending after this time.
 
 **Returns:**
 
@@ -628,6 +667,12 @@ GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
 
 - <code>400</code> – Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.
 - <code>404</code> – Game or board not found when using slug filters.
+
+###### `leadr.boards.api.board_routes.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
 
 ###### `leadr.boards.api.board_routes.router`
 
@@ -681,6 +726,7 @@ Request model for creating a board.
 
 - [**account_id**](#leadr.boards.api.board_schemas.BoardCreateRequest.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
 - [**created_from_template_id**](#leadr.boards.api.board_schemas.BoardCreateRequest.created_from_template_id) (<code>[BoardTemplateID](./common.md#leadr.common.domain.ids.BoardTemplateID) | None</code>) –
+- [**description**](#leadr.boards.api.board_schemas.BoardCreateRequest.description) (<code>[str](#str) | None</code>) –
 - [**ends_at**](#leadr.boards.api.board_schemas.BoardCreateRequest.ends_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**game_id**](#leadr.boards.api.board_schemas.BoardCreateRequest.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**icon**](#leadr.boards.api.board_schemas.BoardCreateRequest.icon) (<code>[str](#str) | None</code>) –
@@ -706,6 +752,12 @@ account_id: AccountID = Field(description='ID of the account this board belongs 
 
 ```python
 created_from_template_id: BoardTemplateID | None = Field(default=None, description='Optional template ID this board was created from')
+```
+
+####### `leadr.boards.api.board_schemas.BoardCreateRequest.description`
+
+```python
+description: str | None = Field(default=None, description='Optional short description of the board')
 ```
 
 ####### `leadr.boards.api.board_schemas.BoardCreateRequest.ends_at`
@@ -807,6 +859,7 @@ Response model for a board.
 - [**account_id**](#leadr.boards.api.board_schemas.BoardResponse.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
 - [**created_at**](#leadr.boards.api.board_schemas.BoardResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**created_from_template_id**](#leadr.boards.api.board_schemas.BoardResponse.created_from_template_id) (<code>[BoardTemplateID](./common.md#leadr.common.domain.ids.BoardTemplateID) | None</code>) –
+- [**description**](#leadr.boards.api.board_schemas.BoardResponse.description) (<code>[str](#str) | None</code>) –
 - [**ends_at**](#leadr.boards.api.board_schemas.BoardResponse.ends_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**game_id**](#leadr.boards.api.board_schemas.BoardResponse.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**icon**](#leadr.boards.api.board_schemas.BoardResponse.icon) (<code>[str](#str) | None</code>) –
@@ -840,6 +893,12 @@ created_at: datetime = Field(description='Timestamp when the board was created (
 
 ```python
 created_from_template_id: BoardTemplateID | None = Field(default=None, description='Template ID this board was created from, or null')
+```
+
+####### `leadr.boards.api.board_schemas.BoardResponse.description`
+
+```python
+description: str | None = Field(default=None, description='Short description of the board')
 ```
 
 ####### `leadr.boards.api.board_schemas.BoardResponse.ends_at`
@@ -964,6 +1023,7 @@ Request model for updating a board.
 
 - [**created_from_template_id**](#leadr.boards.api.board_schemas.BoardUpdateRequest.created_from_template_id) (<code>[BoardTemplateID](./common.md#leadr.common.domain.ids.BoardTemplateID) | None</code>) –
 - [**deleted**](#leadr.boards.api.board_schemas.BoardUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
+- [**description**](#leadr.boards.api.board_schemas.BoardUpdateRequest.description) (<code>[str](#str) | None</code>) –
 - [**ends_at**](#leadr.boards.api.board_schemas.BoardUpdateRequest.ends_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**icon**](#leadr.boards.api.board_schemas.BoardUpdateRequest.icon) (<code>[str](#str) | None</code>) –
 - [**is_active**](#leadr.boards.api.board_schemas.BoardUpdateRequest.is_active) (<code>[bool](#bool) | None</code>) –
@@ -987,6 +1047,12 @@ created_from_template_id: BoardTemplateID | None = Field(default=None, descripti
 
 ```python
 deleted: bool | None = Field(default=None, description='Set to true to soft delete the board')
+```
+
+####### `leadr.boards.api.board_schemas.BoardUpdateRequest.description`
+
+```python
+description: str | None = Field(default=None, description='Updated board description')
 ```
 
 ####### `leadr.boards.api.board_schemas.BoardUpdateRequest.ends_at`
@@ -1698,6 +1764,7 @@ tags for categorization.
 - [**created_at**](#leadr.boards.domain.board.Board.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**created_from_template_id**](#leadr.boards.domain.board.Board.created_from_template_id) (<code>[BoardTemplateID](./common.md#leadr.common.domain.ids.BoardTemplateID) | None</code>) –
 - [**deleted_at**](#leadr.boards.domain.board.Board.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**description**](./boards.md#leadr.boards.domain.board.Board.description) (<code>[str](#str) | None</code>) –
 - [**ends_at**](#leadr.boards.domain.board.Board.ends_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**game_id**](#leadr.boards.domain.board.Board.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**icon**](./boards.md#leadr.boards.domain.board.Board.icon) (<code>[str](#str) | None</code>) –
@@ -1739,6 +1806,12 @@ created_from_template_id: BoardTemplateID | None = Field(default=None, descripti
 
 ```python
 deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
+```
+
+####### `leadr.boards.domain.board.Board.description`
+
+```python
+description: str | None = Field(default=None, description='Short description of the board')
 ```
 
 ####### `leadr.boards.domain.board.Board.ends_at`
@@ -2440,7 +2513,7 @@ Ensures business rules like game validation are enforced.
 - [**get_by_id**](#leadr.boards.services.board_service.BoardService.get_by_id) – Get an entity by its ID.
 - [**get_by_id_or_raise**](#leadr.boards.services.board_service.BoardService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**list_all**](#leadr.boards.services.board_service.BoardService.list_all) – List all non-deleted entities.
-- [**list_boards**](#leadr.boards.services.board_service.BoardService.list_boards) – List boards with optional filtering by account_id and/or code.
+- [**list_boards**](#leadr.boards.services.board_service.BoardService.list_boards) – List boards with optional filtering.
 - [**list_boards_by_account**](#leadr.boards.services.board_service.BoardService.list_boards_by_account) – List all boards for an account.
 - [**soft_delete**](#leadr.boards.services.board_service.BoardService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_board**](#leadr.boards.services.board_service.BoardService.update_board) – Update board fields.
@@ -2452,7 +2525,7 @@ Ensures business rules like game validation are enforced.
 ####### `leadr.boards.services.board_service.BoardService.create_board`
 
 ```python
-create_board(account_id, game_id, name, icon='fa-crown', unit=None, is_active=True, is_published=True, sort_direction=SortDirection.DESCENDING, keep_strategy=KeepStrategy.ALL, slug=None, short_code=None, created_from_template_id=None, template_name=None, starts_at=None, ends_at=None, tags=None)
+create_board(account_id, game_id, name, icon='fa-crown', unit=None, is_active=True, is_published=True, sort_direction=SortDirection.DESCENDING, keep_strategy=KeepStrategy.ALL, slug=None, short_code=None, created_from_template_id=None, template_name=None, starts_at=None, ends_at=None, tags=None, description=None)
 ```
 
 Create a new board.
@@ -2476,6 +2549,7 @@ Create a new board.
 - **starts_at** (<code>[datetime](#datetime.datetime) | None</code>) – Optional start time for time-bounded boards.
 - **ends_at** (<code>[datetime](#datetime.datetime) | None</code>) – Optional end time for time-bounded boards.
 - **tags** (<code>[list](#list)\[[str](#str)\] | None</code>) – Optional list of tags for categorization.
+- **description** (<code>[str](#str) | None</code>) – Optional short description of the board.
 
 **Returns:**
 
@@ -2635,16 +2709,22 @@ List all non-deleted entities.
 ####### `leadr.boards.services.board_service.BoardService.list_boards`
 
 ```python
-list_boards(account_id=None, code=None, is_published=None, pagination=None)
+list_boards(account_id=None, game_id=None, code=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None, pagination=None)
 ```
 
-List boards with optional filtering by account_id and/or code.
+List boards with optional filtering.
 
 **Parameters:**
 
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **code** (<code>[str](#str) | None</code>) – Optional short code to filter by
+- **is_active** (<code>[bool](#bool) | None</code>) – Optional filter for active status
 - **is_published** (<code>[bool](#bool) | None</code>) – Optional filter for published status
+- **starts_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting before this time
+- **starts_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting after this time
+- **ends_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending before this time
+- **ends_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending after this time
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
 
 **Returns:**
@@ -2698,7 +2778,7 @@ Useful for endpoints that need to return the deleted entity in the response.
 ####### `leadr.boards.services.board_service.BoardService.update_board`
 
 ```python
-update_board(board_id, name=None, icon=None, short_code=None, unit=None, is_active=None, is_published=None, sort_direction=None, keep_strategy=None, created_from_template_id=None, template_name=None, starts_at=None, ends_at=None, tags=None)
+update_board(board_id, name=None, icon=None, short_code=None, unit=None, is_active=None, is_published=None, sort_direction=None, keep_strategy=None, created_from_template_id=None, template_name=None, starts_at=None, ends_at=None, tags=None, description=None)
 ```
 
 Update board fields.
@@ -2719,6 +2799,7 @@ Update board fields.
 - **starts_at** (<code>[datetime](#datetime.datetime) | None</code>) – New starts_at, if provided
 - **ends_at** (<code>[datetime](#datetime.datetime) | None</code>) – New ends_at, if provided
 - **tags** (<code>[list](#list)\[[str](#str)\] | None</code>) – New tags list, if provided
+- **description** (<code>[str](#str) | None</code>) – New description, if provided
 
 **Returns:**
 
@@ -3149,7 +3230,7 @@ Board repository for managing board persistence.
 - [**get_by_id**](#leadr.boards.services.repositories.BoardRepository.get_by_id) – Get an entity by its ID.
 - [**get_by_short_code**](#leadr.boards.services.repositories.BoardRepository.get_by_short_code) – Get board by short_code.
 - [**get_by_slug**](#leadr.boards.services.repositories.BoardRepository.get_by_slug) – Get board by slug within account and game scope.
-- [**list_boards**](#leadr.boards.services.repositories.BoardRepository.list_boards) – List boards with optional filtering by account_id and/or code.
+- [**list_boards**](#leadr.boards.services.repositories.BoardRepository.list_boards) – List boards with optional filtering.
 - [**update**](./boards.md#leadr.boards.services.repositories.BoardRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
@@ -3265,7 +3346,7 @@ Get board by short_code.
 ####### `leadr.boards.services.repositories.BoardRepository.get_by_slug`
 
 ```python
-get_by_slug(account_id, game_id, slug, is_active=True)
+get_by_slug(account_id, game_id, slug, is_active=None)
 ```
 
 Get board by slug within account and game scope.
@@ -3278,7 +3359,8 @@ unique constraint (account_id, game_id, slug) WHERE is_active=true.
 - **account_id** (<code>[UUID4](#pydantic.UUID4) | [AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID to filter by
 - **game_id** (<code>[UUID4](#pydantic.UUID4) | [GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The game ID to filter by
 - **slug** (<code>[str](#str)</code>) – The slug to search for
-- **is_active** (<code>[bool](#bool)</code>) – Whether to filter for active boards only (default: True)
+- **is_active** (<code>[bool](#bool) | None</code>) – Optional filter for active status. If None, returns board
+  regardless of active status.
 
 **Returns:**
 
@@ -3287,18 +3369,22 @@ unique constraint (account_id, game_id, slug) WHERE is_active=true.
 ####### `leadr.boards.services.repositories.BoardRepository.list_boards`
 
 ```python
-list_boards(account_id=None, code=None, is_published=None, pagination=None)
+list_boards(account_id=None, game_id=None, code=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None, pagination=None)
 ```
 
-List boards with optional filtering by account_id and/or code.
-
-This method supports special behavior for superadmins filtering by code only.
+List boards with optional filtering.
 
 **Parameters:**
 
 - **account_id** (<code>[UUID4](#pydantic.UUID4) | [AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by
+- **game_id** (<code>[UUID4](#pydantic.UUID4) | [GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **code** (<code>[str](#str) | None</code>) – Optional short code to filter by
+- **is_active** (<code>[bool](#bool) | None</code>) – Optional filter for active status
 - **is_published** (<code>[bool](#bool) | None</code>) – Optional filter for published status
+- **starts_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting before this time
+- **starts_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting after this time
+- **ends_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending before this time
+- **ends_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending after this time
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
 
 **Returns:**
