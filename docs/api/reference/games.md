@@ -40,10 +40,13 @@ within the same account.
 - [**created_at**](#leadr.games.adapters.orm.GameORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**default_board_id**](#leadr.games.adapters.orm.GameORM.default_board_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID) | None\]</code>) –
 - [**deleted_at**](#leadr.games.adapters.orm.GameORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
+- [**description**](./games.md#leadr.games.adapters.orm.GameORM.description) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
 - [**id**](./games.md#leadr.games.adapters.orm.GameORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
 - [**name**](./games.md#leadr.games.adapters.orm.GameORM.name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
+- [**page_url**](#leadr.games.adapters.orm.GameORM.page_url) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
 - [**slug**](./games.md#leadr.games.adapters.orm.GameORM.slug) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**steam_app_id**](#leadr.games.adapters.orm.GameORM.steam_app_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
+- [**tags**](./games.md#leadr.games.adapters.orm.GameORM.tags) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[list](#list)\[[str](#str)\]\]</code>) –
 - [**updated_at**](#leadr.games.adapters.orm.GameORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 
 ####### `leadr.games.adapters.orm.GameORM.account`
@@ -82,6 +85,12 @@ default_board_id: Mapped[UUID | None] = mapped_column(nullable=True, default=Non
 deleted_at: Mapped[nullable_timestamp]
 ```
 
+####### `leadr.games.adapters.orm.GameORM.description`
+
+```python
+description: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
+
 ####### `leadr.games.adapters.orm.GameORM.id`
 
 ```python
@@ -94,6 +103,12 @@ id: Mapped[uuid_pk]
 name: Mapped[str] = mapped_column(String, nullable=False)
 ```
 
+####### `leadr.games.adapters.orm.GameORM.page_url`
+
+```python
+page_url: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
+
 ####### `leadr.games.adapters.orm.GameORM.slug`
 
 ```python
@@ -104,6 +119,12 @@ slug: Mapped[str] = mapped_column(String, nullable=False, unique=True, index=Tru
 
 ```python
 steam_app_id: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
+
+####### `leadr.games.adapters.orm.GameORM.tags`
+
+```python
+tags: Mapped[list[str]] = mapped_column(ARRAY(String), nullable=False, default=list, server_default='{}')
 ```
 
 ####### `leadr.games.adapters.orm.GameORM.updated_at`
@@ -290,9 +311,12 @@ Request model for creating a game.
 - [**account_id**](#leadr.games.api.game_schemas.GameCreateRequest.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
 - [**anti_cheat_enabled**](#leadr.games.api.game_schemas.GameCreateRequest.anti_cheat_enabled) (<code>[bool](#bool)</code>) –
 - [**default_board_id**](#leadr.games.api.game_schemas.GameCreateRequest.default_board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) –
+- [**description**](#leadr.games.api.game_schemas.GameCreateRequest.description) (<code>[str](#str) | None</code>) –
 - [**name**](#leadr.games.api.game_schemas.GameCreateRequest.name) (<code>[str](#str)</code>) –
+- [**page_url**](#leadr.games.api.game_schemas.GameCreateRequest.page_url) (<code>[str](#str) | None</code>) –
 - [**slug**](#leadr.games.api.game_schemas.GameCreateRequest.slug) (<code>[str](#str) | None</code>) –
 - [**steam_app_id**](#leadr.games.api.game_schemas.GameCreateRequest.steam_app_id) (<code>[str](#str) | None</code>) –
+- [**tags**](#leadr.games.api.game_schemas.GameCreateRequest.tags) (<code>[list](#list)\[[str](#str)\] | None</code>) –
 
 ####### `leadr.games.api.game_schemas.GameCreateRequest.account_id`
 
@@ -312,10 +336,22 @@ anti_cheat_enabled: bool = Field(default=True, description='Whether anti-cheat i
 default_board_id: BoardID | None = Field(default=None, description='Optional ID of the default leaderboard for this game')
 ```
 
+####### `leadr.games.api.game_schemas.GameCreateRequest.description`
+
+```python
+description: str | None = Field(default=None, description='Optional game description')
+```
+
 ####### `leadr.games.api.game_schemas.GameCreateRequest.name`
 
 ```python
 name: str = Field(description='Name of the game')
+```
+
+####### `leadr.games.api.game_schemas.GameCreateRequest.page_url`
+
+```python
+page_url: str | None = Field(default=None, description="Optional URL to the game's page")
 ```
 
 ####### `leadr.games.api.game_schemas.GameCreateRequest.slug`
@@ -328,6 +364,12 @@ slug: str | None = Field(default=None, description='Optional URL-friendly slug (
 
 ```python
 steam_app_id: str | None = Field(default=None, description='Optional Steam App ID for Steam integration')
+```
+
+####### `leadr.games.api.game_schemas.GameCreateRequest.tags`
+
+```python
+tags: list[str] | None = Field(default=None, description='Optional list of tags for categorization')
 ```
 
 ###### `leadr.games.api.game_schemas.GameResponse`
@@ -346,10 +388,13 @@ Response model for a game.
 - [**anti_cheat_enabled**](#leadr.games.api.game_schemas.GameResponse.anti_cheat_enabled) (<code>[bool](#bool)</code>) –
 - [**created_at**](#leadr.games.api.game_schemas.GameResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**default_board_id**](#leadr.games.api.game_schemas.GameResponse.default_board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) –
+- [**description**](#leadr.games.api.game_schemas.GameResponse.description) (<code>[str](#str) | None</code>) –
 - [**id**](#leadr.games.api.game_schemas.GameResponse.id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**name**](#leadr.games.api.game_schemas.GameResponse.name) (<code>[str](#str)</code>) –
+- [**page_url**](#leadr.games.api.game_schemas.GameResponse.page_url) (<code>[str](#str) | None</code>) –
 - [**slug**](#leadr.games.api.game_schemas.GameResponse.slug) (<code>[str](#str)</code>) –
 - [**steam_app_id**](#leadr.games.api.game_schemas.GameResponse.steam_app_id) (<code>[str](#str) | None</code>) –
+- [**tags**](#leadr.games.api.game_schemas.GameResponse.tags) (<code>[list](#list)\[[str](#str)\]</code>) –
 - [**updated_at**](#leadr.games.api.game_schemas.GameResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
 ####### `leadr.games.api.game_schemas.GameResponse.account_id`
@@ -374,6 +419,12 @@ created_at: datetime = Field(description='Timestamp when the game was created (U
 
 ```python
 default_board_id: BoardID | None = Field(default=None, description='ID of the default leaderboard, or null if not set')
+```
+
+####### `leadr.games.api.game_schemas.GameResponse.description`
+
+```python
+description: str | None = Field(default=None, description='Game description')
 ```
 
 ####### `leadr.games.api.game_schemas.GameResponse.from_domain`
@@ -404,6 +455,12 @@ id: GameID = Field(description='Unique identifier for the game')
 name: str = Field(description='Name of the game')
 ```
 
+####### `leadr.games.api.game_schemas.GameResponse.page_url`
+
+```python
+page_url: str | None = Field(default=None, description="URL to the game's page")
+```
+
 ####### `leadr.games.api.game_schemas.GameResponse.slug`
 
 ```python
@@ -414,6 +471,12 @@ slug: str = Field(description='URL-friendly slug for the game (globally unique, 
 
 ```python
 steam_app_id: str | None = Field(default=None, description='Steam App ID if Steam integration is configured')
+```
+
+####### `leadr.games.api.game_schemas.GameResponse.tags`
+
+```python
+tags: list[str] = Field(default_factory=list, description='List of tags for categorization')
 ```
 
 ####### `leadr.games.api.game_schemas.GameResponse.updated_at`
@@ -433,8 +496,11 @@ Request model for updating a game.
 - [**anti_cheat_enabled**](#leadr.games.api.game_schemas.GameUpdateRequest.anti_cheat_enabled) (<code>[bool](#bool) | None</code>) –
 - [**default_board_id**](#leadr.games.api.game_schemas.GameUpdateRequest.default_board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) –
 - [**deleted**](#leadr.games.api.game_schemas.GameUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
+- [**description**](#leadr.games.api.game_schemas.GameUpdateRequest.description) (<code>[str](#str) | None</code>) –
 - [**name**](#leadr.games.api.game_schemas.GameUpdateRequest.name) (<code>[str](#str) | None</code>) –
+- [**page_url**](#leadr.games.api.game_schemas.GameUpdateRequest.page_url) (<code>[str](#str) | None</code>) –
 - [**steam_app_id**](#leadr.games.api.game_schemas.GameUpdateRequest.steam_app_id) (<code>[str](#str) | None</code>) –
+- [**tags**](#leadr.games.api.game_schemas.GameUpdateRequest.tags) (<code>[list](#list)\[[str](#str)\] | None</code>) –
 
 ####### `leadr.games.api.game_schemas.GameUpdateRequest.anti_cheat_enabled`
 
@@ -454,16 +520,34 @@ default_board_id: BoardID | None = Field(default=None, description='Updated defa
 deleted: bool | None = Field(default=None, description='Set to true to soft delete the game')
 ```
 
+####### `leadr.games.api.game_schemas.GameUpdateRequest.description`
+
+```python
+description: str | None = Field(default=None, description='Updated game description')
+```
+
 ####### `leadr.games.api.game_schemas.GameUpdateRequest.name`
 
 ```python
 name: str | None = Field(default=None, description='Updated game name')
 ```
 
+####### `leadr.games.api.game_schemas.GameUpdateRequest.page_url`
+
+```python
+page_url: str | None = Field(default=None, description='Updated page URL')
+```
+
 ####### `leadr.games.api.game_schemas.GameUpdateRequest.steam_app_id`
 
 ```python
 steam_app_id: str | None = Field(default=None, description='Updated Steam App ID')
+```
+
+####### `leadr.games.api.game_schemas.GameUpdateRequest.tags`
+
+```python
+tags: list[str] | None = Field(default=None, description='Updated tags list')
 ```
 
 #### `leadr.games.domain`
@@ -507,12 +591,15 @@ Steam platform features.
 - [**created_at**](#leadr.games.domain.game.Game.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**default_board_id**](#leadr.games.domain.game.Game.default_board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) –
 - [**deleted_at**](#leadr.games.domain.game.Game.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**description**](./games.md#leadr.games.domain.game.Game.description) (<code>[str](#str) | None</code>) –
 - [**id**](./games.md#leadr.games.domain.game.Game.id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**is_deleted**](#leadr.games.domain.game.Game.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
 - [**model_config**](#leadr.games.domain.game.Game.model_config) –
 - [**name**](./games.md#leadr.games.domain.game.Game.name) (<code>[str](#str)</code>) –
+- [**page_url**](#leadr.games.domain.game.Game.page_url) (<code>[str](#str) | None</code>) –
 - [**slug**](./games.md#leadr.games.domain.game.Game.slug) (<code>[str](#str)</code>) –
 - [**steam_app_id**](#leadr.games.domain.game.Game.steam_app_id) (<code>[str](#str) | None</code>) –
+- [**tags**](./games.md#leadr.games.domain.game.Game.tags) (<code>[list](#list)\[[str](#str)\]</code>) –
 - [**updated_at**](#leadr.games.domain.game.Game.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
 ####### `leadr.games.domain.game.Game.account_id`
@@ -545,6 +632,12 @@ default_board_id: BoardID | None = Field(default=None, description='Optional def
 deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
 ```
 
+####### `leadr.games.domain.game.Game.description`
+
+```python
+description: str | None = Field(default=None, description='Short description of the game')
+```
+
 ####### `leadr.games.domain.game.Game.id`
 
 ```python
@@ -573,6 +666,12 @@ model_config = ConfigDict(validate_assignment=True)
 
 ```python
 name: str = Field(description='Name of the game')
+```
+
+####### `leadr.games.domain.game.Game.page_url`
+
+```python
+page_url: str | None = Field(default=None, description="URL to the game's page or website")
 ```
 
 ####### `leadr.games.domain.game.Game.restore`
@@ -624,6 +723,12 @@ already deleted are not affected (deleted_at remains at original deletion time).
 
 ```python
 steam_app_id: str | None = Field(default=None, description='Optional Steam App ID for platform integration')
+```
+
+####### `leadr.games.domain.game.Game.tags`
+
+```python
+tags: list[str] = Field(default_factory=list, description='List of tags for categorizing the game')
 ```
 
 ####### `leadr.games.domain.game.Game.updated_at`
@@ -743,7 +848,7 @@ by coordinating between the domain models and repository layer.
 ####### `leadr.games.services.game_service.GameService.create_game`
 
 ```python
-create_game(account_id, name, slug=None, steam_app_id=None, default_board_id=None, anti_cheat_enabled=True)
+create_game(account_id, name, slug=None, steam_app_id=None, default_board_id=None, anti_cheat_enabled=True, description=None, tags=None, page_url=None)
 ```
 
 Create a new game.
@@ -756,6 +861,9 @@ Create a new game.
 - **steam_app_id** (<code>[str](#str) | None</code>) – Optional Steam application ID.
 - **default_board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional default leaderboard ID.
 - **anti_cheat_enabled** (<code>[bool](#bool)</code>) – Whether anti-cheat is enabled (defaults to True).
+- **description** (<code>[str](#str) | None</code>) – Optional short description of the game.
+- **tags** (<code>[list](#list)\[[str](#str)\] | None</code>) – Optional list of tags for categorizing the game.
+- **page_url** (<code>[str](#str) | None</code>) – Optional URL to the game's page or website.
 
 **Returns:**
 
@@ -922,7 +1030,7 @@ Useful for endpoints that need to return the deleted entity in the response.
 ####### `leadr.games.services.game_service.GameService.update_game`
 
 ```python
-update_game(game_id, name=None, steam_app_id=None, default_board_id=None, anti_cheat_enabled=None)
+update_game(game_id, name=None, steam_app_id=None, default_board_id=None, anti_cheat_enabled=None, description=None, tags=None, page_url=None)
 ```
 
 Update game fields.
@@ -934,6 +1042,9 @@ Update game fields.
 - **steam_app_id** (<code>[str](#str) | None</code>) – New Steam app ID, if provided
 - **default_board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – New default board ID, if provided
 - **anti_cheat_enabled** (<code>[bool](#bool) | None</code>) – Whether anti-cheat is enabled, if provided
+- **description** (<code>[str](#str) | None</code>) – New game description, if provided
+- **tags** (<code>[list](#list)\[[str](#str)\] | None</code>) – New list of tags, if provided
+- **page_url** (<code>[str](#str) | None</code>) – New page URL, if provided
 
 **Returns:**
 

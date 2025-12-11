@@ -29,7 +29,12 @@
       "slug": "string",
       "steam_app_id": "string",
       "default_board_id": "string",
-      "anti_cheat_enabled": true
+      "anti_cheat_enabled": true,
+      "description": "string",
+      "tags": [
+        "string"
+      ],
+      "page_url": "string"
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -83,7 +88,12 @@ Raises:
   "slug": "string",
   "steam_app_id": "string",
   "default_board_id": "string",
-  "anti_cheat_enabled": true
+  "anti_cheat_enabled": true,
+  "description": "string",
+  "tags": [
+    "string"
+  ],
+  "page_url": "string"
 }
 ```
 
@@ -110,6 +120,11 @@ Raises:
   "steam_app_id": "string",
   "default_board_id": "string",
   "anti_cheat_enabled": true,
+  "description": "string",
+  "tags": [
+    "string"
+  ],
+  "page_url": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -332,6 +347,11 @@ Raises:
   "steam_app_id": "string",
   "default_board_id": "string",
   "anti_cheat_enabled": true,
+  "description": "string",
+  "tags": [
+    "string"
+  ],
+  "page_url": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -375,6 +395,11 @@ Raises:
       "steam_app_id": "string",
       "default_board_id": "string",
       "anti_cheat_enabled": true,
+      "description": "string",
+      "tags": [
+        "string"
+      ],
+      "page_url": "string",
       "deleted": true
     }';
     const headers = {
@@ -425,6 +450,11 @@ Raises:
   "steam_app_id": "string",
   "default_board_id": "string",
   "anti_cheat_enabled": true,
+  "description": "string",
+  "tags": [
+    "string"
+  ],
+  "page_url": "string",
   "deleted": true
 }
 ```
@@ -453,6 +483,11 @@ Raises:
   "steam_app_id": "string",
   "default_board_id": "string",
   "anti_cheat_enabled": true,
+  "description": "string",
+  "tags": [
+    "string"
+  ],
+  "page_url": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }

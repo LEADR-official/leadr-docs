@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.2.0"
+    "version": "0.3.1"
   },
   "paths": {
     "/v1/accounts": {
@@ -2076,7 +2076,7 @@
           "Boards"
         ],
         "summary": "List Boards Admin",
-        "description": "List boards (Admin API).\n\nFor regular users:\n- If account_id not provided, defaults to their API key's account\n- If account_id provided and they are superadmin, can access any account\n- If account_id provided and NOT superadmin, must match their account (validated in AuthContext)\n\nFiltering:\n- Use ?game_slug={slug} to filter boards by game\n- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game\n- Use ?code={code} to filter boards by short code\n- Note: board slug filter requires game_slug parameter\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/boards?account_id=acc_123&limit=50&sort=name:asc\n    GET /v1/boards?game_slug=my-game\n    GET /v1/boards?game_slug=my-game&slug=weekly-challenge\n\nArgs:\n    auth: Admin authentication context with user info.\n    service: Injected board service dependency.\n    game_service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account ID to filter boards by.\n    code: Optional short code to filter boards by.\n    game_slug: Optional game slug to filter boards by game.\n    slug: Optional board slug to filter by specific board (requires game_slug).\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.\n    404: Game or board not found when using slug filters.",
+        "description": "List boards (Admin API).\n\nFor regular users:\n- If account_id not provided, defaults to their API key's account\n- If account_id provided and they are superadmin, can access any account\n- If account_id provided and NOT superadmin, must match their account (validated in AuthContext)\n\nFiltering:\n- Use ?game_id={id} or ?game_slug={slug} to filter boards by game\n- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game\n- Use ?code={code} to filter boards by short code\n- Use ?is_active=true/false to filter by active status\n- Use ?is_published=true/false to filter by published status\n- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range\n- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range\n- Note: board slug filter requires game_slug parameter\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/boards?account_id=acc_123&limit=50&sort=name:asc\n    GET /v1/boards?game_slug=my-game&is_active=true\n    GET /v1/boards?game_slug=my-game&slug=weekly-challenge\n    GET /v1/boards?starts_after=2025-01-01T00:00:00Z&ends_before=2025-12-31T23:59:59Z\n\nArgs:\n    auth: Admin authentication context with user info.\n    service: Injected board service dependency.\n    game_service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account ID to filter boards by.\n    game_id: Optional game ID to filter boards by.\n    code: Optional short code to filter boards by.\n    game_slug: Optional game slug to filter boards by game (resolves to game_id).\n    slug: Optional board slug to filter by specific board (requires game_slug).\n    is_active: Optional filter for active status.\n    is_published: Optional filter for published status.\n    starts_before: Optional filter for boards starting before this time.\n    starts_after: Optional filter for boards starting after this time.\n    ends_before: Optional filter for boards ending before this time.\n    ends_after: Optional filter for boards ending after this time.\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.\n    404: Game or board not found when using slug filters.",
         "operationId": "list_boards_admin_v1_boards_get",
         "parameters": [
           {
@@ -2094,6 +2094,24 @@
               ],
               "title": "Account Id"
             }
+          },
+          {
+            "name": "game_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by game ID",
+              "title": "Game Id"
+            },
+            "description": "Filter by game ID"
           },
           {
             "name": "code",
@@ -2148,6 +2166,118 @@
               "title": "Slug"
             },
             "description": "Filter by board slug (requires game_slug)"
+          },
+          {
+            "name": "is_active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by active status",
+              "title": "Is Active"
+            },
+            "description": "Filter by active status"
+          },
+          {
+            "name": "is_published",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by published status",
+              "title": "Is Published"
+            },
+            "description": "Filter by published status"
+          },
+          {
+            "name": "starts_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter boards starting before this time (ISO 8601)",
+              "title": "Starts Before"
+            },
+            "description": "Filter boards starting before this time (ISO 8601)"
+          },
+          {
+            "name": "starts_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter boards starting after this time (ISO 8601)",
+              "title": "Starts After"
+            },
+            "description": "Filter boards starting after this time (ISO 8601)"
+          },
+          {
+            "name": "ends_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter boards ending before this time (ISO 8601)",
+              "title": "Ends Before"
+            },
+            "description": "Filter boards ending before this time (ISO 8601)"
+          },
+          {
+            "name": "ends_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter boards ending after this time (ISO 8601)",
+              "title": "Ends After"
+            },
+            "description": "Filter boards ending after this time (ISO 8601)"
           },
           {
             "name": "cursor",
@@ -5513,9 +5643,27 @@
           "Scores"
         ],
         "summary": "List Boards Client",
-        "description": "List boards (Client API).\n\nAccount ID is automatically derived from the authenticated device's account.\nClients can optionally filter by short code, game slug, or board slug to find specific boards.\n\nFiltering:\n- Use ?game_slug={slug} to filter boards by game\n- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game\n- Use ?code={code} to filter boards by short code\n- Note: board slug filter requires game_slug parameter\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50\n    GET /v1/client/boards?game_slug=my-game\n    GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge\n\nArgs:\n    auth: Client authentication context with device info.\n    service: Injected board service dependency.\n    game_service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    code: Optional short code to filter boards by.\n    game_slug: Optional game slug to filter boards by game.\n    slug: Optional board slug to filter by specific board (requires game_slug).\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.\n    404: Game or board not found when using slug filters.",
+        "description": "List boards (Client API).\n\nAccount ID is automatically derived from the authenticated device's account.\nClients can optionally filter by various criteria to find specific boards.\n\nFiltering:\n- Use ?game_id={id} or ?game_slug={slug} to filter boards by game\n- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game\n- Use ?code={code} to filter boards by short code\n- Use ?is_active=true/false to filter by active status\n- Use ?is_published=true/false to filter by published status\n- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range\n- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range\n- Note: board slug filter requires game_slug parameter\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50\n    GET /v1/client/boards?game_slug=my-game&is_active=true\n    GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge\n    GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z\n\nArgs:\n    auth: Client authentication context with device info.\n    service: Injected board service dependency.\n    game_service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    game_id: Optional game ID to filter boards by.\n    code: Optional short code to filter boards by.\n    game_slug: Optional game slug to filter boards by game (resolves to game_id).\n    slug: Optional board slug to filter by specific board (requires game_slug).\n    is_active: Optional filter for active status.\n    is_published: Optional filter for published status.\n    starts_before: Optional filter for boards starting before this time.\n    starts_after: Optional filter for boards starting after this time.\n    ends_before: Optional filter for boards ending before this time.\n    ends_after: Optional filter for boards ending after this time.\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.\n    404: Game or board not found when using slug filters.",
         "operationId": "list_boards_client_v1_client_boards_get",
         "parameters": [
+          {
+            "name": "game_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by game ID",
+              "title": "Game Id"
+            },
+            "description": "Filter by game ID"
+          },
           {
             "name": "code",
             "in": "query",
@@ -5569,6 +5717,118 @@
               "title": "Slug"
             },
             "description": "Filter by board slug (requires game_slug)"
+          },
+          {
+            "name": "is_active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by active status",
+              "title": "Is Active"
+            },
+            "description": "Filter by active status"
+          },
+          {
+            "name": "is_published",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by published status",
+              "title": "Is Published"
+            },
+            "description": "Filter by published status"
+          },
+          {
+            "name": "starts_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter boards starting before this time (ISO 8601)",
+              "title": "Starts Before"
+            },
+            "description": "Filter boards starting before this time (ISO 8601)"
+          },
+          {
+            "name": "starts_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter boards starting after this time (ISO 8601)",
+              "title": "Starts After"
+            },
+            "description": "Filter boards starting after this time (ISO 8601)"
+          },
+          {
+            "name": "ends_before",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter boards ending before this time (ISO 8601)",
+              "title": "Ends Before"
+            },
+            "description": "Filter boards ending before this time (ISO 8601)"
+          },
+          {
+            "name": "ends_after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter boards ending after this time (ISO 8601)",
+              "title": "Ends After"
+            },
+            "description": "Filter boards ending after this time (ISO 8601)"
           },
           {
             "name": "account_id",
@@ -6616,6 +6876,18 @@
             ],
             "title": "Tags",
             "description": "Optional list of tags for categorization"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Optional short description of the board"
           }
         },
         "type": "object",
@@ -6758,6 +7030,18 @@
             "type": "array",
             "title": "Tags",
             "description": "List of tags for categorization"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Short description of the board"
           },
           "created_at": {
             "type": "string",
@@ -7534,6 +7818,18 @@
             "title": "Tags",
             "description": "Updated tags list"
           },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Updated board description"
+          },
           "deleted": {
             "anyOf": [
               {
@@ -8061,6 +8357,45 @@
             "title": "Anti Cheat Enabled",
             "description": "Whether anti-cheat is enabled for this game (defaults to True)",
             "default": true
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Optional game description"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "Optional list of tags for categorization"
+          },
+          "page_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Url",
+            "description": "Optional URL to the game's page"
           }
         },
         "type": "object",
@@ -8121,6 +8456,38 @@
             "type": "boolean",
             "title": "Anti Cheat Enabled",
             "description": "Whether anti-cheat is enabled for this game"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Game description"
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "description": "List of tags for categorization"
+          },
+          "page_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Url",
+            "description": "URL to the game's page"
           },
           "created_at": {
             "type": "string",
@@ -8197,6 +8564,45 @@
             ],
             "title": "Anti Cheat Enabled",
             "description": "Whether anti-cheat is enabled for this game"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Updated game description"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "Updated tags list"
+          },
+          "page_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Url",
+            "description": "Updated page URL"
           },
           "deleted": {
             "anyOf": [
