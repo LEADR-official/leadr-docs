@@ -28,6 +28,8 @@ Create a new game
 |--------|-------------|----------|
 | `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
 | `--name` | Game name | Yes |
+| `--description` | Game description | No |
+| `--page-url` | URL to game's page (e.g., Steam store page, itch.io page) | No |
 | `--steam-app-id` | Steam App ID (optional) | No |
 | `--anti-cheat-enabled` | Enable anti-cheat (default: true) | No |
 
