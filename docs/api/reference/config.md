@@ -31,10 +31,6 @@ Settings are automatically loaded based on the ENV variable:
 - [**Settings**](./config.md#leadr.config.Settings) – Production/development environment settings.
 - [**TestSettings**](./config.md#leadr.config.TestSettings) – Test environment settings.
 
-**Functions:**
-
-- [**setup_logging**](#leadr.config.setup_logging) – Configure application logging based on settings.
-
 **Attributes:**
 
 - [**PROJ_ROOT**](#leadr.config.PROJ_ROOT) –
@@ -81,6 +77,7 @@ field names (case-sensitive).
 - [**DASHBOARD_URL**](#leadr.config.CommonSettings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.CommonSettings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.CommonSettings.DB_HOST) (<code>[str](#str)</code>) –
+- [**DB_HOST_DIRECT**](#leadr.config.CommonSettings.DB_HOST_DIRECT) (<code>[str](#str) | None</code>) –
 - [**DB_NAME**](#leadr.config.CommonSettings.DB_NAME) (<code>[str](#str)</code>) –
 - [**DB_PASSWORD**](#leadr.config.CommonSettings.DB_PASSWORD) (<code>[str](#str)</code>) –
 - [**DB_POOL_MAX_OVERFLOW**](#leadr.config.CommonSettings.DB_POOL_MAX_OVERFLOW) (<code>[int](#int)</code>) –
@@ -98,6 +95,9 @@ field names (case-sensitive).
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.CommonSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.CommonSettings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.CommonSettings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
+- [**LOG_DIR**](#leadr.config.CommonSettings.LOG_DIR) (<code>[Path](#pathlib.Path)</code>) –
+- [**LOG_JSON**](#leadr.config.CommonSettings.LOG_JSON) (<code>[bool](#bool)</code>) –
+- [**LOG_TO_FILE**](#leadr.config.CommonSettings.LOG_TO_FILE) (<code>[bool](#bool)</code>) –
 - [**MAILGUN_API_KEY**](#leadr.config.CommonSettings.MAILGUN_API_KEY) (<code>[str](#str)</code>) –
 - [**MAILGUN_DOMAIN**](#leadr.config.CommonSettings.MAILGUN_DOMAIN) (<code>[str](#str)</code>) –
 - [**MAXMIND_ACCOUNT_ID**](#leadr.config.CommonSettings.MAXMIND_ACCOUNT_ID) (<code>[str](#str)</code>) –
@@ -251,6 +251,12 @@ DB_ECHO: bool = Field(default=False, description='Log all SQL queries to stdout 
 DB_HOST: str = Field(default='localhost', description='PostgreSQL database host')
 ```
 
+##### `leadr.config.CommonSettings.DB_HOST_DIRECT`
+
+```python
+DB_HOST_DIRECT: str | None = Field(default=None, description='Direct PostgreSQL host for migrations (bypasses connection pooler). If not set, falls back to DB_HOST. For Neon, use the non-pooler endpoint.')
+```
+
 ##### `leadr.config.CommonSettings.DB_NAME`
 
 ```python
@@ -351,6 +357,24 @@ JWT_SECRET: str = Field(default='your-super-secret-jwt-key-change-in-production'
 
 ```python
 KEYS_PATH: Path = Field(default=(PROJ_ROOT / '.keys'), description='Directory path for storing cryptographic keys')
+```
+
+##### `leadr.config.CommonSettings.LOG_DIR`
+
+```python
+LOG_DIR: Path = Field(default=(Path('/var/log/leadr')), description='Directory for log files when LOG_TO_FILE is enabled')
+```
+
+##### `leadr.config.CommonSettings.LOG_JSON`
+
+```python
+LOG_JSON: bool = Field(default=True, description='Use JSON format for logs (disable for colored console in dev)')
+```
+
+##### `leadr.config.CommonSettings.LOG_TO_FILE`
+
+```python
+LOG_TO_FILE: bool = Field(default=False, description='Enable file logging in addition to stdout')
 ```
 
 ##### `leadr.config.CommonSettings.MAILGUN_API_KEY`
@@ -484,7 +508,7 @@ Ensure at least one API (Admin or Client) is enabled.
 #### `leadr.config.PROJ_ROOT`
 
 ```python
-PROJ_ROOT = Path(__file__).resolve().parent.parent.parent
+PROJ_ROOT = Path.cwd()
 ```
 
 #### `leadr.config.Settings`
@@ -526,6 +550,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**DASHBOARD_URL**](#leadr.config.Settings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.Settings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.Settings.DB_HOST) (<code>[str](#str)</code>) –
+- [**DB_HOST_DIRECT**](#leadr.config.Settings.DB_HOST_DIRECT) (<code>[str](#str) | None</code>) –
 - [**DB_NAME**](#leadr.config.Settings.DB_NAME) (<code>[str](#str)</code>) –
 - [**DB_PASSWORD**](#leadr.config.Settings.DB_PASSWORD) (<code>[str](#str)</code>) –
 - [**DB_POOL_MAX_OVERFLOW**](#leadr.config.Settings.DB_POOL_MAX_OVERFLOW) (<code>[int](#int)</code>) –
@@ -543,6 +568,9 @@ This is the default settings class used when ENV != 'TEST'.
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.Settings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.Settings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.Settings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
+- [**LOG_DIR**](#leadr.config.Settings.LOG_DIR) (<code>[Path](#pathlib.Path)</code>) –
+- [**LOG_JSON**](#leadr.config.Settings.LOG_JSON) (<code>[bool](#bool)</code>) –
+- [**LOG_TO_FILE**](#leadr.config.Settings.LOG_TO_FILE) (<code>[bool](#bool)</code>) –
 - [**MAILGUN_API_KEY**](#leadr.config.Settings.MAILGUN_API_KEY) (<code>[str](#str)</code>) –
 - [**MAILGUN_DOMAIN**](#leadr.config.Settings.MAILGUN_DOMAIN) (<code>[str](#str)</code>) –
 - [**MAXMIND_ACCOUNT_ID**](#leadr.config.Settings.MAXMIND_ACCOUNT_ID) (<code>[str](#str)</code>) –
@@ -604,6 +632,7 @@ Test-specific overrides can be added here.
 - [**DASHBOARD_URL**](#leadr.config.TestSettings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.TestSettings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.TestSettings.DB_HOST) (<code>[str](#str)</code>) –
+- [**DB_HOST_DIRECT**](#leadr.config.TestSettings.DB_HOST_DIRECT) (<code>[str](#str) | None</code>) –
 - [**DB_NAME**](#leadr.config.TestSettings.DB_NAME) (<code>[str](#str)</code>) –
 - [**DB_PASSWORD**](#leadr.config.TestSettings.DB_PASSWORD) (<code>[str](#str)</code>) –
 - [**DB_POOL_MAX_OVERFLOW**](#leadr.config.TestSettings.DB_POOL_MAX_OVERFLOW) (<code>[int](#int)</code>) –
@@ -621,6 +650,9 @@ Test-specific overrides can be added here.
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.TestSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.TestSettings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.TestSettings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
+- [**LOG_DIR**](#leadr.config.TestSettings.LOG_DIR) (<code>[Path](#pathlib.Path)</code>) –
+- [**LOG_JSON**](#leadr.config.TestSettings.LOG_JSON) (<code>[bool](#bool)</code>) –
+- [**LOG_TO_FILE**](#leadr.config.TestSettings.LOG_TO_FILE) (<code>[bool](#bool)</code>) –
 - [**MAILGUN_API_KEY**](#leadr.config.TestSettings.MAILGUN_API_KEY) (<code>[str](#str)</code>) –
 - [**MAILGUN_DOMAIN**](#leadr.config.TestSettings.MAILGUN_DOMAIN) (<code>[str](#str)</code>) –
 - [**MAXMIND_ACCOUNT_ID**](#leadr.config.TestSettings.MAXMIND_ACCOUNT_ID) (<code>[str](#str)</code>) –
@@ -774,6 +806,12 @@ DB_ECHO: bool = Field(default=False, description='Log all SQL queries to stdout 
 DB_HOST: str = Field(default='localhost', description='PostgreSQL database host')
 ```
 
+##### `leadr.config.TestSettings.DB_HOST_DIRECT`
+
+```python
+DB_HOST_DIRECT: str | None = Field(default=None, description='Direct PostgreSQL host for migrations (bypasses connection pooler). If not set, falls back to DB_HOST. For Neon, use the non-pooler endpoint.')
+```
+
 ##### `leadr.config.TestSettings.DB_NAME`
 
 ```python
@@ -874,6 +912,24 @@ JWT_SECRET: str = Field(default='your-super-secret-jwt-key-change-in-production'
 
 ```python
 KEYS_PATH: Path = Field(default=(PROJ_ROOT / '.keys'), description='Directory path for storing cryptographic keys')
+```
+
+##### `leadr.config.TestSettings.LOG_DIR`
+
+```python
+LOG_DIR: Path = Field(default=(Path('/var/log/leadr')), description='Directory for log files when LOG_TO_FILE is enabled')
+```
+
+##### `leadr.config.TestSettings.LOG_JSON`
+
+```python
+LOG_JSON: bool = Field(default=True, description='Use JSON format for logs (disable for colored console in dev)')
+```
+
+##### `leadr.config.TestSettings.LOG_TO_FILE`
+
+```python
+LOG_TO_FILE: bool = Field(default=False, description='Enable file logging in addition to stdout')
 ```
 
 ##### `leadr.config.TestSettings.MAILGUN_API_KEY`
@@ -1009,14 +1065,3 @@ Ensure at least one API (Admin or Client) is enabled.
 ```python
 settings = TestSettings(_env_file=(Path(PROJ_ROOT, '.env.test'))) if os.environ.get('ENV') == 'TEST' else Settings(_env_file=(Path(PROJ_ROOT, '.env')))
 ```
-
-#### `leadr.config.setup_logging`
-
-```python
-setup_logging()
-```
-
-Configure application logging based on settings.
-
-Loads logging configuration from logging.yaml and applies it.
-When DEBUG mode is enabled, all loggers are set to DEBUG level.

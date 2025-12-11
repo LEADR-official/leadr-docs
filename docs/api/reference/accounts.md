@@ -553,7 +553,7 @@ list_users(auth, service, pagination, account_id=None)
 List users for an account with pagination.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns users from all accounts.
 
 Pagination:
 
@@ -571,10 +571,10 @@ GET /v1/users?account_id=acc_123&limit=50&sort=email:asc
 
 **Parameters:**
 
-- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – Injected user service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 
 **Returns:**
 
@@ -583,7 +583,6 @@ GET /v1/users?account_id=acc_123&limit=50&sort=email:asc
 **Raises:**
 
 - <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
-- <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.accounts.api.user_routes.router`

@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "LEADR - Admin & Client API",
-    "description": "LEADR is the cross-platform leaderboard backend for indie game devs",
-    "version": "0.1.0"
+    "title": "LEADR Open-Source Edition - Admin & Client API",
+    "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
+    "version": "0.2.0"
   },
   "paths": {
     "/v1/accounts": {
@@ -612,7 +612,7 @@
           "Users"
         ],
         "summary": "List Users",
-        "description": "List users for an account with pagination.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=email:asc,created_at:desc\n- Valid sort fields: id, email, display_name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/users?account_id=acc_123&limit=50&sort=email:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected user service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n\nReturns:\n    PaginatedResponse with users and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List users for an account with pagination.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns users from all accounts.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=email:asc,created_at:desc\n- Valid sort fields: id, email, display_name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/users?account_id=acc_123&limit=50&sort=email:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected user service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n\nReturns:\n    PaginatedResponse with users and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    403: User does not have access to the specified account.",
         "operationId": "list_users_v1_users_get",
         "parameters": [
           {
@@ -1088,7 +1088,7 @@
           "API Keys"
         ],
         "summary": "List Api Keys",
-        "description": "List API keys for an account with optional filters and pagination.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/api-keys?account_id=acc_123&status=active&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected API key service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    key_status: Optional status to filter results (active or revoked).\n\nReturns:\n    PaginatedResponse with API keys and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List API keys for an account with optional filters and pagination.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns API keys from all accounts.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/api-keys?account_id=acc_123&status=active&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected API key service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    key_status: Optional status to filter results (active or revoked).\n\nReturns:\n    PaginatedResponse with API keys and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    403: User does not have access to the specified account.",
         "operationId": "list_api_keys_v1_api_keys_get",
         "parameters": [
           {
@@ -1582,7 +1582,7 @@
           "Games"
         ],
         "summary": "List Games",
-        "description": "List all games for an account with pagination and optional filtering.\n\nReturns paginated games for the specified account. Supports cursor-based\npagination with bidirectional navigation and custom sorting.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nFiltering:\n- Use ?slug={slug} to find a specific game by its globally unique slug\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/games?slug=my-game\n    GET /v1/games?account_id=acc_123&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    slug: Optional slug filter to find a specific game.\n\nReturns:\n    PaginatedResponse with games and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.\n    404: Game not found when filtering by slug.",
+        "description": "List all games for an account with pagination and optional filtering.\n\nReturns paginated games for the specified account. Supports cursor-based\npagination with bidirectional navigation and custom sorting.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns games from all accounts.\n\nFiltering:\n- Use ?slug={slug} to find a specific game by its globally unique slug\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/games?slug=my-game\n    GET /v1/games?account_id=acc_123&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    slug: Optional slug filter to find a specific game.\n\nReturns:\n    PaginatedResponse with games and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    403: User does not have access to the specified account.\n    404: Game not found when filtering by slug.",
         "operationId": "list_games_v1_games_get",
         "parameters": [
           {
@@ -1940,113 +1940,6 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GameResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/games/by-slug/{slug}": {
-      "get": {
-        "tags": [
-          "Games"
-        ],
-        "summary": "Get Game By Slug",
-        "description": "Get a game by its slug (globally unique).\n\nArgs:\n    slug: The URL-friendly slug of the game.\n    service: Injected game service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    GameResponse with full game details.\n\nRaises:\n    403: User does not have access to this game's account.\n    404: Game not found.",
-        "operationId": "get_game_by_slug_v1_games_by_slug__slug__get",
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Slug"
-            }
-          },
-          {
-            "name": "account_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Account Id"
-            }
-          },
-          {
-            "name": "leadr-api-key",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Leadr-Api-Key"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          },
-          {
-            "name": "leadr-client-nonce",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Leadr-Client-Nonce"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -2713,7 +2606,7 @@
           "Board Templates"
         ],
         "summary": "List Board Templates",
-        "description": "List board templates for an account with pagination, optionally filtered by game.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected board template service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    game_id: Optional game ID to filter templates by.\n\nReturns:\n    PaginatedResponse with board templates and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List board templates for an account with pagination, optionally filtered by game.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns templates from all accounts.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected board template service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    game_id: Optional game ID to filter templates by.\n\nReturns:\n    PaginatedResponse with board templates and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    403: User does not have access to the specified account.",
         "operationId": "list_board_templates_v1_board_templates_get",
         "parameters": [
           {
@@ -3625,7 +3518,7 @@
           "Score Flags"
         ],
         "summary": "List Score Flags",
-        "description": "List score flags for an account with optional filters.\n\nReturns all non-deleted flags for the specified account, with optional\nfiltering by board, game, status, or flag type.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score flag service dependency.\n    account_id: Optional account_id query parameter (required for superadmins).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    status: Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).\n    flag_type: Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).\n\nReturns:\n    List of ScoreFlagResponse objects matching the filter criteria.\n\nRaises:\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List score flags for an account with optional filters.\n\nReturns all non-deleted flags for the specified account, with optional\nfiltering by board, game, status, or flag type.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns flags from all accounts.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score flag service dependency.\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    status: Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).\n    flag_type: Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).\n\nReturns:\n    List of ScoreFlagResponse objects matching the filter criteria.\n\nRaises:\n    403: User does not have access to the specified account.",
         "operationId": "list_score_flags_v1_score_flags_get",
         "parameters": [
           {
@@ -4013,7 +3906,7 @@
           "Score Submission Metadata"
         ],
         "summary": "List Submission Meta",
-        "description": "List score submission metadata for an account with optional filters.\n\nReturns all non-deleted submission metadata for the specified account, with optional\nfiltering by board or device.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected submission metadata service dependency.\n    account_id: Optional account_id query parameter (required for superadmins).\n    board_id: Optional board ID to filter by.\n    device_id: Optional device ID to filter by.\n\nReturns:\n    List of ScoreSubmissionMetaResponse objects matching the filter criteria.\n\nRaises:\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List score submission metadata for an account with optional filters.\n\nReturns all non-deleted submission metadata for the specified account, with optional\nfiltering by board or device.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns metadata from all accounts.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected submission metadata service dependency.\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    board_id: Optional board ID to filter by.\n    device_id: Optional device ID to filter by.\n\nReturns:\n    List of ScoreSubmissionMetaResponse objects matching the filter criteria.\n\nRaises:\n    403: User does not have access to the specified account.",
         "operationId": "list_submission_meta_v1_score_submission_metadata_get",
         "parameters": [
           {
@@ -4254,7 +4147,7 @@
           "Devices"
         ],
         "summary": "List Devices",
-        "description": "List devices for an account with optional filters and pagination.\n\nReturns all non-deleted devices for the specified account, with optional\nfiltering by game or status.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, platform, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/devices?account_id=acc_123&game_id=game_456&status=active&limit=50\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected device service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    game_id: Optional game ID to filter by.\n    device_status: Optional status to filter by (active, banned, suspended).\n\nReturns:\n    PaginatedResponse with devices and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List devices for an account with optional filters and pagination.\n\nReturns all non-deleted devices for the specified account, with optional\nfiltering by game or status.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns devices from all accounts.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, platform, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/devices?account_id=acc_123&game_id=game_456&status=active&limit=50\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected device service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    game_id: Optional game ID to filter by.\n    device_status: Optional status to filter by (active, banned, suspended).\n\nReturns:\n    PaginatedResponse with devices and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    403: User does not have access to the specified account.",
         "operationId": "list_devices_v1_devices_get",
         "parameters": [
           {
@@ -4660,7 +4553,7 @@
           "Device Sessions"
         ],
         "summary": "List Sessions",
-        "description": "List device sessions for an account with optional filters and pagination.\n\nReturns all non-deleted device sessions for the specified account, with optional\nfiltering by device.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=created_at:asc,id:desc\n- Valid sort fields: id, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/device-sessions?account_id=acc_123&device_id=dev_456&limit=50\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected device service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    device_id: Optional device ID to filter by.\n\nReturns:\n    PaginatedResponse with device sessions and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List device sessions for an account with optional filters and pagination.\n\nReturns all non-deleted device sessions for the specified account, with optional\nfiltering by device.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns sessions from all accounts.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=created_at:asc,id:desc\n- Valid sort fields: id, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/device-sessions?account_id=acc_123&device_id=dev_456&limit=50\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected device service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    device_id: Optional device ID to filter by.\n\nReturns:\n    PaginatedResponse with device sessions and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    403: User does not have access to the specified account.",
         "operationId": "list_sessions_v1_device_sessions_get",
         "parameters": [
           {
@@ -6614,9 +6507,16 @@
             "default": "fa-crown"
           },
           "short_code": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Short Code",
-            "description": "Globally unique short code for direct sharing"
+            "description": "Globally unique short code for direct sharing. Auto-generated if not provided"
           },
           "unit": {
             "anyOf": [
@@ -6722,8 +6622,7 @@
         "required": [
           "account_id",
           "game_id",
-          "name",
-          "short_code"
+          "name"
         ],
         "title": "BoardCreateRequest",
         "description": "Request model for creating a board."
@@ -8331,6 +8230,11 @@
       },
       "HealthResponse": {
         "properties": {
+          "service": {
+            "type": "string",
+            "title": "Service",
+            "description": "The name of the service"
+          },
           "status": {
             "type": "string",
             "title": "Status",
@@ -8344,6 +8248,7 @@
         },
         "type": "object",
         "required": [
+          "service",
           "status",
           "database"
         ],

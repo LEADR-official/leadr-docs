@@ -56,6 +56,7 @@ Returns:
 
 ```json
 {
+  "service": "string",
   "status": "string",
   "database": "string"
 }

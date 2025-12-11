@@ -459,6 +459,7 @@ Database connection and session management.
 **Functions:**
 
 - [**build_database_url**](#leadr.common.database.build_database_url) – Build async database URL from settings.
+- [**build_direct_database_url**](#leadr.common.database.build_direct_database_url) – Build async database URL for direct connections (migrations).
 - [**get_db**](#leadr.common.database.get_db) – FastAPI dependency for async database session.
 
 **Attributes:**
@@ -480,10 +481,22 @@ build_database_url()
 
 Build async database URL from settings.
 
+##### `leadr.common.database.build_direct_database_url`
+
+```python
+build_direct_database_url()
+```
+
+Build async database URL for direct connections (migrations).
+
+Uses DB_HOST_DIRECT if set, otherwise falls back to DB_HOST.
+For Neon, DB_HOST_DIRECT should be the non-pooler endpoint to avoid
+connecting through PgBouncer during migrations.
+
 ##### `leadr.common.database.engine`
 
 ```python
-engine = create_async_engine(build_database_url(), pool_size=(settings.DB_POOL_SIZE), max_overflow=(settings.DB_POOL_MAX_OVERFLOW), pool_recycle=(settings.DB_POOL_RECYCLE), pool_pre_ping=True, echo=(settings.DB_ECHO))
+engine = create_async_engine(build_database_url(), connect_args=(_get_connect_args()), poolclass=(_get_pool_class()), **(_get_pool_options()), echo=(settings.DB_ECHO))
 ```
 
 ##### `leadr.common.database.get_db`

@@ -51,7 +51,7 @@ Returns all non-deleted device sessions for the specified account, with optional
 filtering by device.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns sessions from all accounts.
 
 Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
@@ -66,7 +66,7 @@ Args:
     auth: Authentication context with user info.
     service: Injected device service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    account_id: Optional account_id query parameter (required for superadmins).
+    account_id: Optional account_id query parameter (superadmins can omit to see all).
     device_id: Optional device ID to filter by.
 
 Returns:
@@ -74,7 +74,6 @@ Returns:
 
 Raises:
     400: Invalid cursor, sort field, or cursor state mismatch.
-    400: Superadmin did not provide account_id.
     403: User does not have access to the specified account.
 
 ### Parameters

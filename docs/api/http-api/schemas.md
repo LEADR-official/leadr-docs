@@ -328,7 +328,24 @@ continued
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|short_code|string|true|none|Globally unique short code for direct sharing|
+|short_code|any|false|none|Globally unique short code for direct sharing. Auto-generated if not provided|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
 |unit|any|false|none|Unit of measurement for scores (e.g., 'seconds', 'points'). Optional|
 
 anyOf
@@ -2313,6 +2330,7 @@ HTTPValidationError
 
 ```json
 {
+  "service": "string",
   "status": "string",
   "database": "string"
 }
@@ -2325,6 +2343,7 @@ HealthResponse
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
+|service|string|true|none|The name of the service|
 |status|string|true|none|Overall API health status (healthy, degraded, or unhealthy)|
 |database|string|true|none|Database connection status|
 

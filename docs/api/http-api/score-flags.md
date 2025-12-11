@@ -51,12 +51,12 @@ Returns all non-deleted flags for the specified account, with optional
 filtering by board, game, status, or flag type.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns flags from all accounts.
 
 Args:
     auth: Authentication context with user info.
     service: Injected score flag service dependency.
-    account_id: Optional account_id query parameter (required for superadmins).
+    account_id: Optional account_id query parameter (superadmins can omit to see all).
     board_id: Optional board ID to filter by.
     game_id: Optional game ID to filter by.
     status: Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).
@@ -66,7 +66,6 @@ Returns:
     List of ScoreFlagResponse objects matching the filter criteria.
 
 Raises:
-    400: Superadmin did not provide account_id.
     403: User does not have access to the specified account.
 
 ### Parameters

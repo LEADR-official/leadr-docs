@@ -51,12 +51,12 @@ Returns all non-deleted submission metadata for the specified account, with opti
 filtering by board or device.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns metadata from all accounts.
 
 Args:
     auth: Authentication context with user info.
     service: Injected submission metadata service dependency.
-    account_id: Optional account_id query parameter (required for superadmins).
+    account_id: Optional account_id query parameter (superadmins can omit to see all).
     board_id: Optional board ID to filter by.
     device_id: Optional device ID to filter by.
 
@@ -64,7 +64,6 @@ Returns:
     List of ScoreSubmissionMetaResponse objects matching the filter criteria.
 
 Raises:
-    400: Superadmin did not provide account_id.
     403: User does not have access to the specified account.
 
 ### Parameters

@@ -668,7 +668,7 @@ list_api_keys(auth, service, pagination, account_id=None, key_status=None)
 List API keys for an account with optional filters and pagination.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns API keys from all accounts.
 
 Pagination:
 
@@ -686,10 +686,10 @@ GET /v1/api-keys?account_id=acc_123&status=active&limit=50&sort=name:asc
 
 **Parameters:**
 
-- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[APIKeyServiceDep](./auth.md#leadr.auth.services.dependencies.APIKeyServiceDep)</code>) – Injected API key service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **key_status** (<code>[Annotated](#typing.Annotated)\[[APIKeyStatus](#leadr.auth.domain.api_key.APIKeyStatus) | None, [Query](#fastapi.Query)(alias=[status](#fastapi.status), description='Filter by status')\]</code>) – Optional status to filter results (active or revoked).
 
 **Returns:**
@@ -699,7 +699,6 @@ GET /v1/api-keys?account_id=acc_123&status=active&limit=50&sort=name:asc
 **Raises:**
 
 - <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
-- <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.auth.api.api_key_routes.router`
@@ -1421,7 +1420,7 @@ Returns all non-deleted devices for the specified account, with optional
 filtering by game or status.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns devices from all accounts.
 
 Pagination:
 
@@ -1439,10 +1438,10 @@ GET /v1/devices?account_id=acc_123&game_id=game_456&status=active&limit=50
 
 **Parameters:**
 
-- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[DeviceServiceDep](./auth.md#leadr.auth.services.dependencies.DeviceServiceDep)</code>) – Injected device service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **game_id** (<code>[Annotated](#typing.Annotated)\[[GameID](./common.md#leadr.common.domain.ids.GameID) | None, [Query](#fastapi.Query)(description='Filter by game ID')\]</code>) – Optional game ID to filter by.
 - **device_status** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(alias=[status](#fastapi.status), description='Filter by status')\]</code>) – Optional status to filter by (active, banned, suspended).
 
@@ -1453,7 +1452,6 @@ GET /v1/devices?account_id=acc_123&game_id=game_456&status=active&limit=50
 **Raises:**
 
 - <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
-- <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.auth.api.device_routes.router`
@@ -1669,7 +1667,7 @@ Returns all non-deleted device sessions for the specified account, with optional
 filtering by device.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
+For superadmins, account_id is optional - if omitted, returns sessions from all accounts.
 
 Pagination:
 
@@ -1687,10 +1685,10 @@ GET /v1/device-sessions?account_id=acc_123&device_id=dev_456&limit=50
 
 **Parameters:**
 
-- **auth** (<code>[AdminAuthContextWithAccountIDDep](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep)</code>) – Authentication context with user info.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[DeviceServiceDep](./auth.md#leadr.auth.services.dependencies.DeviceServiceDep)</code>) – Injected device service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
-- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **device_id** (<code>[Annotated](#typing.Annotated)\[[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None, [Query](#fastapi.Query)(description='Filter by device ID')\]</code>) – Optional device ID to filter by.
 
 **Returns:**
@@ -1700,7 +1698,6 @@ GET /v1/device-sessions?account_id=acc_123&device_id=dev_456&limit=50
 **Raises:**
 
 - <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
-- <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.auth.api.device_session_routes.router`
@@ -3776,7 +3773,8 @@ List API keys for an account with optional filters and pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – REQUIRED - Account ID to filter by (multi-tenant safety).
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all API keys
+  (superadmin use case).
 - **status** (<code>[str](#str) | None</code>) – Optional status string to filter by.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
 
@@ -4245,7 +4243,8 @@ List devices for an account with optional filters and pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all devices
+  (superadmin use case).
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **status** (<code>[str](#str) | None</code>) – Optional status to filter by (active, banned, suspended)
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
@@ -4274,7 +4273,8 @@ List device sessions for an account with optional filters and pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all sessions
+  (superadmin use case).
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
 
@@ -4999,7 +4999,8 @@ Filter API keys by account and optional criteria.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all API keys
+  (superadmin use case). Regular users should always pass account_id.
 - **status** (<code>[APIKeyStatus](#leadr.auth.domain.api_key.APIKeyStatus) | None</code>) – Optional APIKeyStatus to filter by
 - **active_only** (<code>[bool](#bool)</code>) – If True, only return ACTIVE keys (bool)
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
@@ -5011,7 +5012,6 @@ Filter API keys by account and optional criteria.
 
 **Raises:**
 
-- <code>[ValueError](#ValueError)</code> – If account_id is None (required for multi-tenant safety)
 - <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
 - <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
@@ -5134,7 +5134,8 @@ Filter devices by account and optional criteria.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all devices
+  (superadmin use case). Regular users should always pass account_id.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **status** (<code>[str](#str) | None</code>) – Optional status string to filter by (active, banned, suspended)
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
@@ -5146,7 +5147,6 @@ Filter devices by account and optional criteria.
 
 **Raises:**
 
-- <code>[ValueError](#ValueError)</code> – If account_id is None (required for multi-tenant safety)
 - <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
 - <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
@@ -5281,7 +5281,8 @@ Note: account_id is used for multi-tenant safety via JOIN with devices table.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all sessions
+  (superadmin use case). Regular users should always pass account_id.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
@@ -5292,7 +5293,6 @@ Note: account_id is used for multi-tenant safety via JOIN with devices table.
 
 **Raises:**
 
-- <code>[ValueError](#ValueError)</code> – If account_id is None (required for multi-tenant safety)
 - <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
 - <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
