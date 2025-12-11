@@ -50,24 +50,23 @@ nav:
   - Overview: index.md
   - Quick Start: quick_start.md
   - Features: features.md
-  - Concepts:
-      - Overview: concepts/index.md
-      - Board Template Naming: api/template_naming.md
-  - Self Host: api/self_host.md
+  - SDKs:
+      - Overview: sdks/index.md
+      - Client Authentication: api/client_auth.md
   - CLI:
       - Overview: cli/index.md
       - Getting Started: cli/getting-started.md
       - Authentication: cli/authentication.md
       - Commands: cli/commands/index.md
+  - Concepts:
+      - Board Template Naming: api/template_naming.md
+      - Self Host: api/self_host.md
   - API:
       - Overview: api/index.md
       - Patterns: api/patterns.md
       - Pagination: api/pagination.md
       - HTTP API: api/http-api/index.md
       - Reference: api/reference/index.md
-  - SDKs:
-      - Overview: sdks/index.md
-      - Client Authentication: api/client_auth.md
   - About: about.md
   - Roadmap: roadmap.md
   - Changelog: changelog.md
@@ -79,15 +78,15 @@ extra:
   version:
     provider: mike
   social:
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/RMUukcAxSZ
+      name: LEADR Discord Server
     - icon: fontawesome/brands/bluesky
       link: https://bsky.app/profile/leadr-official.bsky.social
       name: LEADR on Bluesky
     - icon: fontawesome/brands/mastodon
       link: https://mastodon.social/@LEADR_official
       name: LEADR on Mastodon
-    - icon: fontawesome/brands/discord
-      link: https://discord.gg/RMUukcAxSZ
-      name: LEADR Discord Server
     - icon: fontawesome/brands/reddit
       link: https://www.reddit.com/r/LEADR/
       name: LEADR on Reddit

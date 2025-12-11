@@ -27,5 +27,4 @@ Want to see an SDK for your platform? Let us know on [Discord](https://discord.g
 
 ## Advanced
 
-- **[Client Authentication](../api/client_auth.md)** - Secure client authentication
-- **[API Reference](../api/reference/)** - LEADR's REST API works with any engine or language that can make HTTP requests. Check the [API Reference](../api/reference/) for complete endpoint documentation and examples.
+- **[Client Authentication](../api/client_auth.md)** - A deep dive on how LEADR's secure client authentication works
