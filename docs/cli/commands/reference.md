@@ -391,6 +391,8 @@ Create a new game
 
 * `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
 * `--name <NAME>` — Game name
+* `--description <DESCRIPTION>` — Game description
+* `--page-url <PAGE_URL>` — URL to game's page (e.g., Steam store page, itch.io page)
 * `--steam-app-id <STEAM_APP_ID>` — Steam App ID (optional)
 * `--anti-cheat-enabled <ANTI_CHEAT_ENABLED>` — Enable anti-cheat (default: true)
 
@@ -476,14 +478,26 @@ Create a new board
 * `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
 * `--game-id <GAME_ID>` — Game ID (UUID)
 * `--name <NAME>` — Board name
+* `--description <DESCRIPTION>` — Board description
 * `--icon <ICON>` — Icon (emoji or URL)
 * `--short-code <SHORT_CODE>` — Short code (globally unique identifier)
 * `--unit <UNIT>` — Unit (e.g., "points", "seconds", "kills")
 * `--sort-direction <SORT_DIRECTION>` — Sort direction (asc or desc)
 * `--keep-strategy <KEEP_STRATEGY>` — Keep strategy (best, first, last, or all)
-* `--is-active` — Board is active (default: true)
+* `--is-active <IS_ACTIVE>` — Board is active (default: true)
 
   Default value: `true`
+
+  Possible values: `true`, `false`
+
+* `--is-published <IS_PUBLISHED>` — Board is published/visible to clients (default: true)
+
+  Default value: `true`
+
+  Possible values: `true`, `false`
+
+* `--starts-at <STARTS_AT>` — Optional start time for time-bounded boards (ISO 8601 datetime)
+* `--ends-at <ENDS_AT>` — Optional end time for time-bounded boards (ISO 8601 datetime)
 
 
 
@@ -581,12 +595,18 @@ Create a new board template
 * `--slug <SLUG>` — URL-friendly slug for boards created from this template
 * `--repeat-interval <REPEAT_INTERVAL>` — Repeat interval (`PostgreSQL` interval syntax, e.g., "7 days", "1 month")
 * `--next-run-at <NEXT_RUN_AT>` — Next run time (ISO 8601 datetime, e.g., "2025-01-01T00:00:00Z")
-* `--is-active` — Template is active (default: true)
+* `--is-active <IS_ACTIVE>` — Template is active (default: true)
 
   Default value: `true`
-* `--is-published` — Whether boards created from this template should be published (default: true)
+
+  Possible values: `true`, `false`
+
+* `--is-published <IS_PUBLISHED>` — Whether boards created from this template should be published (default: true)
 
   Default value: `true`
+
+  Possible values: `true`, `false`
+
 * `--name-template <NAME_TEMPLATE>` — Optional name template for generated boards
 * `--series <SERIES>` — Optional series identifier for sequential board naming
 * `--icon <ICON>` — Icon identifier for boards (e.g., "fa-crown")

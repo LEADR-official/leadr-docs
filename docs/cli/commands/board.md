@@ -30,12 +30,16 @@ Create a new board
 | `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
 | `--game-id` | Game ID (UUID) | Yes |
 | `--name` | Board name | Yes |
+| `--description` | Board description | No |
 | `--icon` | Icon (emoji or URL) | No |
 | `--short-code` | Short code (globally unique identifier) | No |
 | `--unit` | Unit (e.g., "points", "seconds", "kills") | No |
 | `--sort-direction` | Sort direction (asc or desc) | No |
 | `--keep-strategy` | Keep strategy (best, first, last, or all) | No |
 | `--is-active` | Board is active (default: true) | No |
+| `--is-published` | Board is published/visible to clients (default: true) | No |
+| `--starts-at` | Optional start time for time-bounded boards (ISO 8601 datetime) | No |
+| `--ends-at` | Optional end time for time-bounded boards (ISO 8601 datetime) | No |
 
 **Example:**
 
