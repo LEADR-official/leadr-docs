@@ -4,9 +4,9 @@
 
 !!! tip "Launching early 2026!"
 
-    LEADR is being built right now, with LEADR's open-source core and cloud-hosted service under _very_ active development. [See for yourself](https://github.com/LEADR-official/leadr-oss/commits/main/).
+    LEADR is being built right now, with LEADR's open-source core and cloud-hosted service under _very_ active development. <a href="https://github.com/LEADR-official/leadr-oss/commits/main/" target="_blank">See for yourself</a>.
 
-    Want to be the first to know when LEADR launches? [Join the waitlist](https://docs.google.com/forms/d/e/1FAIpQLSeXN6UtTCgyoO7n07ANeQ0XBsgkz1rB9i7ZBGjXgSN_Er7Ebg/viewform?usp=header).
+    Want to be the first to know when LEADR launches? <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXN6UtTCgyoO7n07ANeQ0XBsgkz1rB9i7ZBGjXgSN_Er7Ebg/viewform?usp=header" target="_blank">Join the waitlist</a>.
 
     To get early access to the closed beta, [drop us an email](mailto:hello@leadr.gg).
 
