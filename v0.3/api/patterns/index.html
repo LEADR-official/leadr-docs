@@ -1,0 +1,2201 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
+      
+      
+        <meta name="author" content="LEADR">
+      
+      
+        <link rel="canonical" href="https://docs.leadr.gg/v0.3/api/patterns/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../pagination/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LEADR Docs">
+<meta property="og:title" content="Patterns | LEADR Docs">
+<meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
+<meta property="og:url" content="https://docs.leadr.gg/v0.3/api/patterns/">
+<meta property="og:image" content="https://docs.leadr.gg/v0.3/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LEADR - Cross-platform leaderboard backend for indie game developers">
+<meta property="og:locale" content="en_US">
+
+<!-- Fediverse Meta Tags -->
+<meta name="fediverse:creator" content="@LEADR_official">
+<meta property="profile:username" content="leadr-official.bsky.social">
+
+<!-- Additional SEO Meta Tags -->
+<meta name="keywords" content="leaderboard, game backend, indie games, REST API, cross-platform, game development, FastAPI, open source">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<!-- Theme Color for Mobile Browsers -->
+<meta name="theme-color" content="#FF007A">
+<meta name="msapplication-TileColor" content="#FF007A">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "LEADR Docs",
+  "url": "https://docs.leadr.gg/v0.3",
+  "description": "Documentation for LEADR - the cross-platform leaderboard backend for indie game developers",
+  "publisher": {
+    "@type": "Organization",
+    "name": "LEADR",
+    "url": "https://github.com/LEADR-official"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://docs.leadr.gg/v0.3?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Analytics -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="1c543107-ded6-4eb1-8f34-01ee69bb95ef"></script>
+
+
+    
+      
+        <title>Patterns - LEADR Docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Figtree";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#architectural-patterns" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="LEADR Docs" class="md-header__button md-logo" aria-label="LEADR Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LEADR Docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Patterns
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="LEADR Docs" class="md-nav__button md-logo" aria-label="LEADR Docs" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    LEADR Docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick_start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Features
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    SDKs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            SDKs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sdks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../client_auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Client Authentication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    CLI
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            CLI
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Authentication
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Concepts
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_naming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Board Template Naming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../self_host/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Self Host
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Patterns
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Patterns
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-driven-design-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain-Driven Design Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Domain-Driven Design Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layer-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer Responsibilities
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repository Pattern
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Repository Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baserepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      BaseRepository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Standard Methods
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repository-mixins" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repository Mixins
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-repository-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Repository Methods
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-layer-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Layer Pattern
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Layer Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      BaseService
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Responsibilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-method-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Method Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-layer-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Layer Rules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#domain-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain Exceptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Error Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#foreign-key-violations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Foreign Key Violations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-schema-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Schema Conversion
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Schema Conversion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response-schema-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response Schema Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-in-routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage in Routes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-entity-responses" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Entity Responses
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#route-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Organization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Route Organization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#domain-based-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain-Based Routing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-implementation-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Implementation Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Rules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#soft-delete-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Soft Delete Pattern
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soft Delete Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#domain-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soft-delete-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Soft Delete Rules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Organization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pagination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pagination
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    HTTP API
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Roadmap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domain-driven-design-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain-Driven Design Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Domain-Driven Design Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layer-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Layer Responsibilities
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repository Pattern
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Repository Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baserepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      BaseRepository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Standard Methods
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repository-mixins" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repository Mixins
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-repository-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Repository Methods
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#service-layer-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Layer Pattern
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Service Layer Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      BaseService
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Responsibilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-method-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Method Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-layer-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Layer Rules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#domain-exceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain Exceptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Error Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#foreign-key-violations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Foreign Key Violations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-schema-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Schema Conversion
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Schema Conversion">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response-schema-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response Schema Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-in-routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage in Routes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-entity-responses" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Entity Responses
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#route-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Organization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Route Organization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#domain-based-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain-Based Routing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-implementation-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Implementation Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Rules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#soft-delete-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Soft Delete Pattern
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Soft Delete Pattern">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#domain-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soft-delete-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Soft Delete Rules
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#service-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Organization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="architectural-patterns">Architectural Patterns<a class="headerlink" href="#architectural-patterns" title="Permanent link">&para;</a></h1>
+<p>This document describes the architectural patterns and conventions used throughout the LEADR codebase.</p>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#domain-driven-design-structure">Domain-Driven Design Structure</a></li>
+<li><a href="#repository-pattern">Repository Pattern</a></li>
+<li><a href="#service-layer-pattern">Service Layer Pattern</a></li>
+<li><a href="#error-handling">Error Handling</a></li>
+<li><a href="#api-schema-conversion">API Schema Conversion</a></li>
+<li><a href="#route-organization">Route Organization</a></li>
+<li><a href="#soft-delete-pattern">Soft Delete Pattern</a></li>
+</ol>
+<h2 id="domain-driven-design-structure">Domain-Driven Design Structure<a class="headerlink" href="#domain-driven-design-structure" title="Permanent link">&para;</a></h2>
+<p>The codebase follows Domain-Driven Design (DDD) principles with clear separation of concerns:</p>
+<div class="highlight"><pre><span></span><code>src/leadr/{domain}/
+├── domain/          # Domain entities and business rules
+│   ├── {entity}.py
+├── adapters/        # Infrastructure adapters (ORM, external services)
+│   ├── orm.py
+├── services/        # Application services and repositories
+│   ├── {entity}_service.py
+│   ├── {entity}_repository.py
+├── api/            # API layer (routes, schemas)
+│   ├── routes.py
+│   ├── schemas.py
+</code></pre></div>
+<h3 id="layer-responsibilities">Layer Responsibilities<a class="headerlink" href="#layer-responsibilities" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Domain</strong>: Core business entities and rules. No dependencies on infrastructure.</li>
+<li><strong>Adapters</strong>: Infrastructure concerns like database ORM models.</li>
+<li><strong>Services</strong>: Application logic, orchestrates domain entities and repositories.</li>
+<li><strong>API</strong>: HTTP concerns, request/response handling, delegates to services.</li>
+</ul>
+<h2 id="repository-pattern">Repository Pattern<a class="headerlink" href="#repository-pattern" title="Permanent link">&para;</a></h2>
+<p>Repositories provide a collection-like interface for accessing domain entities. All repositories extend <code>BaseRepository</code>.</p>
+<h3 id="baserepository">BaseRepository<a class="headerlink" href="#baserepository" title="Permanent link">&para;</a></h3>
+<p>Located in <code>src/leadr/common/base_repository.py</code>, provides standard CRUD operations:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">leadr.common.base_repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseRepository</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leadr.accounts.domain.account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leadr.accounts.adapters.orm</span><span class="w"> </span><span class="kn">import</span> <span class="n">AccountORM</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AccountRepository</span><span class="p">(</span><span class="n">BaseRepository</span><span class="p">[</span><span class="n">Account</span><span class="p">,</span> <span class="n">AccountORM</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">Account</span><span class="p">,</span> <span class="n">AccountORM</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="standard-methods">Standard Methods<a class="headerlink" href="#standard-methods" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>get_by_id(entity_id: EntityID) -&gt; T | None</code></li>
+<li><code>create(entity: T) -&gt; T</code></li>
+<li><code>update(entity: T) -&gt; T</code></li>
+<li><code>delete(entity_id: EntityID) -&gt; None</code></li>
+<li><code>list_all() -&gt; list[T]</code></li>
+</ul>
+<h3 id="repository-mixins">Repository Mixins<a class="headerlink" href="#repository-mixins" title="Permanent link">&para;</a></h3>
+<p>For common query patterns, use repository mixins instead of duplicating code:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">leadr.common.base_repository</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseRepository</span><span class="p">,</span> <span class="n">GetByFieldMixin</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AccountRepository</span><span class="p">(</span><span class="n">GetByFieldMixin</span><span class="p">[</span><span class="n">Account</span><span class="p">,</span> <span class="n">AccountORM</span><span class="p">],</span> <span class="n">BaseRepository</span><span class="p">[</span><span class="n">Account</span><span class="p">,</span> <span class="n">AccountORM</span><span class="p">]):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_by_slug</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_by_field</span><span class="p">(</span><span class="n">AccountORM</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span> <span class="n">slug</span><span class="p">)</span>
+</code></pre></div>
+<p>Available mixins:
+- <code>GetByFieldMixin</code>: Provides <code>_get_by_field(field, value)</code> helper
+- <code>ListByAccountMixin</code>: Provides <code>_list_by_account(account_id)</code> helper
+- <code>CountByStatusMixin</code>: Provides <code>_count_where(conditions)</code> helper</p>
+<h3 id="custom-repository-methods">Custom Repository Methods<a class="headerlink" href="#custom-repository-methods" title="Permanent link">&para;</a></h3>
+<p>Add domain-specific query methods to repositories:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">AccountRepository</span><span class="p">(</span><span class="n">BaseRepository</span><span class="p">[</span><span class="n">Account</span><span class="p">,</span> <span class="n">AccountORM</span><span class="p">]):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_by_slug</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get account by slug.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_by_field</span><span class="p">(</span><span class="n">AccountORM</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span> <span class="n">slug</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">list_suspended</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Account</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List all suspended accounts.&quot;&quot;&quot;</span>
+        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orm_class</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">orm_class</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;suspended&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">orm_class</span><span class="o">.</span><span class="n">deleted_at</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_domain</span><span class="p">(</span><span class="n">orm</span><span class="p">)</span> <span class="k">for</span> <span class="n">orm</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
+</code></pre></div>
+<h2 id="service-layer-pattern">Service Layer Pattern<a class="headerlink" href="#service-layer-pattern" title="Permanent link">&para;</a></h2>
+<p>Services contain application logic and orchestrate domain entities and repositories. All services extend <code>BaseService</code>.</p>
+<h3 id="baseservice">BaseService<a class="headerlink" href="#baseservice" title="Permanent link">&para;</a></h3>
+<p>Located in <code>src/leadr/common/services.py</code>, provides repository injection:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">leadr.common.services</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseService</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leadr.accounts.services.repositories</span><span class="w"> </span><span class="kn">import</span> <span class="n">AccountRepository</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AccountService</span><span class="p">(</span><span class="n">BaseService</span><span class="p">[</span><span class="n">AccountRepository</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">AccountRepository</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
+</code></pre></div>
+<p>The service automatically creates the repository instance accessible via <code>self.repository</code>.</p>
+<h3 id="service-responsibilities">Service Responsibilities<a class="headerlink" href="#service-responsibilities" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Business Logic</strong>: Implement domain-specific operations</li>
+<li><strong>Orchestration</strong>: Coordinate multiple repositories or entities</li>
+<li><strong>Validation</strong>: Validate business rules before persistence</li>
+<li><strong>Error Handling</strong>: Raise appropriate domain exceptions</li>
+</ol>
+<h3 id="service-method-examples">Service Method Examples<a class="headerlink" href="#service-method-examples" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">AccountService</span><span class="p">(</span><span class="n">BaseService</span><span class="p">[</span><span class="n">AccountRepository</span><span class="p">]):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_account</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">account_id</span><span class="p">:</span> <span class="n">EntityID</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+        <span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new account.&quot;&quot;&quot;</span>
+        <span class="c1"># Check for duplicate slug</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">existing</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Account with slug &#39;</span><span class="si">{</span><span class="n">slug</span><span class="si">}</span><span class="s2">&#39; already exists&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create entity</span>
+        <span class="n">account</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">account_id</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">slug</span><span class="o">=</span><span class="n">slug</span><span class="p">,</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">AccountStatus</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">,</span>
+            <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span><span class="p">,</span>
+            <span class="n">updated_at</span><span class="o">=</span><span class="n">updated_at</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">suspend_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">:</span> <span class="n">EntityID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Suspend an account.&quot;&quot;&quot;</span>
+        <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EntityNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Account </span><span class="si">{</span><span class="n">account_id</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+
+        <span class="n">account</span><span class="o">.</span><span class="n">suspend</span><span class="p">()</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="service-layer-rules">Service Layer Rules<a class="headerlink" href="#service-layer-rules" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Services MUST NOT be accessed directly by routes in other domains</li>
+<li>Services MUST use repositories for all data access</li>
+<li>Services MUST raise <code>EntityNotFoundError</code> when entities are not found</li>
+<li>Services MUST validate business rules before persisting changes</li>
+</ul>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<h3 id="domain-exceptions">Domain Exceptions<a class="headerlink" href="#domain-exceptions" title="Permanent link">&para;</a></h3>
+<p>Use <code>EntityNotFoundError</code> for missing entities:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">leadr.common.domain.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntityNotFoundError</span>
+
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">:</span> <span class="n">EntityID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span><span class="p">:</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">EntityNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Account </span><span class="si">{</span><span class="n">account_id</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">account</span>
+</code></pre></div>
+<h3 id="api-error-handling">API Error Handling<a class="headerlink" href="#api-error-handling" title="Permanent link">&para;</a></h3>
+<p>Routes catch domain exceptions and convert to HTTP exceptions:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leadr.common.domain.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntityNotFoundError</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_account</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">EntityNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+        <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span><span class="p">,</span>
+        <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Account not found&quot;</span>
+    <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</code></pre></div>
+<h3 id="foreign-key-violations">Foreign Key Violations<a class="headerlink" href="#foreign-key-violations" title="Permanent link">&para;</a></h3>
+<p>Catch <code>IntegrityError</code> for foreign key constraint violations:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.exc</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntegrityError</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">api_key</span><span class="p">,</span> <span class="n">plain_key</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">create_api_key</span><span class="p">(</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">account_id</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">expires_at</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">expires_at</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="n">IntegrityError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+        <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span><span class="p">,</span>
+        <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Account not found&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+</code></pre></div>
+<h2 id="api-schema-conversion">API Schema Conversion<a class="headerlink" href="#api-schema-conversion" title="Permanent link">&para;</a></h2>
+<h3 id="response-schema-pattern">Response Schema Pattern<a class="headerlink" href="#response-schema-pattern" title="Permanent link">&para;</a></h3>
+<p>API response schemas use <code>from_domain()</code> class methods for conversion:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leadr.accounts.domain.account</span><span class="w"> </span><span class="kn">import</span> <span class="n">Account</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AccountResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_domain</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;AccountResponse&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert domain entity to response schema.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">account</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">account</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">slug</span><span class="o">=</span><span class="n">account</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">account</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">created_at</span><span class="o">=</span><span class="n">account</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span>
+            <span class="n">updated_at</span><span class="o">=</span><span class="n">account</span><span class="o">.</span><span class="n">updated_at</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div>
+<h3 id="usage-in-routes">Usage in Routes<a class="headerlink" href="#usage-in-routes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/accounts/</span><span class="si">{account_id}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">AccountResponse</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_account</span><span class="p">(</span><span class="n">account_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">DatabaseSession</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccountResponse</span><span class="p">:</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">AccountService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_account</span><span class="p">(</span><span class="n">EntityID</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">account_id</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">AccountResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="multiple-entity-responses">Multiple Entity Responses<a class="headerlink" href="#multiple-entity-responses" title="Permanent link">&para;</a></h3>
+<p>For responses that include related data from multiple entities:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CreateAPIKeyResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">account_id</span><span class="p">:</span> <span class="n">UUID</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">key_prefix</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span>
+    <span class="n">expires_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">plain_key</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># Only included on creation</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_domain</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">api_key</span><span class="p">:</span> <span class="n">APIKey</span><span class="p">,</span> <span class="n">plain_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CreateAPIKeyResponse&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert domain entity to creation response with plain key.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">api_key</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">account_id</span><span class="o">=</span><span class="n">api_key</span><span class="o">.</span><span class="n">account_id</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">api_key</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">key_prefix</span><span class="o">=</span><span class="n">api_key</span><span class="o">.</span><span class="n">key_prefix</span><span class="p">,</span>
+            <span class="n">status</span><span class="o">=</span><span class="n">api_key</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">created_at</span><span class="o">=</span><span class="n">api_key</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span>
+            <span class="n">expires_at</span><span class="o">=</span><span class="n">api_key</span><span class="o">.</span><span class="n">expires_at</span><span class="p">,</span>
+            <span class="n">plain_key</span><span class="o">=</span><span class="n">plain_key</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div>
+<h2 id="route-organization">Route Organization<a class="headerlink" href="#route-organization" title="Permanent link">&para;</a></h2>
+<h3 id="domain-based-routing">Domain-Based Routing<a class="headerlink" href="#domain-based-routing" title="Permanent link">&para;</a></h3>
+<p>Routes are organized by domain in <code>src/leadr/{domain}/api/routes.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/leadr/accounts/api/routes.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span>
+
+<span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>  <span class="c1"># No prefix here</span>
+
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/accounts&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/accounts/</span><span class="si">{account_id}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># src/api/main.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leadr.accounts.api.routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">router</span> <span class="k">as</span> <span class="n">accounts_router</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">leadr.auth.api.routes</span><span class="w"> </span><span class="kn">import</span> <span class="n">router</span> <span class="k">as</span> <span class="n">auth_router</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">accounts_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">API_PREFIX</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Accounts&quot;</span><span class="p">])</span>
+<span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">auth_router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">API_PREFIX</span><span class="p">)</span>  <span class="c1"># auth router has its own prefix</span>
+</code></pre></div>
+<h3 id="route-implementation-pattern">Route Implementation Pattern<a class="headerlink" href="#route-implementation-pattern" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/accounts&quot;</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_201_CREATED</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">AccountResponse</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">create_account</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">AccountCreateRequest</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">DatabaseSession</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccountResponse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new account.&quot;&quot;&quot;</span>
+    <span class="c1"># 1. Create service</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">AccountService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+
+    <span class="c1"># 2. Get current timestamp</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
+
+    <span class="c1"># 3. Call service method</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">create_account</span><span class="p">(</span>
+        <span class="n">account_id</span><span class="o">=</span><span class="n">EntityID</span><span class="o">.</span><span class="n">generate</span><span class="p">(),</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">slug</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span>
+        <span class="n">created_at</span><span class="o">=</span><span class="n">now</span><span class="p">,</span>
+        <span class="n">updated_at</span><span class="o">=</span><span class="n">now</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># 4. Convert to response schema</span>
+    <span class="k">return</span> <span class="n">AccountResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="route-rules">Route Rules<a class="headerlink" href="#route-rules" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Routes MUST only call service methods, never repositories directly</li>
+<li>Routes MUST convert domain entities to response schemas using <code>from_domain()</code></li>
+<li>Routes MUST handle service exceptions and convert to HTTP exceptions</li>
+<li>Routes MUST validate request data using Pydantic schemas</li>
+</ul>
+<h2 id="soft-delete-pattern">Soft Delete Pattern<a class="headerlink" href="#soft-delete-pattern" title="Permanent link">&para;</a></h2>
+<p>Soft deletes mark entities as deleted without removing them from the database.</p>
+<h3 id="domain-implementation">Domain Implementation<a class="headerlink" href="#domain-implementation" title="Permanent link">&para;</a></h3>
+<p>Entities have <code>deleted_at</code> field and <code>soft_delete()</code> method:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTC</span><span class="p">,</span> <span class="n">datetime</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Account</span><span class="p">(</span><span class="n">Entity</span><span class="p">):</span>
+    <span class="n">deleted_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">soft_delete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark this account as deleted.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleted_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="service-implementation">Service Implementation<a class="headerlink" href="#service-implementation" title="Permanent link">&para;</a></h3>
+<p>Services provide <code>delete_{entity}</code> methods:</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">:</span> <span class="n">EntityID</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Soft delete an account.&quot;&quot;&quot;</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get_by_id</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">EntityNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Account </span><span class="si">{</span><span class="n">account_id</span><span class="si">}</span><span class="s2"> not found&quot;</span><span class="p">)</span>
+
+    <span class="n">account</span><span class="o">.</span><span class="n">soft_delete</span><span class="p">()</span>
+    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="route-implementation">Route Implementation<a class="headerlink" href="#route-implementation" title="Permanent link">&para;</a></h3>
+<p>Routes handle soft delete via PATCH with <code>deleted: true</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@router</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s2">&quot;/accounts/</span><span class="si">{account_id}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">AccountResponse</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">update_account</span><span class="p">(</span>
+    <span class="n">account_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">AccountUpdateRequest</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">DatabaseSession</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccountResponse</span><span class="p">:</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">AccountService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
+    <span class="n">entity_id</span> <span class="o">=</span> <span class="n">EntityID</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
+
+    <span class="c1"># Handle soft delete first</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">deleted</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">get_account</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">account</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+                <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_404_NOT_FOUND</span><span class="p">,</span>
+                <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Account not found&quot;</span>
+            <span class="p">)</span>
+        <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">delete_account</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
+        <span class="c1"># Return entity with 200 status (not 404)</span>
+        <span class="k">return</span> <span class="n">AccountResponse</span><span class="o">.</span><span class="n">from_domain</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+
+    <span class="c1"># Handle other updates...</span>
+</code></pre></div>
+<h3 id="soft-delete-rules">Soft Delete Rules<a class="headerlink" href="#soft-delete-rules" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Soft deletes MUST return HTTP 200 with the entity, not HTTP 404</li>
+<li>Soft deletes MUST be idempotent (calling twice has same effect)</li>
+<li>Repositories MUST exclude soft-deleted entities from all queries by default</li>
+<li>Repositories MAY provide methods to include deleted entities if needed</li>
+</ul>
+<h2 id="testing-patterns">Testing Patterns<a class="headerlink" href="#testing-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="service-testing">Service Testing<a class="headerlink" href="#service-testing" title="Permanent link">&para;</a></h3>
+<p>Test services with real database transactions:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">asyncio</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TestAccountService</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_create_account</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">):</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">AccountService</span><span class="p">(</span><span class="n">db_session</span><span class="p">)</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
+
+        <span class="n">account</span> <span class="o">=</span> <span class="k">await</span> <span class="n">service</span><span class="o">.</span><span class="n">create_account</span><span class="p">(</span>
+            <span class="n">account_id</span><span class="o">=</span><span class="n">EntityID</span><span class="o">.</span><span class="n">generate</span><span class="p">(),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Test Corp&quot;</span><span class="p">,</span>
+            <span class="n">slug</span><span class="o">=</span><span class="s2">&quot;test-corp&quot;</span><span class="p">,</span>
+            <span class="n">created_at</span><span class="o">=</span><span class="n">now</span><span class="p">,</span>
+            <span class="n">updated_at</span><span class="o">=</span><span class="n">now</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">account</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Test Corp&quot;</span>
+        <span class="k">assert</span> <span class="n">account</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">AccountStatus</span><span class="o">.</span><span class="n">ACTIVE</span>
+</code></pre></div>
+<h3 id="api-testing">API Testing<a class="headerlink" href="#api-testing" title="Permanent link">&para;</a></h3>
+<p>Test routes through the HTTP client:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">asyncio</span>
+<span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_create_account_api</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">AsyncClient</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+        <span class="s2">&quot;/accounts&quot;</span><span class="p">,</span>
+        <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Test Corp&quot;</span><span class="p">,</span> <span class="s2">&quot;slug&quot;</span><span class="p">:</span> <span class="s2">&quot;test-corp&quot;</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">assert</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">201</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Test Corp&quot;</span>
+    <span class="k">assert</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;active&quot;</span>
+</code></pre></div>
+<h3 id="test-organization">Test Organization<a class="headerlink" href="#test-organization" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Unit tests for domain entities in <code>tests/leadr/{domain}/domain/</code></li>
+<li>Integration tests for services in <code>tests/leadr/{domain}/services/</code></li>
+<li>API tests in <code>tests/api/{domain}/</code></li>
+<li>Shared fixtures in <code>tests/conftest.py</code></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://discord.gg/RMUukcAxSZ" target="_blank" rel="noopener" title="LEADR Discord Server" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M492.5 69.8c-.2-.3-.4-.6-.8-.7-38.1-17.5-78.4-30-119.7-37.1-.4-.1-.8 0-1.1.1s-.6.4-.8.8c-5.5 9.9-10.5 20.2-14.9 30.6-44.6-6.8-89.9-6.8-134.4 0-4.5-10.5-9.5-20.7-15.1-30.6-.2-.3-.5-.6-.8-.8s-.7-.2-1.1-.2C162.5 39 122.2 51.5 84.1 69c-.3.1-.6.4-.8.7C7.1 183.5-13.8 294.6-3.6 404.2c0 .3.1.5.2.8s.3.4.5.6c44.4 32.9 94 58 146.8 74.2.4.1.8.1 1.1 0s.7-.4.9-.7c11.3-15.4 21.4-31.8 30-48.8.1-.2.2-.5.2-.8s0-.5-.1-.8-.2-.5-.4-.6-.4-.3-.7-.4c-15.8-6.1-31.2-13.4-45.9-21.9-.3-.2-.5-.4-.7-.6s-.3-.6-.3-.9 0-.6.2-.9.3-.5.6-.7c3.1-2.3 6.2-4.7 9.1-7.1.3-.2.6-.4.9-.4s.7 0 1 .1c96.2 43.9 200.4 43.9 295.5 0 .3-.1.7-.2 1-.2s.7.2.9.4c2.9 2.4 6 4.9 9.1 7.2.2.2.4.4.6.7s.2.6.2.9-.1.6-.3.9-.4.5-.6.6c-14.7 8.6-30 15.9-45.9 21.8-.2.1-.5.2-.7.4s-.3.4-.4.7-.1.5-.1.8.1.5.2.8c8.8 17 18.8 33.3 30 48.8.2.3.6.6.9.7s.8.1 1.1 0c52.9-16.2 102.6-41.3 147.1-74.2.2-.2.4-.4.5-.6s.2-.5.2-.8c12.3-126.8-20.5-236.9-86.9-334.5zm-302 267.7c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.4 59.2-52.8 59.2m195.4 0c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.2 59.2-52.8 59.2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://bsky.app/profile/leadr-official.bsky.social" target="_blank" rel="noopener" title="LEADR on Bluesky" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M407.8 294.7c-3.3-.4-6.7-.8-10-1.3 3.4.4 6.7.9 10 1.3M288 227.1c-26.1-50.7-97.1-145.2-163.1-191.8C61.6-9.4 37.5-1.7 21.6 5.5 3.3 13.8 0 41.9 0 58.4S9.1 194 15 213.9c19.5 65.7 89.1 87.9 153.2 80.7 3.3-.5 6.6-.9 10-1.4-3.3.5-6.6 1-10 1.4-93.9 14-177.3 48.2-67.9 169.9C220.6 589.1 265.1 437.8 288 361.1c22.9 76.7 49.2 222.5 185.6 103.4 102.4-103.4 28.1-156-65.8-169.9-3.3-.4-6.7-.8-10-1.3 3.4.4 6.7.9 10 1.3 64.1 7.1 133.6-15.1 153.2-80.7C566.9 194 576 75 576 58.4s-3.3-44.7-21.6-52.9c-15.8-7.1-40-14.9-103.2 29.8C385.1 81.9 314.1 176.4 288 227.1"/></svg>
+    </a>
+  
+    
+    
+      
+    
+    
+    
+    <a href="https://mastodon.social/@LEADR_official" target="_blank" rel="noopener me" title="LEADR on Mastodon" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M433 179.1c0-97.2-63.7-125.7-63.7-125.7-62.5-28.7-228.6-28.4-290.5 0 0 0-63.7 28.5-63.7 125.7 0 115.7-6.6 259.4 105.6 289.1 40.5 10.7 75.3 13 103.3 11.4 50.8-2.8 79.3-18.1 79.3-18.1l-1.7-36.9s-36.3 11.4-77.1 10.1c-40.4-1.4-83-4.4-89.6-54-.6-4.6-.9-9.3-.9-13.9 85.6 20.9 158.7 9.1 178.7 6.7 56.1-6.7 105-41.3 111.2-72.9 9.8-49.8 9-121.5 9-121.5zm-75.1 125.2h-46.6V190.1c0-49.7-64-51.6-64 6.9v62.5H201V197c0-58.5-64-56.6-64-6.9v114.2H90.3c0-122.1-5.2-147.9 18.4-175 25.9-28.9 79.8-30.8 103.8 6.1l11.6 19.5 11.6-19.5c24.1-37.1 78.1-34.8 103.8-6.1 23.7 27.3 18.4 53 18.4 175"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.reddit.com/r/LEADR/" target="_blank" rel="noopener" title="LEADR on Reddit" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M0 256C0 114.6 114.6 0 256 0s256 114.6 256 256-114.6 256-256 256H37.1c-13.7 0-20.5-16.5-10.9-26.2L75 437C28.7 390.7 0 326.7 0 256m349.6-102.4c23.6 0 42.7-19.1 42.7-42.7s-19.1-42.7-42.7-42.7c-20.6 0-37.8 14.6-41.8 34-34.5 3.7-61.4 33-61.4 68.4v.2c-37.5 1.6-71.8 12.3-99 29.1-10.1-7.8-22.8-12.5-36.5-12.5-33 0-59.8 26.8-59.8 59.8 0 24 14.1 44.6 34.4 54.1 2 69.4 77.6 125.2 170.6 125.2s168.7-55.9 170.6-125.3c20.2-9.6 34.1-30.2 34.1-54 0-33-26.8-59.8-59.8-59.8-13.7 0-26.3 4.6-36.4 12.4-27.4-17-62.1-27.7-100-29.1v-.2c0-25.4 18.9-46.5 43.4-49.9 4.4 18.8 21.3 32.8 41.5 32.8zm-172.5 93.3c16.7 0 29.5 17.6 28.5 39.3s-13.5 29.6-30.3 29.6-31.4-8.8-30.4-30.5S160.3 247 177 247zm190.1 38.3c1 21.7-13.7 30.5-30.4 30.5s-29.3-7.9-30.3-29.6 11.8-39.3 28.5-39.3 31.2 16.6 32.1 38.3zm-48.1 56.7c-10.3 24.6-34.6 41.9-63 41.9s-52.7-17.3-63-41.9c-1.2-2.9.8-6.2 3.9-6.5 18.4-1.9 38.3-2.9 59.1-2.9s40.7 1 59.1 2.9c3.1.3 5.1 3.6 3.9 6.5"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/LEADR-official" target="_blank" rel="noopener" title="LEADR on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
