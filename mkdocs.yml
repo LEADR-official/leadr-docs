@@ -5,6 +5,26 @@ site_author: LEADR
 theme:
   name: material
   custom_dir: docs/overrides
+  logo: assets/logo.png
+  favicon: assets/favicon.ico
+  font:
+    text: Figtree
+    code: Roboto Mono
+  palette:
+    # Light mode
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
     - navigation.instant
     - navigation.sections
@@ -33,7 +53,12 @@ nav:
   - Concepts:
       - Overview: concepts/index.md
       - Board Template Naming: api/template_naming.md
-  - Self Host: self_host.md
+  - Self Host: api/self_host.md
+  - CLI:
+      - Overview: cli/index.md
+      - Getting Started: cli/getting-started.md
+      - Authentication: cli/authentication.md
+      - Commands: cli/commands/index.md
   - API:
       - Overview: api/index.md
       - Patterns: api/patterns.md
@@ -46,6 +71,9 @@ nav:
   - About: about.md
   - Roadmap: roadmap.md
   - Changelog: changelog.md
+
+extra_css:
+  - stylesheets/extra.css
 
 extra:
   version:
