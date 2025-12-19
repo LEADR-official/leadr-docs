@@ -57,7 +57,8 @@ nav:
       - Overview: cli/index.md
       - Getting Started: cli/getting-started.md
       - Authentication: cli/authentication.md
-      - Commands: cli/commands/index.md
+      - Commands:
+          - reference: cli/commands/index.md
           - register: cli/commands/register.md
           - me: cli/commands/me.md
           - auth: cli/commands/auth.md
