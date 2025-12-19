@@ -58,6 +58,20 @@ nav:
       - Getting Started: cli/getting-started.md
       - Authentication: cli/authentication.md
       - Commands: cli/commands/index.md
+          - register: cli/commands/register.md
+          - me: cli/commands/me.md
+          - auth: cli/commands/auth.md
+          - account: cli/commands/account.md
+          - user: cli/commands/user.md
+          - api-key: cli/commands/api_key.md
+          - game: cli/commands/game.md
+          - board: cli/commands/board.md
+          - board-template: cli/commands/board_template.md
+          - score: cli/commands/score.md
+          - device: cli/commands/device.md
+          - device-session: cli/commands/device_session.md
+          - score-flag: cli/commands/score_flag.md
+          - score-submission-meta: cli/commands/score_submission_meta.md
   - Concepts:
       - Board Template Naming: api/template_naming.md
       - Self Host: api/self_host.md
