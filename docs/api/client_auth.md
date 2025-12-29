@@ -8,9 +8,7 @@ In case your interested, this guide explains how the authentication system works
 
 !!! tip "TL;DR"
 
-```
-99% of users do not need to understand this process. This information is provided for transparency and to aid in SDK development.
-```
+    99% of users do not need to understand this process. This information is provided for transparency and to aid in SDK development.
 
 ______________________________________________________________________
 
