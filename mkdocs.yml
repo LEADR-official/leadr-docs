@@ -52,7 +52,9 @@ nav:
   - Features: features.md
   - SDKs:
       - Overview: sdks/index.md
-      - Client API:
+      - Unity: sdks/unity/index.md
+      - Godot: sdks/godot/index.md
+      - REST API:
           - Reference: api/client_api.md
           - Authentication: api/client_auth.md
   - CLI:
