@@ -32,22 +32,6 @@ Run recurring competitions with seasonal boards that reset automatically from te
 
 [Learn more in the API Reference](api/reference/)
 
-## Data Export (Coming soon)
-
-If you're needs change, or you just want to do some offline analysis, you can export your full LEADR data at any time.
-
-## Ghosts & Replays (Coming soon)
-
-Store and share gameplay recordings directly through LEADR. Players can download ghosts to race against top performers, study high-level strategies, or share their own achievements. Perfect for speedrunning communities, competitive multiplayer, or any game where "show, don't tell" matters. Store replay metadata alongside scores and retrieve them when needed.
-
-## Invite-Only Leaderboards (Coming soon)
-
-Create private boards for closed beta testing, streamer subscriber competitions, or exclusive community events. Control exactly who can submit scores while keeping the competitive experience intact. Perfect for pre-launch testing or building VIP experiences for your most dedicated players.
-
-## Score Analytics (Coming soon)
-
-Understand how players interact with your game through score distribution analytics. See where players struggle, identify difficulty spikes, and make data-driven decisions about balancing and progression. Analytics help you tune difficulty curves, adjust scoring systems, and build better player experiences based on real gameplay data.
-
 ---
 
 Looking for something not listed here? Check out our [roadmap](roadmap.md) to see what's coming next, or join the conversation in our [Discord](https://discord.gg/RMUukcAxSZ) to share your ideas.
