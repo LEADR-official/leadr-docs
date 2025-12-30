@@ -52,7 +52,9 @@ nav:
   - Features: features.md
   - SDKs:
       - Overview: sdks/index.md
-      - Client Authentication: api/client_auth.md
+      - Client API:
+          - Reference: api/client_api.md
+          - Authentication: api/client_auth.md
   - CLI:
       - Overview: cli/index.md
       - Getting Started: cli/getting-started.md
@@ -76,7 +78,7 @@ nav:
   - Concepts:
       - Board Template Naming: api/template_naming.md
       - Self Host: api/self_host.md
-  - API:
+  - Admin API:
       - Overview: api/index.md
       - Patterns: api/patterns.md
       - Pagination: api/pagination.md
