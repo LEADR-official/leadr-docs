@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -1450,13 +1450,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#root" class="md-nav__link">
+  <a href="#liveness-check" class="md-nav__link">
     <span class="md-ellipsis">
-      Root
+      Liveness Check
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Root">
+    <nav class="md-nav" aria-label="Liveness Check">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1470,6 +1470,39 @@
         
           <li class="md-nav__item">
   <a href="#response-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Response Schema
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#root" class="md-nav__link">
+    <span class="md-ellipsis">
+      Root
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Root">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responses_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Responses
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response-schema_1" class="md-nav__link">
     <span class="md-ellipsis">
       Response Schema
     </span>
@@ -1574,8 +1607,101 @@ Returns degraded status if database connectivity fails.</p>
 <p class="admonition-title">Success</p>
 <p>This operation does not require authentication</p>
 </div>
-<h2 id="root">Root<a class="headerlink" href="#root" title="Permanent link">&para;</a></h2>
+<h2 id="liveness-check">Liveness Check<a class="headerlink" href="#liveness-check" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">JavaScript</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span>
+<span class="p">}</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/health/live&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span>
+<span class="p">};</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/health/live&#39;</span><span class="p">,</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+
+<span class="w">  </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="nx">headers</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><code>GET /v1/health/live</code></p>
+<p>Liveness probe endpoint.</p>
+<p>Simple HTTP ping for container health checks. Returns immediately
+without checking database or other dependencies.</p>
+<blockquote>
+<p>Example responses</p>
+<p>200 Response</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;property1&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;property2&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="responses_1">Responses<a class="headerlink" href="#responses_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Description</th>
+<th>Schema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
+<td>Successful Response</td>
+<td>Inline</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response-schema">Response Schema<a class="headerlink" href="#response-schema" title="Permanent link">&para;</a></h3>
+<p>Status Code <strong>200</strong></p>
+<p><em>Response Liveness Check V1 Health Live Get</em></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>» <strong>additionalProperties</strong></td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition success">
+<p class="admonition-title">Success</p>
+<p>This operation does not require authentication</p>
+</div>
+<h2 id="root">Root<a class="headerlink" href="#root" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python</label><label for="__tabbed_3_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
@@ -1619,7 +1745,7 @@ Returns degraded status if database connectivity fails.</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="kc">null</span>
 </code></pre></div>
-<h3 id="responses_1">Responses<a class="headerlink" href="#responses_1" title="Permanent link">&para;</a></h3>
+<h3 id="responses_2">Responses<a class="headerlink" href="#responses_2" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1638,7 +1764,7 @@ Returns degraded status if database connectivity fails.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="response-schema">Response Schema<a class="headerlink" href="#response-schema" title="Permanent link">&para;</a></h3>
+<h3 id="response-schema_1">Response Schema<a class="headerlink" href="#response-schema_1" title="Permanent link">&para;</a></h3>
 <div class="admonition success">
 <p class="admonition-title">Success</p>
 <p>This operation does not require authentication</p>

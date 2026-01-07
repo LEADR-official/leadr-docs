@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -1486,15 +1486,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#response-schema" class="md-nav__link">
-    <span class="md-ellipsis">
-      Response Schema
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1916,7 +1907,7 @@ They can optionally have usage limits, expiration dates, and custom features.</p
 </div>
 <p><code>GET /v1/jam-codes</code></p>
 <p>List all jam codes (superadmin only).</p>
-<p>Returns a list of all jam codes, including their usage statistics.</p>
+<p>Returns a paginated list of all jam codes, including their usage statistics.</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1935,6 +1926,27 @@ They can optionally have usage limits, expiration dates, and custom features.</p
 <td>any</td>
 <td>false</td>
 <td>none</td>
+</tr>
+<tr>
+<td>cursor</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Pagination cursor for navigating results</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>query</td>
+<td>integer</td>
+<td>false</td>
+<td>Number of items per page (1-100)</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Sort specification (e.g., 'value:desc,created_at:asc')</td>
 </tr>
 <tr>
 <td>leadr-api-key</td>
@@ -1963,20 +1975,20 @@ They can optionally have usage limits, expiration dates, and custom features.</p
 <p>Example responses</p>
 <p>200 Response</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
-<span class="w">    </span><span class="nt">&quot;max_uses&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;current_uses&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;expires_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;scr_123&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;pagination&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;has_next&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;has_prev&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;next_cursor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJwdiI6WzEwMDAsMTIzXX0=&quot;</span>
 <span class="w">  </span><span class="p">}</span>
-<span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
 <h3 id="responses_1">Responses<a class="headerlink" href="#responses_1" title="Permanent link">&para;</a></h3>
 <table>
@@ -1993,225 +2005,13 @@ They can optionally have usage limits, expiration dates, and custom features.</p
 <td>200</td>
 <td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.1">OK</a></td>
 <td>Successful Response</td>
-<td>Inline</td>
+<td><a href="../schemas/#paginatedresponse_jamcoderesponse_">PaginatedResponse_JamCodeResponse_</a></td>
 </tr>
 <tr>
 <td>422</td>
 <td><a href="https://tools.ietf.org/html/rfc2518#section-10.3">Unprocessable Entity</a></td>
 <td>Validation Error</td>
 <td><a href="../schemas/#httpvalidationerror">HTTPValidationError</a></td>
-</tr>
-</tbody>
-</table>
-<h3 id="response-schema">Response Schema<a class="headerlink" href="#response-schema" title="Permanent link">&para;</a></h3>
-<p>Status Code <strong>200</strong></p>
-<p><em>Response List Jam Codes V1 Jam Codes Get</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Response List Jam Codes V1 Jam Codes Get</td>
-<td>[<a href="../schemas/#jamcoderesponse">JamCodeResponse</a>]</td>
-<td>false</td>
-<td>none</td>
-<td>[Response representing a jam code.]</td>
-</tr>
-<tr>
-<td>» JamCodeResponse</td>
-<td><a href="../schemas/#jamcoderesponse">JamCodeResponse</a></td>
-<td>false</td>
-<td>none</td>
-<td>Response representing a jam code.</td>
-</tr>
-<tr>
-<td>»» id</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-<tr>
-<td>»» code</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-<tr>
-<td>»» description</td>
-<td>string</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-<tr>
-<td>»» features</td>
-<td>object</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-<tr>
-<td>»» max_uses</td>
-<td>any</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>integer</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» current_uses</td>
-<td>integer</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-<tr>
-<td>»» active</td>
-<td>boolean</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-<tr>
-<td>»» expires_at</td>
-<td>any</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>anyOf</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>string(date-time)</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>or</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»»» <em>anonymous</em></td>
-<td>null</td>
-<td>false</td>
-<td>none</td>
-<td>none</td>
-</tr>
-</tbody>
-</table>
-<p><em>continued</em></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Required</th>
-<th>Restrictions</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>»» created_at</td>
-<td>string(date-time)</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
-</tr>
-<tr>
-<td>»» updated_at</td>
-<td>string(date-time)</td>
-<td>true</td>
-<td>none</td>
-<td>none</td>
 </tr>
 </tbody>
 </table>

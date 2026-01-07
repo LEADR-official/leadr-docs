@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -8204,6 +8204,8 @@ not generate a random key and only returns the APIKey entity.</p>
 <div class="highlight"><pre><span></span><code><span class="n">list_account_api_keys</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">active_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p>List all API keys for an account.</p>
+<p>This is an internal helper that returns a plain list. API keys per account
+are typically limited, so pagination isn't needed for internal use cases.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a></code>) – The account ID to list keys for.</li>
@@ -8222,7 +8224,7 @@ not generate a random key and only returns the APIKey entity.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrauthservicesapi_key_serviceapikeyservicelist_api_keys"># <code>leadr.auth.services.api_key_service.APIKeyService.list_api_keys</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicelist_api_keys" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_api_keys</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_api_keys</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
 <p>List API keys for an account with optional filters and pagination.</p>
 <p><strong>Parameters:</strong></p>
@@ -8230,11 +8232,11 @@ not generate a random key and only returns the APIKey entity.</p>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Account ID to filter by. If None, returns all API keys
   (superadmin use case).</li>
 <li><strong>status</strong> (<code><a href="#str">str</a> | None</code>) – Optional status string to filter by.</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters.</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>]</code> – List of APIKey entities if no pagination, PaginatedResult if pagination provided.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>]</code> – PaginatedResult containing APIKey entities.</li>
 </ul>
 <h6 id="leadrauthservicesapi_key_serviceapikeyservicerecord_usage"># <code>leadr.auth.services.api_key_service.APIKeyService.record_usage</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicerecord_usage" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">record_usage</span><span class="p">(</span><span class="n">key_id</span><span class="p">,</span> <span class="n">used_at</span><span class="p">)</span>
@@ -8597,7 +8599,7 @@ also be called explicitly if needed.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrauthservicesdevice_servicedeviceservicelist_devices"># <code>leadr.auth.services.device_service.DeviceService.list_devices</code><a class="headerlink" href="#leadrauthservicesdevice_servicedeviceservicelist_devices" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_devices</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_devices</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
 <p>List devices for an account with optional filters and pagination.</p>
 <p><strong>Parameters:</strong></p>
@@ -8606,11 +8608,11 @@ also be called explicitly if needed.</p>
   (superadmin use case).</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
 <li><strong>status</strong> (<code><a href="#str">str</a> | None</code>) – Optional status to filter by (active, banned, suspended)</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.auth.domain.device.Device">Device</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.auth.domain.device.Device">Device</a>]</code> – List of Device entities if no pagination, PaginatedResult if pagination provided</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.auth.domain.device.Device">Device</a>]</code> – PaginatedResult containing Device entities.</li>
 </ul>
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -8618,12 +8620,13 @@ also be called explicitly if needed.</p>
 > > > devices = await service.list_devices(
 > > > ... account_id=account.id,
 > > > ... status="active",
+> > > ... pagination=pagination,
 > > > ... )
 
 </details>
 
 <h6 id="leadrauthservicesdevice_servicedeviceservicelist_sessions"># <code>leadr.auth.services.device_service.DeviceService.list_sessions</code><a class="headerlink" href="#leadrauthservicesdevice_servicedeviceservicelist_sessions" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_sessions</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_sessions</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
 <p>List device sessions for an account with optional filters and pagination.</p>
 <p><strong>Parameters:</strong></p>
@@ -8631,11 +8634,11 @@ also be called explicitly if needed.</p>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Account ID to filter by. If None, returns all sessions
   (superadmin use case).</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.auth.domain.device.DeviceSession">DeviceSession</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.auth.domain.device.DeviceSession">DeviceSession</a>]</code> – List of DeviceSession entities if no pagination, PaginatedResult if pagination provided</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.auth.domain.device.DeviceSession">DeviceSession</a>]</code> – PaginatedResult containing DeviceSession entities.</li>
 </ul>
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -8643,6 +8646,7 @@ also be called explicitly if needed.</p>
 > > > sessions = await service.list_sessions(
 > > > ... account_id=account.id,
 > > > ... device_id=device.id,
+> > > ... pagination=pagination,
 > > > ... )
 
 </details>
@@ -9156,7 +9160,7 @@ for audit/debugging purposes.</p>
 <li><a href="#leadr.auth.services.repositories.APIKeyRepository.count_active_by_account"><strong>count_active_by_account</strong></a> – Count active, non-deleted API keys for a given account.</li>
 <li><a href="./#leadr.auth.services.repositories.APIKeyRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.auth.services.repositories.APIKeyRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.auth.services.repositories.APIKeyRepository.filter"><strong>filter</strong></a> – Filter API keys by account and optional criteria.</li>
+<li><a href="./#leadr.auth.services.repositories.APIKeyRepository.filter"><strong>filter</strong></a> – Filter API keys by account and optional criteria with pagination.</li>
 <li><a href="#leadr.auth.services.repositories.APIKeyRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.auth.services.repositories.APIKeyRepository.get_by_prefix"><strong>get_by_prefix</strong></a> – Get API key by prefix, returns None if not found or soft-deleted.</li>
 <li><a href="./#leadr.auth.services.repositories.APIKeyRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
@@ -9206,21 +9210,21 @@ for audit/debugging purposes.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrauthservicesrepositoriesapikeyrepositoryfilter"># <code>leadr.auth.services.repositories.APIKeyRepository.filter</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">active_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">active_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter API keys by account and optional criteria.</p>
+<p>Filter API keys by account and optional criteria with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by. If None, returns all API keys
   (superadmin use case). Regular users should always pass account_id.</li>
 <li><strong>status</strong> (<code><a href="#leadr.auth.domain.api_key.APIKeyStatus">APIKeyStatus</a> | None</code>) – Optional APIKeyStatus to filter by</li>
 <li><strong>active_only</strong> (<code><a href="#bool">bool</a></code>) – If True, only return ACTIVE keys (bool)</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>]</code> – List of API keys if no pagination, PaginatedResult if pagination provided</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>]</code> – PaginatedResult containing API keys.</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
@@ -9270,7 +9274,7 @@ for audit/debugging purposes.</p>
 <ul>
 <li><a href="./#leadr.auth.services.repositories.DeviceRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.auth.services.repositories.DeviceRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.auth.services.repositories.DeviceRepository.filter"><strong>filter</strong></a> – Filter devices by account and optional criteria.</li>
+<li><a href="./#leadr.auth.services.repositories.DeviceRepository.filter"><strong>filter</strong></a> – Filter devices by account and optional criteria with pagination.</li>
 <li><a href="#leadr.auth.services.repositories.DeviceRepository.get_by_game_and_fingerprint"><strong>get_by_game_and_fingerprint</strong></a> – Get device by game_id and client_fingerprint, returns None if not found or soft-deleted.</li>
 <li><a href="#leadr.auth.services.repositories.DeviceRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="./#leadr.auth.services.repositories.DeviceRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
@@ -9308,21 +9312,21 @@ for audit/debugging purposes.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrauthservicesrepositoriesdevicerepositoryfilter"># <code>leadr.auth.services.repositories.DeviceRepository.filter</code><a class="headerlink" href="#leadrauthservicesrepositoriesdevicerepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter devices by account and optional criteria.</p>
+<p>Filter devices by account and optional criteria with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by. If None, returns all devices
   (superadmin use case). Regular users should always pass account_id.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
 <li><strong>status</strong> (<code><a href="#str">str</a> | None</code>) – Optional status string to filter by (active, banned, suspended)</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.auth.domain.device.Device">Device</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.auth.domain.device.Device">Device</a>]</code> – List of devices if no pagination, PaginatedResult if pagination provided</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.auth.domain.device.Device">Device</a>]</code> – PaginatedResult containing devices.</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
@@ -9381,7 +9385,7 @@ for audit/debugging purposes.</p>
 <ul>
 <li><a href="./#leadr.auth.services.repositories.DeviceSessionRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.auth.services.repositories.DeviceSessionRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.auth.services.repositories.DeviceSessionRepository.filter"><strong>filter</strong></a> – Filter sessions by account and optional criteria.</li>
+<li><a href="./#leadr.auth.services.repositories.DeviceSessionRepository.filter"><strong>filter</strong></a> – Filter sessions by account and optional criteria with pagination.</li>
 <li><a href="#leadr.auth.services.repositories.DeviceSessionRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.auth.services.repositories.DeviceSessionRepository.get_by_refresh_token_hash"><strong>get_by_refresh_token_hash</strong></a> – Get session by refresh token hash, returns None if not found or soft-deleted.</li>
 <li><a href="#leadr.auth.services.repositories.DeviceSessionRepository.get_by_token_hash"><strong>get_by_token_hash</strong></a> – Get session by access token hash, returns None if not found or soft-deleted.</li>
@@ -9420,21 +9424,21 @@ for audit/debugging purposes.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrauthservicesrepositoriesdevicesessionrepositoryfilter"># <code>leadr.auth.services.repositories.DeviceSessionRepository.filter</code><a class="headerlink" href="#leadrauthservicesrepositoriesdevicesessionrepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter sessions by account and optional criteria.</p>
+<p>Filter sessions by account and optional criteria with pagination.</p>
 <p>Note: account_id is used for multi-tenant safety via JOIN with devices table.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by. If None, returns all sessions
   (superadmin use case). Regular users should always pass account_id.</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.auth.domain.device.DeviceSession">DeviceSession</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.auth.domain.device.DeviceSession">DeviceSession</a>]</code> – List of sessions if no pagination, PaginatedResult if pagination provided</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.auth.domain.device.DeviceSession">DeviceSession</a>]</code> – PaginatedResult containing device sessions.</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>

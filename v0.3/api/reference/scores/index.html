@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -4334,6 +4334,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrscoresservicesanti_cheat_repositoriesscoreflagrepositorysortable_fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.SORTABLE_FIELDS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrscoresservicesanti_cheat_repositoriesscoreflagrepositorycreate" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.create
@@ -4409,6 +4418,15 @@
   <a href="#leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepository" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositorysortable_fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.SORTABLE_FIELDS
     </span>
   </a>
   
@@ -4652,6 +4670,15 @@
   <a href="#leadrscoresservicesrepositoriesscorerepositoryfilter" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.scores.services.repositories.ScoreRepository.filter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresservicesrepositoriesscorerepositoryget_by_device_and_board" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board
     </span>
   </a>
   
@@ -5296,7 +5323,7 @@ detection of suspicious patterns like rapid-fire submissions.</p>
 <p><strong>Functions:</strong></p>
 <ul>
 <li><a href="#leadr.scores.api.score_flag_routes.get_score_flag"><strong>get_score_flag</strong></a> – Get a score flag by ID.</li>
-<li><a href="#leadr.scores.api.score_flag_routes.list_score_flags"><strong>list_score_flags</strong></a> – List score flags for an account with optional filters.</li>
+<li><a href="#leadr.scores.api.score_flag_routes.list_score_flags"><strong>list_score_flags</strong></a> – List score flags for an account with optional filters and pagination.</li>
 <li><a href="#leadr.scores.api.score_flag_routes.update_score_flag"><strong>update_score_flag</strong></a> – Update a score flag (review or soft-delete).</li>
 </ul>
 <p><strong>Attributes:</strong></p>
@@ -5323,17 +5350,19 @@ detection of suspicious patterns like rapid-fire submissions.</p>
 <li><code>404</code> – Flag not found or soft-deleted.</li>
 </ul>
 <h6 id="leadrscoresapiscore_flag_routeslist_score_flags"><code>leadr.scores.api.score_flag_routes.list_score_flags</code><a class="headerlink" href="#leadrscoresapiscore_flag_routeslist_score_flags" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_score_flags</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_score_flags</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
-<p>List score flags for an account with optional filters.</p>
-<p>Returns all non-deleted flags for the specified account, with optional
-filtering by board, game, status, or flag type.</p>
+<p>List score flags for an account with optional filters and pagination.</p>
+<p>Returns paginated flags for the specified account, with optional
+filtering by board, game, status, or flag type. Supports cursor-based
+pagination with bidirectional navigation and custom sorting.</p>
 <p>For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id is optional - if omitted, returns flags from all accounts.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>auth</strong> (<code><a href="../auth/#leadr.auth.dependencies.AdminAuthContextDep">AdminAuthContextDep</a></code>) – Authentication context with user info.</li>
 <li><strong>service</strong> (<code><a href="./#leadr.scores.services.dependencies.ScoreFlagServiceDep">ScoreFlagServiceDep</a></code>) – Injected score flag service dependency.</li>
+<li><strong>pagination</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a>, <a href="#fastapi.Depends">Depends</a>()]</code>) – Pagination parameters (cursor, limit, sort).</li>
 <li><strong>account_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None, <a href="#fastapi.Query">Query</a>(description='Account ID filter')]</code>) – Optional account_id query parameter (superadmins can omit to see all).</li>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by.</li>
@@ -5342,10 +5371,11 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.scores.api.score_flag_schemas.ScoreFlagResponse">ScoreFlagResponse</a>]</code> – List of ScoreFlagResponse objects matching the filter criteria.</li>
+<li><code><a href="../common/#leadr.common.api.pagination.PaginatedResponse">PaginatedResponse</a>[<a href="#leadr.scores.api.score_flag_schemas.ScoreFlagResponse">ScoreFlagResponse</a>]</code> – PaginatedResponse containing ScoreFlagResponse objects matching the filter criteria.</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
+<li><code>400</code> – Invalid cursor or sort field.</li>
 <li><code>403</code> – User does not have access to the specified account.</li>
 </ul>
 <h6 id="leadrscoresapiscore_flag_routesrouter"><code>leadr.scores.api.score_flag_routes.router</code><a class="headerlink" href="#leadrscoresapiscore_flag_routesrouter" title="Permanent link">&para;</a></h6>
@@ -5559,7 +5589,7 @@ are automatically derived from the authenticated device session.</p>
 <li><code>404</code> – Score not found or soft-deleted.</li>
 </ul>
 <h6 id="leadrscoresapiscore_routeshandle_list_scores"><code>leadr.scores.api.score_routes.handle_list_scores</code><a class="headerlink" href="#leadrscoresapiscore_routeshandle_list_scores" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">handle_list_scores</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">device_id</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">handle_list_scores</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Handle list scores logic for both admin and client endpoints.</p>
 <p>This shared handler implements the core list scores functionality and returns
@@ -5577,6 +5607,7 @@ different response models based on the authentication type:</p>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID filter.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID filter.</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID filter.</li>
+<li><strong>around_score_id</strong> (<code><a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a> | None</code>) – Optional score ID to center results around.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -5584,10 +5615,12 @@ different response models based on the authentication type:</p>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code><a href="#fastapi.HTTPException">HTTPException</a></code> – 400 if cursor is invalid or sort field is invalid.</li>
+<li><code><a href="#fastapi.HTTPException">HTTPException</a></code> – 400 if cursor is invalid, sort field is invalid,
+  or validation fails for around_score_id.</li>
+<li><code><a href="#fastapi.HTTPException">HTTPException</a></code> – 404 if around_score_id score not found.</li>
 </ul>
 <h6 id="leadrscoresapiscore_routeslist_scores_admin"><code>leadr.scores.api.score_routes.list_scores_admin</code><a class="headerlink" href="#leadrscoresapiscore_routeslist_scores_admin" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_scores_admin</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_scores_admin</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>List scores for an account with optional filters and pagination.</p>
 <p>Returns paginated scores for the specified account, with optional
@@ -5603,10 +5636,19 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
   filter_city, created_at, updated_at</li>
 <li>Navigation: Use next_cursor/prev_cursor from response</li>
 </ul>
+<p>Around Score:</p>
+<ul>
+<li>Use around_score_id to get scores centered around a specific score</li>
+<li>Requires board_id to be specified</li>
+<li>Mutually exclusive with cursor pagination</li>
+<li>Returns a window of scores with the target in the middle</li>
+<li>Respects limit (e.g., limit=5 returns 2 above + target + 2 below)</li>
+</ul>
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
 GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 
 </details>
 
@@ -5619,6 +5661,7 @@ GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by.</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by.</li>
+<li><strong>around_score_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a> | None, <a href="#fastapi.Query">Query</a>(description='Center results around this score ID')]</code>) – Optional score ID to center results around.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -5626,16 +5669,17 @@ GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>400</code> – Invalid cursor, sort field, or cursor state mismatch.</li>
+<li><code>400</code> – Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.</li>
 <li><code>400</code> – Superadmin did not provide account_id.</li>
 <li><code>403</code> – User does not have access to the specified account.</li>
+<li><code>404</code> – around_score_id score not found.</li>
 </ul>
 <h6 id="leadrscoresapiscore_routeslist_scores_client"><code>leadr.scores.api.score_routes.list_scores_client</code><a class="headerlink" href="#leadrscoresapiscore_routeslist_scores_client" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_scores_client</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_scores_client</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>List scores for an account with optional filters and pagination.</p>
 <p>Returns paginated scores for the specified account, with optional
-filtering by board. Supports cursor-based pagination
+filtering by board and/or device. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.</p>
 <p>Pagination:</p>
 <ul>
@@ -5645,10 +5689,19 @@ with bidirectional navigation and custom sorting.</p>
   filter_city, created_at, updated_at</li>
 <li>Navigation: Use next_cursor/prev_cursor from response</li>
 </ul>
+<p>Around Score:</p>
+<ul>
+<li>Use around_score_id to get scores centered around a specific score</li>
+<li>Requires board_id to be specified</li>
+<li>Mutually exclusive with cursor pagination</li>
+<li>Returns a window of scores with the target in the middle</li>
+<li>Respects limit (e.g., limit=5 returns 2 above + target + 2 below)</li>
+</ul>
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
-GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 
 </details>
 
@@ -5658,6 +5711,8 @@ GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 <li><strong>service</strong> (<code><a href="./#leadr.scores.services.dependencies.ScoreServiceDep">ScoreServiceDep</a></code>) – Injected score service dependency.</li>
 <li><strong>pagination</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a>, <a href="#fastapi.Depends">Depends</a>()]</code>) – Pagination parameters (cursor, limit, sort).</li>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by.</li>
+<li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by (e.g., to get "my scores").</li>
+<li><strong>around_score_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a> | None, <a href="#fastapi.Query">Query</a>(description='Center results around this score ID')]</code>) – Optional score ID to center results around.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -5665,9 +5720,9 @@ GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>400</code> – Invalid cursor, sort field, or cursor state mismatch.</li>
-<li><code>400</code> – Superadmin did not provide account_id.</li>
+<li><code>400</code> – Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.</li>
 <li><code>403</code> – User does not have access to the specified account.</li>
+<li><code>404</code> – around_score_id score not found.</li>
 </ul>
 <h6 id="leadrscoresapiscore_routesrouter"><code>leadr.scores.api.score_routes.router</code><a class="headerlink" href="#leadrscoresapiscore_routesrouter" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
@@ -6012,7 +6067,7 @@ must provide game_id and device_id.</p>
 <p><strong>Functions:</strong></p>
 <ul>
 <li><a href="#leadr.scores.api.score_submission_meta_routes.get_submission_meta"><strong>get_submission_meta</strong></a> – Get score submission metadata by ID.</li>
-<li><a href="#leadr.scores.api.score_submission_meta_routes.list_submission_meta"><strong>list_submission_meta</strong></a> – List score submission metadata for an account with optional filters.</li>
+<li><a href="#leadr.scores.api.score_submission_meta_routes.list_submission_meta"><strong>list_submission_meta</strong></a> – List score submission metadata for an account with optional filters and pagination.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
@@ -6038,27 +6093,30 @@ must provide game_id and device_id.</p>
 <li><code>404</code> – Submission metadata not found or soft-deleted.</li>
 </ul>
 <h6 id="leadrscoresapiscore_submission_meta_routeslist_submission_meta"><code>leadr.scores.api.score_submission_meta_routes.list_submission_meta</code><a class="headerlink" href="#leadrscoresapiscore_submission_meta_routeslist_submission_meta" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_submission_meta</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_submission_meta</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
-<p>List score submission metadata for an account with optional filters.</p>
-<p>Returns all non-deleted submission metadata for the specified account, with optional
-filtering by board or device.</p>
+<p>List score submission metadata for an account with optional filters and pagination.</p>
+<p>Returns paginated submission metadata for the specified account, with optional
+filtering by board or device. Supports cursor-based pagination with bidirectional
+navigation and custom sorting.</p>
 <p>For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id is optional - if omitted, returns metadata from all accounts.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>auth</strong> (<code><a href="../auth/#leadr.auth.dependencies.AdminAuthContextDep">AdminAuthContextDep</a></code>) – Authentication context with user info.</li>
 <li><strong>service</strong> (<code><a href="./#leadr.scores.services.dependencies.ScoreSubmissionMetaServiceDep">ScoreSubmissionMetaServiceDep</a></code>) – Injected submission metadata service dependency.</li>
+<li><strong>pagination</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a>, <a href="#fastapi.Depends">Depends</a>()]</code>) – Pagination parameters (cursor, limit, sort).</li>
 <li><strong>account_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None, <a href="#fastapi.Query">Query</a>(description='Account ID filter')]</code>) – Optional account_id query parameter (superadmins can omit to see all).</li>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by.</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse">ScoreSubmissionMetaResponse</a>]</code> – List of ScoreSubmissionMetaResponse objects matching the filter criteria.</li>
+<li><code><a href="../common/#leadr.common.api.pagination.PaginatedResponse">PaginatedResponse</a>[<a href="#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse">ScoreSubmissionMetaResponse</a>]</code> – PaginatedResponse containing ScoreSubmissionMetaResponse objects matching the filter.</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
+<li><code>400</code> – Invalid cursor or sort field.</li>
 <li><code>403</code> – User does not have access to the specified account.</li>
 </ul>
 <h6 id="leadrscoresapiscore_submission_meta_routesrouter"><code>leadr.scores.api.score_submission_meta_routes.router</code><a class="headerlink" href="#leadrscoresapiscore_submission_meta_routesrouter" title="Permanent link">&para;</a></h6>
@@ -7080,7 +7138,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <ul>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.filter"><strong>filter</strong></a> – Filter flags by account and optional criteria.</li>
+<li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.filter"><strong>filter</strong></a> – Filter flags by account and optional criteria with pagination.</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_flags_by_score_id"><strong>get_flags_by_score_id</strong></a> – Get all flags for a specific score.</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_pending_flags"><strong>get_pending_flags</strong></a> – Get all pending (unreviewed) flags.</li>
@@ -7088,8 +7146,12 @@ already deleted are not affected (deleted_at remains at original deletion time).
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
+<li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.SORTABLE_FIELDS"><strong>SORTABLE_FIELDS</strong></a> –</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.session"><strong>session</strong></a> –</li>
 </ul>
+<h6 id="leadrscoresservicesanti_cheat_repositoriesscoreflagrepositorysortable_fields"># <code>leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.SORTABLE_FIELDS</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoreflagrepositorysortable_fields" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">SORTABLE_FIELDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;score_id&#39;</span><span class="p">,</span> <span class="s1">&#39;flag_type&#39;</span><span class="p">,</span> <span class="s1">&#39;confidence&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;updated_at&#39;</span><span class="p">}</span>
+</code></pre></div>
 <h6 id="leadrscoresservicesanti_cheat_repositoriesscoreflagrepositorycreate"># <code>leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.create</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoreflagrepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
@@ -7115,9 +7177,9 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrscoresservicesanti_cheat_repositoriesscoreflagrepositoryfilter"># <code>leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.filter</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoreflagrepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter flags by account and optional criteria.</p>
+<p>Filter flags by account and optional criteria with pagination.</p>
 <p>Joins with scores table to filter by account_id since flags don't have
 a direct account relation.</p>
 <p><strong>Parameters:</strong></p>
@@ -7128,11 +7190,12 @@ a direct account relation.</p>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
 <li><strong>status</strong> (<code><a href="#str">str</a> | None</code>) – Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.)</li>
 <li><strong>flag_type</strong> (<code><a href="#str">str</a> | None</code>) – Optional flag type to filter by (VELOCITY, DUPLICATE, etc.)</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.scores.domain.anti_cheat.models.ScoreFlag">ScoreFlag</a>]</code> – List of flags for the account matching the filter criteria</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.scores.domain.anti_cheat.models.ScoreFlag">ScoreFlag</a>]</code> – PaginatedResult containing flags matching the filter criteria</li>
 </ul>
 <h6 id="leadrscoresservicesanti_cheat_repositoriesscoreflagrepositoryget_by_id"># <code>leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_by_id</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoreflagrepositoryget_by_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -7193,15 +7256,19 @@ a direct account relation.</p>
 <ul>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.filter"><strong>filter</strong></a> – Filter submission metadata by account and optional criteria.</li>
+<li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.filter"><strong>filter</strong></a> – Filter submission metadata by account and optional criteria with pagination.</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_device_and_board"><strong>get_by_device_and_board</strong></a> – Get submission metadata for a device/board combination.</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
+<li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.SORTABLE_FIELDS"><strong>SORTABLE_FIELDS</strong></a> –</li>
 <li><a href="#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.session"><strong>session</strong></a> –</li>
 </ul>
+<h6 id="leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositorysortable_fields"># <code>leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.SORTABLE_FIELDS</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositorysortable_fields" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">SORTABLE_FIELDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;device_id&#39;</span><span class="p">,</span> <span class="s1">&#39;board_id&#39;</span><span class="p">,</span> <span class="s1">&#39;submission_count&#39;</span><span class="p">,</span> <span class="s1">&#39;last_submission_at&#39;</span><span class="p">,</span> <span class="s1">&#39;last_score_value&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;updated_at&#39;</span><span class="p">}</span>
+</code></pre></div>
 <h6 id="leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositorycreate"># <code>leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.create</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
@@ -7227,9 +7294,9 @@ a direct account relation.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositoryfilter"># <code>leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.filter</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter submission metadata by account and optional criteria.</p>
+<p>Filter submission metadata by account and optional criteria with pagination.</p>
 <p>Joins with scores table to filter by account_id since submission meta doesn't have
 a direct account relation.</p>
 <p><strong>Parameters:</strong></p>
@@ -7238,11 +7305,12 @@ a direct account relation.</p>
   (superadmin use case). Regular users should always pass account_id.</li>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta">ScoreSubmissionMeta</a>]</code> – List of submission metadata for the account matching the filter criteria</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta">ScoreSubmissionMeta</a>]</code> – PaginatedResult containing submission metadata matching the filter criteria</li>
 </ul>
 <h6 id="leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositoryget_by_device_and_board"># <code>leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_device_and_board</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositoryget_by_device_and_board" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_device_and_board</span><span class="p">(</span><span class="n">device_id</span><span class="p">,</span> <span class="n">board_id</span><span class="p">)</span>
@@ -7414,6 +7482,7 @@ a direct account relation.</p>
 <li><a href="./#leadr.scores.services.repositories.ScoreRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.scores.services.repositories.ScoreRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
 <li><a href="./#leadr.scores.services.repositories.ScoreRepository.filter"><strong>filter</strong></a> – Filter scores by account and optional criteria.</li>
+<li><a href="#leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board"><strong>get_by_device_and_board</strong></a> – Get the active score for a specific device on a board.</li>
 <li><a href="#leadr.scores.services.repositories.ScoreRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="./#leadr.scores.services.repositories.ScoreRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
 </ul>
@@ -7450,27 +7519,45 @@ a direct account relation.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrscoresservicesrepositoriesscorerepositoryfilter"># <code>leadr.scores.services.repositories.ScoreRepository.filter</code><a class="headerlink" href="#leadrscoresservicesrepositoriesscorerepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">around_score</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
 <p>Filter scores by account and optional criteria.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>account_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a> | <a href="../common/#leadr.common.domain.ids.PrefixedID">PrefixedID</a> | None</code>) – Optional account ID to filter by. If None, returns all scores
+<li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by. If None, returns all scores
   (superadmin use case). Regular users should always pass account_id.</li>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
+<li><strong>around_score</strong> (<code><a href="./#leadr.scores.domain.score.Score">Score</a> | None</code>) – Optional target score to center results around. When provided,
+  returns a window of scores centered on this score (mutually exclusive
+  with cursor pagination).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.scores.domain.score.Score">Score</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.scores.domain.score.Score">Score</a>]</code> – List of scores if no pagination, PaginatedResult if pagination provided</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.scores.domain.score.Score">Score</a>]</code> – PaginatedResult containing scores</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
 <li><code><a href="#ValueError">ValueError</a></code> – If sort field is not in SORTABLE_FIELDS</li>
 <li><code><a href="#CursorValidationError">CursorValidationError</a></code> – If cursor is invalid or state doesn't match</li>
+</ul>
+<h6 id="leadrscoresservicesrepositoriesscorerepositoryget_by_device_and_board"># <code>leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board</code><a class="headerlink" href="#leadrscoresservicesrepositoriesscorerepositoryget_by_device_and_board" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_by_device_and_board</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">board_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Get the active score for a specific device on a board.</p>
+<p>This is an optimized single-record lookup for keep_strategy logic.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a></code>) – Account ID to filter by (multi-tenant safety).</li>
+<li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a></code>) – Device ID to search for.</li>
+<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a></code>) – Board ID to search for.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="./#leadr.scores.domain.score.Score">Score</a> | None</code> – The first matching Score or None if no score exists.</li>
 </ul>
 <h6 id="leadrscoresservicesrepositoriesscorerepositoryget_by_id"># <code>leadr.scores.services.repositories.ScoreRepository.get_by_id</code><a class="headerlink" href="#leadrscoresservicesrepositoriesscorerepositoryget_by_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -7522,7 +7609,7 @@ by coordinating between the domain models and repository layer.</p>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.get_by_id_or_raise"><strong>get_by_id_or_raise</strong></a> – Get an entity by its ID or raise EntityNotFoundError.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.get_flag"><strong>get_flag</strong></a> – Get a flag by its ID.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.list_all"><strong>list_all</strong></a> – List all non-deleted entities.</li>
-<li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.list_flags"><strong>list_flags</strong></a> – List score flags for an account with optional filters.</li>
+<li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.list_flags"><strong>list_flags</strong></a> – List score flags for an account with optional filters and pagination.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.review_flag"><strong>review_flag</strong></a> – Review a flag and update its status.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.soft_delete"><strong>soft_delete</strong></a> – Soft-delete an entity and return it before deletion.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.update_flag"><strong>update_flag</strong></a> – Update a flag's status and/or reviewer decision.</li>
@@ -7600,9 +7687,9 @@ by coordinating between the domain models and repository layer.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrscoresservicesscore_flag_servicescoreflagservicelist_flags"># <code>leadr.scores.services.score_flag_service.ScoreFlagService.list_flags</code><a class="headerlink" href="#leadrscoresservicesscore_flag_servicescoreflagservicelist_flags" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_flags</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_flags</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flag_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
-<p>List score flags for an account with optional filters.</p>
+<p>List score flags for an account with optional filters and pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Account ID to filter by. If None, returns all flags
@@ -7611,10 +7698,11 @@ by coordinating between the domain models and repository layer.</p>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
 <li><strong>status</strong> (<code><a href="#str">str</a> | None</code>) – Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.)</li>
 <li><strong>flag_type</strong> (<code><a href="#str">str</a> | None</code>) – Optional flag type to filter by (VELOCITY, DUPLICATE, etc.)</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.scores.domain.anti_cheat.models.ScoreFlag">ScoreFlag</a>]</code> – List of flags matching the filter criteria</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.scores.domain.anti_cheat.models.ScoreFlag">ScoreFlag</a>]</code> – PaginatedResult containing flags matching the filter criteria</li>
 </ul>
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -7622,6 +7710,7 @@ by coordinating between the domain models and repository layer.</p>
 > > > flags = await service.list_flags(
 > > > ... account_id=account.id,
 > > > ... status="PENDING",
+> > > ... pagination=PaginationParams(cursor=None, limit=100, sort=None),
 > > > ... )
 
 </details>
@@ -7838,7 +7927,7 @@ Ensures business rules like board/game validation are enforced.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrscoresservicesscore_servicescoreservicelist_scores"># <code>leadr.scores.services.score_service.ScoreService.list_scores</code><a class="headerlink" href="#leadrscoresservicesscore_servicescoreservicelist_scores" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_scores</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_scores</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>List scores for an account with optional filters and pagination.</p>
 <p><strong>Parameters:</strong></p>
@@ -7848,11 +7937,19 @@ Ensures business rules like board/game validation are enforced.</p>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by.</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by.</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters.</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
+<li><strong>around_score_id</strong> (<code><a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a> | None</code>) – Optional score ID to center results around. When provided,
+  returns a window of scores centered on this score. Mutually exclusive
+  with cursor pagination.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.scores.domain.score.Score">Score</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.scores.domain.score.Score">Score</a>]</code> – List of Score entities if no pagination, PaginatedResult if pagination provided.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.scores.domain.score.Score">Score</a>]</code> – PaginatedResult containing scores.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#EntityNotFoundError">EntityNotFoundError</a></code> – If around_score_id is provided but score doesn't exist.</li>
+<li><code><a href="#ValueError">ValueError</a></code> – If around_score_id score doesn't belong to the specified board_id.</li>
 </ul>
 <h6 id="leadrscoresservicesscore_servicescoreservicerepository"># <code>leadr.scores.services.score_service.ScoreService.repository</code><a class="headerlink" href="#leadrscoresservicesscore_servicescoreservicerepository" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
@@ -7927,7 +8024,7 @@ to avoid blocking the HTTP response.</p>
 <li><a href="#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.get_by_id_or_raise"><strong>get_by_id_or_raise</strong></a> – Get an entity by its ID or raise EntityNotFoundError.</li>
 <li><a href="#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.get_submission_meta"><strong>get_submission_meta</strong></a> – Get submission metadata by its ID.</li>
 <li><a href="#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_all"><strong>list_all</strong></a> – List all non-deleted entities.</li>
-<li><a href="#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_submission_meta"><strong>list_submission_meta</strong></a> – List score submission metadata for an account with optional filters.</li>
+<li><a href="#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_submission_meta"><strong>list_submission_meta</strong></a> – List score submission metadata for an account with optional filters and pagination.</li>
 <li><a href="#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.soft_delete"><strong>soft_delete</strong></a> – Soft-delete an entity and return it before deletion.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
@@ -8003,19 +8100,20 @@ to avoid blocking the HTTP response.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrscoresservicesscore_submission_meta_servicescoresubmissionmetaservicelist_submission_meta"># <code>leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_submission_meta</code><a class="headerlink" href="#leadrscoresservicesscore_submission_meta_servicescoresubmissionmetaservicelist_submission_meta" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_submission_meta</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_submission_meta</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
-<p>List score submission metadata for an account with optional filters.</p>
+<p>List score submission metadata for an account with optional filters and pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Account ID to filter by. If None, returns all metadata
   (superadmin use case).</li>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta">ScoreSubmissionMeta</a>]</code> – List of submission metadata matching the filter criteria</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta">ScoreSubmissionMeta</a>]</code> – PaginatedResult containing submission metadata matching the filter criteria</li>
 </ul>
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -8023,6 +8121,7 @@ to avoid blocking the HTTP response.</p>
 > > > metas = await service.list_submission_meta(
 > > > ... account_id=account.id,
 > > > ... board_id=board.id,
+> > > ... pagination=PaginationParams(cursor=None, limit=100, sort=None),
 > > > ... )
 
 </details>

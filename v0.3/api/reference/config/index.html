@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -1615,6 +1615,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrconfigcommonsettingsboards_ui_domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.CommonSettings.BOARDS_UI_DOMAIN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrconfigcommonsettingsdashboard_url" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.config.CommonSettings.DASHBOARD_URL
@@ -2224,6 +2233,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrconfigtestsettingsboards_ui_domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.TestSettings.BOARDS_UI_DOMAIN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrconfigtestsettingsdashboard_url" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.config.TestSettings.DASHBOARD_URL
@@ -2733,6 +2751,7 @@ field names (case-sensitive).</p>
 <li><a href="#leadr.config.CommonSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL"><strong>BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL"><strong>BACKGROUND_TASK_TEMPLATE_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.BASE_URL"><strong>BASE_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
+<li><a href="#leadr.config.CommonSettings.BOARDS_UI_DOMAIN"><strong>BOARDS_UI_DOMAIN</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.config.CommonSettings.DASHBOARD_URL"><strong>DASHBOARD_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.DB_ECHO"><strong>DB_ECHO</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.DB_HOST"><strong>DB_HOST</strong></a> (<code><a href="#str">str</a></code>) –</li>
@@ -2834,6 +2853,9 @@ field names (case-sensitive).</p>
 </code></pre></div>
 <h5 id="leadrconfigcommonsettingsbase_url"><code>leadr.config.CommonSettings.BASE_URL</code><a class="headerlink" href="#leadrconfigcommonsettingsbase_url" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">BASE_URL</span><span class="p">:</span> <span class="n">HttpUrl</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">HttpUrl</span><span class="p">(</span><span class="s1">&#39;http://localhost:8000&#39;</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base URL for the API server (e.g., &#39;https://api.leadr.gg&#39;)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigcommonsettingsboards_ui_domain"><code>leadr.config.CommonSettings.BOARDS_UI_DOMAIN</code><a class="headerlink" href="#leadrconfigcommonsettingsboards_ui_domain" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">BOARDS_UI_DOMAIN</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base URL for public board UI (e.g., &#39;https://boards.leadr.gg&#39;). When set, enables url/url_short fields in Game and Board API responses.&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrconfigcommonsettingsdashboard_url"><code>leadr.config.CommonSettings.DASHBOARD_URL</code><a class="headerlink" href="#leadrconfigcommonsettingsdashboard_url" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">DASHBOARD_URL</span><span class="p">:</span> <span class="n">HttpUrl</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">HttpUrl</span><span class="p">(</span><span class="s1">&#39;http://localhost:8000&#39;</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for the web dashboard (e.g., &#39;https://dashboard.leadr.gg&#39;)&quot;</span><span class="p">)</span>
@@ -3005,6 +3027,7 @@ the .env file at the project root.</p>
 <li><a href="#leadr.config.Settings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL"><strong>BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.Settings.BACKGROUND_TASK_TEMPLATE_INTERVAL"><strong>BACKGROUND_TASK_TEMPLATE_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.Settings.BASE_URL"><strong>BASE_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
+<li><a href="#leadr.config.Settings.BOARDS_UI_DOMAIN"><strong>BOARDS_UI_DOMAIN</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.config.Settings.DASHBOARD_URL"><strong>DASHBOARD_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.Settings.DB_ECHO"><strong>DB_ECHO</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.Settings.DB_HOST"><strong>DB_HOST</strong></a> (<code><a href="#str">str</a></code>) –</li>
@@ -3082,6 +3105,7 @@ Test-specific overrides can be added here.</p>
 <li><a href="#leadr.config.TestSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL"><strong>BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL"><strong>BACKGROUND_TASK_TEMPLATE_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.BASE_URL"><strong>BASE_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
+<li><a href="#leadr.config.TestSettings.BOARDS_UI_DOMAIN"><strong>BOARDS_UI_DOMAIN</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.config.TestSettings.DASHBOARD_URL"><strong>DASHBOARD_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.DB_ECHO"><strong>DB_ECHO</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.DB_HOST"><strong>DB_HOST</strong></a> (<code><a href="#str">str</a></code>) –</li>
@@ -3183,6 +3207,9 @@ Test-specific overrides can be added here.</p>
 </code></pre></div>
 <h5 id="leadrconfigtestsettingsbase_url"><code>leadr.config.TestSettings.BASE_URL</code><a class="headerlink" href="#leadrconfigtestsettingsbase_url" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">BASE_URL</span><span class="p">:</span> <span class="n">HttpUrl</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">HttpUrl</span><span class="p">(</span><span class="s1">&#39;http://localhost:8000&#39;</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base URL for the API server (e.g., &#39;https://api.leadr.gg&#39;)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigtestsettingsboards_ui_domain"><code>leadr.config.TestSettings.BOARDS_UI_DOMAIN</code><a class="headerlink" href="#leadrconfigtestsettingsboards_ui_domain" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">BOARDS_UI_DOMAIN</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base URL for public board UI (e.g., &#39;https://boards.leadr.gg&#39;). When set, enables url/url_short fields in Game and Board API responses.&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrconfigtestsettingsdashboard_url"><code>leadr.config.TestSettings.DASHBOARD_URL</code><a class="headerlink" href="#leadrconfigtestsettingsdashboard_url" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">DASHBOARD_URL</span><span class="p">:</span> <span class="n">HttpUrl</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">HttpUrl</span><span class="p">(</span><span class="s1">&#39;http://localhost:8000&#39;</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for the web dashboard (e.g., &#39;https://dashboard.leadr.gg&#39;)&quot;</span><span class="p">)</span>

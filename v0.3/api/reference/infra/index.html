@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -2630,6 +2630,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrinfraemailadaptersrepositoriesemailrepositorysortable_fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      ## leadr.infra.email.adapters.repositories.EmailRepository.SORTABLE_FIELDS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrinfraemailadaptersrepositoriesemailrepositorycreate" class="md-nav__link">
     <span class="md-ellipsis">
       ## leadr.infra.email.adapters.repositories.EmailRepository.create
@@ -4079,18 +4088,22 @@ Maps to the emails table.</p>
 <ul>
 <li><a href="#leadr.infra.email.adapters.repositories.EmailRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="#leadr.infra.email.adapters.repositories.EmailRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="#leadr.infra.email.adapters.repositories.EmailRepository.filter"><strong>filter</strong></a> – Filter emails by criteria.</li>
+<li><a href="#leadr.infra.email.adapters.repositories.EmailRepository.filter"><strong>filter</strong></a> – Filter emails by criteria with pagination.</li>
 <li><a href="#leadr.infra.email.adapters.repositories.EmailRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.infra.email.adapters.repositories.EmailRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
+<li><a href="#leadr.infra.email.adapters.repositories.EmailRepository.SORTABLE_FIELDS"><strong>SORTABLE_FIELDS</strong></a> –</li>
 <li><a href="#leadr.infra.email.adapters.repositories.EmailRepository.session"><strong>session</strong></a> –</li>
 </ul>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>db</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – Database session.</li>
 </ul>
+<h6 id="leadrinfraemailadaptersrepositoriesemailrepositorysortable_fields">## <code>leadr.infra.email.adapters.repositories.EmailRepository.SORTABLE_FIELDS</code><a class="headerlink" href="#leadrinfraemailadaptersrepositoriesemailrepositorysortable_fields" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">SORTABLE_FIELDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;priority&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;sent_at&#39;</span><span class="p">,</span> <span class="s1">&#39;updated_at&#39;</span><span class="p">}</span>
+</code></pre></div>
 <h6 id="leadrinfraemailadaptersrepositoriesemailrepositorycreate">## <code>leadr.infra.email.adapters.repositories.EmailRepository.create</code><a class="headerlink" href="#leadrinfraemailadaptersrepositoriesemailrepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
@@ -4116,17 +4129,23 @@ Maps to the emails table.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrinfraemailadaptersrepositoriesemailrepositoryfilter">## <code>leadr.infra.email.adapters.repositories.EmailRepository.filter</code><a class="headerlink" href="#leadrinfraemailadaptersrepositoriesemailrepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter emails by criteria.</p>
+<p>Filter emails by criteria with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="#typing.Any">Any</a> | None</code>) – Not used for emails (top-level entity).</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Filter parameters (to, status, etc.)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.infra.email.domain.models.Email">Email</a>]</code> – List of matching Email entities.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.infra.email.domain.models.Email">Email</a>]</code> – Paginated result of matching Email entities.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If sort field is not in SORTABLE_FIELDS.</li>
+<li><code><a href="#CursorValidationError">CursorValidationError</a></code> – If cursor is invalid or state doesn't match.</li>
 </ul>
 <h6 id="leadrinfraemailadaptersrepositoriesemailrepositoryget_by_id">## <code>leadr.infra.email.adapters.repositories.EmailRepository.get_by_id</code><a class="headerlink" href="#leadrinfraemailadaptersrepositoriesemailrepositoryget_by_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>

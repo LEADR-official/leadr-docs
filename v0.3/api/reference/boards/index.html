@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -2393,6 +2393,15 @@
   <a href="#leadrboardsapiboard_schemasboardresponseupdated_at" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.api.board_schemas.BoardResponse.updated_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrboardsapiboard_schemasboardresponseurl_short" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.api.board_schemas.BoardResponse.url_short
     </span>
   </a>
   
@@ -4307,24 +4316,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#leadrboardsservicesrepositoriesboardrepositoryget_by_slug" class="md-nav__link">
-    <span class="md-ellipsis">
-      # leadr.boards.services.repositories.BoardRepository.get_by_slug
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#leadrboardsservicesrepositoriesboardrepositorylist_boards" class="md-nav__link">
-    <span class="md-ellipsis">
-      # leadr.boards.services.repositories.BoardRepository.list_boards
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#leadrboardsservicesrepositoriesboardrepositorysession" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.services.repositories.BoardRepository.session
@@ -4919,7 +4910,7 @@ GET /v1/boards?starts_after=2025-01-01T00:00:00Z&ends_before=2025-12-31T23:59:59
 <li><code>404</code> – Game or board not found when using slug filters.</li>
 </ul>
 <h6 id="leadrboardsapiboard_routeslist_boards_client"><code>leadr.boards.api.board_routes.list_boards_client</code><a class="headerlink" href="#leadrboardsapiboard_routeslist_boards_client" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_boards_client</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">game_service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_after</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_boards_client</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">game_service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_after</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>List boards (Client API).</p>
 <p>Account ID is automatically derived from the authenticated device's account.
@@ -4929,7 +4920,6 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 <li>Use ?game_id={id} or ?game_slug={slug} to filter boards by game</li>
 <li>Use ?game_slug={game_slug}&amp;slug={slug} to find a specific board within a game</li>
 <li>Use ?code={code} to filter boards by short code</li>
-<li>Use ?is_active=true/false to filter by active status</li>
 <li>Use ?is_published=true/false to filter by published status</li>
 <li>Use ?starts_before=<datetime>&amp;starts_after=<datetime> for start date range</li>
 <li>Use ?ends_before=<datetime>&amp;ends_after=<datetime> for end date range</li>
@@ -4946,7 +4936,7 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 <summary>Example</summary>
 
 GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50
-GET /v1/client/boards?game_slug=my-game&is_active=true
+GET /v1/client/boards?game_slug=my-game&is_published=true
 GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
 GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 
@@ -4962,7 +4952,6 @@ GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 <li><strong>code</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#str">str</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by short code')]</code>) – Optional short code to filter boards by.</li>
 <li><strong>game_slug</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#str">str</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by game slug')]</code>) – Optional game slug to filter boards by game (resolves to game_id).</li>
 <li><strong>slug</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#str">str</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by board slug (requires game_slug)')]</code>) – Optional board slug to filter by specific board (requires game_slug).</li>
-<li><strong>is_active</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#bool">bool</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by active status')]</code>) – Optional filter for active status.</li>
 <li><strong>is_published</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#bool">bool</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by published status')]</code>) – Optional filter for published status.</li>
 <li><strong>starts_before</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#datetime.datetime">datetime</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter boards starting before this time (ISO 8601)')]</code>) – Optional filter for boards starting before this time.</li>
 <li><strong>starts_after</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#datetime.datetime">datetime</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter boards starting after this time (ISO 8601)')]</code>) – Optional filter for boards starting after this time.</li>
@@ -5116,6 +5105,7 @@ GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 <li><a href="#leadr.boards.api.board_schemas.BoardResponse.template_name"><strong>template_name</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_schemas.BoardResponse.unit"><strong>unit</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_schemas.BoardResponse.updated_at"><strong>updated_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
+<li><a href="#leadr.boards.api.board_schemas.BoardResponse.url_short"><strong>url_short</strong></a> (<code><a href="#str">str</a> | None</code>) – Short URL for direct board access via short_code.</li>
 </ul>
 <h6 id="leadrboardsapiboard_schemasboardresponseaccount_id"># <code>leadr.boards.api.board_schemas.BoardResponse.account_id</code><a class="headerlink" href="#leadrboardsapiboard_schemasboardresponseaccount_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">account_id</span><span class="p">:</span> <span class="n">AccountID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ID of the account this board belongs to&#39;</span><span class="p">)</span>
@@ -5189,6 +5179,12 @@ GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 <h6 id="leadrboardsapiboard_schemasboardresponseupdated_at"># <code>leadr.boards.api.board_schemas.BoardResponse.updated_at</code><a class="headerlink" href="#leadrboardsapiboard_schemasboardresponseupdated_at" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp of last update (UTC)&#39;</span><span class="p">)</span>
 </code></pre></div>
+<h6 id="leadrboardsapiboard_schemasboardresponseurl_short"># <code>leadr.boards.api.board_schemas.BoardResponse.url_short</code><a class="headerlink" href="#leadrboardsapiboard_schemasboardresponseurl_short" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">url_short</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+</code></pre></div>
+<p>Short URL for direct board access via short_code.</p>
+<p>Returns the URL if BOARDS_UI_DOMAIN is configured and the board is published,
+otherwise None.</p>
 <h6 id="leadrboardsapiboard_schemasboardupdaterequest"><code>leadr.boards.api.board_schemas.BoardUpdateRequest</code><a class="headerlink" href="#leadrboardsapiboard_schemasboardupdaterequest" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
 <p>Request model for updating a board.</p>
@@ -6189,7 +6185,7 @@ Ensures business rules like game validation are enforced.</p>
 <li><a href="#leadr.boards.services.board_service.BoardService.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.boards.services.board_service.BoardService.get_by_id_or_raise"><strong>get_by_id_or_raise</strong></a> – Get an entity by its ID or raise EntityNotFoundError.</li>
 <li><a href="#leadr.boards.services.board_service.BoardService.list_all"><strong>list_all</strong></a> – List all non-deleted entities.</li>
-<li><a href="#leadr.boards.services.board_service.BoardService.list_boards"><strong>list_boards</strong></a> – List boards with optional filtering.</li>
+<li><a href="#leadr.boards.services.board_service.BoardService.list_boards"><strong>list_boards</strong></a> – List boards with optional filtering and pagination.</li>
 <li><a href="#leadr.boards.services.board_service.BoardService.list_boards_by_account"><strong>list_boards_by_account</strong></a> – List all boards for an account.</li>
 <li><a href="#leadr.boards.services.board_service.BoardService.soft_delete"><strong>soft_delete</strong></a> – Soft-delete an entity and return it before deletion.</li>
 <li><a href="#leadr.boards.services.board_service.BoardService.update_board"><strong>update_board</strong></a> – Update board fields.</li>
@@ -6350,25 +6346,26 @@ a sequential series value and uses it in the board name.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrboardsservicesboard_serviceboardservicelist_boards"># <code>leadr.boards.services.board_service.BoardService.list_boards</code><a class="headerlink" href="#leadrboardsservicesboard_serviceboardservicelist_boards" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_boards</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_boards</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
-<p>List boards with optional filtering.</p>
+<p>List boards with optional filtering and pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
 <li><strong>code</strong> (<code><a href="#str">str</a> | None</code>) – Optional short code to filter by</li>
+<li><strong>slug</strong> (<code><a href="#str">str</a> | None</code>) – Optional slug to filter by</li>
 <li><strong>is_active</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for active status</li>
 <li><strong>is_published</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for published status</li>
 <li><strong>starts_before</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards starting before this time</li>
 <li><strong>starts_after</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards starting after this time</li>
 <li><strong>ends_before</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards ending before this time</li>
 <li><strong>ends_after</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards ending after this time</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.boards.domain.board.Board">Board</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.boards.domain.board.Board">Board</a>]</code> – List of Board entities if no pagination, PaginatedResult if pagination provided.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.boards.domain.board.Board">Board</a>]</code> – PaginatedResult containing Board entities matching the filter criteria.</li>
 </ul>
 <h6 id="leadrboardsservicesboard_serviceboardservicelist_boards_by_account"># <code>leadr.boards.services.board_service.BoardService.list_boards_by_account</code><a class="headerlink" href="#leadrboardsservicesboard_serviceboardservicelist_boards_by_account" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">list_boards_by_account</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
@@ -6485,8 +6482,8 @@ Ensures business rules like game validation are enforced.</p>
 <li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.get_by_id_or_raise"><strong>get_by_id_or_raise</strong></a> – Get an entity by its ID or raise EntityNotFoundError.</li>
 <li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.list_all"><strong>list_all</strong></a> – List all non-deleted entities.</li>
-<li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_account"><strong>list_board_templates_by_account</strong></a> – List all board templates for an account with optional pagination.</li>
-<li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_game"><strong>list_board_templates_by_game</strong></a> – List all board templates for a specific game with optional pagination.</li>
+<li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_account"><strong>list_board_templates_by_account</strong></a> – List all board templates for an account with pagination.</li>
+<li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_game"><strong>list_board_templates_by_game</strong></a> – List all board templates for a specific game with pagination.</li>
 <li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.soft_delete"><strong>soft_delete</strong></a> – Soft-delete an entity and return it before deletion.</li>
 <li><a href="#leadr.boards.services.board_template_service.BoardTemplateService.update_board_template"><strong>update_board_template</strong></a> – Update board template fields.</li>
 </ul>
@@ -6626,33 +6623,33 @@ Ensures business rules like game validation are enforced.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrboardsservicesboard_template_serviceboardtemplateservicelist_board_templates_by_account"># <code>leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_account</code><a class="headerlink" href="#leadrboardsservicesboard_template_serviceboardtemplateservicelist_board_templates_by_account" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_board_templates_by_account</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_board_templates_by_account</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
-<p>List all board templates for an account with optional pagination.</p>
+<p>List all board templates for an account with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – The ID of the account to list templates for. If None, returns all
   templates (superadmin use case).</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters.</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>]</code> – List of BoardTemplate entities if no pagination, PaginatedResult if pagination provided.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>]</code> – PaginatedResult containing BoardTemplate entities matching the filter criteria.</li>
 </ul>
 <h6 id="leadrboardsservicesboard_template_serviceboardtemplateservicelist_board_templates_by_game"># <code>leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_game</code><a class="headerlink" href="#leadrboardsservicesboard_template_serviceboardtemplateservicelist_board_templates_by_game" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_board_templates_by_game</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_board_templates_by_game</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
-<p>List all board templates for a specific game with optional pagination.</p>
+<p>List all board templates for a specific game with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – The ID of the account. If None, returns templates from all accounts
   (superadmin use case).</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a></code>) – The ID of the game to list templates for.</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters.</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>]</code> – List of BoardTemplate entities if no pagination, PaginatedResult if pagination provided.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>]</code> – PaginatedResult containing BoardTemplate entities matching the filter criteria.</li>
 </ul>
 <h6 id="leadrboardsservicesboard_template_serviceboardtemplateservicerepository"># <code>leadr.boards.services.board_template_service.BoardTemplateService.repository</code><a class="headerlink" href="#leadrboardsservicesboard_template_serviceboardtemplateservicerepository" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
@@ -6756,11 +6753,9 @@ Ensures business rules like game validation are enforced.</p>
 <li><a href="#leadr.boards.services.repositories.BoardRepository.count_boards_by_template"><strong>count_boards_by_template</strong></a> – Count boards created from a specific template.</li>
 <li><a href="./#leadr.boards.services.repositories.BoardRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.boards.services.repositories.BoardRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.boards.services.repositories.BoardRepository.filter"><strong>filter</strong></a> – Filter boards by account and optional criteria.</li>
+<li><a href="./#leadr.boards.services.repositories.BoardRepository.filter"><strong>filter</strong></a> – Filter boards with optional criteria and pagination.</li>
 <li><a href="#leadr.boards.services.repositories.BoardRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.boards.services.repositories.BoardRepository.get_by_short_code"><strong>get_by_short_code</strong></a> – Get board by short_code.</li>
-<li><a href="#leadr.boards.services.repositories.BoardRepository.get_by_slug"><strong>get_by_slug</strong></a> – Get board by slug within account and game scope.</li>
-<li><a href="#leadr.boards.services.repositories.BoardRepository.list_boards"><strong>list_boards</strong></a> – List boards with optional filtering.</li>
 <li><a href="./#leadr.boards.services.repositories.BoardRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
@@ -6808,18 +6803,31 @@ Ensures business rules like game validation are enforced.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrboardsservicesrepositoriesboardrepositoryfilter"># <code>leadr.boards.services.repositories.BoardRepository.filter</code><a class="headerlink" href="#leadrboardsservicesrepositoriesboardrepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter boards by account and optional criteria.</p>
+<p>Filter boards with optional criteria and pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>account_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a> | <a href="../common/#leadr.common.domain.ids.PrefixedID">PrefixedID</a> | None</code>) – Optional account ID to filter by. If None, returns all boards
-  (superadmin use case). Regular users should always pass account_id.</li>
-<li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
+<li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by</li>
+<li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
+<li><strong>code</strong> (<code><a href="#str">str</a> | None</code>) – Optional short code to filter by</li>
+<li><strong>slug</strong> (<code><a href="#str">str</a> | None</code>) – Optional slug to filter by</li>
+<li><strong>is_active</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for active status</li>
+<li><strong>is_published</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for published status</li>
+<li><strong>starts_before</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards starting before this time</li>
+<li><strong>starts_after</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards starting after this time</li>
+<li><strong>ends_before</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards ending before this time</li>
+<li><strong>ends_after</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards ending after this time</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.boards.domain.board.Board">Board</a>]</code> – List of boards for the account matching the filter criteria</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.boards.domain.board.Board">Board</a>]</code> – PaginatedResult containing boards matching the filter criteria</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If sort field is not in SORTABLE_FIELDS</li>
+<li><code><a href="#CursorValidationError">CursorValidationError</a></code> – If cursor is invalid or state doesn't match</li>
 </ul>
 <h6 id="leadrboardsservicesrepositoriesboardrepositoryget_by_id"># <code>leadr.boards.services.repositories.BoardRepository.get_by_id</code><a class="headerlink" href="#leadrboardsservicesrepositoriesboardrepositoryget_by_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -6845,50 +6853,6 @@ Ensures business rules like game validation are enforced.</p>
 <p><strong>Returns:</strong></p>
 <ul>
 <li><code><a href="./#leadr.boards.domain.board.Board">Board</a> | None</code> – Board entity if found, None otherwise</li>
-</ul>
-<h6 id="leadrboardsservicesrepositoriesboardrepositoryget_by_slug"># <code>leadr.boards.services.repositories.BoardRepository.get_by_slug</code><a class="headerlink" href="#leadrboardsservicesrepositoriesboardrepositoryget_by_slug" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">get_by_slug</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">slug</span><span class="p">,</span> <span class="n">is_active</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</code></pre></div>
-<p>Get board by slug within account and game scope.</p>
-<p>Lookups are scoped to account_id and game_id to respect the partial
-unique constraint (account_id, game_id, slug) WHERE is_active=true.</p>
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><strong>account_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a> | <a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a></code>) – The account ID to filter by</li>
-<li><strong>game_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a> | <a href="../common/#leadr.common.domain.ids.GameID">GameID</a></code>) – The game ID to filter by</li>
-<li><strong>slug</strong> (<code><a href="#str">str</a></code>) – The slug to search for</li>
-<li><strong>is_active</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for active status. If None, returns board
-  regardless of active status.</li>
-</ul>
-<p><strong>Returns:</strong></p>
-<ul>
-<li><code><a href="./#leadr.boards.domain.board.Board">Board</a> | None</code> – Board entity if found, None otherwise</li>
-</ul>
-<h6 id="leadrboardsservicesrepositoriesboardrepositorylist_boards"># <code>leadr.boards.services.repositories.BoardRepository.list_boards</code><a class="headerlink" href="#leadrboardsservicesrepositoriesboardrepositorylist_boards" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_boards</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_active</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</code></pre></div>
-<p>List boards with optional filtering.</p>
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><strong>account_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a> | <a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by</li>
-<li><strong>game_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a> | <a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
-<li><strong>code</strong> (<code><a href="#str">str</a> | None</code>) – Optional short code to filter by</li>
-<li><strong>is_active</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for active status</li>
-<li><strong>is_published</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for published status</li>
-<li><strong>starts_before</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards starting before this time</li>
-<li><strong>starts_after</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards starting after this time</li>
-<li><strong>ends_before</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards ending before this time</li>
-<li><strong>ends_after</strong> (<code><a href="#datetime.datetime">datetime</a> | None</code>) – Optional filter for boards ending after this time</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
-</ul>
-<p><strong>Returns:</strong></p>
-<ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.boards.domain.board.Board">Board</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.boards.domain.board.Board">Board</a>]</code> – List of boards if no pagination, PaginatedResult if pagination provided</li>
-</ul>
-<p><strong>Raises:</strong></p>
-<ul>
-<li><code><a href="#ValueError">ValueError</a></code> – If sort field is not in SORTABLE_FIELDS</li>
-<li><code><a href="#CursorValidationError">CursorValidationError</a></code> – If cursor is invalid or state doesn't match</li>
 </ul>
 <h6 id="leadrboardsservicesrepositoriesboardrepositorysession"># <code>leadr.boards.services.repositories.BoardRepository.session</code><a class="headerlink" href="#leadrboardsservicesrepositoriesboardrepositorysession" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">session</span> <span class="o">=</span> <span class="n">session</span>
@@ -6916,7 +6880,7 @@ unique constraint (account_id, game_id, slug) WHERE is_active=true.</p>
 <ul>
 <li><a href="./#leadr.boards.services.repositories.BoardTemplateRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.boards.services.repositories.BoardTemplateRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.boards.services.repositories.BoardTemplateRepository.filter"><strong>filter</strong></a> – Filter board templates by account and optional game.</li>
+<li><a href="./#leadr.boards.services.repositories.BoardTemplateRepository.filter"><strong>filter</strong></a> – Filter board templates by account and optional game with pagination.</li>
 <li><a href="#leadr.boards.services.repositories.BoardTemplateRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="./#leadr.boards.services.repositories.BoardTemplateRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
 </ul>
@@ -6953,20 +6917,20 @@ unique constraint (account_id, game_id, slug) WHERE is_active=true.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrboardsservicesrepositoriesboardtemplaterepositoryfilter"># <code>leadr.boards.services.repositories.BoardTemplateRepository.filter</code><a class="headerlink" href="#leadrboardsservicesrepositoriesboardtemplaterepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter board templates by account and optional game.</p>
+<p>Filter board templates by account and optional game with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by. If None, returns all templates
   (superadmin use case). Regular users should always pass account_id.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – OPTIONAL - Game ID to filter by</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>]</code> – List of board templates if no pagination, PaginatedResult if pagination provided</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>]</code> – PaginatedResult containing board templates matching the filter criteria</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>

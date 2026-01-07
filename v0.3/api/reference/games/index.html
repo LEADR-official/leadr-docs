@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -1895,6 +1895,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrgamesapigame_schemasgameresponseurl" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.games.api.game_schemas.GameResponse.url
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrgamesapigame_schemasgameupdaterequest" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.games.api.game_schemas.GameUpdateRequest
@@ -2771,6 +2780,7 @@ GET /v1/games?account_id=acc_123&limit=50&sort=name:asc
 <li><a href="#leadr.games.api.game_schemas.GameResponse.steam_app_id"><strong>steam_app_id</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.games.api.game_schemas.GameResponse.tags"><strong>tags</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
 <li><a href="#leadr.games.api.game_schemas.GameResponse.updated_at"><strong>updated_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
+<li><a href="#leadr.games.api.game_schemas.GameResponse.url"><strong>url</strong></a> (<code><a href="#str">str</a> | None</code>) – Public URL to view this game's leaderboards.</li>
 </ul>
 <h6 id="leadrgamesapigame_schemasgameresponseaccount_id"># <code>leadr.games.api.game_schemas.GameResponse.account_id</code><a class="headerlink" href="#leadrgamesapigame_schemasgameresponseaccount_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">account_id</span><span class="p">:</span> <span class="n">AccountID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ID of the account this game belongs to&#39;</span><span class="p">)</span>
@@ -2820,6 +2830,11 @@ GET /v1/games?account_id=acc_123&limit=50&sort=name:asc
 <h6 id="leadrgamesapigame_schemasgameresponseupdated_at"># <code>leadr.games.api.game_schemas.GameResponse.updated_at</code><a class="headerlink" href="#leadrgamesapigame_schemasgameresponseupdated_at" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp of last update (UTC)&#39;</span><span class="p">)</span>
 </code></pre></div>
+<h6 id="leadrgamesapigame_schemasgameresponseurl"># <code>leadr.games.api.game_schemas.GameResponse.url</code><a class="headerlink" href="#leadrgamesapigame_schemasgameresponseurl" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+</code></pre></div>
+<p>Public URL to view this game's leaderboards.</p>
+<p>Returns the URL if BOARDS_UI_DOMAIN is configured, otherwise None.</p>
 <h6 id="leadrgamesapigame_schemasgameupdaterequest"><code>leadr.games.api.game_schemas.GameUpdateRequest</code><a class="headerlink" href="#leadrgamesapigame_schemasgameupdaterequest" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
 <p>Request model for updating a game.</p>
@@ -3057,7 +3072,7 @@ by coordinating between the domain models and repository layer.</p>
 <li><a href="#leadr.games.services.game_service.GameService.get_game"><strong>get_game</strong></a> – Get a game by its ID.</li>
 <li><a href="#leadr.games.services.game_service.GameService.get_game_by_slug"><strong>get_game_by_slug</strong></a> – Get a game by its slug (globally unique).</li>
 <li><a href="#leadr.games.services.game_service.GameService.list_all"><strong>list_all</strong></a> – List all non-deleted entities.</li>
-<li><a href="#leadr.games.services.game_service.GameService.list_games"><strong>list_games</strong></a> – List all games for an account with optional pagination.</li>
+<li><a href="#leadr.games.services.game_service.GameService.list_games"><strong>list_games</strong></a> – List all games for an account with pagination.</li>
 <li><a href="#leadr.games.services.game_service.GameService.soft_delete"><strong>soft_delete</strong></a> – Soft-delete an entity and return it before deletion.</li>
 <li><a href="#leadr.games.services.game_service.GameService.update_game"><strong>update_game</strong></a> – Update game fields.</li>
 </ul>
@@ -3174,18 +3189,18 @@ by coordinating between the domain models and repository layer.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrgamesservicesgame_servicegameservicelist_games"># <code>leadr.games.services.game_service.GameService.list_games</code><a class="headerlink" href="#leadrgamesservicesgame_servicegameservicelist_games" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_games</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_games</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
-<p>List all games for an account with optional pagination.</p>
+<p>List all games for an account with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – The ID of the account to list games for. If None, returns all
   games (superadmin use case).</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters.</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.games.domain.game.Game">Game</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.games.domain.game.Game">Game</a>]</code> – List of Game entities if no pagination, PaginatedResult if pagination provided.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.games.domain.game.Game">Game</a>]</code> – PaginatedResult containing Game entities matching the filter criteria.</li>
 </ul>
 <h6 id="leadrgamesservicesgame_servicegameservicerepository"># <code>leadr.games.services.game_service.GameService.repository</code><a class="headerlink" href="#leadrgamesservicesgame_servicegameservicerepository" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
@@ -3243,7 +3258,7 @@ by coordinating between the domain models and repository layer.</p>
 <ul>
 <li><a href="./#leadr.games.services.repositories.GameRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.games.services.repositories.GameRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.games.services.repositories.GameRepository.filter"><strong>filter</strong></a> – Filter games by account and optional criteria.</li>
+<li><a href="./#leadr.games.services.repositories.GameRepository.filter"><strong>filter</strong></a> – Filter games by account and optional criteria with pagination.</li>
 <li><a href="#leadr.games.services.repositories.GameRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.games.services.repositories.GameRepository.get_by_slug"><strong>get_by_slug</strong></a> – Get game by slug (globally unique lookup).</li>
 <li><a href="./#leadr.games.services.repositories.GameRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
@@ -3281,19 +3296,19 @@ by coordinating between the domain models and repository layer.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrgamesservicesrepositoriesgamerepositoryfilter"># <code>leadr.games.services.repositories.GameRepository.filter</code><a class="headerlink" href="#leadrgamesservicesrepositoriesgamerepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pagination</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter games by account and optional criteria.</p>
+<p>Filter games by account and optional criteria with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>account_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a> | <a href="../common/#leadr.common.domain.ids.PrefixedID">PrefixedID</a> | None</code>) – Optional account ID to filter by. If None, returns all games
+<li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by. If None, returns all games
   (superadmin use case). Regular users should always pass account_id.</li>
-<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a> | None</code>) – Optional pagination parameters</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters (reserved for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.games.domain.game.Game">Game</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.games.domain.game.Game">Game</a>]</code> – List of games if no pagination, PaginatedResult if pagination provided</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.games.domain.game.Game">Game</a>]</code> – PaginatedResult containing games matching the filter criteria</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>

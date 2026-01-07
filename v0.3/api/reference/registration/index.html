@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -3398,6 +3398,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrregistrationservicesrepositoriesjamcoderedemptionrepositorysortable_fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.registration.services.repositories.JamCodeRedemptionRepository.SORTABLE_FIELDS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrregistrationservicesrepositoriesjamcoderedemptionrepositorycreate" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.registration.services.repositories.JamCodeRedemptionRepository.create
@@ -3479,6 +3488,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrregistrationservicesrepositoriesjamcoderepositorysortable_fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.registration.services.repositories.JamCodeRepository.SORTABLE_FIELDS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrregistrationservicesrepositoriesjamcoderepositorycreate" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.registration.services.repositories.JamCodeRepository.create
@@ -3545,6 +3563,15 @@
   <a href="#leadrregistrationservicesrepositoriesverificationcoderepository" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.registration.services.repositories.VerificationCodeRepository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrregistrationservicesrepositoriesverificationcoderepositorysortable_fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.registration.services.repositories.VerificationCodeRepository.SORTABLE_FIELDS
     </span>
   </a>
   
@@ -4040,10 +4067,10 @@ They can optionally have usage limits, expiration dates, and custom features.</p
 <p>This endpoint is publicly accessible and requires no authentication.
 A 6-character verification code will be sent to the email address.</p>
 <h6 id="leadrregistrationapirouteslist_jam_codes"><code>leadr.registration.api.routes.list_jam_codes</code><a class="headerlink" href="#leadrregistrationapirouteslist_jam_codes" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_jam_codes</span><span class="p">(</span><span class="n">jam_code_service</span><span class="p">,</span> <span class="n">auth</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_jam_codes</span><span class="p">(</span><span class="n">jam_code_service</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
 <p>List all jam codes (superadmin only).</p>
-<p>Returns a list of all jam codes, including their usage statistics.</p>
+<p>Returns a paginated list of all jam codes, including their usage statistics.</p>
 <h6 id="leadrregistrationapiroutespublic_router"><code>leadr.registration.api.routes.public_router</code><a class="headerlink" href="#leadrregistrationapiroutespublic_router" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">public_router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;/register&#39;</span><span class="p">)</span>
 </code></pre></div>
@@ -4943,7 +4970,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <ul>
 <li><a href="#leadr.registration.services.jam_code_service.JamCodeService.create_jam_code"><strong>create_jam_code</strong></a> – Create a new jam code.</li>
 <li><a href="#leadr.registration.services.jam_code_service.JamCodeService.get_jam_code_by_id"><strong>get_jam_code_by_id</strong></a> – Get a jam code by its ID.</li>
-<li><a href="#leadr.registration.services.jam_code_service.JamCodeService.list_jam_codes"><strong>list_jam_codes</strong></a> – List all jam codes.</li>
+<li><a href="#leadr.registration.services.jam_code_service.JamCodeService.list_jam_codes"><strong>list_jam_codes</strong></a> – List all jam codes with pagination.</li>
 <li><a href="#leadr.registration.services.jam_code_service.JamCodeService.redeem_jam_code"><strong>redeem_jam_code</strong></a> – Redeem a jam code for an account.</li>
 <li><a href="#leadr.registration.services.jam_code_service.JamCodeService.update_jam_code"><strong>update_jam_code</strong></a> – Update a jam code.</li>
 <li><a href="#leadr.registration.services.jam_code_service.JamCodeService.validate_and_get_jam_code"><strong>validate_and_get_jam_code</strong></a> – Validate a jam code and return it if valid.</li>
@@ -4997,12 +5024,16 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <div class="highlight"><pre><span></span><code><span class="n">jam_code_repository</span> <span class="o">=</span> <span class="n">JamCodeRepository</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrregistrationservicesjam_code_servicejamcodeservicelist_jam_codes"># <code>leadr.registration.services.jam_code_service.JamCodeService.list_jam_codes</code><a class="headerlink" href="#leadrregistrationservicesjam_code_servicejamcodeservicelist_jam_codes" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_jam_codes</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_jam_codes</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">)</span>
 </code></pre></div>
-<p>List all jam codes.</p>
+<p>List all jam codes with pagination.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters.</li>
+</ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.registration.domain.jam_code.JamCode">JamCode</a>]</code> – List of all jam codes.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.registration.domain.jam_code.JamCode">JamCode</a>]</code> – Paginated result of jam codes.</li>
 </ul>
 <h6 id="leadrregistrationservicesjam_code_servicejamcodeserviceredeem_jam_code"># <code>leadr.registration.services.jam_code_service.JamCodeService.redeem_jam_code</code><a class="headerlink" href="#leadrregistrationservicesjam_code_servicejamcodeserviceredeem_jam_code" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">redeem_jam_code</span><span class="p">(</span><span class="n">jam_code</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">meta</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -5148,7 +5179,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <ul>
 <li><a href="./#leadr.registration.services.repositories.JamCodeRedemptionRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.registration.services.repositories.JamCodeRedemptionRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.registration.services.repositories.JamCodeRedemptionRepository.filter"><strong>filter</strong></a> – Filter jam code redemptions by criteria.</li>
+<li><a href="./#leadr.registration.services.repositories.JamCodeRedemptionRepository.filter"><strong>filter</strong></a> – Filter jam code redemptions by criteria with pagination.</li>
 <li><a href="#leadr.registration.services.repositories.JamCodeRedemptionRepository.find_by_account"><strong>find_by_account</strong></a> – Find all jam code redemptions for an account.</li>
 <li><a href="#leadr.registration.services.repositories.JamCodeRedemptionRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.registration.services.repositories.JamCodeRedemptionRepository.has_redeemed"><strong>has_redeemed</strong></a> – Check if an account has already redeemed a specific jam code.</li>
@@ -5156,8 +5187,12 @@ already deleted are not affected (deleted_at remains at original deletion time).
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
+<li><a href="#leadr.registration.services.repositories.JamCodeRedemptionRepository.SORTABLE_FIELDS"><strong>SORTABLE_FIELDS</strong></a> –</li>
 <li><a href="./#leadr.registration.services.repositories.JamCodeRedemptionRepository.session"><strong>session</strong></a> –</li>
 </ul>
+<h6 id="leadrregistrationservicesrepositoriesjamcoderedemptionrepositorysortable_fields"># <code>leadr.registration.services.repositories.JamCodeRedemptionRepository.SORTABLE_FIELDS</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesjamcoderedemptionrepositorysortable_fields" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">SORTABLE_FIELDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;account_id&#39;</span><span class="p">,</span> <span class="s1">&#39;jam_code_id&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">}</span>
+</code></pre></div>
 <h6 id="leadrregistrationservicesrepositoriesjamcoderedemptionrepositorycreate"># <code>leadr.registration.services.repositories.JamCodeRedemptionRepository.create</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesjamcoderedemptionrepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
@@ -5183,17 +5218,23 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrregistrationservicesrepositoriesjamcoderedemptionrepositoryfilter"># <code>leadr.registration.services.repositories.JamCodeRedemptionRepository.filter</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesjamcoderedemptionrepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter jam code redemptions by criteria.</p>
+<p>Filter jam code redemptions by criteria with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="#typing.Any">Any</a> | None</code>) – Optional account ID to filter by.</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.registration.domain.jam_code_redemption.JamCodeRedemption">JamCodeRedemption</a>]</code> – List of matching JamCodeRedemption entities.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.registration.domain.jam_code_redemption.JamCodeRedemption">JamCodeRedemption</a>]</code> – Paginated result of matching JamCodeRedemption entities.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If sort field is not in SORTABLE_FIELDS.</li>
+<li><code><a href="#CursorValidationError">CursorValidationError</a></code> – If cursor is invalid or state doesn't match.</li>
 </ul>
 <h6 id="leadrregistrationservicesrepositoriesjamcoderedemptionrepositoryfind_by_account"># <code>leadr.registration.services.repositories.JamCodeRedemptionRepository.find_by_account</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesjamcoderedemptionrepositoryfind_by_account" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">find_by_account</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
@@ -5259,15 +5300,19 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <ul>
 <li><a href="./#leadr.registration.services.repositories.JamCodeRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.registration.services.repositories.JamCodeRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.registration.services.repositories.JamCodeRepository.filter"><strong>filter</strong></a> – Filter jam codes by criteria.</li>
+<li><a href="./#leadr.registration.services.repositories.JamCodeRepository.filter"><strong>filter</strong></a> – Filter jam codes by criteria with pagination.</li>
 <li><a href="#leadr.registration.services.repositories.JamCodeRepository.find_by_code"><strong>find_by_code</strong></a> – Find a jam code by its code value.</li>
 <li><a href="#leadr.registration.services.repositories.JamCodeRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="./#leadr.registration.services.repositories.JamCodeRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
+<li><a href="#leadr.registration.services.repositories.JamCodeRepository.SORTABLE_FIELDS"><strong>SORTABLE_FIELDS</strong></a> –</li>
 <li><a href="./#leadr.registration.services.repositories.JamCodeRepository.session"><strong>session</strong></a> –</li>
 </ul>
+<h6 id="leadrregistrationservicesrepositoriesjamcoderepositorysortable_fields"># <code>leadr.registration.services.repositories.JamCodeRepository.SORTABLE_FIELDS</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesjamcoderepositorysortable_fields" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">SORTABLE_FIELDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="s1">&#39;current_uses&#39;</span><span class="p">,</span> <span class="s1">&#39;max_uses&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;updated_at&#39;</span><span class="p">}</span>
+</code></pre></div>
 <h6 id="leadrregistrationservicesrepositoriesjamcoderepositorycreate"># <code>leadr.registration.services.repositories.JamCodeRepository.create</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesjamcoderepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
@@ -5293,17 +5338,23 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrregistrationservicesrepositoriesjamcoderepositoryfilter"># <code>leadr.registration.services.repositories.JamCodeRepository.filter</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesjamcoderepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter jam codes by criteria.</p>
+<p>Filter jam codes by criteria with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="#typing.Any">Any</a> | None</code>) – Not used for jam codes (top-level entity).</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Filter parameters (code, etc.)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.registration.domain.jam_code.JamCode">JamCode</a>]</code> – List of matching JamCode entities.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.registration.domain.jam_code.JamCode">JamCode</a>]</code> – Paginated result of matching JamCode entities.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If sort field is not in SORTABLE_FIELDS.</li>
+<li><code><a href="#CursorValidationError">CursorValidationError</a></code> – If cursor is invalid or state doesn't match.</li>
 </ul>
 <h6 id="leadrregistrationservicesrepositoriesjamcoderepositoryfind_by_code"># <code>leadr.registration.services.repositories.JamCodeRepository.find_by_code</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesjamcoderepositoryfind_by_code" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">find_by_code</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
@@ -5356,7 +5407,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <ul>
 <li><a href="./#leadr.registration.services.repositories.VerificationCodeRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.registration.services.repositories.VerificationCodeRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.registration.services.repositories.VerificationCodeRepository.filter"><strong>filter</strong></a> – Filter verification codes by criteria.</li>
+<li><a href="./#leadr.registration.services.repositories.VerificationCodeRepository.filter"><strong>filter</strong></a> – Filter verification codes by criteria with pagination.</li>
 <li><a href="#leadr.registration.services.repositories.VerificationCodeRepository.find_valid_code_by_email"><strong>find_valid_code_by_email</strong></a> – Find a valid (pending) verification code by email and code value.</li>
 <li><a href="#leadr.registration.services.repositories.VerificationCodeRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.registration.services.repositories.VerificationCodeRepository.invalidate_codes_for_email"><strong>invalidate_codes_for_email</strong></a> – Mark all pending verification codes for an email as expired.</li>
@@ -5364,8 +5415,12 @@ already deleted are not affected (deleted_at remains at original deletion time).
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
+<li><a href="#leadr.registration.services.repositories.VerificationCodeRepository.SORTABLE_FIELDS"><strong>SORTABLE_FIELDS</strong></a> –</li>
 <li><a href="./#leadr.registration.services.repositories.VerificationCodeRepository.session"><strong>session</strong></a> –</li>
 </ul>
+<h6 id="leadrregistrationservicesrepositoriesverificationcoderepositorysortable_fields"># <code>leadr.registration.services.repositories.VerificationCodeRepository.SORTABLE_FIELDS</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesverificationcoderepositorysortable_fields" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">SORTABLE_FIELDS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;created_at&#39;</span><span class="p">,</span> <span class="s1">&#39;updated_at&#39;</span><span class="p">,</span> <span class="s1">&#39;expires_at&#39;</span><span class="p">}</span>
+</code></pre></div>
 <h6 id="leadrregistrationservicesrepositoriesverificationcoderepositorycreate"># <code>leadr.registration.services.repositories.VerificationCodeRepository.create</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesverificationcoderepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
@@ -5391,17 +5446,23 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrregistrationservicesrepositoriesverificationcoderepositoryfilter"># <code>leadr.registration.services.repositories.VerificationCodeRepository.filter</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesverificationcoderepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter verification codes by criteria.</p>
+<p>Filter verification codes by criteria with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="#typing.Any">Any</a> | None</code>) – Not used for verification codes (top-level entity).</li>
+<li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Filter parameters (email, status, etc.)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="#leadr.registration.domain.verification_code.VerificationCode">VerificationCode</a>]</code> – List of matching VerificationCode entities.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.registration.domain.verification_code.VerificationCode">VerificationCode</a>]</code> – Paginated result of matching VerificationCode entities.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If sort field is not in SORTABLE_FIELDS.</li>
+<li><code><a href="#CursorValidationError">CursorValidationError</a></code> – If cursor is invalid or state doesn't match.</li>
 </ul>
 <h6 id="leadrregistrationservicesrepositoriesverificationcoderepositoryfind_valid_code_by_email"># <code>leadr.registration.services.repositories.VerificationCodeRepository.find_valid_code_by_email</code><a class="headerlink" href="#leadrregistrationservicesrepositoriesverificationcoderepositoryfind_valid_code_by_email" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">find_valid_code_by_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span>

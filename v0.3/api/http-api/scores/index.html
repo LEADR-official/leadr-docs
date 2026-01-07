@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -1919,8 +1919,15 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
 - Valid sort fields: id, value, player_name, filter_timezone, filter_country,
   filter_city, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response</p>
+<p>Around Score:
+- Use around_score_id to get scores centered around a specific score
+- Requires board_id to be specified
+- Mutually exclusive with cursor pagination
+- Returns a window of scores with the target in the middle
+- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)</p>
 <p>Example:
-    GET /v1/scores?board_id=brd_123&amp;limit=50&amp;sort=value:desc,created_at:asc</p>
+    GET /v1/scores?board_id=brd_123&amp;limit=50&amp;sort=value:desc,created_at:asc
+    GET /v1/scores?board_id=brd_123&amp;around_score_id=scr_456&amp;limit=11</p>
 <p>Args:
     auth: Authentication context with user info.
     service: Injected score service dependency.
@@ -1928,13 +1935,15 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
     account_id: Optional account_id query parameter (required for superadmins).
     board_id: Optional board ID to filter by.
     game_id: Optional game ID to filter by.
-    device_id: Optional device ID to filter by.</p>
+    device_id: Optional device ID to filter by.
+    around_score_id: Optional score ID to center results around.</p>
 <p>Returns:
     PaginatedResponse with scores and pagination metadata.</p>
 <p>Raises:
-    400: Invalid cursor, sort field, or cursor state mismatch.
+    400: Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
     400: Superadmin did not provide account_id.
-    403: User does not have access to the specified account.</p>
+    403: User does not have access to the specified account.
+    404: around_score_id score not found.</p>
 <h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1974,6 +1983,13 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
 <td>any</td>
 <td>false</td>
 <td>none</td>
+</tr>
+<tr>
+<td>around_score_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Center results around this score ID</td>
 </tr>
 <tr>
 <td>cursor</td>
@@ -2451,7 +2467,6 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 - Use ?game_id={id} or ?game_slug={slug} to filter boards by game
 - Use ?game_slug={game_slug}&amp;slug={slug} to find a specific board within a game
 - Use ?code={code} to filter boards by short code
-- Use ?is_active=true/false to filter by active status
 - Use ?is_published=true/false to filter by published status
 - Use ?starts_before=<datetime>&amp;starts_after=<datetime> for start date range
 - Use ?ends_before=<datetime>&amp;ends_after=<datetime> for end date range
@@ -2463,7 +2478,7 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 - Navigation: Use next_cursor/prev_cursor from response</p>
 <p>Example:
     GET /v1/client/boards?code=WEEKLY-CHALLENGE&amp;limit=50
-    GET /v1/client/boards?game_slug=my-game&amp;is_active=true
+    GET /v1/client/boards?game_slug=my-game&amp;is_published=true
     GET /v1/client/boards?game_slug=my-game&amp;slug=weekly-challenge
     GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z</p>
 <p>Args:
@@ -2475,7 +2490,6 @@ Clients can optionally filter by various criteria to find specific boards.</p>
     code: Optional short code to filter boards by.
     game_slug: Optional game slug to filter boards by game (resolves to game_id).
     slug: Optional board slug to filter by specific board (requires game_slug).
-    is_active: Optional filter for active status.
     is_published: Optional filter for published status.
     starts_before: Optional filter for boards starting before this time.
     starts_after: Optional filter for boards starting after this time.
@@ -2525,13 +2539,6 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 <td>any</td>
 <td>false</td>
 <td>Filter by board slug (requires game_slug)</td>
-</tr>
-<tr>
-<td>is_active</td>
-<td>query</td>
-<td>any</td>
-<td>false</td>
-<td>Filter by active status</td>
 </tr>
 <tr>
 <td>is_published</td>
@@ -2881,7 +2888,7 @@ are automatically derived from the authenticated device session.</p>
 <p><code>GET /v1/client/scores</code></p>
 <p>List scores for an account with optional filters and pagination.</p>
 <p>Returns paginated scores for the specified account, with optional
-filtering by board. Supports cursor-based pagination
+filtering by board and/or device. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.</p>
 <p>Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
@@ -2889,19 +2896,28 @@ with bidirectional navigation and custom sorting.</p>
 - Valid sort fields: id, value, player_name, filter_timezone, filter_country,
   filter_city, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response</p>
+<p>Around Score:
+- Use around_score_id to get scores centered around a specific score
+- Requires board_id to be specified
+- Mutually exclusive with cursor pagination
+- Returns a window of scores with the target in the middle
+- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)</p>
 <p>Example:
-    GET /v1/scores?board_id=brd_123&amp;limit=50&amp;sort=value:desc,created_at:asc</p>
+    GET /client/scores?board_id=brd_123&amp;limit=50&amp;sort=value:desc,created_at:asc
+    GET /client/scores?board_id=brd_123&amp;around_score_id=scr_456&amp;limit=11</p>
 <p>Args:
     auth: Authentication context with user info.
     service: Injected score service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    board_id: Optional board ID to filter by.</p>
+    board_id: Optional board ID to filter by.
+    device_id: Optional device ID to filter by (e.g., to get "my scores").
+    around_score_id: Optional score ID to center results around.</p>
 <p>Returns:
     PaginatedResponse with scores and pagination metadata.</p>
 <p>Raises:
-    400: Invalid cursor, sort field, or cursor state mismatch.
-    400: Superadmin did not provide account_id.
-    403: User does not have access to the specified account.</p>
+    400: Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
+    403: User does not have access to the specified account.
+    404: around_score_id score not found.</p>
 <h3 id="parameters_6">Parameters<a class="headerlink" href="#parameters_6" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2920,6 +2936,20 @@ with bidirectional navigation and custom sorting.</p>
 <td>any</td>
 <td>false</td>
 <td>none</td>
+</tr>
+<tr>
+<td>device_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>around_score_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>Center results around this score ID</td>
 </tr>
 <tr>
 <td>account_id</td>

@@ -506,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_api/" class="md-nav__link">
+      <a href="../../client_api.md" class="md-nav__link">
         
   
   
@@ -3373,6 +3373,30 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#leadrcommonutilsip" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.ip
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.common.utils.ip">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsipextract_client_ip" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.ip.extract_client_ip
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommonutilsslug" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.utils.slug
@@ -4727,7 +4751,7 @@ for converting between domain entities and ORM models.</p>
 <ul>
 <li><a href="./#leadr.common.repositories.BaseRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.common.repositories.BaseRepository.delete"><strong>delete</strong></a> – Soft delete an entity by setting its deleted_at timestamp.</li>
-<li><a href="./#leadr.common.repositories.BaseRepository.filter"><strong>filter</strong></a> – Filter entities based on criteria.</li>
+<li><a href="./#leadr.common.repositories.BaseRepository.filter"><strong>filter</strong></a> – Filter entities based on criteria with pagination.</li>
 <li><a href="#leadr.common.repositories.BaseRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="./#leadr.common.repositories.BaseRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
 </ul>
@@ -4764,38 +4788,25 @@ for converting between domain entities and ORM models.</p>
 <li><code><a href="./#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrcommonrepositoriesbaserepositoryfilter"><code>leadr.common.repositories.BaseRepository.filter</code><a class="headerlink" href="#leadrcommonrepositoriesbaserepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter entities based on criteria.</p>
-<p>For multi-tenant entities, implementations MUST override this to make
-account_id required (no default). For top-level entities like Account,
-account_id can remain optional and unused.</p>
+<p>Filter entities based on criteria with pagination.</p>
+<p>All filter operations return paginated results. The pagination parameter
+is required to enforce consistent API behavior across the codebase.</p>
+<p>For multi-tenant entities, implementations should make account_id required
+(no default). For top-level entities like Account, account_id can remain
+optional and unused.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>account_id</strong> (<code><a href="#pydantic.UUID4">UUID4</a> | <a href="./#leadr.common.domain.ids.PrefixedID">PrefixedID</a> | None</code>) – Optional account ID for filtering. Multi-tenant entities
-  MUST override to make this required (account_id: UUID).</li>
+<li><strong>account_id</strong> (<code><a href="./#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID for filtering. Multi-tenant entities
+  should override to make this required.</li>
+<li><strong>pagination</strong> (<code><a href="./#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Required pagination parameters (cursor, limit, sort).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters specific to the entity type.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#list">list</a>[<a href="./#leadr.common.repositories.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities matching the filter criteria</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.common.repositories.DomainEntityT">DomainEntityT</a>]</code> – PaginatedResult containing matching entities and pagination metadata.</li>
 </ul>
-<p>Example (multi-tenant - account_id required):
-async def filter(
-self,
-account_id: UUID, # Required, no default
-status: str | None = None,
-**kwargs
-) -&gt; list[User]:
-# Implementation with account_id required</p>
-<p>Example (top-level tenant - account_id optional/unused):
-async def filter(
-self,
-account_id: UUID | None = None, # Optional, unused
-status: str | None = None,
-**kwargs
-) -&gt; list[Account]:
-# Implementation where account_id is not used</p>
 <h6 id="leadrcommonrepositoriesbaserepositoryget_by_id"><code>leadr.common.repositories.BaseRepository.get_by_id</code><a class="headerlink" href="#leadrcommonrepositoriesbaserepositoryget_by_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
@@ -4958,7 +4969,33 @@ status: str | None = None,
 <p>Common utility functions.</p>
 <p><strong>Modules:</strong></p>
 <ul>
+<li><a href="./#leadr.common.utils.ip"><strong>ip</strong></a> – IP address extraction utilities.</li>
 <li><a href="./#leadr.common.utils.slug"><strong>slug</strong></a> – Slug generation utilities.</li>
+</ul>
+<h5 id="leadrcommonutilsip"><code>leadr.common.utils.ip</code><a class="headerlink" href="#leadrcommonutilsip" title="Permanent link">&para;</a></h5>
+<p>IP address extraction utilities.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.common.utils.ip.extract_client_ip"><strong>extract_client_ip</strong></a> – Extract client IP address from request headers.</li>
+</ul>
+<h6 id="leadrcommonutilsipextract_client_ip"><code>leadr.common.utils.ip.extract_client_ip</code><a class="headerlink" href="#leadrcommonutilsipextract_client_ip" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">extract_client_ip</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</code></pre></div>
+<p>Extract client IP address from request headers.</p>
+<p>Checks headers in priority order:</p>
+<ol>
+<li>X-Real-IP - common proxy header</li>
+<li>X-Forwarded-For - standard proxy header (uses leftmost IP)</li>
+<li>CF-Connecting-IP - Cloudflare header</li>
+<li>request.client.host - fallback to direct connection</li>
+</ol>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>request</strong> (<code><a href="#fastapi.Request">Request</a></code>) – The incoming FastAPI/Starlette request</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#str">str</a> | None</code> – IP address string, or None if unable to extract</li>
 </ul>
 <h5 id="leadrcommonutilsslug"><code>leadr.common.utils.slug</code><a class="headerlink" href="#leadrcommonutilsslug" title="Permanent link">&para;</a></h5>
 <p>Slug generation utilities.</p>
