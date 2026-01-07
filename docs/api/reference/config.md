@@ -74,6 +74,7 @@ field names (case-sensitive).
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BASE_URL**](#leadr.config.CommonSettings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
+- [**BOARDS_UI_DOMAIN**](#leadr.config.CommonSettings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
 - [**DASHBOARD_URL**](#leadr.config.CommonSettings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.CommonSettings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.CommonSettings.DB_HOST) (<code>[str](#str)</code>) –
@@ -231,6 +232,12 @@ BACKGROUND_TASK_TEMPLATE_INTERVAL: int = Field(default=60, description='Interval
 
 ```python
 BASE_URL: HttpUrl = Field(default=(HttpUrl('http://localhost:8000')), description="Base URL for the API server (e.g., 'https://api.leadr.gg')")
+```
+
+##### `leadr.config.CommonSettings.BOARDS_UI_DOMAIN`
+
+```python
+BOARDS_UI_DOMAIN: str | None = Field(default=None, description="Base URL for public board UI (e.g., 'https://boards.leadr.gg'). When set, enables url/url_short fields in Game and Board API responses.")
 ```
 
 ##### `leadr.config.CommonSettings.DASHBOARD_URL`
@@ -547,6 +554,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BASE_URL**](#leadr.config.Settings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
+- [**BOARDS_UI_DOMAIN**](#leadr.config.Settings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
 - [**DASHBOARD_URL**](#leadr.config.Settings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.Settings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.Settings.DB_HOST) (<code>[str](#str)</code>) –
@@ -629,6 +637,7 @@ Test-specific overrides can be added here.
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BASE_URL**](#leadr.config.TestSettings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
+- [**BOARDS_UI_DOMAIN**](#leadr.config.TestSettings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
 - [**DASHBOARD_URL**](#leadr.config.TestSettings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.TestSettings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.TestSettings.DB_HOST) (<code>[str](#str)</code>) –
@@ -786,6 +795,12 @@ BACKGROUND_TASK_TEMPLATE_INTERVAL: int = Field(default=60, description='Interval
 
 ```python
 BASE_URL: HttpUrl = Field(default=(HttpUrl('http://localhost:8000')), description="Base URL for the API server (e.g., 'https://api.leadr.gg')")
+```
+
+##### `leadr.config.TestSettings.BOARDS_UI_DOMAIN`
+
+```python
+BOARDS_UI_DOMAIN: str | None = Field(default=None, description="Base URL for public board UI (e.g., 'https://boards.leadr.gg'). When set, enables url/url_short fields in Game and Board API responses.")
 ```
 
 ##### `leadr.config.TestSettings.DASHBOARD_URL`

@@ -156,13 +156,16 @@ They can optionally have usage limits, expiration dates, and custom features.
 
 List all jam codes (superadmin only).
 
-Returns a list of all jam codes, including their usage statistics.
+Returns a paginated list of all jam codes, including their usage statistics.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |account_id|query|any|false|none|
+|cursor|query|any|false|Pagination cursor for navigating results|
+|limit|query|integer|false|Number of items per page (1-100)|
+|sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
@@ -172,83 +175,28 @@ Returns a list of all jam codes, including their usage statistics.
 > 200 Response
 
 ```json
-[
-  {
-    "id": "string",
-    "code": "string",
-    "description": "string",
-    "features": {},
-    "max_uses": 0,
-    "current_uses": 0,
-    "active": true,
-    "expires_at": "2019-08-24T14:15:22Z",
-    "created_at": "2019-08-24T14:15:22Z",
-    "updated_at": "2019-08-24T14:15:22Z"
+{
+  "data": [
+    {
+      "id": "scr_123",
+      "value": 1000
+    }
+  ],
+  "pagination": {
+    "count": 20,
+    "has_next": true,
+    "has_prev": false,
+    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
   }
-]
+}
 ```
 
 ### Responses
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_JamCodeResponse_](./schemas.md#paginatedresponse_jamcoderesponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-### Response Schema
-
-Status Code **200**
-
-*Response List Jam Codes V1 Jam Codes Get*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Response List Jam Codes V1 Jam Codes Get|[[JamCodeResponse](./schemas.md#jamcoderesponse)]|false|none|[Response representing a jam code.]|
-|» JamCodeResponse|[JamCodeResponse](./schemas.md#jamcoderesponse)|false|none|Response representing a jam code.|
-|»» id|string|true|none|none|
-|»» code|string|true|none|none|
-|»» description|string|true|none|none|
-|»» features|object|true|none|none|
-|»» max_uses|any|true|none|none|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|integer|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» current_uses|integer|true|none|none|
-|»» active|boolean|true|none|none|
-|»» expires_at|any|true|none|none|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|string(date-time)|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» created_at|string(date-time)|true|none|none|
-|»» updated_at|string(date-time)|true|none|none|
 
 !!! success
     This operation does not require authentication

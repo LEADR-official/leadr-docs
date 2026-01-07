@@ -498,7 +498,8 @@ or
   ],
   "description": "string",
   "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
+  "updated_at": "2019-08-24T14:15:22Z",
+  "url_short": "string"
 }
 
 ```
@@ -648,6 +649,19 @@ continued
 |---|---|---|---|---|
 |created_at|string(date-time)|true|none|Timestamp when the board was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
+|url_short|any|true|read-only|Short URL for direct board access via short_code.<br><br>Returns the URL if BOARDS_UI_DOMAIN is configured and the board is published,<br>otherwise None.|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
 
 ## BoardTemplateCreateRequest
 
@@ -2257,7 +2271,8 @@ or
   ],
   "page_url": "string",
   "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
+  "updated_at": "2019-08-24T14:15:22Z",
+  "url": "string"
 }
 
 ```
@@ -2348,6 +2363,19 @@ continued
 |---|---|---|---|---|
 |created_at|string(date-time)|true|none|Timestamp when the game was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
+|url|any|true|read-only|Public URL to view this game's leaderboards.<br><br>Returns the URL if BOARDS_UI_DOMAIN is configured, otherwise None.|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
 
 ## GameUpdateRequest
 
@@ -2910,6 +2938,35 @@ PaginatedResponse[GameResponse]
 |data|[[GameResponse](./schemas.md#gameresponse)]|true|none|List of items in this page|
 |pagination|[PaginationMeta](./schemas.md#paginationmeta)|true|none|Pagination metadata|
 
+## PaginatedResponse_JamCodeResponse_
+
+```json
+{
+  "data": [
+    {
+      "id": "scr_123",
+      "value": 1000
+    }
+  ],
+  "pagination": {
+    "count": 20,
+    "has_next": true,
+    "has_prev": false,
+    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+  }
+}
+
+```
+
+PaginatedResponse[JamCodeResponse]
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|data|[[JamCodeResponse](./schemas.md#jamcoderesponse)]|true|none|List of items in this page|
+|pagination|[PaginationMeta](./schemas.md#paginationmeta)|true|none|Pagination metadata|
+
 ## PaginatedResponse_ScoreClientResponse_
 
 ```json
@@ -2939,6 +2996,35 @@ PaginatedResponse[ScoreClientResponse]
 |data|[[ScoreClientResponse](./schemas.md#scoreclientresponse)]|true|none|List of items in this page|
 |pagination|[PaginationMeta](./schemas.md#paginationmeta)|true|none|Pagination metadata|
 
+## PaginatedResponse_ScoreFlagResponse_
+
+```json
+{
+  "data": [
+    {
+      "id": "scr_123",
+      "value": 1000
+    }
+  ],
+  "pagination": {
+    "count": 20,
+    "has_next": true,
+    "has_prev": false,
+    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+  }
+}
+
+```
+
+PaginatedResponse[ScoreFlagResponse]
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|data|[[ScoreFlagResponse](./schemas.md#scoreflagresponse)]|true|none|List of items in this page|
+|pagination|[PaginationMeta](./schemas.md#paginationmeta)|true|none|Pagination metadata|
+
 ## PaginatedResponse_ScoreResponse_
 
 ```json
@@ -2966,6 +3052,35 @@ PaginatedResponse[ScoreResponse]
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |data|[[ScoreResponse](./schemas.md#scoreresponse)]|true|none|List of items in this page|
+|pagination|[PaginationMeta](./schemas.md#paginationmeta)|true|none|Pagination metadata|
+
+## PaginatedResponse_ScoreSubmissionMetaResponse_
+
+```json
+{
+  "data": [
+    {
+      "id": "scr_123",
+      "value": 1000
+    }
+  ],
+  "pagination": {
+    "count": 20,
+    "has_next": true,
+    "has_prev": false,
+    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+  }
+}
+
+```
+
+PaginatedResponse[ScoreSubmissionMetaResponse]
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|data|[[ScoreSubmissionMetaResponse](./schemas.md#scoresubmissionmetaresponse)]|true|none|List of items in this page|
 |pagination|[PaginationMeta](./schemas.md#paginationmeta)|true|none|Pagination metadata|
 
 ## PaginatedResponse_UserResponse_

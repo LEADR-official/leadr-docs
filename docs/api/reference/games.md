@@ -396,6 +396,7 @@ Response model for a game.
 - [**steam_app_id**](#leadr.games.api.game_schemas.GameResponse.steam_app_id) (<code>[str](#str) | None</code>) –
 - [**tags**](#leadr.games.api.game_schemas.GameResponse.tags) (<code>[list](#list)\[[str](#str)\]</code>) –
 - [**updated_at**](#leadr.games.api.game_schemas.GameResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**url**](#leadr.games.api.game_schemas.GameResponse.url) (<code>[str](#str) | None</code>) – Public URL to view this game's leaderboards.
 
 ####### `leadr.games.api.game_schemas.GameResponse.account_id`
 
@@ -484,6 +485,16 @@ tags: list[str] = Field(default_factory=list, description='List of tags for cate
 ```python
 updated_at: datetime = Field(description='Timestamp of last update (UTC)')
 ```
+
+####### `leadr.games.api.game_schemas.GameResponse.url`
+
+```python
+url: str | None
+```
+
+Public URL to view this game's leaderboards.
+
+Returns the URL if BOARDS_UI_DOMAIN is configured, otherwise None.
 
 ###### `leadr.games.api.game_schemas.GameUpdateRequest`
 
@@ -837,7 +848,7 @@ by coordinating between the domain models and repository layer.
 - [**get_game**](#leadr.games.services.game_service.GameService.get_game) – Get a game by its ID.
 - [**get_game_by_slug**](#leadr.games.services.game_service.GameService.get_game_by_slug) – Get a game by its slug (globally unique).
 - [**list_all**](#leadr.games.services.game_service.GameService.list_all) – List all non-deleted entities.
-- [**list_games**](#leadr.games.services.game_service.GameService.list_games) – List all games for an account with optional pagination.
+- [**list_games**](#leadr.games.services.game_service.GameService.list_games) – List all games for an account with pagination.
 - [**soft_delete**](#leadr.games.services.game_service.GameService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_game**](#leadr.games.services.game_service.GameService.update_game) – Update game fields.
 
@@ -984,20 +995,20 @@ List all non-deleted entities.
 ####### `leadr.games.services.game_service.GameService.list_games`
 
 ```python
-list_games(account_id, pagination=None)
+list_games(account_id, *, pagination)
 ```
 
-List all games for an account with optional pagination.
+List all games for an account with pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – The ID of the account to list games for. If None, returns all
   games (superadmin use case).
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 
 **Returns:**
 
-- <code>[list](#list)\[[Game](./games.md#leadr.games.domain.game.Game)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Game](./games.md#leadr.games.domain.game.Game)\]</code> – List of Game entities if no pagination, PaginatedResult if pagination provided.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Game](./games.md#leadr.games.domain.game.Game)\]</code> – PaginatedResult containing Game entities matching the filter criteria.
 
 ####### `leadr.games.services.game_service.GameService.repository`
 
@@ -1072,7 +1083,7 @@ Game repository for managing game persistence.
 
 - [**create**](./games.md#leadr.games.services.repositories.GameRepository.create) – Create a new entity in the database.
 - [**delete**](./games.md#leadr.games.services.repositories.GameRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./games.md#leadr.games.services.repositories.GameRepository.filter) – Filter games by account and optional criteria.
+- [**filter**](./games.md#leadr.games.services.repositories.GameRepository.filter) – Filter games by account and optional criteria with pagination.
 - [**get_by_id**](#leadr.games.services.repositories.GameRepository.get_by_id) – Get an entity by its ID.
 - [**get_by_slug**](#leadr.games.services.repositories.GameRepository.get_by_slug) – Get game by slug (globally unique lookup).
 - [**update**](./games.md#leadr.games.services.repositories.GameRepository.update) – Update an existing entity in the database.
@@ -1123,21 +1134,21 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.games.services.repositories.GameRepository.filter`
 
 ```python
-filter(account_id=None, pagination=None, **kwargs)
+filter(account_id=None, *, pagination, **kwargs)
 ```
 
-Filter games by account and optional criteria.
+Filter games by account and optional criteria with pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – Optional account ID to filter by. If None, returns all games
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all games
   (superadmin use case). Regular users should always pass account_id.
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[Game](./games.md#leadr.games.domain.game.Game)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Game](./games.md#leadr.games.domain.game.Game)\]</code> – List of games if no pagination, PaginatedResult if pagination provided
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Game](./games.md#leadr.games.domain.game.Game)\]</code> – PaginatedResult containing games matching the filter criteria
 
 **Raises:**
 

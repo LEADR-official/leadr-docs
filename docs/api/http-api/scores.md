@@ -208,8 +208,16 @@ Pagination:
   filter_city, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
+Around Score:
+- Use around_score_id to get scores centered around a specific score
+- Requires board_id to be specified
+- Mutually exclusive with cursor pagination
+- Returns a window of scores with the target in the middle
+- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
+
 Example:
     GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+    GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 
 Args:
     auth: Authentication context with user info.
@@ -219,14 +227,16 @@ Args:
     board_id: Optional board ID to filter by.
     game_id: Optional game ID to filter by.
     device_id: Optional device ID to filter by.
+    around_score_id: Optional score ID to center results around.
 
 Returns:
     PaginatedResponse with scores and pagination metadata.
 
 Raises:
-    400: Invalid cursor, sort field, or cursor state mismatch.
+    400: Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
     400: Superadmin did not provide account_id.
     403: User does not have access to the specified account.
+    404: around_score_id score not found.
 
 ### Parameters
 
@@ -236,6 +246,7 @@ Raises:
 |board_id|query|any|false|none|
 |game_id|query|any|false|none|
 |device_id|query|any|false|none|
+|around_score_id|query|any|false|Center results around this score ID|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
 |sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
@@ -563,7 +574,6 @@ Filtering:
 - Use ?game_id={id} or ?game_slug={slug} to filter boards by game
 - Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game
 - Use ?code={code} to filter boards by short code
-- Use ?is_active=true/false to filter by active status
 - Use ?is_published=true/false to filter by published status
 - Use ?starts_before=<datetime>&starts_after=<datetime> for start date range
 - Use ?ends_before=<datetime>&ends_after=<datetime> for end date range
@@ -577,7 +587,7 @@ Pagination:
 
 Example:
     GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50
-    GET /v1/client/boards?game_slug=my-game&is_active=true
+    GET /v1/client/boards?game_slug=my-game&is_published=true
     GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
     GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 
@@ -590,7 +600,6 @@ Args:
     code: Optional short code to filter boards by.
     game_slug: Optional game slug to filter boards by game (resolves to game_id).
     slug: Optional board slug to filter by specific board (requires game_slug).
-    is_active: Optional filter for active status.
     is_published: Optional filter for published status.
     starts_before: Optional filter for boards starting before this time.
     starts_after: Optional filter for boards starting after this time.
@@ -612,7 +621,6 @@ Raises:
 |code|query|any|false|Filter by short code|
 |game_slug|query|any|false|Filter by game slug|
 |slug|query|any|false|Filter by board slug (requires game_slug)|
-|is_active|query|any|false|Filter by active status|
 |is_published|query|any|false|Filter by published status|
 |starts_before|query|any|false|Filter boards starting before this time (ISO 8601)|
 |starts_after|query|any|false|Filter boards starting after this time (ISO 8601)|
@@ -829,7 +837,7 @@ Raises:
 List scores for an account with optional filters and pagination.
 
 Returns paginated scores for the specified account, with optional
-filtering by board. Supports cursor-based pagination
+filtering by board and/or device. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 Pagination:
@@ -839,28 +847,40 @@ Pagination:
   filter_city, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
+Around Score:
+- Use around_score_id to get scores centered around a specific score
+- Requires board_id to be specified
+- Mutually exclusive with cursor pagination
+- Returns a window of scores with the target in the middle
+- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
+
 Example:
-    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+    GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+    GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 
 Args:
     auth: Authentication context with user info.
     service: Injected score service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
     board_id: Optional board ID to filter by.
+    device_id: Optional device ID to filter by (e.g., to get "my scores").
+    around_score_id: Optional score ID to center results around.
 
 Returns:
     PaginatedResponse with scores and pagination metadata.
 
 Raises:
-    400: Invalid cursor, sort field, or cursor state mismatch.
-    400: Superadmin did not provide account_id.
+    400: Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
     403: User does not have access to the specified account.
+    404: around_score_id score not found.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |board_id|query|any|false|none|
+|device_id|query|any|false|none|
+|around_score_id|query|any|false|Center results around this score ID|
 |account_id|query|any|false|none|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|

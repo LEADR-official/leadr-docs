@@ -45,10 +45,11 @@
     ```
 `GET /v1/score-submission-metadata`
 
-List score submission metadata for an account with optional filters.
+List score submission metadata for an account with optional filters and pagination.
 
-Returns all non-deleted submission metadata for the specified account, with optional
-filtering by board or device.
+Returns paginated submission metadata for the specified account, with optional
+filtering by board or device. Supports cursor-based pagination with bidirectional
+navigation and custom sorting.
 
 For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id is optional - if omitted, returns metadata from all accounts.
@@ -56,14 +57,16 @@ For superadmins, account_id is optional - if omitted, returns metadata from all 
 Args:
     auth: Authentication context with user info.
     service: Injected submission metadata service dependency.
+    pagination: Pagination parameters (cursor, limit, sort).
     account_id: Optional account_id query parameter (superadmins can omit to see all).
     board_id: Optional board ID to filter by.
     device_id: Optional device ID to filter by.
 
 Returns:
-    List of ScoreSubmissionMetaResponse objects matching the filter criteria.
+    PaginatedResponse containing ScoreSubmissionMetaResponse objects matching the filter.
 
 Raises:
+    400: Invalid cursor or sort field.
     403: User does not have access to the specified account.
 
 ### Parameters
@@ -73,6 +76,9 @@ Raises:
 |account_id|query|any|false|none|
 |board_id|query|any|false|none|
 |device_id|query|any|false|none|
+|cursor|query|any|false|Pagination cursor for navigating results|
+|limit|query|integer|false|Number of items per page (1-100)|
+|sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
@@ -82,64 +88,28 @@ Raises:
 > 200 Response
 
 ```json
-[
-  {
-    "id": "string",
-    "score_id": "string",
-    "device_id": "string",
-    "board_id": "string",
-    "submission_count": 0,
-    "last_submission_at": "2019-08-24T14:15:22Z",
-    "last_score_value": 0,
-    "created_at": "2019-08-24T14:15:22Z",
-    "updated_at": "2019-08-24T14:15:22Z"
+{
+  "data": [
+    {
+      "id": "scr_123",
+      "value": 1000
+    }
+  ],
+  "pagination": {
+    "count": 20,
+    "has_next": true,
+    "has_prev": false,
+    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
   }
-]
+}
 ```
 
 ### Responses
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_ScoreSubmissionMetaResponse_](./schemas.md#paginatedresponse_scoresubmissionmetaresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-### Response Schema
-
-Status Code **200**
-
-*Response List Submission Meta V1 Score Submission Metadata Get*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Response List Submission Meta V1 Score Submission Metadata Get|[[ScoreSubmissionMetaResponse](./schemas.md#scoresubmissionmetaresponse)]|false|none|[Response model for score submission metadata.]|
-|» ScoreSubmissionMetaResponse|[ScoreSubmissionMetaResponse](./schemas.md#scoresubmissionmetaresponse)|false|none|Response model for score submission metadata.|
-|»» id|string|true|none|none|
-|»» score_id|string|true|none|none|
-|»» device_id|string|true|none|none|
-|»» board_id|string|true|none|none|
-|»» submission_count|integer|true|none|none|
-|»» last_submission_at|string(date-time)|true|none|none|
-|»» last_score_value|any|true|none|none|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|number|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» created_at|string(date-time)|true|none|none|
-|»» updated_at|string(date-time)|true|none|none|
 
 !!! success
     This operation does not require authentication
