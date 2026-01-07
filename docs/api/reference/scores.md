@@ -399,7 +399,7 @@ API routes for score flag management.
 **Functions:**
 
 - [**get_score_flag**](#leadr.scores.api.score_flag_routes.get_score_flag) – Get a score flag by ID.
-- [**list_score_flags**](#leadr.scores.api.score_flag_routes.list_score_flags) – List score flags for an account with optional filters.
+- [**list_score_flags**](#leadr.scores.api.score_flag_routes.list_score_flags) – List score flags for an account with optional filters and pagination.
 - [**update_score_flag**](#leadr.scores.api.score_flag_routes.update_score_flag) – Update a score flag (review or soft-delete).
 
 **Attributes:**
@@ -432,13 +432,14 @@ Get a score flag by ID.
 ###### `leadr.scores.api.score_flag_routes.list_score_flags`
 
 ```python
-list_score_flags(auth, service, account_id=None, board_id=None, game_id=None, status=None, flag_type=None)
+list_score_flags(auth, service, pagination, account_id=None, board_id=None, game_id=None, status=None, flag_type=None)
 ```
 
-List score flags for an account with optional filters.
+List score flags for an account with optional filters and pagination.
 
-Returns all non-deleted flags for the specified account, with optional
-filtering by board, game, status, or flag type.
+Returns paginated flags for the specified account, with optional
+filtering by board, game, status, or flag type. Supports cursor-based
+pagination with bidirectional navigation and custom sorting.
 
 For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id is optional - if omitted, returns flags from all accounts.
@@ -447,6 +448,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[ScoreFlagServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreFlagServiceDep)</code>) – Injected score flag service dependency.
+- **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
 - **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
@@ -455,10 +457,11 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 
 **Returns:**
 
-- <code>[list](#list)\[[ScoreFlagResponse](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse)\]</code> – List of ScoreFlagResponse objects matching the filter criteria.
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[ScoreFlagResponse](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse)\]</code> – PaginatedResponse containing ScoreFlagResponse objects matching the filter criteria.
 
 **Raises:**
 
+- <code>400</code> – Invalid cursor or sort field.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.scores.api.score_flag_routes.router`
@@ -756,7 +759,7 @@ Get a score by ID.
 ###### `leadr.scores.api.score_routes.handle_list_scores`
 
 ```python
-handle_list_scores(auth, service, pagination, account_id, board_id, game_id, device_id)
+handle_list_scores(auth, service, pagination, account_id, board_id, game_id, device_id, around_score_id=None)
 ```
 
 Handle list scores logic for both admin and client endpoints.
@@ -776,6 +779,7 @@ different response models based on the authentication type:
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID filter.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID filter.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID filter.
+- **around_score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None</code>) – Optional score ID to center results around.
 
 **Returns:**
 
@@ -783,12 +787,14 @@ different response models based on the authentication type:
 
 **Raises:**
 
-- <code>[HTTPException](#fastapi.HTTPException)</code> – 400 if cursor is invalid or sort field is invalid.
+- <code>[HTTPException](#fastapi.HTTPException)</code> – 400 if cursor is invalid, sort field is invalid,
+  or validation fails for around_score_id.
+- <code>[HTTPException](#fastapi.HTTPException)</code> – 404 if around_score_id score not found.
 
 ###### `leadr.scores.api.score_routes.list_scores_admin`
 
 ```python
-list_scores_admin(auth, service, pagination, account_id=None, board_id=None, game_id=None, device_id=None)
+list_scores_admin(auth, service, pagination, account_id=None, board_id=None, game_id=None, device_id=None, around_score_id=None)
 ```
 
 List scores for an account with optional filters and pagination.
@@ -808,10 +814,19 @@ Pagination:
   filter_city, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
+Around Score:
+
+- Use around_score_id to get scores centered around a specific score
+- Requires board_id to be specified
+- Mutually exclusive with cursor pagination
+- Returns a window of scores with the target in the middle
+- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
+
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
 GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 
 </details>
 
@@ -824,6 +839,7 @@ GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
+- **around_score_id** (<code>[Annotated](#typing.Annotated)\[[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None, [Query](#fastapi.Query)(description='Center results around this score ID')\]</code>) – Optional score ID to center results around.
 
 **Returns:**
 
@@ -831,20 +847,21 @@ GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 
 **Raises:**
 
-- <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
+- <code>400</code> – Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
 - <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
+- <code>404</code> – around_score_id score not found.
 
 ###### `leadr.scores.api.score_routes.list_scores_client`
 
 ```python
-list_scores_client(auth, service, pagination, board_id=None)
+list_scores_client(auth, service, pagination, board_id=None, device_id=None, around_score_id=None)
 ```
 
 List scores for an account with optional filters and pagination.
 
 Returns paginated scores for the specified account, with optional
-filtering by board. Supports cursor-based pagination
+filtering by board and/or device. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 Pagination:
@@ -855,10 +872,19 @@ Pagination:
   filter_city, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
+Around Score:
+
+- Use around_score_id to get scores centered around a specific score
+- Requires board_id to be specified
+- Mutually exclusive with cursor pagination
+- Returns a window of scores with the target in the middle
+- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
+
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
-GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 
 </details>
 
@@ -868,6 +894,8 @@ GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 - **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
+- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by (e.g., to get "my scores").
+- **around_score_id** (<code>[Annotated](#typing.Annotated)\[[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None, [Query](#fastapi.Query)(description='Center results around this score ID')\]</code>) – Optional score ID to center results around.
 
 **Returns:**
 
@@ -875,9 +903,9 @@ GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 
 **Raises:**
 
-- <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
-- <code>400</code> – Superadmin did not provide account_id.
+- <code>400</code> – Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
 - <code>403</code> – User does not have access to the specified account.
+- <code>404</code> – around_score_id score not found.
 
 ###### `leadr.scores.api.score_routes.router`
 
@@ -1420,7 +1448,7 @@ API routes for score submission metadata management.
 **Functions:**
 
 - [**get_submission_meta**](#leadr.scores.api.score_submission_meta_routes.get_submission_meta) – Get score submission metadata by ID.
-- [**list_submission_meta**](#leadr.scores.api.score_submission_meta_routes.list_submission_meta) – List score submission metadata for an account with optional filters.
+- [**list_submission_meta**](#leadr.scores.api.score_submission_meta_routes.list_submission_meta) – List score submission metadata for an account with optional filters and pagination.
 
 **Attributes:**
 
@@ -1452,13 +1480,14 @@ Get score submission metadata by ID.
 ###### `leadr.scores.api.score_submission_meta_routes.list_submission_meta`
 
 ```python
-list_submission_meta(auth, service, account_id=None, board_id=None, device_id=None)
+list_submission_meta(auth, service, pagination, account_id=None, board_id=None, device_id=None)
 ```
 
-List score submission metadata for an account with optional filters.
+List score submission metadata for an account with optional filters and pagination.
 
-Returns all non-deleted submission metadata for the specified account, with optional
-filtering by board or device.
+Returns paginated submission metadata for the specified account, with optional
+filtering by board or device. Supports cursor-based pagination with bidirectional
+navigation and custom sorting.
 
 For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id is optional - if omitted, returns metadata from all accounts.
@@ -1467,16 +1496,18 @@ For superadmins, account_id is optional - if omitted, returns metadata from all 
 
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[ScoreSubmissionMetaServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreSubmissionMetaServiceDep)</code>) – Injected submission metadata service dependency.
+- **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
 - **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
 
 **Returns:**
 
-- <code>[list](#list)\[[ScoreSubmissionMetaResponse](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse)\]</code> – List of ScoreSubmissionMetaResponse objects matching the filter criteria.
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[ScoreSubmissionMetaResponse](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse)\]</code> – PaginatedResponse containing ScoreSubmissionMetaResponse objects matching the filter.
 
 **Raises:**
 
+- <code>400</code> – Invalid cursor or sort field.
 - <code>403</code> – User does not have access to the specified account.
 
 ###### `leadr.scores.api.score_submission_meta_routes.router`
@@ -3070,7 +3101,7 @@ Repository for managing score flag persistence.
 
 - [**create**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.create) – Create a new entity in the database.
 - [**delete**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.filter) – Filter flags by account and optional criteria.
+- [**filter**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.filter) – Filter flags by account and optional criteria with pagination.
 - [**get_by_id**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_by_id) – Get an entity by its ID.
 - [**get_flags_by_score_id**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_flags_by_score_id) – Get all flags for a specific score.
 - [**get_pending_flags**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_pending_flags) – Get all pending (unreviewed) flags.
@@ -3078,7 +3109,14 @@ Repository for managing score flag persistence.
 
 **Attributes:**
 
+- [**SORTABLE_FIELDS**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.SORTABLE_FIELDS) –
 - [**session**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.session) –
+
+####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.SORTABLE_FIELDS`
+
+```python
+SORTABLE_FIELDS = {'id', 'score_id', 'flag_type', 'confidence', 'status', 'created_at', 'updated_at'}
+```
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.create`
 
@@ -3115,10 +3153,10 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.filter`
 
 ```python
-filter(account_id=None, board_id=None, game_id=None, status=None, flag_type=None, **kwargs)
+filter(account_id=None, board_id=None, game_id=None, status=None, flag_type=None, *, pagination, **kwargs)
 ```
 
-Filter flags by account and optional criteria.
+Filter flags by account and optional criteria with pagination.
 
 Joins with scores table to filter by account_id since flags don't have
 a direct account relation.
@@ -3131,11 +3169,12 @@ a direct account relation.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **status** (<code>[str](#str) | None</code>) – Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.)
 - **flag_type** (<code>[str](#str) | None</code>) – Optional flag type to filter by (VELOCITY, DUPLICATE, etc.)
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[ScoreFlag](#leadr.scores.domain.anti_cheat.models.ScoreFlag)\]</code> – List of flags for the account matching the filter criteria
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ScoreFlag](#leadr.scores.domain.anti_cheat.models.ScoreFlag)\]</code> – PaginatedResult containing flags matching the filter criteria
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_by_id`
 
@@ -3218,14 +3257,21 @@ Repository for managing score submission metadata persistence.
 
 - [**create**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.create) – Create a new entity in the database.
 - [**delete**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.filter) – Filter submission metadata by account and optional criteria.
+- [**filter**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.filter) – Filter submission metadata by account and optional criteria with pagination.
 - [**get_by_device_and_board**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_device_and_board) – Get submission metadata for a device/board combination.
 - [**get_by_id**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_id) – Get an entity by its ID.
 - [**update**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
 
+- [**SORTABLE_FIELDS**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.SORTABLE_FIELDS) –
 - [**session**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.session) –
+
+####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.SORTABLE_FIELDS`
+
+```python
+SORTABLE_FIELDS = {'id', 'device_id', 'board_id', 'submission_count', 'last_submission_at', 'last_score_value', 'created_at', 'updated_at'}
+```
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.create`
 
@@ -3262,10 +3308,10 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.filter`
 
 ```python
-filter(account_id=None, board_id=None, device_id=None, **kwargs)
+filter(account_id=None, board_id=None, device_id=None, *, pagination, **kwargs)
 ```
 
-Filter submission metadata by account and optional criteria.
+Filter submission metadata by account and optional criteria with pagination.
 
 Joins with scores table to filter by account_id since submission meta doesn't have
 a direct account relation.
@@ -3276,11 +3322,12 @@ a direct account relation.
   (superadmin use case). Regular users should always pass account_id.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[ScoreSubmissionMeta](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta)\]</code> – List of submission metadata for the account matching the filter criteria
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ScoreSubmissionMeta](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta)\]</code> – PaginatedResult containing submission metadata matching the filter criteria
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_device_and_board`
 
@@ -3511,6 +3558,7 @@ Score repository for managing score persistence.
 - [**create**](./scores.md#leadr.scores.services.repositories.ScoreRepository.create) – Create a new entity in the database.
 - [**delete**](./scores.md#leadr.scores.services.repositories.ScoreRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
 - [**filter**](./scores.md#leadr.scores.services.repositories.ScoreRepository.filter) – Filter scores by account and optional criteria.
+- [**get_by_device_and_board**](#leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board) – Get the active score for a specific device on a board.
 - [**get_by_id**](#leadr.scores.services.repositories.ScoreRepository.get_by_id) – Get an entity by its ID.
 - [**update**](./scores.md#leadr.scores.services.repositories.ScoreRepository.update) – Update an existing entity in the database.
 
@@ -3560,29 +3608,52 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.scores.services.repositories.ScoreRepository.filter`
 
 ```python
-filter(account_id=None, board_id=None, game_id=None, device_id=None, pagination=None, **kwargs)
+filter(account_id=None, board_id=None, game_id=None, device_id=None, *, pagination, around_score=None, **kwargs)
 ```
 
 Filter scores by account and optional criteria.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – Optional account ID to filter by. If None, returns all scores
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all scores
   (superadmin use case). Regular users should always pass account_id.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
+- **around_score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score) | None</code>) – Optional target score to center results around. When provided,
+  returns a window of scores centered on this score (mutually exclusive
+  with cursor pagination).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[Score](./scores.md#leadr.scores.domain.score.Score)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Score](./scores.md#leadr.scores.domain.score.Score)\]</code> – List of scores if no pagination, PaginatedResult if pagination provided
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Score](./scores.md#leadr.scores.domain.score.Score)\]</code> – PaginatedResult containing scores
 
 **Raises:**
 
 - <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
 - <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
+
+####### `leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board`
+
+```python
+get_by_device_and_board(account_id, device_id, board_id)
+```
+
+Get the active score for a specific device on a board.
+
+This is an optimized single-record lookup for keep_strategy logic.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – Account ID to filter by (multi-tenant safety).
+- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – Device ID to search for.
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to search for.
+
+**Returns:**
+
+- <code>[Score](./scores.md#leadr.scores.domain.score.Score) | None</code> – The first matching Score or None if no score exists.
 
 ####### `leadr.scores.services.repositories.ScoreRepository.get_by_id`
 
@@ -3651,7 +3722,7 @@ by coordinating between the domain models and repository layer.
 - [**get_by_id_or_raise**](#leadr.scores.services.score_flag_service.ScoreFlagService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**get_flag**](#leadr.scores.services.score_flag_service.ScoreFlagService.get_flag) – Get a flag by its ID.
 - [**list_all**](#leadr.scores.services.score_flag_service.ScoreFlagService.list_all) – List all non-deleted entities.
-- [**list_flags**](#leadr.scores.services.score_flag_service.ScoreFlagService.list_flags) – List score flags for an account with optional filters.
+- [**list_flags**](#leadr.scores.services.score_flag_service.ScoreFlagService.list_flags) – List score flags for an account with optional filters and pagination.
 - [**review_flag**](#leadr.scores.services.score_flag_service.ScoreFlagService.review_flag) – Review a flag and update its status.
 - [**soft_delete**](#leadr.scores.services.score_flag_service.ScoreFlagService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_flag**](#leadr.scores.services.score_flag_service.ScoreFlagService.update_flag) – Update a flag's status and/or reviewer decision.
@@ -3751,10 +3822,10 @@ List all non-deleted entities.
 ####### `leadr.scores.services.score_flag_service.ScoreFlagService.list_flags`
 
 ```python
-list_flags(account_id, board_id=None, game_id=None, status=None, flag_type=None)
+list_flags(account_id, board_id=None, game_id=None, status=None, flag_type=None, *, pagination)
 ```
 
-List score flags for an account with optional filters.
+List score flags for an account with optional filters and pagination.
 
 **Parameters:**
 
@@ -3764,10 +3835,11 @@ List score flags for an account with optional filters.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **status** (<code>[str](#str) | None</code>) – Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.)
 - **flag_type** (<code>[str](#str) | None</code>) – Optional flag type to filter by (VELOCITY, DUPLICATE, etc.)
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 
 **Returns:**
 
-- <code>[list](#list)\[[ScoreFlag](#leadr.scores.domain.anti_cheat.models.ScoreFlag)\]</code> – List of flags matching the filter criteria
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ScoreFlag](#leadr.scores.domain.anti_cheat.models.ScoreFlag)\]</code> – PaginatedResult containing flags matching the filter criteria
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -3775,6 +3847,7 @@ List score flags for an account with optional filters.
 > > > flags = await service.list_flags(
 > > > ... account_id=account.id,
 > > > ... status="PENDING",
+> > > ... pagination=PaginationParams(cursor=None, limit=100, sort=None),
 > > > ... )
 
 </details>
@@ -4039,7 +4112,7 @@ List all non-deleted entities.
 ####### `leadr.scores.services.score_service.ScoreService.list_scores`
 
 ```python
-list_scores(account_id, board_id=None, game_id=None, device_id=None, pagination=None)
+list_scores(account_id, board_id=None, game_id=None, device_id=None, *, pagination, around_score_id=None)
 ```
 
 List scores for an account with optional filters and pagination.
@@ -4051,11 +4124,19 @@ List scores for an account with optional filters and pagination.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
+- **around_score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None</code>) – Optional score ID to center results around. When provided,
+  returns a window of scores centered on this score. Mutually exclusive
+  with cursor pagination.
 
 **Returns:**
 
-- <code>[list](#list)\[[Score](./scores.md#leadr.scores.domain.score.Score)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Score](./scores.md#leadr.scores.domain.score.Score)\]</code> – List of Score entities if no pagination, PaginatedResult if pagination provided.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Score](./scores.md#leadr.scores.domain.score.Score)\]</code> – PaginatedResult containing scores.
+
+**Raises:**
+
+- <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If around_score_id is provided but score doesn't exist.
+- <code>[ValueError](#ValueError)</code> – If around_score_id score doesn't belong to the specified board_id.
 
 ####### `leadr.scores.services.score_service.ScoreService.repository`
 
@@ -4153,7 +4234,7 @@ Provides read-only access to submission metadata for debugging and analysis.
 - [**get_by_id_or_raise**](#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**get_submission_meta**](#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.get_submission_meta) – Get submission metadata by its ID.
 - [**list_all**](#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_all) – List all non-deleted entities.
-- [**list_submission_meta**](#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_submission_meta) – List score submission metadata for an account with optional filters.
+- [**list_submission_meta**](#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_submission_meta) – List score submission metadata for an account with optional filters and pagination.
 - [**soft_delete**](#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.soft_delete) – Soft-delete an entity and return it before deletion.
 
 **Attributes:**
@@ -4251,10 +4332,10 @@ List all non-deleted entities.
 ####### `leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_submission_meta`
 
 ```python
-list_submission_meta(account_id, board_id=None, device_id=None)
+list_submission_meta(account_id, board_id=None, device_id=None, *, pagination)
 ```
 
-List score submission metadata for an account with optional filters.
+List score submission metadata for an account with optional filters and pagination.
 
 **Parameters:**
 
@@ -4262,10 +4343,11 @@ List score submission metadata for an account with optional filters.
   (superadmin use case).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 
 **Returns:**
 
-- <code>[list](#list)\[[ScoreSubmissionMeta](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta)\]</code> – List of submission metadata matching the filter criteria
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ScoreSubmissionMeta](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta)\]</code> – PaginatedResult containing submission metadata matching the filter criteria
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -4273,6 +4355,7 @@ List score submission metadata for an account with optional filters.
 > > > metas = await service.list_submission_meta(
 > > > ... account_id=account.id,
 > > > ... board_id=board.id,
+> > > ... pagination=PaginationParams(cursor=None, limit=100, sort=None),
 > > > ... )
 
 </details>

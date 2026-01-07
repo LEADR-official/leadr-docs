@@ -45,10 +45,11 @@
     ```
 `GET /v1/score-flags`
 
-List score flags for an account with optional filters.
+List score flags for an account with optional filters and pagination.
 
-Returns all non-deleted flags for the specified account, with optional
-filtering by board, game, status, or flag type.
+Returns paginated flags for the specified account, with optional
+filtering by board, game, status, or flag type. Supports cursor-based
+pagination with bidirectional navigation and custom sorting.
 
 For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id is optional - if omitted, returns flags from all accounts.
@@ -56,6 +57,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 Args:
     auth: Authentication context with user info.
     service: Injected score flag service dependency.
+    pagination: Pagination parameters (cursor, limit, sort).
     account_id: Optional account_id query parameter (superadmins can omit to see all).
     board_id: Optional board ID to filter by.
     game_id: Optional game ID to filter by.
@@ -63,9 +65,10 @@ Args:
     flag_type: Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).
 
 Returns:
-    List of ScoreFlagResponse objects matching the filter criteria.
+    PaginatedResponse containing ScoreFlagResponse objects matching the filter criteria.
 
 Raises:
+    400: Invalid cursor or sort field.
     403: User does not have access to the specified account.
 
 ### Parameters
@@ -77,6 +80,9 @@ Raises:
 |game_id|query|any|false|none|
 |status|query|any|false|none|
 |flag_type|query|any|false|none|
+|cursor|query|any|false|Pagination cursor for navigating results|
+|limit|query|integer|false|Number of items per page (1-100)|
+|sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
@@ -86,102 +92,28 @@ Raises:
 > 200 Response
 
 ```json
-[
-  {
-    "id": "string",
-    "score_id": "string",
-    "flag_type": "string",
-    "confidence": "string",
-    "metadata": {},
-    "status": "string",
-    "reviewed_at": "2019-08-24T14:15:22Z",
-    "reviewer_id": "string",
-    "reviewer_decision": "string",
-    "created_at": "2019-08-24T14:15:22Z",
-    "updated_at": "2019-08-24T14:15:22Z"
+{
+  "data": [
+    {
+      "id": "scr_123",
+      "value": 1000
+    }
+  ],
+  "pagination": {
+    "count": 20,
+    "has_next": true,
+    "has_prev": false,
+    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
   }
-]
+}
 ```
 
 ### Responses
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|Inline|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_ScoreFlagResponse_](./schemas.md#paginatedresponse_scoreflagresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-### Response Schema
-
-Status Code **200**
-
-*Response List Score Flags V1 Score Flags Get*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Response List Score Flags V1 Score Flags Get|[[ScoreFlagResponse](./schemas.md#scoreflagresponse)]|false|none|[Response model for a score flag.]|
-|» ScoreFlagResponse|[ScoreFlagResponse](./schemas.md#scoreflagresponse)|false|none|Response model for a score flag.|
-|»» id|string|true|none|Unique identifier for the score flag|
-|»» score_id|string|true|none|ID of the score that was flagged|
-|»» flag_type|string|true|none|Type of flag (e.g., VELOCITY, DUPLICATE, RATE_LIMIT)|
-|»» confidence|string|true|none|Confidence level of the flag (LOW, MEDIUM, HIGH)|
-|»» metadata|object|true|none|Additional metadata about the flag|
-|»» status|string|true|none|Status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED|
-|»» reviewed_at|any|false|none|Timestamp when flag was reviewed, or null|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|string(date-time)|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» reviewer_id|any|false|none|ID of the user who reviewed this flag, or null|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|string|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» reviewer_decision|any|false|none|Admin's decision/notes, or null|
-
-*anyOf*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|string|false|none|none|
-
-*or*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»»» *anonymous*|null|false|none|none|
-
-*continued*
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|»» created_at|string(date-time)|true|none|Timestamp when the flag was created (UTC)|
-|»» updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
 !!! success
     This operation does not require authentication

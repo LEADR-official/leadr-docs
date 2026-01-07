@@ -151,7 +151,8 @@ Raises:
   ],
   "description": "string",
   "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
+  "updated_at": "2019-08-24T14:15:22Z",
+  "url_short": "string"
 }
 ```
 
@@ -412,7 +413,8 @@ Raises:
   ],
   "description": "string",
   "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
+  "updated_at": "2019-08-24T14:15:22Z",
+  "url_short": "string"
 }
 ```
 
@@ -570,7 +572,8 @@ Raises:
   ],
   "description": "string",
   "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
+  "updated_at": "2019-08-24T14:15:22Z",
+  "url_short": "string"
 }
 ```
 

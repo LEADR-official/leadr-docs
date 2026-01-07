@@ -606,7 +606,7 @@ GET /v1/boards?starts_after=2025-01-01T00:00:00Z&ends_before=2025-12-31T23:59:59
 ###### `leadr.boards.api.board_routes.list_boards_client`
 
 ```python
-list_boards_client(auth, service, game_service, pagination, game_id=None, code=None, game_slug=None, slug=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None)
+list_boards_client(auth, service, game_service, pagination, game_id=None, code=None, game_slug=None, slug=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None)
 ```
 
 List boards (Client API).
@@ -619,7 +619,6 @@ Filtering:
 - Use ?game_id={id} or ?game_slug={slug} to filter boards by game
 - Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game
 - Use ?code={code} to filter boards by short code
-- Use ?is_active=true/false to filter by active status
 - Use ?is_published=true/false to filter by published status
 - Use ?starts_before=<datetime>&starts_after=<datetime> for start date range
 - Use ?ends_before=<datetime>&ends_after=<datetime> for end date range
@@ -636,7 +635,7 @@ Pagination:
 <summary>Example</summary>
 
 GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50
-GET /v1/client/boards?game_slug=my-game&is_active=true
+GET /v1/client/boards?game_slug=my-game&is_published=true
 GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
 GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 
@@ -652,7 +651,6 @@ GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 - **code** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by short code')\]</code>) – Optional short code to filter boards by.
 - **game_slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by game slug')\]</code>) – Optional game slug to filter boards by game (resolves to game_id).
 - **slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by board slug (requires game_slug)')\]</code>) – Optional board slug to filter by specific board (requires game_slug).
-- **is_active** (<code>[Annotated](#typing.Annotated)\[[bool](#bool) | None, [Query](#fastapi.Query)(description='Filter by active status')\]</code>) – Optional filter for active status.
 - **is_published** (<code>[Annotated](#typing.Annotated)\[[bool](#bool) | None, [Query](#fastapi.Query)(description='Filter by published status')\]</code>) – Optional filter for published status.
 - **starts_before** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards starting before this time (ISO 8601)')\]</code>) – Optional filter for boards starting before this time.
 - **starts_after** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards starting after this time (ISO 8601)')\]</code>) – Optional filter for boards starting after this time.
@@ -876,6 +874,7 @@ Response model for a board.
 - [**template_name**](#leadr.boards.api.board_schemas.BoardResponse.template_name) (<code>[str](#str) | None</code>) –
 - [**unit**](#leadr.boards.api.board_schemas.BoardResponse.unit) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.boards.api.board_schemas.BoardResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**url_short**](#leadr.boards.api.board_schemas.BoardResponse.url_short) (<code>[str](#str) | None</code>) – Short URL for direct board access via short_code.
 
 ####### `leadr.boards.api.board_schemas.BoardResponse.account_id`
 
@@ -1012,6 +1011,17 @@ unit: str | None = Field(description='Unit of measurement for scores, or null')
 ```python
 updated_at: datetime = Field(description='Timestamp of last update (UTC)')
 ```
+
+####### `leadr.boards.api.board_schemas.BoardResponse.url_short`
+
+```python
+url_short: str | None
+```
+
+Short URL for direct board access via short_code.
+
+Returns the URL if BOARDS_UI_DOMAIN is configured and the board is published,
+otherwise None.
 
 ###### `leadr.boards.api.board_schemas.BoardUpdateRequest`
 
@@ -2513,7 +2523,7 @@ Ensures business rules like game validation are enforced.
 - [**get_by_id**](#leadr.boards.services.board_service.BoardService.get_by_id) – Get an entity by its ID.
 - [**get_by_id_or_raise**](#leadr.boards.services.board_service.BoardService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**list_all**](#leadr.boards.services.board_service.BoardService.list_all) – List all non-deleted entities.
-- [**list_boards**](#leadr.boards.services.board_service.BoardService.list_boards) – List boards with optional filtering.
+- [**list_boards**](#leadr.boards.services.board_service.BoardService.list_boards) – List boards with optional filtering and pagination.
 - [**list_boards_by_account**](#leadr.boards.services.board_service.BoardService.list_boards_by_account) – List all boards for an account.
 - [**soft_delete**](#leadr.boards.services.board_service.BoardService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_board**](#leadr.boards.services.board_service.BoardService.update_board) – Update board fields.
@@ -2709,27 +2719,28 @@ List all non-deleted entities.
 ####### `leadr.boards.services.board_service.BoardService.list_boards`
 
 ```python
-list_boards(account_id=None, game_id=None, code=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None, pagination=None)
+list_boards(account_id=None, game_id=None, code=None, slug=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None, *, pagination)
 ```
 
-List boards with optional filtering.
+List boards with optional filtering and pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **code** (<code>[str](#str) | None</code>) – Optional short code to filter by
+- **slug** (<code>[str](#str) | None</code>) – Optional slug to filter by
 - **is_active** (<code>[bool](#bool) | None</code>) – Optional filter for active status
 - **is_published** (<code>[bool](#bool) | None</code>) – Optional filter for published status
 - **starts_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting before this time
 - **starts_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting after this time
 - **ends_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending before this time
 - **ends_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending after this time
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 
 **Returns:**
 
-- <code>[list](#list)\[[Board](./boards.md#leadr.boards.domain.board.Board)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Board](./boards.md#leadr.boards.domain.board.Board)\]</code> – List of Board entities if no pagination, PaginatedResult if pagination provided.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Board](./boards.md#leadr.boards.domain.board.Board)\]</code> – PaginatedResult containing Board entities matching the filter criteria.
 
 ####### `leadr.boards.services.board_service.BoardService.list_boards_by_account`
 
@@ -2885,8 +2896,8 @@ Ensures business rules like game validation are enforced.
 - [**get_by_id**](#leadr.boards.services.board_template_service.BoardTemplateService.get_by_id) – Get an entity by its ID.
 - [**get_by_id_or_raise**](#leadr.boards.services.board_template_service.BoardTemplateService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**list_all**](#leadr.boards.services.board_template_service.BoardTemplateService.list_all) – List all non-deleted entities.
-- [**list_board_templates_by_account**](#leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_account) – List all board templates for an account with optional pagination.
-- [**list_board_templates_by_game**](#leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_game) – List all board templates for a specific game with optional pagination.
+- [**list_board_templates_by_account**](#leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_account) – List all board templates for an account with pagination.
+- [**list_board_templates_by_game**](#leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_game) – List all board templates for a specific game with pagination.
 - [**soft_delete**](#leadr.boards.services.board_template_service.BoardTemplateService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_board_template**](#leadr.boards.services.board_template_service.BoardTemplateService.update_board_template) – Update board template fields.
 
@@ -3057,39 +3068,39 @@ List all non-deleted entities.
 ####### `leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_account`
 
 ```python
-list_board_templates_by_account(account_id, pagination=None)
+list_board_templates_by_account(account_id, *, pagination)
 ```
 
-List all board templates for an account with optional pagination.
+List all board templates for an account with pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – The ID of the account to list templates for. If None, returns all
   templates (superadmin use case).
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 
 **Returns:**
 
-- <code>[list](#list)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\]</code> – List of BoardTemplate entities if no pagination, PaginatedResult if pagination provided.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\]</code> – PaginatedResult containing BoardTemplate entities matching the filter criteria.
 
 ####### `leadr.boards.services.board_template_service.BoardTemplateService.list_board_templates_by_game`
 
 ```python
-list_board_templates_by_game(account_id, game_id, pagination=None)
+list_board_templates_by_game(account_id, game_id, *, pagination)
 ```
 
-List all board templates for a specific game with optional pagination.
+List all board templates for a specific game with pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – The ID of the account. If None, returns templates from all accounts
   (superadmin use case).
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The ID of the game to list templates for.
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 
 **Returns:**
 
-- <code>[list](#list)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\]</code> – List of BoardTemplate entities if no pagination, PaginatedResult if pagination provided.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\]</code> – PaginatedResult containing BoardTemplate entities matching the filter criteria.
 
 ####### `leadr.boards.services.board_template_service.BoardTemplateService.repository`
 
@@ -3226,11 +3237,9 @@ Board repository for managing board persistence.
 - [**count_boards_by_template**](#leadr.boards.services.repositories.BoardRepository.count_boards_by_template) – Count boards created from a specific template.
 - [**create**](./boards.md#leadr.boards.services.repositories.BoardRepository.create) – Create a new entity in the database.
 - [**delete**](./boards.md#leadr.boards.services.repositories.BoardRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./boards.md#leadr.boards.services.repositories.BoardRepository.filter) – Filter boards by account and optional criteria.
+- [**filter**](./boards.md#leadr.boards.services.repositories.BoardRepository.filter) – Filter boards with optional criteria and pagination.
 - [**get_by_id**](#leadr.boards.services.repositories.BoardRepository.get_by_id) – Get an entity by its ID.
 - [**get_by_short_code**](#leadr.boards.services.repositories.BoardRepository.get_by_short_code) – Get board by short_code.
-- [**get_by_slug**](#leadr.boards.services.repositories.BoardRepository.get_by_slug) – Get board by slug within account and game scope.
-- [**list_boards**](#leadr.boards.services.repositories.BoardRepository.list_boards) – List boards with optional filtering.
 - [**update**](./boards.md#leadr.boards.services.repositories.BoardRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
@@ -3295,20 +3304,33 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.boards.services.repositories.BoardRepository.filter`
 
 ```python
-filter(account_id=None, **kwargs)
+filter(account_id=None, game_id=None, code=None, slug=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None, *, pagination, **kwargs)
 ```
 
-Filter boards by account and optional criteria.
+Filter boards with optional criteria and pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – Optional account ID to filter by. If None, returns all boards
-  (superadmin use case). Regular users should always pass account_id.
-- \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
+- **code** (<code>[str](#str) | None</code>) – Optional short code to filter by
+- **slug** (<code>[str](#str) | None</code>) – Optional slug to filter by
+- **is_active** (<code>[bool](#bool) | None</code>) – Optional filter for active status
+- **is_published** (<code>[bool](#bool) | None</code>) – Optional filter for published status
+- **starts_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting before this time
+- **starts_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting after this time
+- **ends_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending before this time
+- **ends_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending after this time
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 
 **Returns:**
 
-- <code>[list](#list)\[[Board](./boards.md#leadr.boards.domain.board.Board)\]</code> – List of boards for the account matching the filter criteria
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Board](./boards.md#leadr.boards.domain.board.Board)\]</code> – PaginatedResult containing boards matching the filter criteria
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
+- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
 ####### `leadr.boards.services.repositories.BoardRepository.get_by_id`
 
@@ -3342,59 +3364,6 @@ Get board by short_code.
 **Returns:**
 
 - <code>[Board](./boards.md#leadr.boards.domain.board.Board) | None</code> – Board entity if found, None otherwise
-
-####### `leadr.boards.services.repositories.BoardRepository.get_by_slug`
-
-```python
-get_by_slug(account_id, game_id, slug, is_active=None)
-```
-
-Get board by slug within account and game scope.
-
-Lookups are scoped to account_id and game_id to respect the partial
-unique constraint (account_id, game_id, slug) WHERE is_active=true.
-
-**Parameters:**
-
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID to filter by
-- **game_id** (<code>[UUID4](#pydantic.UUID4) | [GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The game ID to filter by
-- **slug** (<code>[str](#str)</code>) – The slug to search for
-- **is_active** (<code>[bool](#bool) | None</code>) – Optional filter for active status. If None, returns board
-  regardless of active status.
-
-**Returns:**
-
-- <code>[Board](./boards.md#leadr.boards.domain.board.Board) | None</code> – Board entity if found, None otherwise
-
-####### `leadr.boards.services.repositories.BoardRepository.list_boards`
-
-```python
-list_boards(account_id=None, game_id=None, code=None, is_active=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None, pagination=None)
-```
-
-List boards with optional filtering.
-
-**Parameters:**
-
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by
-- **game_id** (<code>[UUID4](#pydantic.UUID4) | [GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
-- **code** (<code>[str](#str) | None</code>) – Optional short code to filter by
-- **is_active** (<code>[bool](#bool) | None</code>) – Optional filter for active status
-- **is_published** (<code>[bool](#bool) | None</code>) – Optional filter for published status
-- **starts_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting before this time
-- **starts_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards starting after this time
-- **ends_before** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending before this time
-- **ends_after** (<code>[datetime](#datetime.datetime) | None</code>) – Optional filter for boards ending after this time
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
-
-**Returns:**
-
-- <code>[list](#list)\[[Board](./boards.md#leadr.boards.domain.board.Board)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Board](./boards.md#leadr.boards.domain.board.Board)\]</code> – List of boards if no pagination, PaginatedResult if pagination provided
-
-**Raises:**
-
-- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
-- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
 ####### `leadr.boards.services.repositories.BoardRepository.session`
 
@@ -3432,7 +3401,7 @@ BoardTemplate repository for managing board template persistence.
 
 - [**create**](./boards.md#leadr.boards.services.repositories.BoardTemplateRepository.create) – Create a new entity in the database.
 - [**delete**](./boards.md#leadr.boards.services.repositories.BoardTemplateRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./boards.md#leadr.boards.services.repositories.BoardTemplateRepository.filter) – Filter board templates by account and optional game.
+- [**filter**](./boards.md#leadr.boards.services.repositories.BoardTemplateRepository.filter) – Filter board templates by account and optional game with pagination.
 - [**get_by_id**](#leadr.boards.services.repositories.BoardTemplateRepository.get_by_id) – Get an entity by its ID.
 - [**update**](./boards.md#leadr.boards.services.repositories.BoardTemplateRepository.update) – Update an existing entity in the database.
 
@@ -3482,22 +3451,22 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.boards.services.repositories.BoardTemplateRepository.filter`
 
 ```python
-filter(account_id=None, game_id=None, pagination=None, **kwargs)
+filter(account_id=None, game_id=None, *, pagination, **kwargs)
 ```
 
-Filter board templates by account and optional game.
+Filter board templates by account and optional game with pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all templates
   (superadmin use case). Regular users should always pass account_id.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – OPTIONAL - Game ID to filter by
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\]</code> – List of board templates if no pagination, PaginatedResult if pagination provided
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)\]</code> – PaginatedResult containing board templates matching the filter criteria
 
 **Raises:**
 

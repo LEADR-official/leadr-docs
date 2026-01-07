@@ -1067,17 +1067,24 @@ Repository for Email entities.
 
 - [**create**](#leadr.infra.email.adapters.repositories.EmailRepository.create) – Create a new entity in the database.
 - [**delete**](#leadr.infra.email.adapters.repositories.EmailRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](#leadr.infra.email.adapters.repositories.EmailRepository.filter) – Filter emails by criteria.
+- [**filter**](#leadr.infra.email.adapters.repositories.EmailRepository.filter) – Filter emails by criteria with pagination.
 - [**get_by_id**](#leadr.infra.email.adapters.repositories.EmailRepository.get_by_id) – Get an entity by its ID.
 - [**update**](#leadr.infra.email.adapters.repositories.EmailRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
 
+- [**SORTABLE_FIELDS**](#leadr.infra.email.adapters.repositories.EmailRepository.SORTABLE_FIELDS) –
 - [**session**](#leadr.infra.email.adapters.repositories.EmailRepository.session) –
 
 **Parameters:**
 
 - **db** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – Database session.
+
+######## `leadr.infra.email.adapters.repositories.EmailRepository.SORTABLE_FIELDS`
+
+```python
+SORTABLE_FIELDS = {'id', 'to', 'status', 'priority', 'created_at', 'sent_at', 'updated_at'}
+```
 
 ######## `leadr.infra.email.adapters.repositories.EmailRepository.create`
 
@@ -1114,19 +1121,25 @@ Soft delete an entity by setting its deleted_at timestamp.
 ######## `leadr.infra.email.adapters.repositories.EmailRepository.filter`
 
 ```python
-filter(account_id=None, **kwargs)
+filter(account_id=None, *, pagination, **kwargs)
 ```
 
-Filter emails by criteria.
+Filter emails by criteria with pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[Any](#typing.Any) | None</code>) – Not used for emails (top-level entity).
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Filter parameters (to, status, etc.)
 
 **Returns:**
 
-- <code>[list](#list)\[[Email](./infra.md#leadr.infra.email.domain.models.Email)\]</code> – List of matching Email entities.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Email](./infra.md#leadr.infra.email.domain.models.Email)\]</code> – Paginated result of matching Email entities.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS.
+- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match.
 
 ######## `leadr.infra.email.adapters.repositories.EmailRepository.get_by_id`
 

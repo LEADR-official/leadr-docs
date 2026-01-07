@@ -3742,6 +3742,9 @@ list_account_api_keys(account_id, active_only=False)
 
 List all API keys for an account.
 
+This is an internal helper that returns a plain list. API keys per account
+are typically limited, so pagination isn't needed for internal use cases.
+
 **Parameters:**
 
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID to list keys for.
@@ -3766,7 +3769,7 @@ List all non-deleted entities.
 ####### `leadr.auth.services.api_key_service.APIKeyService.list_api_keys`
 
 ```python
-list_api_keys(account_id, status=None, pagination=None)
+list_api_keys(account_id, *, status=None, pagination)
 ```
 
 List API keys for an account with optional filters and pagination.
@@ -3776,11 +3779,11 @@ List API keys for an account with optional filters and pagination.
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all API keys
   (superadmin use case).
 - **status** (<code>[str](#str) | None</code>) – Optional status string to filter by.
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 
 **Returns:**
 
-- <code>[list](#list)\[[APIKey](#leadr.auth.domain.api_key.APIKey)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[APIKey](#leadr.auth.domain.api_key.APIKey)\]</code> – List of APIKey entities if no pagination, PaginatedResult if pagination provided.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[APIKey](#leadr.auth.domain.api_key.APIKey)\]</code> – PaginatedResult containing APIKey entities.
 
 ####### `leadr.auth.services.api_key_service.APIKeyService.record_usage`
 
@@ -4236,7 +4239,7 @@ List all non-deleted entities.
 ####### `leadr.auth.services.device_service.DeviceService.list_devices`
 
 ```python
-list_devices(account_id, game_id=None, status=None, pagination=None)
+list_devices(account_id, *, game_id=None, status=None, pagination)
 ```
 
 List devices for an account with optional filters and pagination.
@@ -4247,11 +4250,11 @@ List devices for an account with optional filters and pagination.
   (superadmin use case).
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **status** (<code>[str](#str) | None</code>) – Optional status to filter by (active, banned, suspended)
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 
 **Returns:**
 
-- <code>[list](#list)\[[Device](./auth.md#leadr.auth.domain.device.Device)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Device](./auth.md#leadr.auth.domain.device.Device)\]</code> – List of Device entities if no pagination, PaginatedResult if pagination provided
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Device](./auth.md#leadr.auth.domain.device.Device)\]</code> – PaginatedResult containing Device entities.
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -4259,6 +4262,7 @@ List devices for an account with optional filters and pagination.
 > > > devices = await service.list_devices(
 > > > ... account_id=account.id,
 > > > ... status="active",
+> > > ... pagination=pagination,
 > > > ... )
 
 </details>
@@ -4266,7 +4270,7 @@ List devices for an account with optional filters and pagination.
 ####### `leadr.auth.services.device_service.DeviceService.list_sessions`
 
 ```python
-list_sessions(account_id, device_id=None, pagination=None)
+list_sessions(account_id, *, device_id=None, pagination)
 ```
 
 List device sessions for an account with optional filters and pagination.
@@ -4276,11 +4280,11 @@ List device sessions for an account with optional filters and pagination.
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all sessions
   (superadmin use case).
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 
 **Returns:**
 
-- <code>[list](#list)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)\]</code> – List of DeviceSession entities if no pagination, PaginatedResult if pagination provided
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)\]</code> – PaginatedResult containing DeviceSession entities.
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -4288,6 +4292,7 @@ List device sessions for an account with optional filters and pagination.
 > > > sessions = await service.list_sessions(
 > > > ... account_id=account.id,
 > > > ... device_id=device.id,
+> > > ... pagination=pagination,
 > > > ... )
 
 </details>
@@ -4925,7 +4930,7 @@ API Key repository for managing API key persistence.
 - [**count_active_by_account**](#leadr.auth.services.repositories.APIKeyRepository.count_active_by_account) – Count active, non-deleted API keys for a given account.
 - [**create**](./auth.md#leadr.auth.services.repositories.APIKeyRepository.create) – Create a new entity in the database.
 - [**delete**](./auth.md#leadr.auth.services.repositories.APIKeyRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./auth.md#leadr.auth.services.repositories.APIKeyRepository.filter) – Filter API keys by account and optional criteria.
+- [**filter**](./auth.md#leadr.auth.services.repositories.APIKeyRepository.filter) – Filter API keys by account and optional criteria with pagination.
 - [**get_by_id**](#leadr.auth.services.repositories.APIKeyRepository.get_by_id) – Get an entity by its ID.
 - [**get_by_prefix**](#leadr.auth.services.repositories.APIKeyRepository.get_by_prefix) – Get API key by prefix, returns None if not found or soft-deleted.
 - [**update**](./auth.md#leadr.auth.services.repositories.APIKeyRepository.update) – Update an existing entity in the database.
@@ -4992,10 +4997,10 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.auth.services.repositories.APIKeyRepository.filter`
 
 ```python
-filter(account_id=None, status=None, active_only=False, pagination=None, **kwargs)
+filter(account_id=None, *, status=None, active_only=False, pagination, **kwargs)
 ```
 
-Filter API keys by account and optional criteria.
+Filter API keys by account and optional criteria with pagination.
 
 **Parameters:**
 
@@ -5003,12 +5008,12 @@ Filter API keys by account and optional criteria.
   (superadmin use case). Regular users should always pass account_id.
 - **status** (<code>[APIKeyStatus](#leadr.auth.domain.api_key.APIKeyStatus) | None</code>) – Optional APIKeyStatus to filter by
 - **active_only** (<code>[bool](#bool)</code>) – If True, only return ACTIVE keys (bool)
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[APIKey](#leadr.auth.domain.api_key.APIKey)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[APIKey](#leadr.auth.domain.api_key.APIKey)\]</code> – List of API keys if no pagination, PaginatedResult if pagination provided
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[APIKey](#leadr.auth.domain.api_key.APIKey)\]</code> – PaginatedResult containing API keys.
 
 **Raises:**
 
@@ -5076,7 +5081,7 @@ Device repository for managing device persistence.
 
 - [**create**](./auth.md#leadr.auth.services.repositories.DeviceRepository.create) – Create a new entity in the database.
 - [**delete**](./auth.md#leadr.auth.services.repositories.DeviceRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./auth.md#leadr.auth.services.repositories.DeviceRepository.filter) – Filter devices by account and optional criteria.
+- [**filter**](./auth.md#leadr.auth.services.repositories.DeviceRepository.filter) – Filter devices by account and optional criteria with pagination.
 - [**get_by_game_and_fingerprint**](#leadr.auth.services.repositories.DeviceRepository.get_by_game_and_fingerprint) – Get device by game_id and client_fingerprint, returns None if not found or soft-deleted.
 - [**get_by_id**](#leadr.auth.services.repositories.DeviceRepository.get_by_id) – Get an entity by its ID.
 - [**update**](./auth.md#leadr.auth.services.repositories.DeviceRepository.update) – Update an existing entity in the database.
@@ -5127,10 +5132,10 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.auth.services.repositories.DeviceRepository.filter`
 
 ```python
-filter(account_id=None, game_id=None, status=None, pagination=None, **kwargs)
+filter(account_id=None, *, game_id=None, status=None, pagination, **kwargs)
 ```
 
-Filter devices by account and optional criteria.
+Filter devices by account and optional criteria with pagination.
 
 **Parameters:**
 
@@ -5138,12 +5143,12 @@ Filter devices by account and optional criteria.
   (superadmin use case). Regular users should always pass account_id.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
 - **status** (<code>[str](#str) | None</code>) – Optional status string to filter by (active, banned, suspended)
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[Device](./auth.md#leadr.auth.domain.device.Device)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Device](./auth.md#leadr.auth.domain.device.Device)\]</code> – List of devices if no pagination, PaginatedResult if pagination provided
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Device](./auth.md#leadr.auth.domain.device.Device)\]</code> – PaginatedResult containing devices.
 
 **Raises:**
 
@@ -5220,7 +5225,7 @@ DeviceSession repository for managing device session persistence.
 
 - [**create**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.create) – Create a new entity in the database.
 - [**delete**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.filter) – Filter sessions by account and optional criteria.
+- [**filter**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.filter) – Filter sessions by account and optional criteria with pagination.
 - [**get_by_id**](#leadr.auth.services.repositories.DeviceSessionRepository.get_by_id) – Get an entity by its ID.
 - [**get_by_refresh_token_hash**](#leadr.auth.services.repositories.DeviceSessionRepository.get_by_refresh_token_hash) – Get session by refresh token hash, returns None if not found or soft-deleted.
 - [**get_by_token_hash**](#leadr.auth.services.repositories.DeviceSessionRepository.get_by_token_hash) – Get session by access token hash, returns None if not found or soft-deleted.
@@ -5272,10 +5277,10 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.auth.services.repositories.DeviceSessionRepository.filter`
 
 ```python
-filter(account_id=None, device_id=None, pagination=None, **kwargs)
+filter(account_id=None, *, device_id=None, pagination, **kwargs)
 ```
 
-Filter sessions by account and optional criteria.
+Filter sessions by account and optional criteria with pagination.
 
 Note: account_id is used for multi-tenant safety via JOIN with devices table.
 
@@ -5284,12 +5289,12 @@ Note: account_id is used for multi-tenant safety via JOIN with devices table.
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all sessions
   (superadmin use case). Regular users should always pass account_id.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams) | None</code>) – Optional pagination parameters
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[list](#list)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)\]</code> – List of sessions if no pagination, PaginatedResult if pagination provided
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)\]</code> – PaginatedResult containing device sessions.
 
 **Raises:**
 

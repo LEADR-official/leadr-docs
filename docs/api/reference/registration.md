@@ -465,12 +465,12 @@ A 6-character verification code will be sent to the email address.
 ###### `leadr.registration.api.routes.list_jam_codes`
 
 ```python
-list_jam_codes(jam_code_service, auth)
+list_jam_codes(jam_code_service, auth, pagination)
 ```
 
 List all jam codes (superadmin only).
 
-Returns a list of all jam codes, including their usage statistics.
+Returns a paginated list of all jam codes, including their usage statistics.
 
 ###### `leadr.registration.api.routes.public_router`
 
@@ -1833,7 +1833,7 @@ Service for managing jam codes and redemptions.
 
 - [**create_jam_code**](#leadr.registration.services.jam_code_service.JamCodeService.create_jam_code) – Create a new jam code.
 - [**get_jam_code_by_id**](#leadr.registration.services.jam_code_service.JamCodeService.get_jam_code_by_id) – Get a jam code by its ID.
-- [**list_jam_codes**](#leadr.registration.services.jam_code_service.JamCodeService.list_jam_codes) – List all jam codes.
+- [**list_jam_codes**](#leadr.registration.services.jam_code_service.JamCodeService.list_jam_codes) – List all jam codes with pagination.
 - [**redeem_jam_code**](#leadr.registration.services.jam_code_service.JamCodeService.redeem_jam_code) – Redeem a jam code for an account.
 - [**update_jam_code**](#leadr.registration.services.jam_code_service.JamCodeService.update_jam_code) – Update a jam code.
 - [**validate_and_get_jam_code**](#leadr.registration.services.jam_code_service.JamCodeService.validate_and_get_jam_code) – Validate a jam code and return it if valid.
@@ -1903,14 +1903,18 @@ jam_code_repository = JamCodeRepository(db)
 ####### `leadr.registration.services.jam_code_service.JamCodeService.list_jam_codes`
 
 ```python
-list_jam_codes()
+list_jam_codes(*, pagination)
 ```
 
-List all jam codes.
+List all jam codes with pagination.
+
+**Parameters:**
+
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters.
 
 **Returns:**
 
-- <code>[list](#list)\[[JamCode](#leadr.registration.domain.jam_code.JamCode)\]</code> – List of all jam codes.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[JamCode](#leadr.registration.domain.jam_code.JamCode)\]</code> – Paginated result of jam codes.
 
 ####### `leadr.registration.services.jam_code_service.JamCodeService.redeem_jam_code`
 
@@ -2107,7 +2111,7 @@ Jam code redemption repository for tracking code usage.
 
 - [**create**](./registration.md#leadr.registration.services.repositories.JamCodeRedemptionRepository.create) – Create a new entity in the database.
 - [**delete**](./registration.md#leadr.registration.services.repositories.JamCodeRedemptionRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./registration.md#leadr.registration.services.repositories.JamCodeRedemptionRepository.filter) – Filter jam code redemptions by criteria.
+- [**filter**](./registration.md#leadr.registration.services.repositories.JamCodeRedemptionRepository.filter) – Filter jam code redemptions by criteria with pagination.
 - [**find_by_account**](#leadr.registration.services.repositories.JamCodeRedemptionRepository.find_by_account) – Find all jam code redemptions for an account.
 - [**get_by_id**](#leadr.registration.services.repositories.JamCodeRedemptionRepository.get_by_id) – Get an entity by its ID.
 - [**has_redeemed**](#leadr.registration.services.repositories.JamCodeRedemptionRepository.has_redeemed) – Check if an account has already redeemed a specific jam code.
@@ -2115,7 +2119,14 @@ Jam code redemption repository for tracking code usage.
 
 **Attributes:**
 
+- [**SORTABLE_FIELDS**](#leadr.registration.services.repositories.JamCodeRedemptionRepository.SORTABLE_FIELDS) –
 - [**session**](./registration.md#leadr.registration.services.repositories.JamCodeRedemptionRepository.session) –
+
+####### `leadr.registration.services.repositories.JamCodeRedemptionRepository.SORTABLE_FIELDS`
+
+```python
+SORTABLE_FIELDS = {'id', 'account_id', 'jam_code_id', 'created_at'}
+```
 
 ####### `leadr.registration.services.repositories.JamCodeRedemptionRepository.create`
 
@@ -2152,19 +2163,25 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.registration.services.repositories.JamCodeRedemptionRepository.filter`
 
 ```python
-filter(account_id=None, **kwargs)
+filter(account_id=None, *, pagination, **kwargs)
 ```
 
-Filter jam code redemptions by criteria.
+Filter jam code redemptions by criteria with pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[Any](#typing.Any) | None</code>) – Optional account ID to filter by.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters.
 
 **Returns:**
 
-- <code>[list](#list)\[[JamCodeRedemption](#leadr.registration.domain.jam_code_redemption.JamCodeRedemption)\]</code> – List of matching JamCodeRedemption entities.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[JamCodeRedemption](#leadr.registration.domain.jam_code_redemption.JamCodeRedemption)\]</code> – Paginated result of matching JamCodeRedemption entities.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS.
+- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match.
 
 ####### `leadr.registration.services.repositories.JamCodeRedemptionRepository.find_by_account`
 
@@ -2252,14 +2269,21 @@ Jam code repository for managing promotional codes.
 
 - [**create**](./registration.md#leadr.registration.services.repositories.JamCodeRepository.create) – Create a new entity in the database.
 - [**delete**](./registration.md#leadr.registration.services.repositories.JamCodeRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./registration.md#leadr.registration.services.repositories.JamCodeRepository.filter) – Filter jam codes by criteria.
+- [**filter**](./registration.md#leadr.registration.services.repositories.JamCodeRepository.filter) – Filter jam codes by criteria with pagination.
 - [**find_by_code**](#leadr.registration.services.repositories.JamCodeRepository.find_by_code) – Find a jam code by its code value.
 - [**get_by_id**](#leadr.registration.services.repositories.JamCodeRepository.get_by_id) – Get an entity by its ID.
 - [**update**](./registration.md#leadr.registration.services.repositories.JamCodeRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
 
+- [**SORTABLE_FIELDS**](#leadr.registration.services.repositories.JamCodeRepository.SORTABLE_FIELDS) –
 - [**session**](./registration.md#leadr.registration.services.repositories.JamCodeRepository.session) –
+
+####### `leadr.registration.services.repositories.JamCodeRepository.SORTABLE_FIELDS`
+
+```python
+SORTABLE_FIELDS = {'id', 'code', 'active', 'current_uses', 'max_uses', 'created_at', 'updated_at'}
+```
 
 ####### `leadr.registration.services.repositories.JamCodeRepository.create`
 
@@ -2296,19 +2320,25 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.registration.services.repositories.JamCodeRepository.filter`
 
 ```python
-filter(account_id=None, **kwargs)
+filter(account_id=None, *, pagination, **kwargs)
 ```
 
-Filter jam codes by criteria.
+Filter jam codes by criteria with pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[Any](#typing.Any) | None</code>) – Not used for jam codes (top-level entity).
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Filter parameters (code, etc.)
 
 **Returns:**
 
-- <code>[list](#list)\[[JamCode](#leadr.registration.domain.jam_code.JamCode)\]</code> – List of matching JamCode entities.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[JamCode](#leadr.registration.domain.jam_code.JamCode)\]</code> – Paginated result of matching JamCode entities.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS.
+- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match.
 
 ####### `leadr.registration.services.repositories.JamCodeRepository.find_by_code`
 
@@ -2379,7 +2409,7 @@ Verification code repository for managing email verification codes.
 
 - [**create**](./registration.md#leadr.registration.services.repositories.VerificationCodeRepository.create) – Create a new entity in the database.
 - [**delete**](./registration.md#leadr.registration.services.repositories.VerificationCodeRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./registration.md#leadr.registration.services.repositories.VerificationCodeRepository.filter) – Filter verification codes by criteria.
+- [**filter**](./registration.md#leadr.registration.services.repositories.VerificationCodeRepository.filter) – Filter verification codes by criteria with pagination.
 - [**find_valid_code_by_email**](#leadr.registration.services.repositories.VerificationCodeRepository.find_valid_code_by_email) – Find a valid (pending) verification code by email and code value.
 - [**get_by_id**](#leadr.registration.services.repositories.VerificationCodeRepository.get_by_id) – Get an entity by its ID.
 - [**invalidate_codes_for_email**](#leadr.registration.services.repositories.VerificationCodeRepository.invalidate_codes_for_email) – Mark all pending verification codes for an email as expired.
@@ -2387,7 +2417,14 @@ Verification code repository for managing email verification codes.
 
 **Attributes:**
 
+- [**SORTABLE_FIELDS**](#leadr.registration.services.repositories.VerificationCodeRepository.SORTABLE_FIELDS) –
 - [**session**](./registration.md#leadr.registration.services.repositories.VerificationCodeRepository.session) –
+
+####### `leadr.registration.services.repositories.VerificationCodeRepository.SORTABLE_FIELDS`
+
+```python
+SORTABLE_FIELDS = {'id', 'email', 'status', 'created_at', 'updated_at', 'expires_at'}
+```
 
 ####### `leadr.registration.services.repositories.VerificationCodeRepository.create`
 
@@ -2424,19 +2461,25 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.registration.services.repositories.VerificationCodeRepository.filter`
 
 ```python
-filter(account_id=None, **kwargs)
+filter(account_id=None, *, pagination, **kwargs)
 ```
 
-Filter verification codes by criteria.
+Filter verification codes by criteria with pagination.
 
 **Parameters:**
 
 - **account_id** (<code>[Any](#typing.Any) | None</code>) – Not used for verification codes (top-level entity).
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Filter parameters (email, status, etc.)
 
 **Returns:**
 
-- <code>[list](#list)\[[VerificationCode](#leadr.registration.domain.verification_code.VerificationCode)\]</code> – List of matching VerificationCode entities.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[VerificationCode](#leadr.registration.domain.verification_code.VerificationCode)\]</code> – Paginated result of matching VerificationCode entities.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS.
+- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match.
 
 ####### `leadr.registration.services.repositories.VerificationCodeRepository.find_valid_code_by_email`
 

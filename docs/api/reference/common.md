@@ -1877,7 +1877,7 @@ All delete operations are soft deletes by default, setting deleted_at timestamp.
 
 - [**create**](./common.md#leadr.common.repositories.BaseRepository.create) – Create a new entity in the database.
 - [**delete**](./common.md#leadr.common.repositories.BaseRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./common.md#leadr.common.repositories.BaseRepository.filter) – Filter entities based on criteria.
+- [**filter**](./common.md#leadr.common.repositories.BaseRepository.filter) – Filter entities based on criteria with pagination.
 - [**get_by_id**](#leadr.common.repositories.BaseRepository.get_by_id) – Get an entity by its ID.
 - [**update**](./common.md#leadr.common.repositories.BaseRepository.update) – Update an existing entity in the database.
 
@@ -1924,42 +1924,28 @@ Soft delete an entity by setting its deleted_at timestamp.
 ###### `leadr.common.repositories.BaseRepository.filter`
 
 ```python
-filter(account_id=None, **kwargs)
+filter(account_id=None, *, pagination, **kwargs)
 ```
 
-Filter entities based on criteria.
+Filter entities based on criteria with pagination.
 
-For multi-tenant entities, implementations MUST override this to make
-account_id required (no default). For top-level entities like Account,
-account_id can remain optional and unused.
+All filter operations return paginated results. The pagination parameter
+is required to enforce consistent API behavior across the codebase.
+
+For multi-tenant entities, implementations should make account_id required
+(no default). For top-level entities like Account, account_id can remain
+optional and unused.
 
 **Parameters:**
 
-- **account_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID) | None</code>) – Optional account ID for filtering. Multi-tenant entities
-  MUST override to make this required (account_id: UUID).
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID for filtering. Multi-tenant entities
+  should override to make this required.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Required pagination parameters (cursor, limit, sort).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters specific to the entity type.
 
 **Returns:**
 
-- <code>[list](#list)\[[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)\]</code> – List of domain entities matching the filter criteria
-
-Example (multi-tenant - account_id required):
-async def filter(
-self,
-account_id: UUID, # Required, no default
-status: str | None = None,
-\*\*kwargs
-) -> list\[User\]:
-\# Implementation with account_id required
-
-Example (top-level tenant - account_id optional/unused):
-async def filter(
-self,
-account_id: UUID | None = None, # Optional, unused
-status: str | None = None,
-\*\*kwargs
-) -> list\[Account\]:
-\# Implementation where account_id is not used
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)\]</code> – PaginatedResult containing matching entities and pagination metadata.
 
 ###### `leadr.common.repositories.BaseRepository.get_by_id`
 
@@ -2179,7 +2165,39 @@ Common utility functions.
 
 **Modules:**
 
+- [**ip**](./common.md#leadr.common.utils.ip) – IP address extraction utilities.
 - [**slug**](./common.md#leadr.common.utils.slug) – Slug generation utilities.
+
+##### `leadr.common.utils.ip`
+
+IP address extraction utilities.
+
+**Functions:**
+
+- [**extract_client_ip**](#leadr.common.utils.ip.extract_client_ip) – Extract client IP address from request headers.
+
+###### `leadr.common.utils.ip.extract_client_ip`
+
+```python
+extract_client_ip(request)
+```
+
+Extract client IP address from request headers.
+
+Checks headers in priority order:
+
+1. X-Real-IP - common proxy header
+1. X-Forwarded-For - standard proxy header (uses leftmost IP)
+1. CF-Connecting-IP - Cloudflare header
+1. request.client.host - fallback to direct connection
+
+**Parameters:**
+
+- **request** (<code>[Request](#fastapi.Request)</code>) – The incoming FastAPI/Starlette request
+
+**Returns:**
+
+- <code>[str](#str) | None</code> – IP address string, or None if unable to extract
 
 ##### `leadr.common.utils.slug`
 

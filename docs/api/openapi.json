@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.3.1"
+    "version": "0.3.3"
   },
   "paths": {
     "/v1/accounts": {
@@ -3230,7 +3230,7 @@
           "Scores"
         ],
         "summary": "List Scores Admin",
-        "description": "List scores for an account with optional filters and pagination.\n\nReturns paginated scores for the specified account, with optional\nfiltering by board, game, or device. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nFor regular admin users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, filter_timezone, filter_country,\n  filter_city, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    device_id: Optional device ID to filter by.\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List scores for an account with optional filters and pagination.\n\nReturns paginated scores for the specified account, with optional\nfiltering by board, game, or device. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nFor regular admin users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, filter_timezone, filter_country,\n  filter_city, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nAround Score:\n- Use around_score_id to get scores centered around a specific score\n- Requires board_id to be specified\n- Mutually exclusive with cursor pagination\n- Returns a window of scores with the target in the middle\n- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)\n\nExample:\n    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n    GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    device_id: Optional device ID to filter by.\n    around_score_id: Optional score ID to center results around.\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.\n    404: around_score_id score not found.",
         "operationId": "list_scores_admin_v1_scores_get",
         "parameters": [
           {
@@ -3296,6 +3296,24 @@
               ],
               "title": "Device Id"
             }
+          },
+          {
+            "name": "around_score_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Center results around this score ID",
+              "title": "Around Score Id"
+            },
+            "description": "Center results around this score ID"
           },
           {
             "name": "cursor",
@@ -3648,7 +3666,7 @@
           "Score Flags"
         ],
         "summary": "List Score Flags",
-        "description": "List score flags for an account with optional filters.\n\nReturns all non-deleted flags for the specified account, with optional\nfiltering by board, game, status, or flag type.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns flags from all accounts.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score flag service dependency.\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    status: Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).\n    flag_type: Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).\n\nReturns:\n    List of ScoreFlagResponse objects matching the filter criteria.\n\nRaises:\n    403: User does not have access to the specified account.",
+        "description": "List score flags for an account with optional filters and pagination.\n\nReturns paginated flags for the specified account, with optional\nfiltering by board, game, status, or flag type. Supports cursor-based\npagination with bidirectional navigation and custom sorting.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns flags from all accounts.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score flag service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    status: Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).\n    flag_type: Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).\n\nReturns:\n    PaginatedResponse containing ScoreFlagResponse objects matching the filter criteria.\n\nRaises:\n    400: Invalid cursor or sort field.\n    403: User does not have access to the specified account.",
         "operationId": "list_score_flags_v1_score_flags_get",
         "parameters": [
           {
@@ -3732,6 +3750,56 @@
             }
           },
           {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
+          },
+          {
             "name": "leadr-api-key",
             "in": "header",
             "required": false,
@@ -3786,11 +3854,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ScoreFlagResponse"
-                  },
-                  "title": "Response List Score Flags V1 Score Flags Get"
+                  "$ref": "#/components/schemas/PaginatedResponse_ScoreFlagResponse_"
                 }
               }
             }
@@ -4036,7 +4100,7 @@
           "Score Submission Metadata"
         ],
         "summary": "List Submission Meta",
-        "description": "List score submission metadata for an account with optional filters.\n\nReturns all non-deleted submission metadata for the specified account, with optional\nfiltering by board or device.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns metadata from all accounts.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected submission metadata service dependency.\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    board_id: Optional board ID to filter by.\n    device_id: Optional device ID to filter by.\n\nReturns:\n    List of ScoreSubmissionMetaResponse objects matching the filter criteria.\n\nRaises:\n    403: User does not have access to the specified account.",
+        "description": "List score submission metadata for an account with optional filters and pagination.\n\nReturns paginated submission metadata for the specified account, with optional\nfiltering by board or device. Supports cursor-based pagination with bidirectional\nnavigation and custom sorting.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns metadata from all accounts.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected submission metadata service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    board_id: Optional board ID to filter by.\n    device_id: Optional device ID to filter by.\n\nReturns:\n    PaginatedResponse containing ScoreSubmissionMetaResponse objects matching the filter.\n\nRaises:\n    400: Invalid cursor or sort field.\n    403: User does not have access to the specified account.",
         "operationId": "list_submission_meta_v1_score_submission_metadata_get",
         "parameters": [
           {
@@ -4086,6 +4150,56 @@
               ],
               "title": "Device Id"
             }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
           },
           {
             "name": "leadr-api-key",
@@ -4142,11 +4256,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ScoreSubmissionMetaResponse"
-                  },
-                  "title": "Response List Submission Meta V1 Score Submission Metadata Get"
+                  "$ref": "#/components/schemas/PaginatedResponse_ScoreSubmissionMetaResponse_"
                 }
               }
             }
@@ -5177,7 +5287,7 @@
           "Registration"
         ],
         "summary": "List Jam Codes",
-        "description": "List all jam codes (superadmin only).\n\nReturns a list of all jam codes, including their usage statistics.",
+        "description": "List all jam codes (superadmin only).\n\nReturns a paginated list of all jam codes, including their usage statistics.",
         "operationId": "list_jam_codes_v1_jam_codes_get",
         "parameters": [
           {
@@ -5195,6 +5305,56 @@
               ],
               "title": "Account Id"
             }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Pagination cursor for navigating results",
+              "title": "Cursor"
+            },
+            "description": "Pagination cursor for navigating results"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of items per page (1-100)",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "Number of items per page (1-100)"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Sort specification (e.g., 'value:desc,created_at:asc')",
+              "title": "Sort"
+            },
+            "description": "Sort specification (e.g., 'value:desc,created_at:asc')"
           },
           {
             "name": "leadr-api-key",
@@ -5251,11 +5411,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/JamCodeResponse"
-                  },
-                  "title": "Response List Jam Codes V1 Jam Codes Get"
+                  "$ref": "#/components/schemas/PaginatedResponse_JamCodeResponse_"
                 }
               }
             }
@@ -5643,7 +5799,7 @@
           "Scores"
         ],
         "summary": "List Boards Client",
-        "description": "List boards (Client API).\n\nAccount ID is automatically derived from the authenticated device's account.\nClients can optionally filter by various criteria to find specific boards.\n\nFiltering:\n- Use ?game_id={id} or ?game_slug={slug} to filter boards by game\n- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game\n- Use ?code={code} to filter boards by short code\n- Use ?is_active=true/false to filter by active status\n- Use ?is_published=true/false to filter by published status\n- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range\n- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range\n- Note: board slug filter requires game_slug parameter\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50\n    GET /v1/client/boards?game_slug=my-game&is_active=true\n    GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge\n    GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z\n\nArgs:\n    auth: Client authentication context with device info.\n    service: Injected board service dependency.\n    game_service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    game_id: Optional game ID to filter boards by.\n    code: Optional short code to filter boards by.\n    game_slug: Optional game slug to filter boards by game (resolves to game_id).\n    slug: Optional board slug to filter by specific board (requires game_slug).\n    is_active: Optional filter for active status.\n    is_published: Optional filter for published status.\n    starts_before: Optional filter for boards starting before this time.\n    starts_after: Optional filter for boards starting after this time.\n    ends_before: Optional filter for boards ending before this time.\n    ends_after: Optional filter for boards ending after this time.\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.\n    404: Game or board not found when using slug filters.",
+        "description": "List boards (Client API).\n\nAccount ID is automatically derived from the authenticated device's account.\nClients can optionally filter by various criteria to find specific boards.\n\nFiltering:\n- Use ?game_id={id} or ?game_slug={slug} to filter boards by game\n- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game\n- Use ?code={code} to filter boards by short code\n- Use ?is_published=true/false to filter by published status\n- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range\n- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range\n- Note: board slug filter requires game_slug parameter\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50\n    GET /v1/client/boards?game_slug=my-game&is_published=true\n    GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge\n    GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z\n\nArgs:\n    auth: Client authentication context with device info.\n    service: Injected board service dependency.\n    game_service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    game_id: Optional game ID to filter boards by.\n    code: Optional short code to filter boards by.\n    game_slug: Optional game slug to filter boards by game (resolves to game_id).\n    slug: Optional board slug to filter by specific board (requires game_slug).\n    is_published: Optional filter for published status.\n    starts_before: Optional filter for boards starting before this time.\n    starts_after: Optional filter for boards starting after this time.\n    ends_before: Optional filter for boards ending before this time.\n    ends_after: Optional filter for boards ending after this time.\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.\n    404: Game or board not found when using slug filters.",
         "operationId": "list_boards_client_v1_client_boards_get",
         "parameters": [
           {
@@ -5717,24 +5873,6 @@
               "title": "Slug"
             },
             "description": "Filter by board slug (requires game_slug)"
-          },
-          {
-            "name": "is_active",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "Filter by active status",
-              "title": "Is Active"
-            },
-            "description": "Filter by active status"
           },
           {
             "name": "is_published",
@@ -6081,7 +6219,7 @@
           "Scores"
         ],
         "summary": "List Scores Client",
-        "description": "List scores for an account with optional filters and pagination.\n\nReturns paginated scores for the specified account, with optional\nfiltering by board. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, filter_timezone, filter_country,\n  filter_city, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    board_id: Optional board ID to filter by.\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.",
+        "description": "List scores for an account with optional filters and pagination.\n\nReturns paginated scores for the specified account, with optional\nfiltering by board and/or device. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, filter_timezone, filter_country,\n  filter_city, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nAround Score:\n- Use around_score_id to get scores centered around a specific score\n- Requires board_id to be specified\n- Mutually exclusive with cursor pagination\n- Returns a window of scores with the target in the middle\n- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)\n\nExample:\n    GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n    GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    board_id: Optional board ID to filter by.\n    device_id: Optional device ID to filter by (e.g., to get \"my scores\").\n    around_score_id: Optional score ID to center results around.\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.\n    403: User does not have access to the specified account.\n    404: around_score_id score not found.",
         "operationId": "list_scores_client_v1_client_scores_get",
         "parameters": [
           {
@@ -6099,6 +6237,40 @@
               ],
               "title": "Board Id"
             }
+          },
+          {
+            "name": "device_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Device Id"
+            }
+          },
+          {
+            "name": "around_score_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Center results around this score ID",
+              "title": "Around Score Id"
+            },
+            "description": "Center results around this score ID"
           },
           {
             "name": "account_id",
@@ -6254,6 +6426,32 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/health/live": {
+      "get": {
+        "tags": [
+          "Public"
+        ],
+        "summary": "Liveness Check",
+        "description": "Liveness probe endpoint.\n\nSimple HTTP ping for container health checks. Returns immediately\nwithout checking database or other dependencies.",
+        "operationId": "liveness_check_v1_health_live_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Liveness Check V1 Health Live Get"
                 }
               }
             }
@@ -7054,6 +7252,19 @@
             "format": "date-time",
             "title": "Updated At",
             "description": "Timestamp of last update (UTC)"
+          },
+          "url_short": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url Short",
+            "description": "Short URL for direct board access via short_code.\n\nReturns the URL if BOARDS_UI_DOMAIN is configured and the board is published,\notherwise None.",
+            "readOnly": true
           }
         },
         "type": "object",
@@ -7071,7 +7282,8 @@
           "sort_direction",
           "keep_strategy",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "url_short"
         ],
         "title": "BoardResponse",
         "description": "Response model for a board."
@@ -8500,6 +8712,19 @@
             "format": "date-time",
             "title": "Updated At",
             "description": "Timestamp of last update (UTC)"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url",
+            "description": "Public URL to view this game's leaderboards.\n\nReturns the URL if BOARDS_UI_DOMAIN is configured, otherwise None.",
+            "readOnly": true
           }
         },
         "type": "object",
@@ -8510,7 +8735,8 @@
           "slug",
           "anti_cheat_enabled",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "url"
         ],
         "title": "GameResponse",
         "description": "Response model for a game."
@@ -9060,6 +9286,42 @@
           }
         }
       },
+      "PaginatedResponse_JamCodeResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/JamCodeResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[JamCodeResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
       "PaginatedResponse_ScoreClientResponse_": {
         "properties": {
           "data": {
@@ -9096,6 +9358,42 @@
           }
         }
       },
+      "PaginatedResponse_ScoreFlagResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ScoreFlagResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[ScoreFlagResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
       "PaginatedResponse_ScoreResponse_": {
         "properties": {
           "data": {
@@ -9117,6 +9415,42 @@
           "pagination"
         ],
         "title": "PaginatedResponse[ScoreResponse]",
+        "example": {
+          "data": [
+            {
+              "id": "scr_123",
+              "value": 1000
+            }
+          ],
+          "pagination": {
+            "count": 20,
+            "has_next": true,
+            "has_prev": false,
+            "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+          }
+        }
+      },
+      "PaginatedResponse_ScoreSubmissionMetaResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/ScoreSubmissionMetaResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items in this page"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationMeta",
+            "description": "Pagination metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "title": "PaginatedResponse[ScoreSubmissionMetaResponse]",
         "example": {
           "data": [
             {
