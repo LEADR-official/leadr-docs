@@ -6,19 +6,26 @@ Get a LEADR account and create your first leaderboard in under 5 minutes. By the
 
 Install the LEADR command-line tool:
 
+#### Quick Install (macOS/Windows)
+
 ```bash
-curl -sSL https://raw.githubusercontent.com/LEADR-official/leadr-cli-releases/main/install.sh | bash
+curl -sSL https://leadr.gg/cli/install.sh | bash
 ```
 
-For manual installation, download binaries from the [Releases page](https://github.com/LEADR-official/leadr-cli-releases/releases).
+#### Windows / Manual Download
 
-Verify the installation:
+1. Download binaries from the [Releases page](https://github.com/LEADR-official/leadr-cli-releases/releases).
+2. Save the .exe file to your folder of choice
+3. First time only: Double click the .exe and follow instructions
+4. Now you can use `leadr` command in your terminal
+
+### Verify the installation
 
 ```bash
 leadr --version
 ```
 
-## Create an Account
+## Create an Account / Accept an Invite
 
 Register for a free LEADR account:
 
@@ -38,6 +45,13 @@ This interactive command prompts you for your email, display name, and studio or
 
     Keep it secret. Keep it (your game) safe.
 
+
+
+Check that your API key is configured correctly:
+
+```bash
+leadr me
+```
 
 See [CLI Getting Started](cli/getting-started.md) for more details on account setup and verification.
 

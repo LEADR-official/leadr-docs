@@ -48,7 +48,7 @@ site_dir: site-md
 
 nav:
   - Overview: index.md
-  - Quick Start: quick_start.md
+  - Quick Start: quick-start.md
   - Features: features.md
   - SDKs:
       - Overview: sdks/index.md
