@@ -13,7 +13,7 @@
         <meta name="author" content="LEADR">
       
       
-        <link rel="canonical" href="https://docs.leadr.gg/v0.3/quick_start/">
+        <link rel="canonical" href="https://docs.leadr.gg/v0.3/quick-start/">
       
       
         <link rel="prev" href="..">
@@ -31,7 +31,7 @@
 <meta property="og:site_name" content="LEADR Docs">
 <meta property="og:title" content="Quick Start | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
-<meta property="og:url" content="https://docs.leadr.gg/v0.3/quick_start/">
+<meta property="og:url" content="https://docs.leadr.gg/v0.3/quick-start/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.3/assets/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -370,12 +370,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Download the CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-install-macoswindows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Install (macOS/Windows)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-manual-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows / Manual Download
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-the-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify the installation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-an-account" class="md-nav__link">
+  <a href="#create-an-account-accept-an-invite" class="md-nav__link">
     <span class="md-ellipsis">
-      Create an Account
+      Create an Account / Accept an Invite
     </span>
   </a>
   
@@ -1523,12 +1556,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Download the CLI">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-install-macoswindows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Install (macOS/Windows)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-manual-download" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows / Manual Download
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-the-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify the installation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-an-account" class="md-nav__link">
+  <a href="#create-an-account-accept-an-invite" class="md-nav__link">
     <span class="md-ellipsis">
-      Create an Account
+      Create an Account / Accept an Invite
     </span>
   </a>
   
@@ -1581,13 +1647,20 @@
 <p>Get a LEADR account and create your first leaderboard in under 5 minutes. By the end of this guide, you'll have a working leaderboard ready for your game.</p>
 <h2 id="download-the-cli">Download the CLI<a class="headerlink" href="#download-the-cli" title="Permanent link">&para;</a></h2>
 <p>Install the LEADR command-line tool:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sSL<span class="w"> </span>https://raw.githubusercontent.com/LEADR-official/leadr-cli-releases/main/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
+<h4 id="quick-install-macoswindows">Quick Install (macOS/Windows)<a class="headerlink" href="#quick-install-macoswindows" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sSL<span class="w"> </span>https://leadr.gg/cli/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </code></pre></div>
-<p>For manual installation, download binaries from the <a href="https://github.com/LEADR-official/leadr-cli-releases/releases">Releases page</a>.</p>
-<p>Verify the installation:</p>
+<h4 id="windows-manual-download">Windows / Manual Download<a class="headerlink" href="#windows-manual-download" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Download binaries from the <a href="https://github.com/LEADR-official/leadr-cli-releases/releases">Releases page</a>.</li>
+<li>Save the .exe file to your folder of choice</li>
+<li>First time only: Double click the .exe and follow instructions</li>
+<li>Now you can use <code>leadr</code> command in your terminal</li>
+</ol>
+<h3 id="verify-the-installation">Verify the installation<a class="headerlink" href="#verify-the-installation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>leadr<span class="w"> </span>--version
 </code></pre></div>
-<h2 id="create-an-account">Create an Account<a class="headerlink" href="#create-an-account" title="Permanent link">&para;</a></h2>
+<h2 id="create-an-account-accept-an-invite">Create an Account / Accept an Invite<a class="headerlink" href="#create-an-account-accept-an-invite" title="Permanent link">&para;</a></h2>
 <p>Register for a free LEADR account:</p>
 <div class="highlight"><pre><span></span><code>leadr<span class="w"> </span>register
 </code></pre></div>
@@ -1599,6 +1672,9 @@
 <p>We'll never ask you for it, and you shouldn't give it to strangers on the internet.</p>
 <p>Keep it secret. Keep it (your game) safe.</p>
 </div>
+<p>Check that your API key is configured correctly:</p>
+<div class="highlight"><pre><span></span><code>leadr<span class="w"> </span>me
+</code></pre></div>
 <p>See <a href="../cli/getting-started/">CLI Getting Started</a> for more details on account setup and verification.</p>
 <h2 id="create-a-leaderboard">Create a Leaderboard<a class="headerlink" href="#create-a-leaderboard" title="Permanent link">&para;</a></h2>
 <p>First, create a game:</p>
