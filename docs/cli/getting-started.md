@@ -7,14 +7,17 @@ This guide walks you through installing the LEADR CLI and setting up your first 
 ### Quick Install (macOS/Linux)
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/LEADR-official/leadr-cli-releases/main/install.sh | bash
+curl -sSL https://leadr.gg/cli/install.sh | bash
 ```
 
-### Manual Download
+### Windows / Manual Download
 
-Download binaries from the [Releases page](https://github.com/LEADR-official/leadr-cli-releases/releases).
+1. Download binaries from the [Releases page](https://github.com/LEADR-official/leadr-cli-releases/releases).
+1. Save the .exe file to your folder of choice
+1. First time only: Double click the .exe and follow instructions
+1. Now you can use `leadr` command in your terminal
 
-### Verify Installation
+### Verify the installation
 
 After installation, verify the CLI is working:
 
@@ -150,7 +153,7 @@ leadr score list --board-id <board-uuid> --all
 
 ## Next Steps
 
-- [Authentication Guide](authentication.md) - Learn about API keys and authentication
+- [SDKs](/sdks/index.md) - Start using LEADR in your game with our SDKs
+- [LEADR Getting Started](/quick-start.md) - Set up your LEADR account
 - [Command Reference](commands/reference.md) - Explore all available commands
 - [Board Templates](commands/board_template.md) - Set up recurring leaderboards (daily, weekly, etc.)
-- [Anti-Cheat Flags](commands/score_flag.md) - Manage flagged suspicious scores

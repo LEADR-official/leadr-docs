@@ -73,9 +73,13 @@ This document contains the help content for the `leadr` command-line program.
 
 ## `leadr`
 
-LEADR CLI - Admin and testing tool for LEADR API
+LEADR CLI - Admin tool for LEADR API (v0.4.3)
 
-**Usage:** `leadr [OPTIONS] <COMMAND>`
+CLI docs:  https://docs.leadr.gg/latest/cli/
+Website:      https://leadr.gg
+Discord:      https://discord.gg/RMUukcAxSZ
+
+**Usage:** `leadr [OPTIONS] [COMMAND]`
 
 ###### **Subcommands:**
 

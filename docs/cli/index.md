@@ -17,7 +17,7 @@ LEADR is the cross-platform leaderboard backend for game developers. The LEADR C
 ## Quick Start
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/LEADR-official/leadr-cli-releases/main/install.sh | bash
+curl -sSL https://leadr.gg/cli/install.sh | bash
 leadr register
 ```
 
@@ -33,17 +33,18 @@ See [Getting Started](getting-started.md) for more details.
 
 ## Common Commands
 
-| Command                      | Description                      |
-| ---------------------------- | -------------------------------- |
-| `leadr register`             | Create a new LEADR account       |
-| `leadr auth admin configure` | Configure your API key           |
-| `leadr game create`          | Create a new game                |
-| `leadr game list`            | List your games                  |
-| `leadr board create`         | Create a leaderboard             |
-| `leadr board list`           | List boards for a game           |
-| `leadr score list`           | List scores on a leaderboard     |
-| `leadr --help`               | Show all available commands      |
-| `leadr <command> --help`     | Show help for a specific command |
+| Command                      | Description                        |
+| ---------------------------- | ---------------------------------- |
+| `leadr register`             | Create a new LEADR account         |
+| `leadr auth admin configure` | Configure your API key             |
+| `leadr me`                   | See information about your account |
+| `leadr game create`          | Create a new game                  |
+| `leadr game list`            | List your games                    |
+| `leadr board create`         | Create a leaderboard               |
+| `leadr board list`           | List boards for a game             |
+| `leadr score list`           | List scores on a leaderboard       |
+| `leadr --help`               | Show all available commands        |
+| `leadr <command> --help`     | Show help for a specific command   |
 
 ## Command Groups
 
@@ -61,7 +62,3 @@ See [Getting Started](getting-started.md) for more details.
 | [device-session](commands/device_session.md)               | Device session management             |
 | [score-flag](commands/score_flag.md)                       | Anti-cheat score flags                |
 | [score-submission-meta](commands/score_submission_meta.md) | Score submission analytics            |
-
-## Documentation
-
-For full documentation, visit [docs.leadr.gg](https://docs.leadr.gg)
