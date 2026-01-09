@@ -93,6 +93,7 @@ field names (case-sensitive).
 - [**ENV**](./config.md#leadr.config.CommonSettings.ENV) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.CommonSettings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.CommonSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
+- [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.CommonSettings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.CommonSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.CommonSettings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.CommonSettings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
@@ -100,6 +101,7 @@ field names (case-sensitive).
 - [**LOG_JSON**](#leadr.config.CommonSettings.LOG_JSON) (<code>[bool](#bool)</code>) –
 - [**LOG_TO_FILE**](#leadr.config.CommonSettings.LOG_TO_FILE) (<code>[bool](#bool)</code>) –
 - [**MAILGUN_API_KEY**](#leadr.config.CommonSettings.MAILGUN_API_KEY) (<code>[str](#str)</code>) –
+- [**MAILGUN_API_URL**](#leadr.config.CommonSettings.MAILGUN_API_URL) (<code>[str](#str)</code>) –
 - [**MAILGUN_DOMAIN**](#leadr.config.CommonSettings.MAILGUN_DOMAIN) (<code>[str](#str)</code>) –
 - [**MAXMIND_ACCOUNT_ID**](#leadr.config.CommonSettings.MAXMIND_ACCOUNT_ID) (<code>[str](#str)</code>) –
 - [**MAXMIND_CITY_DB_URL**](#leadr.config.CommonSettings.MAXMIND_CITY_DB_URL) (<code>[str](#str)</code>) –
@@ -348,6 +350,12 @@ GEOIP_DATABASE_PATH: Path = Field(default=(PROJ_ROOT / '.geoip'), description='D
 GEOIP_REFRESH_DAYS: int = Field(default=7, description='Number of days between GeoIP database refresh downloads (default: 7 days)')
 ```
 
+##### `leadr.config.CommonSettings.INVITE_CODE_EXPIRY_SECONDS`
+
+```python
+INVITE_CODE_EXPIRY_SECONDS: int = Field(default=86400, description='Expiry time for invite codes in seconds (default: 24 hours)')
+```
+
 ##### `leadr.config.CommonSettings.JWT_LIFETIME_SECONDS`
 
 ```python
@@ -388,6 +396,12 @@ LOG_TO_FILE: bool = Field(default=False, description='Enable file logging in add
 
 ```python
 MAILGUN_API_KEY: str = Field(default='mailgun_api_key', description='Mailgun API key for email sending')
+```
+
+##### `leadr.config.CommonSettings.MAILGUN_API_URL`
+
+```python
+MAILGUN_API_URL: str = Field(default='https://api.eu.mailgun.net', description='Mailgun API URL for email sending')
 ```
 
 ##### `leadr.config.CommonSettings.MAILGUN_DOMAIN`
@@ -573,6 +587,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**ENV**](#leadr.config.Settings.ENV) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.Settings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.Settings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
+- [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.Settings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.Settings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.Settings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.Settings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
@@ -580,6 +595,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**LOG_JSON**](#leadr.config.Settings.LOG_JSON) (<code>[bool](#bool)</code>) –
 - [**LOG_TO_FILE**](#leadr.config.Settings.LOG_TO_FILE) (<code>[bool](#bool)</code>) –
 - [**MAILGUN_API_KEY**](#leadr.config.Settings.MAILGUN_API_KEY) (<code>[str](#str)</code>) –
+- [**MAILGUN_API_URL**](#leadr.config.Settings.MAILGUN_API_URL) (<code>[str](#str)</code>) –
 - [**MAILGUN_DOMAIN**](#leadr.config.Settings.MAILGUN_DOMAIN) (<code>[str](#str)</code>) –
 - [**MAXMIND_ACCOUNT_ID**](#leadr.config.Settings.MAXMIND_ACCOUNT_ID) (<code>[str](#str)</code>) –
 - [**MAXMIND_CITY_DB_URL**](#leadr.config.Settings.MAXMIND_CITY_DB_URL) (<code>[str](#str)</code>) –
@@ -656,6 +672,7 @@ Test-specific overrides can be added here.
 - [**ENV**](./config.md#leadr.config.TestSettings.ENV) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.TestSettings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.TestSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
+- [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.TestSettings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.TestSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.TestSettings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.TestSettings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
@@ -663,6 +680,7 @@ Test-specific overrides can be added here.
 - [**LOG_JSON**](#leadr.config.TestSettings.LOG_JSON) (<code>[bool](#bool)</code>) –
 - [**LOG_TO_FILE**](#leadr.config.TestSettings.LOG_TO_FILE) (<code>[bool](#bool)</code>) –
 - [**MAILGUN_API_KEY**](#leadr.config.TestSettings.MAILGUN_API_KEY) (<code>[str](#str)</code>) –
+- [**MAILGUN_API_URL**](#leadr.config.TestSettings.MAILGUN_API_URL) (<code>[str](#str)</code>) –
 - [**MAILGUN_DOMAIN**](#leadr.config.TestSettings.MAILGUN_DOMAIN) (<code>[str](#str)</code>) –
 - [**MAXMIND_ACCOUNT_ID**](#leadr.config.TestSettings.MAXMIND_ACCOUNT_ID) (<code>[str](#str)</code>) –
 - [**MAXMIND_CITY_DB_URL**](#leadr.config.TestSettings.MAXMIND_CITY_DB_URL) (<code>[str](#str)</code>) –
@@ -911,6 +929,12 @@ GEOIP_DATABASE_PATH: Path = Field(default=(PROJ_ROOT / '.geoip'), description='D
 GEOIP_REFRESH_DAYS: int = Field(default=7, description='Number of days between GeoIP database refresh downloads (default: 7 days)')
 ```
 
+##### `leadr.config.TestSettings.INVITE_CODE_EXPIRY_SECONDS`
+
+```python
+INVITE_CODE_EXPIRY_SECONDS: int = Field(default=86400, description='Expiry time for invite codes in seconds (default: 24 hours)')
+```
+
 ##### `leadr.config.TestSettings.JWT_LIFETIME_SECONDS`
 
 ```python
@@ -951,6 +975,12 @@ LOG_TO_FILE: bool = Field(default=False, description='Enable file logging in add
 
 ```python
 MAILGUN_API_KEY: str = Field(default='mailgun_api_key', description='Mailgun API key for email sending')
+```
+
+##### `leadr.config.TestSettings.MAILGUN_API_URL`
+
+```python
+MAILGUN_API_URL: str = Field(default='https://api.eu.mailgun.net', description='Mailgun API URL for email sending')
 ```
 
 ##### `leadr.config.TestSettings.MAILGUN_DOMAIN`
