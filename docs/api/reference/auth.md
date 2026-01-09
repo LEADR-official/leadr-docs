@@ -1910,11 +1910,13 @@ Authentication dependencies for FastAPI.
 - [**AdminAuthContextWithAccountIDDep**](./auth.md#leadr.auth.dependencies.AdminAuthContextWithAccountIDDep) –
 - [**ClientAuthContextDep**](./auth.md#leadr.auth.dependencies.ClientAuthContextDep) –
 - [**ClientAuthContextWithNonceDep**](./auth.md#leadr.auth.dependencies.ClientAuthContextWithNonceDep) –
+- [**SuperAdminAuthContextDep**](./auth.md#leadr.auth.dependencies.SuperAdminAuthContextDep) –
 - [**logger**](./auth.md#leadr.auth.dependencies.logger) –
 - [**require_admin_auth**](#leadr.auth.dependencies.require_admin_auth) –
 - [**require_admin_auth_with_account_id**](#leadr.auth.dependencies.require_admin_auth_with_account_id) –
 - [**require_client_auth**](#leadr.auth.dependencies.require_client_auth) –
 - [**require_client_auth_with_nonce**](#leadr.auth.dependencies.require_client_auth_with_nonce) –
+- [**require_superadmin_auth**](#leadr.auth.dependencies.require_superadmin_auth) –
 
 ##### `leadr.auth.dependencies.AdminAuthContext`
 
@@ -2152,7 +2154,7 @@ user: User | None = None
 ##### `leadr.auth.dependencies.AuthContextDependency`
 
 ```python
-AuthContextDependency(require_admin=False, require_client=False, require_nonce=False, require_superadmin_account_id=False)
+AuthContextDependency(require_admin=False, require_client=False, require_nonce=False, require_superadmin_account_id=False, require_superadmin=False)
 ```
 
 Parameterizable authentication dependency using FastAPI class instance pattern.
@@ -2180,6 +2182,7 @@ to require different auth types.
 - [**require_admin**](#leadr.auth.dependencies.AuthContextDependency.require_admin) –
 - [**require_client**](#leadr.auth.dependencies.AuthContextDependency.require_client) –
 - [**require_nonce**](#leadr.auth.dependencies.AuthContextDependency.require_nonce) –
+- [**require_superadmin**](#leadr.auth.dependencies.AuthContextDependency.require_superadmin) –
 - [**require_superadmin_account_id**](#leadr.auth.dependencies.AuthContextDependency.require_superadmin_account_id) –
 
 **Parameters:**
@@ -2189,6 +2192,8 @@ to require different auth types.
 - **require_nonce** (<code>[bool](#bool)</code>) – If True, nonce validation is required for client auth (mutations).
 - **require_superadmin_account_id** (<code>[bool](#bool)</code>) – If True, superadmins must provide account_id
   query parameter on GET requests. Used for list endpoints.
+- **require_superadmin** (<code>[bool](#bool)</code>) – If True, only superadmin users are allowed. Returns 403
+  for non-superadmin users. Implies require_admin=True.
 
 **Raises:**
 
@@ -2210,6 +2215,12 @@ require_client = require_client
 
 ```python
 require_nonce = require_nonce
+```
+
+###### `leadr.auth.dependencies.AuthContextDependency.require_superadmin`
+
+```python
+require_superadmin = require_superadmin
 ```
 
 ###### `leadr.auth.dependencies.AuthContextDependency.require_superadmin_account_id`
@@ -2346,6 +2357,12 @@ ClientAuthContextDep = Annotated[ClientAuthContext, Depends(require_client_auth)
 ClientAuthContextWithNonceDep = Annotated[ClientAuthContext, Depends(require_client_auth_with_nonce)]
 ```
 
+##### `leadr.auth.dependencies.SuperAdminAuthContextDep`
+
+```python
+SuperAdminAuthContextDep = Annotated[AdminAuthContext, Depends(require_superadmin_auth)]
+```
+
 ##### `leadr.auth.dependencies.logger`
 
 ```python
@@ -2374,6 +2391,12 @@ require_client_auth = AuthContextDependency(require_client=True)
 
 ```python
 require_client_auth_with_nonce = AuthContextDependency(require_client=True, require_nonce=True)
+```
+
+##### `leadr.auth.dependencies.require_superadmin_auth`
+
+```python
+require_superadmin_auth = AuthContextDependency(require_superadmin=True)
 ```
 
 #### `leadr.auth.domain`

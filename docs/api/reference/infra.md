@@ -468,6 +468,7 @@ Email service with dependency injection for testing and flexibility.
 
 - [**get_default_from_email**](#leadr.infra.email.EmailService.get_default_from_email) – Get default from email address.
 - [**send_email**](#leadr.infra.email.EmailService.send_email) – Send an email using the configured provider.
+- [**send_invite_email**](#leadr.infra.email.EmailService.send_invite_email) – Send an invite email when a user is invited to an account.
 - [**send_notification_email**](#leadr.infra.email.EmailService.send_notification_email) – Send a notification email.
 - [**send_verification_code**](#leadr.infra.email.EmailService.send_verification_code) – Send a verification code email for LEADR registration.
 - [**send_welcome_email**](#leadr.infra.email.EmailService.send_welcome_email) – Send a welcome email after successful LEADR registration.
@@ -519,6 +520,24 @@ send_email(to, subject, body, from_email=None, reply_to=None, cc=None, bcc=None,
 ```
 
 Send an email using the configured provider.
+
+###### `leadr.infra.email.EmailService.send_invite_email`
+
+```python
+send_invite_email(to, account_name, code)
+```
+
+Send an invite email when a user is invited to an account.
+
+**Parameters:**
+
+- **to** (<code>[str](#str)</code>) – Email address to send the invite to.
+- **account_name** (<code>[str](#str)</code>) – Name of the account the user is being invited to.
+- **code** (<code>[str](#str)</code>) – The 6-character verification code.
+
+**Returns:**
+
+- <code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code> – Email provider response dict.
 
 ###### `leadr.infra.email.EmailService.send_notification_email`
 
@@ -631,7 +650,7 @@ api_key = settings.MAILGUN_API_KEY
 ###### `leadr.infra.email.MailgunEmailProvider.client`
 
 ```python
-client = Client(auth=('api', self.api_key))
+client = Client(auth=('api', self.api_key), api_url=(settings.MAILGUN_API_URL))
 ```
 
 ###### `leadr.infra.email.MailgunEmailProvider.domain`
@@ -758,7 +777,7 @@ api_key = settings.MAILGUN_API_KEY
 ######## `leadr.infra.email.adapters.mailgun.MailgunEmailProvider.client`
 
 ```python
-client = Client(auth=('api', self.api_key))
+client = Client(auth=('api', self.api_key), api_url=(settings.MAILGUN_API_URL))
 ```
 
 ######## `leadr.infra.email.adapters.mailgun.MailgunEmailProvider.domain`
@@ -1781,6 +1800,7 @@ Email service with dependency injection for testing and flexibility.
 
 - [**get_default_from_email**](#leadr.infra.email.service.EmailService.get_default_from_email) – Get default from email address.
 - [**send_email**](#leadr.infra.email.service.EmailService.send_email) – Send an email using the configured provider.
+- [**send_invite_email**](#leadr.infra.email.service.EmailService.send_invite_email) – Send an invite email when a user is invited to an account.
 - [**send_notification_email**](#leadr.infra.email.service.EmailService.send_notification_email) – Send a notification email.
 - [**send_verification_code**](#leadr.infra.email.service.EmailService.send_verification_code) – Send a verification code email for LEADR registration.
 - [**send_welcome_email**](#leadr.infra.email.service.EmailService.send_welcome_email) – Send a welcome email after successful LEADR registration.
@@ -1832,6 +1852,24 @@ send_email(to, subject, body, from_email=None, reply_to=None, cc=None, bcc=None,
 ```
 
 Send an email using the configured provider.
+
+####### `leadr.infra.email.service.EmailService.send_invite_email`
+
+```python
+send_invite_email(to, account_name, code)
+```
+
+Send an invite email when a user is invited to an account.
+
+**Parameters:**
+
+- **to** (<code>[str](#str)</code>) – Email address to send the invite to.
+- **account_name** (<code>[str](#str)</code>) – Name of the account the user is being invited to.
+- **code** (<code>[str](#str)</code>) – The 6-character verification code.
+
+**Returns:**
+
+- <code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code> – Email provider response dict.
 
 ####### `leadr.infra.email.service.EmailService.send_notification_email`
 

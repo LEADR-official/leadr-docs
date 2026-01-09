@@ -23,6 +23,7 @@ Registration ORM models.
 - [**JamCodeRedemptionORM**](./registration.md#leadr.registration.adapters.orm.JamCodeRedemptionORM) – Jam Code Redemption ORM model.
 - [**VerificationCodeORM**](./registration.md#leadr.registration.adapters.orm.VerificationCodeORM) – Verification Code ORM model.
 - [**VerificationCodeStatusEnum**](./registration.md#leadr.registration.adapters.orm.VerificationCodeStatusEnum) – Verification code status enum for database.
+- [**VerificationCodeTypeEnum**](./registration.md#leadr.registration.adapters.orm.VerificationCodeTypeEnum) – Verification code type enum for database.
 
 ###### `leadr.registration.adapters.orm.JamCodeORM`
 
@@ -267,6 +268,7 @@ Used during account registration to verify email ownership.
 **Attributes:**
 
 - [**code**](./registration.md#leadr.registration.adapters.orm.VerificationCodeORM.code) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
+- [**code_type**](#leadr.registration.adapters.orm.VerificationCodeORM.code_type) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[VerificationCodeTypeEnum](./registration.md#leadr.registration.adapters.orm.VerificationCodeTypeEnum)\]</code>) –
 - [**created_at**](#leadr.registration.adapters.orm.VerificationCodeORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**deleted_at**](#leadr.registration.adapters.orm.VerificationCodeORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
 - [**email**](./registration.md#leadr.registration.adapters.orm.VerificationCodeORM.email) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
@@ -275,11 +277,18 @@ Used during account registration to verify email ownership.
 - [**status**](./registration.md#leadr.registration.adapters.orm.VerificationCodeORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[VerificationCodeStatusEnum](./registration.md#leadr.registration.adapters.orm.VerificationCodeStatusEnum)\]</code>) –
 - [**updated_at**](#leadr.registration.adapters.orm.VerificationCodeORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**used_at**](#leadr.registration.adapters.orm.VerificationCodeORM.used_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime) | None\]</code>) –
+- [**user_id**](#leadr.registration.adapters.orm.VerificationCodeORM.user_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID) | None\]</code>) –
 
 ####### `leadr.registration.adapters.orm.VerificationCodeORM.code`
 
 ```python
 code: Mapped[str] = mapped_column(String(6), nullable=False)
+```
+
+####### `leadr.registration.adapters.orm.VerificationCodeORM.code_type`
+
+```python
+code_type: Mapped[VerificationCodeTypeEnum] = mapped_column(Enum(VerificationCodeTypeEnum, name='verification_code_type', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, default=(VerificationCodeTypeEnum.REGISTRATION), server_default='registration')
 ```
 
 ####### `leadr.registration.adapters.orm.VerificationCodeORM.created_at`
@@ -358,6 +367,12 @@ updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
 used_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 ```
 
+####### `leadr.registration.adapters.orm.VerificationCodeORM.user_id`
+
+```python
+user_id: Mapped[UUID | None] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'), nullable=True, index=True)
+```
+
 ###### `leadr.registration.adapters.orm.VerificationCodeStatusEnum`
 
 Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
@@ -388,6 +403,29 @@ PENDING = 'pending'
 USED = 'used'
 ```
 
+###### `leadr.registration.adapters.orm.VerificationCodeTypeEnum`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Verification code type enum for database.
+
+**Attributes:**
+
+- [**INVITE**](./registration.md#leadr.registration.adapters.orm.VerificationCodeTypeEnum.INVITE) –
+- [**REGISTRATION**](./registration.md#leadr.registration.adapters.orm.VerificationCodeTypeEnum.REGISTRATION) –
+
+####### `leadr.registration.adapters.orm.VerificationCodeTypeEnum.INVITE`
+
+```python
+INVITE = 'invite'
+```
+
+####### `leadr.registration.adapters.orm.VerificationCodeTypeEnum.REGISTRATION`
+
+```python
+REGISTRATION = 'registration'
+```
+
 #### `leadr.registration.api`
 
 **Modules:**
@@ -401,10 +439,11 @@ Public registration API routes.
 
 **Functions:**
 
-- [**complete_registration**](#leadr.registration.api.routes.complete_registration) – Complete registration by creating the account, user, and API key.
+- [**complete_registration**](#leadr.registration.api.routes.complete_registration) – Complete registration or invite acceptance.
 - [**create_jam_code**](#leadr.registration.api.routes.create_jam_code) – Create a new jam code (superadmin only).
 - [**get_jam_code**](#leadr.registration.api.routes.get_jam_code) – Get a specific jam code by ID (superadmin only).
 - [**initiate_registration**](#leadr.registration.api.routes.initiate_registration) – Initiate registration by sending a verification code to the provided email.
+- [**invite_user**](#leadr.registration.api.routes.invite_user) – Invite a user to the authenticated admin's account.
 - [**list_jam_codes**](#leadr.registration.api.routes.list_jam_codes) – List all jam codes (superadmin only).
 - [**resend_verification_code**](#leadr.registration.api.routes.resend_verification_code) – Resend a verification code to the provided email.
 - [**update_jam_code**](#leadr.registration.api.routes.update_jam_code) – Update a jam code (superadmin only).
@@ -421,14 +460,22 @@ Public registration API routes.
 complete_registration(request, registration_service)
 ```
 
-Complete registration by creating the account, user, and API key.
+Complete registration or invite acceptance.
 
-This endpoint creates the full account structure:
+This endpoint handles two flows based on the verification token type:
 
-- Account with the specified name and slug
-- User associated with the verified email
-- API key for CLI authentication
-- Optional jam code redemption
+Registration flow (new account):
+
+- Creates account with the specified name and slug
+- Creates user as account owner
+- Creates API key for CLI authentication
+- Optionally redeems jam code
+
+Invite flow (joining existing account):
+
+- Activates the invited user (changes status from INVITED to ACTIVE)
+- Creates API key for CLI authentication
+- account_name and jam_code are ignored
 
 The API key is returned in plaintext and should be stored securely by the client.
 
@@ -461,6 +508,20 @@ Initiate registration by sending a verification code to the provided email.
 
 This endpoint is publicly accessible and requires no authentication.
 A 6-character verification code will be sent to the email address.
+
+###### `leadr.registration.api.routes.invite_user`
+
+```python
+invite_user(request, invite_service, auth)
+```
+
+Invite a user to the authenticated admin's account.
+
+Creates a user with INVITED status and sends an invite email with
+a verification code. If the user already exists with INVITED status,
+resends the invite (invalidates old code, sends new one).
+
+Requires admin authentication.
 
 ###### `leadr.registration.api.routes.list_jam_codes`
 
@@ -513,7 +574,9 @@ verify_code(request, verification_service)
 Verify an email verification code and return a temporary token.
 
 This endpoint validates the verification code and returns a short-lived
-token that can be used to complete the registration process.
+token that can be used to complete the registration process. The response
+includes the type (REGISTRATION or INVITE) so the client can determine
+which fields to prompt for.
 
 ##### `leadr.registration.api.schemas`
 
@@ -521,11 +584,13 @@ API schemas for registration endpoints.
 
 **Classes:**
 
-- [**CompleteRegistrationRequest**](./registration.md#leadr.registration.api.schemas.CompleteRegistrationRequest) – Request to complete registration and create account.
-- [**CompleteRegistrationResponse**](./registration.md#leadr.registration.api.schemas.CompleteRegistrationResponse) – Response after completing registration.
+- [**CompleteRegistrationRequest**](./registration.md#leadr.registration.api.schemas.CompleteRegistrationRequest) – Request to complete registration or invite acceptance.
+- [**CompleteRegistrationResponse**](./registration.md#leadr.registration.api.schemas.CompleteRegistrationResponse) – Response after completing registration or invite acceptance.
 - [**CreateJamCodeRequest**](./registration.md#leadr.registration.api.schemas.CreateJamCodeRequest) – Request to create a new jam code.
 - [**InitiateRegistrationRequest**](./registration.md#leadr.registration.api.schemas.InitiateRegistrationRequest) – Request to initiate registration by sending verification code.
 - [**InitiateRegistrationResponse**](./registration.md#leadr.registration.api.schemas.InitiateRegistrationResponse) – Response after initiating registration.
+- [**InviteUserRequest**](./registration.md#leadr.registration.api.schemas.InviteUserRequest) – Request to invite a user to an account.
+- [**InviteUserResponse**](./registration.md#leadr.registration.api.schemas.InviteUserResponse) – Response after inviting a user.
 - [**JamCodeRedemptionResponse**](./registration.md#leadr.registration.api.schemas.JamCodeRedemptionResponse) – Response representing a jam code redemption.
 - [**JamCodeResponse**](./registration.md#leadr.registration.api.schemas.JamCodeResponse) – Response representing a jam code.
 - [**UpdateJamCodeRequest**](./registration.md#leadr.registration.api.schemas.UpdateJamCodeRequest) – Request to update a jam code.
@@ -536,7 +601,10 @@ API schemas for registration endpoints.
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
-Request to complete registration and create account.
+Request to complete registration or invite acceptance.
+
+Used for both new account registration and invited user activation.
+The verification token type determines which flow is executed.
 
 **Functions:**
 
@@ -544,7 +612,7 @@ Request to complete registration and create account.
 
 **Attributes:**
 
-- [**account_name**](#leadr.registration.api.schemas.CompleteRegistrationRequest.account_name) (<code>[str](#str)</code>) –
+- [**account_name**](#leadr.registration.api.schemas.CompleteRegistrationRequest.account_name) (<code>[str](#str) | None</code>) –
 - [**account_slug**](#leadr.registration.api.schemas.CompleteRegistrationRequest.account_slug) (<code>[str](#str) | None</code>) –
 - [**display_name**](#leadr.registration.api.schemas.CompleteRegistrationRequest.display_name) (<code>[str](#str) | None</code>) –
 - [**jam_code**](#leadr.registration.api.schemas.CompleteRegistrationRequest.jam_code) (<code>[str](#str) | None</code>) –
@@ -553,7 +621,7 @@ Request to complete registration and create account.
 ####### `leadr.registration.api.schemas.CompleteRegistrationRequest.account_name`
 
 ```python
-account_name: str = Field(description='Name for the new account', min_length=1, max_length=100)
+account_name: str | None = Field(default=None, description='Name for the new account (required for registration, ignored for invite)')
 ```
 
 ####### `leadr.registration.api.schemas.CompleteRegistrationRequest.account_slug`
@@ -592,7 +660,7 @@ verification_token: str = Field(description='Token from code verification step')
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
-Response after completing registration.
+Response after completing registration or invite acceptance.
 
 **Functions:**
 
@@ -601,6 +669,7 @@ Response after completing registration.
 **Attributes:**
 
 - [**account_id**](#leadr.registration.api.schemas.CompleteRegistrationResponse.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**account_name**](#leadr.registration.api.schemas.CompleteRegistrationResponse.account_name) (<code>[str](#str)</code>) –
 - [**account_slug**](#leadr.registration.api.schemas.CompleteRegistrationResponse.account_slug) (<code>[str](#str)</code>) –
 - [**api_key**](#leadr.registration.api.schemas.CompleteRegistrationResponse.api_key) (<code>[str](#str)</code>) –
 - [**display_name**](#leadr.registration.api.schemas.CompleteRegistrationResponse.display_name) (<code>[str](#str)</code>) –
@@ -609,6 +678,12 @@ Response after completing registration.
 
 ```python
 account_id: AccountID = Field(description='ID of the created account')
+```
+
+####### `leadr.registration.api.schemas.CompleteRegistrationResponse.account_name`
+
+```python
+account_name: str = Field(description='Name of the account')
 ```
 
 ####### `leadr.registration.api.schemas.CompleteRegistrationResponse.account_slug`
@@ -728,6 +803,86 @@ code_expires_in: int = Field(description='Seconds until the code expires')
 
 ```python
 message: str = Field(description='Success message')
+```
+
+###### `leadr.registration.api.schemas.InviteUserRequest`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Request to invite a user to an account.
+
+**Attributes:**
+
+- [**display_name**](#leadr.registration.api.schemas.InviteUserRequest.display_name) (<code>[str](#str) | None</code>) –
+- [**email**](./registration.md#leadr.registration.api.schemas.InviteUserRequest.email) (<code>[EmailStr](#pydantic.EmailStr)</code>) –
+
+####### `leadr.registration.api.schemas.InviteUserRequest.display_name`
+
+```python
+display_name: str | None = Field(default=None, description='Optional display name (defaults to email prefix if not provided)')
+```
+
+####### `leadr.registration.api.schemas.InviteUserRequest.email`
+
+```python
+email: EmailStr = Field(description='Email address to invite')
+```
+
+###### `leadr.registration.api.schemas.InviteUserResponse`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Response after inviting a user.
+
+**Functions:**
+
+- [**from_domain**](#leadr.registration.api.schemas.InviteUserResponse.from_domain) – Create response from domain entity.
+
+**Attributes:**
+
+- [**email**](./registration.md#leadr.registration.api.schemas.InviteUserResponse.email) (<code>[str](#str)</code>) –
+- [**message**](./registration.md#leadr.registration.api.schemas.InviteUserResponse.message) (<code>[str](#str)</code>) –
+- [**status**](./registration.md#leadr.registration.api.schemas.InviteUserResponse.status) (<code>[str](#str)</code>) –
+- [**user_id**](#leadr.registration.api.schemas.InviteUserResponse.user_id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) –
+
+####### `leadr.registration.api.schemas.InviteUserResponse.email`
+
+```python
+email: str = Field(description='Email address of the invited user')
+```
+
+####### `leadr.registration.api.schemas.InviteUserResponse.from_domain`
+
+```python
+from_domain(user)
+```
+
+Create response from domain entity.
+
+**Parameters:**
+
+- **user** – User domain entity.
+
+**Returns:**
+
+- <code>[InviteUserResponse](./registration.md#leadr.registration.api.schemas.InviteUserResponse)</code> – InviteUserResponse instance.
+
+####### `leadr.registration.api.schemas.InviteUserResponse.message`
+
+```python
+message: str = Field(description='Success message')
+```
+
+####### `leadr.registration.api.schemas.InviteUserResponse.status`
+
+```python
+status: str = Field(description='User status (INVITED)')
+```
+
+####### `leadr.registration.api.schemas.InviteUserResponse.user_id`
+
+```python
+user_id: UserID = Field(description='ID of the invited user')
 ```
 
 ###### `leadr.registration.api.schemas.JamCodeRedemptionResponse`
@@ -969,12 +1124,19 @@ Response after verifying a code.
 **Attributes:**
 
 - [**expires_in**](#leadr.registration.api.schemas.VerifyCodeResponse.expires_in) (<code>[int](#int)</code>) –
+- [**type**](./registration.md#leadr.registration.api.schemas.VerifyCodeResponse.type) (<code>[str](#str)</code>) –
 - [**verification_token**](#leadr.registration.api.schemas.VerifyCodeResponse.verification_token) (<code>[str](#str)</code>) –
 
 ####### `leadr.registration.api.schemas.VerifyCodeResponse.expires_in`
 
 ```python
 expires_in: int = Field(description='Seconds until the token expires')
+```
+
+####### `leadr.registration.api.schemas.VerifyCodeResponse.type`
+
+```python
+type: str = Field(description='Type of verification: REGISTRATION for new accounts, INVITE for invited users')
 ```
 
 ####### `leadr.registration.api.schemas.VerifyCodeResponse.verification_token`
@@ -1433,6 +1595,7 @@ Verification code domain models for email verification during registration.
 
 - [**VerificationCode**](#leadr.registration.domain.verification_code.VerificationCode) – Verification code domain entity.
 - [**VerificationCodeStatus**](#leadr.registration.domain.verification_code.VerificationCodeStatus) – Verification code status enumeration.
+- [**VerificationCodeType**](#leadr.registration.domain.verification_code.VerificationCodeType) – Verification code type enumeration.
 
 ###### `leadr.registration.domain.verification_code.VerificationCode`
 
@@ -1440,9 +1603,13 @@ Bases: <code>[Entity](./common.md#leadr.common.domain.models.Entity)</code>
 
 Verification code domain entity.
 
-Represents a one-time email verification code used during account registration.
-Codes are 6-character alphanumeric strings with a 10-minute expiration window.
+Represents a one-time email verification code used during registration or invite flows.
+Codes are 6-character alphanumeric strings with configurable expiration windows
+(10 minutes for registration, 24 hours for invites by default).
 Once used or expired, codes become invalid and cannot be reused.
+
+The code_type field distinguishes between REGISTRATION codes (for new account signup)
+and INVITE codes (for invited users joining an existing account).
 
 **Functions:**
 
@@ -1458,21 +1625,31 @@ Once used or expired, codes become invalid and cannot be reused.
 **Attributes:**
 
 - [**code**](#leadr.registration.domain.verification_code.VerificationCode.code) (<code>[str](#str)</code>) –
+- [**code_type**](#leadr.registration.domain.verification_code.VerificationCode.code_type) (<code>[VerificationCodeType](#leadr.registration.domain.verification_code.VerificationCodeType)</code>) –
 - [**created_at**](#leadr.registration.domain.verification_code.VerificationCode.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**deleted_at**](#leadr.registration.domain.verification_code.VerificationCode.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**email**](#leadr.registration.domain.verification_code.VerificationCode.email) (<code>[EmailStr](#pydantic.EmailStr)</code>) –
 - [**expires_at**](#leadr.registration.domain.verification_code.VerificationCode.expires_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**id**](#leadr.registration.domain.verification_code.VerificationCode.id) (<code>[Any](#typing.Any)</code>) –
 - [**is_deleted**](#leadr.registration.domain.verification_code.VerificationCode.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
+- [**is_invite**](#leadr.registration.domain.verification_code.VerificationCode.is_invite) (<code>[bool](#bool)</code>) – Check if this is an invite code.
+- [**is_registration**](#leadr.registration.domain.verification_code.VerificationCode.is_registration) (<code>[bool](#bool)</code>) – Check if this is a registration code.
 - [**model_config**](#leadr.registration.domain.verification_code.VerificationCode.model_config) –
 - [**status**](#leadr.registration.domain.verification_code.VerificationCode.status) (<code>[VerificationCodeStatus](#leadr.registration.domain.verification_code.VerificationCodeStatus)</code>) –
 - [**updated_at**](#leadr.registration.domain.verification_code.VerificationCode.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**used_at**](#leadr.registration.domain.verification_code.VerificationCode.used_at) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**user_id**](#leadr.registration.domain.verification_code.VerificationCode.user_id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID) | None</code>) –
 
 ####### `leadr.registration.domain.verification_code.VerificationCode.code`
 
 ```python
 code: str = Field(description='6-character alphanumeric verification code (case-insensitive)', min_length=6, max_length=6)
+```
+
+####### `leadr.registration.domain.verification_code.VerificationCode.code_type`
+
+```python
+code_type: VerificationCodeType = Field(default=(VerificationCodeType.REGISTRATION), description='Type of verification code (registration or invite)')
 ```
 
 ####### `leadr.registration.domain.verification_code.VerificationCode.created_at`
@@ -1528,6 +1705,22 @@ Check if the verification code has expired.
 **Returns:**
 
 - <code>[bool](#bool)</code> – True if the code's expiration time has passed.
+
+####### `leadr.registration.domain.verification_code.VerificationCode.is_invite`
+
+```python
+is_invite: bool
+```
+
+Check if this is an invite code.
+
+####### `leadr.registration.domain.verification_code.VerificationCode.is_registration`
+
+```python
+is_registration: bool
+```
+
+Check if this is a registration code.
 
 ####### `leadr.registration.domain.verification_code.VerificationCode.is_used`
 
@@ -1640,6 +1833,12 @@ updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), descri
 used_at: datetime | None = None
 ```
 
+####### `leadr.registration.domain.verification_code.VerificationCode.user_id`
+
+```python
+user_id: UserID | None = Field(default=None, description='User ID for invite codes (links invite to existing user record)')
+```
+
 ####### `leadr.registration.domain.verification_code.VerificationCode.validate_code`
 
 ```python
@@ -1690,13 +1889,44 @@ PENDING = 'pending'
 USED = 'used'
 ```
 
+###### `leadr.registration.domain.verification_code.VerificationCodeType`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Verification code type enumeration.
+
+Distinguishes between codes used for initial registration
+and codes used for user invitations.
+
+**Attributes:**
+
+- [**INVITE**](#leadr.registration.domain.verification_code.VerificationCodeType.INVITE) – Code for invited user to join an existing account.
+- [**REGISTRATION**](#leadr.registration.domain.verification_code.VerificationCodeType.REGISTRATION) – Code for new account registration flow.
+
+####### `leadr.registration.domain.verification_code.VerificationCodeType.INVITE`
+
+```python
+INVITE = 'invite'
+```
+
+Code for invited user to join an existing account.
+
+####### `leadr.registration.domain.verification_code.VerificationCodeType.REGISTRATION`
+
+```python
+REGISTRATION = 'registration'
+```
+
+Code for new account registration flow.
+
 #### `leadr.registration.services`
 
 **Modules:**
 
 - [**dependencies**](./registration.md#leadr.registration.services.dependencies) – Dependency injection for registration services.
+- [**invite_service**](#leadr.registration.services.invite_service) – Invite service for managing user invitations to accounts.
 - [**jam_code_service**](#leadr.registration.services.jam_code_service) – Jam code service for managing promotional codes.
-- [**registration_service**](#leadr.registration.services.registration_service) – Registration service for orchestrating account creation flow.
+- [**registration_service**](#leadr.registration.services.registration_service) – Registration service for orchestrating account creation and invite completion flows.
 - [**repositories**](./registration.md#leadr.registration.services.repositories) – Registration repository services for verification codes and jam codes.
 - [**verification_service**](#leadr.registration.services.verification_service) – Verification service for generating and validating email verification codes.
 
@@ -1707,6 +1937,7 @@ Dependency injection for registration services.
 **Functions:**
 
 - [**get_email_service**](#leadr.registration.services.dependencies.get_email_service) – Get EmailService dependency.
+- [**get_invite_service**](#leadr.registration.services.dependencies.get_invite_service) – Get InviteService dependency.
 - [**get_jam_code_service**](#leadr.registration.services.dependencies.get_jam_code_service) – Get JamCodeService dependency.
 - [**get_registration_service**](#leadr.registration.services.dependencies.get_registration_service) – Get RegistrationService dependency.
 - [**get_verification_service**](#leadr.registration.services.dependencies.get_verification_service) – Get VerificationService dependency.
@@ -1714,6 +1945,7 @@ Dependency injection for registration services.
 **Attributes:**
 
 - [**EmailServiceDep**](./registration.md#leadr.registration.services.dependencies.EmailServiceDep) –
+- [**InviteServiceDep**](./registration.md#leadr.registration.services.dependencies.InviteServiceDep) –
 - [**JamCodeServiceDep**](./registration.md#leadr.registration.services.dependencies.JamCodeServiceDep) –
 - [**RegistrationServiceDep**](./registration.md#leadr.registration.services.dependencies.RegistrationServiceDep) –
 - [**VerificationServiceDep**](./registration.md#leadr.registration.services.dependencies.VerificationServiceDep) –
@@ -1722,6 +1954,12 @@ Dependency injection for registration services.
 
 ```python
 EmailServiceDep = Annotated[EmailService, Depends(get_email_service)]
+```
+
+###### `leadr.registration.services.dependencies.InviteServiceDep`
+
+```python
+InviteServiceDep = Annotated[InviteService, Depends(get_invite_service)]
 ```
 
 ###### `leadr.registration.services.dependencies.JamCodeServiceDep`
@@ -1757,6 +1995,26 @@ Get EmailService dependency.
 **Returns:**
 
 - <code>[EmailService](./infra.md#leadr.infra.email.EmailService)</code> – EmailService instance.
+
+###### `leadr.registration.services.dependencies.get_invite_service`
+
+```python
+get_invite_service(db, account_service, user_service, verification_service, email_service)
+```
+
+Get InviteService dependency.
+
+**Parameters:**
+
+- **db** (<code>[DatabaseSession](./common.md#leadr.common.dependencies.DatabaseSession)</code>) – Database session.
+- **account_service** (<code>[AccountServiceDep](#leadr.accounts.services.dependencies.AccountServiceDep)</code>) – Account service.
+- **user_service** (<code>[UserServiceDep](#leadr.accounts.services.dependencies.UserServiceDep)</code>) – User service.
+- **verification_service** (<code>[VerificationServiceDep](./registration.md#leadr.registration.services.dependencies.VerificationServiceDep)</code>) – Verification service.
+- **email_service** (<code>[EmailServiceDep](./registration.md#leadr.registration.services.dependencies.EmailServiceDep)</code>) – Email service.
+
+**Returns:**
+
+- <code>[InviteService](#leadr.registration.services.invite_service.InviteService)</code> – InviteService instance.
 
 ###### `leadr.registration.services.dependencies.get_jam_code_service`
 
@@ -1812,6 +2070,115 @@ Get VerificationService dependency.
 **Returns:**
 
 - <code>[VerificationService](#leadr.registration.services.verification_service.VerificationService)</code> – VerificationService instance.
+
+##### `leadr.registration.services.invite_service`
+
+Invite service for managing user invitations to accounts.
+
+**Classes:**
+
+- [**InviteService**](#leadr.registration.services.invite_service.InviteService) – Service for managing user invitations.
+
+**Attributes:**
+
+- [**logger**](#leadr.registration.services.invite_service.logger) –
+
+###### `leadr.registration.services.invite_service.InviteService`
+
+```python
+InviteService(db, account_service, user_service, verification_service, email_service)
+```
+
+Service for managing user invitations.
+
+Coordinates the invite flow:
+
+1. Create invited user with INVITED status
+1. Create invite verification code
+1. Send invite email
+
+**Functions:**
+
+- [**send_invite**](#leadr.registration.services.invite_service.InviteService.send_invite) – Invite a user to an account.
+
+**Attributes:**
+
+- [**account_service**](#leadr.registration.services.invite_service.InviteService.account_service) –
+- [**db**](#leadr.registration.services.invite_service.InviteService.db) –
+- [**email_service**](#leadr.registration.services.invite_service.InviteService.email_service) –
+- [**user_service**](#leadr.registration.services.invite_service.InviteService.user_service) –
+- [**verification_service**](#leadr.registration.services.invite_service.InviteService.verification_service) –
+
+**Parameters:**
+
+- **db** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – Database session.
+- **account_service** (<code>[AccountService](#leadr.accounts.services.account_service.AccountService)</code>) – Account service for fetching account info.
+- **user_service** (<code>[UserService](#leadr.accounts.services.user_service.UserService)</code>) – User service for creating users.
+- **verification_service** (<code>[VerificationService](#leadr.registration.services.verification_service.VerificationService)</code>) – Verification service for creating invite codes.
+- **email_service** (<code>[EmailService](./infra.md#leadr.infra.email.EmailService)</code>) – Email service for sending invite emails.
+
+####### `leadr.registration.services.invite_service.InviteService.account_service`
+
+```python
+account_service = account_service
+```
+
+####### `leadr.registration.services.invite_service.InviteService.db`
+
+```python
+db = db
+```
+
+####### `leadr.registration.services.invite_service.InviteService.email_service`
+
+```python
+email_service = email_service
+```
+
+####### `leadr.registration.services.invite_service.InviteService.send_invite`
+
+```python
+send_invite(email, account_id, display_name=None)
+```
+
+Invite a user to an account.
+
+Creates a user with INVITED status and sends an invite email with
+a verification code. If the user already exists with INVITED status,
+resends the invite (invalidates old code, creates new one).
+
+**Parameters:**
+
+- **email** (<code>[str](#str)</code>) – Email address to invite.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID to invite the user to.
+- **display_name** (<code>[str](#str) | None</code>) – Optional display name. Defaults to email prefix if not provided.
+
+**Returns:**
+
+- <code>[User](./accounts.md#leadr.accounts.domain.user.User)</code> – The created or existing User entity with INVITED status.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If user already exists with non-INVITED status.
+- <code>[ValueError](#ValueError)</code> – If account doesn't exist.
+
+####### `leadr.registration.services.invite_service.InviteService.user_service`
+
+```python
+user_service = user_service
+```
+
+####### `leadr.registration.services.invite_service.InviteService.verification_service`
+
+```python
+verification_service = verification_service
+```
+
+###### `leadr.registration.services.invite_service.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
 
 ##### `leadr.registration.services.jam_code_service`
 
@@ -1987,11 +2354,11 @@ Validate a jam code and return it if valid.
 
 ##### `leadr.registration.services.registration_service`
 
-Registration service for orchestrating account creation flow.
+Registration service for orchestrating account creation and invite completion flows.
 
 **Classes:**
 
-- [**RegistrationService**](#leadr.registration.services.registration_service.RegistrationService) – Service for orchestrating the complete account registration flow.
+- [**RegistrationService**](#leadr.registration.services.registration_service.RegistrationService) – Service for orchestrating registration and invite completion flows.
 
 ###### `leadr.registration.services.registration_service.RegistrationService`
 
@@ -1999,7 +2366,12 @@ Registration service for orchestrating account creation flow.
 RegistrationService(db, account_service, user_service, api_key_service, verification_service, jam_code_service, email_service)
 ```
 
-Service for orchestrating the complete account registration flow.
+Service for orchestrating registration and invite completion flows.
+
+Handles two distinct flows:
+
+- Registration: Creates new account, user (as owner), and API key
+- Invite: Activates existing invited user and creates API key
 
 **Functions:**
 
@@ -2040,17 +2412,23 @@ api_key_service = api_key_service
 ####### `leadr.registration.services.registration_service.RegistrationService.complete_registration`
 
 ```python
-complete_registration(verification_token, account_name, account_slug=None, jam_code=None, display_name=None)
+complete_registration(verification_token, account_name=None, account_slug=None, jam_code=None, display_name=None)
 ```
 
 Complete the registration process and create account, user, and API key.
 
+For invite flow: If the verification token contains a user_id, this is an
+invite completion. The existing invited user is activated and an API key
+is created. Account creation is skipped.
+
+For registration flow: A new account, user, and API key are created.
+
 **Parameters:**
 
 - **verification_token** (<code>[str](#str)</code>) – JWT token from email verification.
-- **account_name** (<code>[str](#str)</code>) – Name for the new account.
+- **account_name** (<code>[str](#str) | None</code>) – Name for the new account (required for registration, ignored for invite).
 - **account_slug** (<code>[str](#str) | None</code>) – Optional slug (will be auto-generated if not provided).
-- **jam_code** (<code>[str](#str) | None</code>) – Optional jam code for promotional features.
+- **jam_code** (<code>[str](#str) | None</code>) – Optional jam code for promotional features (registration only).
 - **display_name** (<code>[str](#str) | None</code>) – Optional display name (will use email prefix if not provided).
 
 **Returns:**
@@ -2060,6 +2438,7 @@ Complete the registration process and create account, user, and API key.
 **Raises:**
 
 - <code>[ValueError](#ValueError)</code> – If verification token is invalid or jam code is invalid.
+- <code>[ValueError](#ValueError)</code> – If account_name is missing for registration flow.
 
 ####### `leadr.registration.services.registration_service.RegistrationService.db`
 
@@ -2412,6 +2791,7 @@ Verification code repository for managing email verification codes.
 - [**filter**](./registration.md#leadr.registration.services.repositories.VerificationCodeRepository.filter) – Filter verification codes by criteria with pagination.
 - [**find_valid_code_by_email**](#leadr.registration.services.repositories.VerificationCodeRepository.find_valid_code_by_email) – Find a valid (pending) verification code by email and code value.
 - [**get_by_id**](#leadr.registration.services.repositories.VerificationCodeRepository.get_by_id) – Get an entity by its ID.
+- [**get_pending_invite_for_user**](#leadr.registration.services.repositories.VerificationCodeRepository.get_pending_invite_for_user) – Get a pending invite code for a specific user.
 - [**invalidate_codes_for_email**](#leadr.registration.services.repositories.VerificationCodeRepository.invalidate_codes_for_email) – Mark all pending verification codes for an email as expired.
 - [**update**](./registration.md#leadr.registration.services.repositories.VerificationCodeRepository.update) – Update an existing entity in the database.
 
@@ -2484,7 +2864,7 @@ Filter verification codes by criteria with pagination.
 ####### `leadr.registration.services.repositories.VerificationCodeRepository.find_valid_code_by_email`
 
 ```python
-find_valid_code_by_email(email, code)
+find_valid_code_by_email(email, code, code_type=None)
 ```
 
 Find a valid (pending) verification code by email and code value.
@@ -2493,6 +2873,7 @@ Find a valid (pending) verification code by email and code value.
 
 - **email** (<code>[str](#str)</code>) – The email address.
 - **code** (<code>[str](#str)</code>) – The verification code.
+- **code_type** (<code>[VerificationCodeTypeEnum](./registration.md#leadr.registration.adapters.orm.VerificationCodeTypeEnum) | None</code>) – Optional code type filter (REGISTRATION or INVITE).
 
 **Returns:**
 
@@ -2514,6 +2895,22 @@ Get an entity by its ID.
 **Returns:**
 
 - <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT) | None</code> – Domain entity if found, None otherwise
+
+####### `leadr.registration.services.repositories.VerificationCodeRepository.get_pending_invite_for_user`
+
+```python
+get_pending_invite_for_user(user_id)
+```
+
+Get a pending invite code for a specific user.
+
+**Parameters:**
+
+- **user_id** (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) – The user ID to look up invite code for.
+
+**Returns:**
+
+- <code>[VerificationCode](#leadr.registration.domain.verification_code.VerificationCode) | None</code> – The pending invite verification code if found, None otherwise.
 
 ####### `leadr.registration.services.repositories.VerificationCodeRepository.invalidate_codes_for_email`
 
@@ -2573,9 +2970,11 @@ Service for managing email verification codes.
 
 **Functions:**
 
+- [**create_invite_code**](#leadr.registration.services.verification_service.VerificationService.create_invite_code) – Create an invite verification code for an existing user.
+- [**get_invite_user_id**](#leadr.registration.services.verification_service.VerificationService.get_invite_user_id) – Extract the user_id from an invite verification token.
 - [**initiate_verification**](#leadr.registration.services.verification_service.VerificationService.initiate_verification) – Generate and send a verification code to an email address.
 - [**validate_verification_token**](#leadr.registration.services.verification_service.VerificationService.validate_verification_token) – Validate a verification token and return the email.
-- [**verify_code**](#leadr.registration.services.verification_service.VerificationService.verify_code) – Verify a code and return a short-lived verification token.
+- [**verify_code**](#leadr.registration.services.verification_service.VerificationService.verify_code) – Verify a code and return a short-lived verification token with its type.
 
 **Attributes:**
 
@@ -2588,6 +2987,25 @@ Service for managing email verification codes.
 - **db** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – Database session.
 - **email_service** (<code>[EmailService](./infra.md#leadr.infra.email.EmailService)</code>) – Email service for sending verification codes.
 
+####### `leadr.registration.services.verification_service.VerificationService.create_invite_code`
+
+```python
+create_invite_code(email, user_id)
+```
+
+Create an invite verification code for an existing user.
+
+Invalidates any existing pending invite codes for the email before creating a new one.
+
+**Parameters:**
+
+- **email** (<code>[str](#str)</code>) – Email address to send the invite code to.
+- **user_id** (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) – The ID of the user being invited.
+
+**Returns:**
+
+- <code>[VerificationCode](#leadr.registration.domain.verification_code.VerificationCode)</code> – The created verification code entity.
+
 ####### `leadr.registration.services.verification_service.VerificationService.db`
 
 ```python
@@ -2599,6 +3017,26 @@ db = db
 ```python
 email_service = email_service
 ```
+
+####### `leadr.registration.services.verification_service.VerificationService.get_invite_user_id`
+
+```python
+get_invite_user_id(token)
+```
+
+Extract the user_id from an invite verification token.
+
+**Parameters:**
+
+- **token** (<code>[str](#str)</code>) – JWT verification token.
+
+**Returns:**
+
+- <code>[UserID](./common.md#leadr.common.domain.ids.UserID) | None</code> – The UserID if this is an invite token, None otherwise.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If the token is invalid or expired.
 
 ####### `leadr.registration.services.verification_service.VerificationService.initiate_verification`
 
@@ -2646,7 +3084,7 @@ Validate a verification token and return the email.
 verify_code(email, code)
 ```
 
-Verify a code and return a short-lived verification token.
+Verify a code and return a short-lived verification token with its type.
 
 **Parameters:**
 
@@ -2655,7 +3093,8 @@ Verify a code and return a short-lived verification token.
 
 **Returns:**
 
-- <code>[str](#str)</code> – A JWT verification token valid for 10 minutes.
+- <code>[str](#str)</code> – A tuple of (JWT verification token, VerificationCodeType).
+- <code>[VerificationCodeType](#leadr.registration.domain.verification_code.VerificationCodeType)</code> – For invite codes, the token includes user_id.
 
 **Raises:**
 

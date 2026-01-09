@@ -101,6 +101,7 @@ Raises:
   "email": "string",
   "display_name": "string",
   "super_admin": true,
+  "status": "invited",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -311,6 +312,7 @@ Raises:
   "email": "string",
   "display_name": "string",
   "super_admin": true,
+  "status": "invited",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -353,6 +355,7 @@ Raises:
       "email": "user@example.com",
       "display_name": "string",
       "super_admin": true,
+      "status": "invited",
       "deleted": true
     }';
     const headers = {
@@ -380,7 +383,8 @@ Raises:
 
 Update a user.
 
-Supports updating email, display name, or soft-deleting the user.
+Supports updating email, display name, status, or soft-deleting the user.
+Status changes (active/suspended) are handled through dedicated service methods.
 
 Args:
     user_id: Unique identifier for the user.
@@ -402,6 +406,7 @@ Raises:
   "email": "user@example.com",
   "display_name": "string",
   "super_admin": true,
+  "status": "invited",
   "deleted": true
 }
 ```
@@ -428,6 +433,7 @@ Raises:
   "email": "string",
   "display_name": "string",
   "super_admin": true,
+  "status": "invited",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
