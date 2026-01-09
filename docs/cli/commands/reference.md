@@ -70,10 +70,11 @@ This document contains the help content for the `leadr` command-line program.
 * [`leadr score-submission-meta`↴](#leadr-score-submission-meta)
 * [`leadr score-submission-meta list`↴](#leadr-score-submission-meta-list)
 * [`leadr score-submission-meta get`↴](#leadr-score-submission-meta-get)
+* [`leadr invite`↴](#leadr-invite)
 
 ## `leadr`
 
-LEADR CLI - Admin tool for LEADR API (v0.4.3)
+LEADR CLI - Admin tool for LEADR API (v0.5.2)
 
 CLI docs:  https://docs.leadr.gg/latest/cli/
 Website:      https://leadr.gg
@@ -97,6 +98,7 @@ Discord:      https://discord.gg/RMUukcAxSZ
 * `device-session` — Device session management
 * `score-flag` — Score flag management (anti-cheat)
 * `score-submission-meta` — Score submission metadata (analytics)
+* `invite` — Invite a user to the account (interactive)
 
 ###### **Options:**
 
@@ -1026,6 +1028,14 @@ Get score submission metadata by ID
 ###### **Options:**
 
 * `--meta-id <META_ID>` — Metadata ID (UUID)
+
+
+
+## `leadr invite`
+
+Invite a user to the account (interactive)
+
+**Usage:** `leadr invite`
 
 
 
