@@ -24,7 +24,7 @@ Get account by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
 
 **Example:**
 
@@ -41,8 +41,8 @@ Update an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--json` | JSON string with fields to update (e.g., `{"name": "New Name", "status": "suspended"}`) | Yes |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--json` | JSON string with fields to update [required] | Yes |
 
 **Example:**
 
@@ -58,7 +58,7 @@ Delete an account (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
 
 **Example:**
 

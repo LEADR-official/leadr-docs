@@ -25,10 +25,10 @@ List device sessions for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--device-id` | Optional Device ID to filter by (UUID) | No |
-| `--game-id` | Optional Game ID to filter by (UUID) | No |
-| `--status` | Optional status filter | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--device-id` | Device ID to filter by (UUID) [optional] | No |
+| `--game-id` | Game ID to filter by (UUID) [optional] | No |
+| `--status` | Status filter [optional] | No |
 
 **Example:**
 
@@ -44,7 +44,7 @@ Get device session by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--session-id` | Session ID (UUID) | Yes |
+| `--session-id` | Session ID (UUID) [required] | Yes |
 
 **Example:**
 
@@ -60,8 +60,8 @@ Update device session status
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--session-id` | Session ID (UUID) | Yes |
-| `--status` | New status | No |
+| `--session-id` | Session ID (UUID) [required] | Yes |
+| `--status` | New status [optional] | No |
 
 **Example:**
 
@@ -77,7 +77,7 @@ Delete a device session (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--session-id` | Session ID (UUID) | Yes |
+| `--session-id` | Session ID (UUID) [required] | Yes |
 
 **Example:**
 

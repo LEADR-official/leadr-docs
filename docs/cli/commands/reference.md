@@ -38,6 +38,7 @@ This document contains the help content for the `leadr` command-line program.
 * [`leadr board list`↴](#leadr-board-list)
 * [`leadr board get`↴](#leadr-board-get)
 * [`leadr board get-by-code`↴](#leadr-board-get-by-code)
+* [`leadr board get-by-slug`↴](#leadr-board-get-by-slug)
 * [`leadr board update`↴](#leadr-board-update)
 * [`leadr board delete`↴](#leadr-board-delete)
 * [`leadr board-template`↴](#leadr-board-template)
@@ -70,13 +71,14 @@ This document contains the help content for the `leadr` command-line program.
 * [`leadr score-submission-meta`↴](#leadr-score-submission-meta)
 * [`leadr score-submission-meta list`↴](#leadr-score-submission-meta-list)
 * [`leadr score-submission-meta get`↴](#leadr-score-submission-meta-get)
+* [`leadr invite`↴](#leadr-invite)
 
 ## `leadr`
 
-LEADR CLI - Admin tool for LEADR API (v0.4.3)
+LEADR CLI - Admin tool for LEADR API (v0.5.5)
 
 CLI docs:  https://docs.leadr.gg/latest/cli/
-Website:      https://leadr.gg
+Website:      https://www.leadr.gg
 Discord:      https://discord.gg/RMUukcAxSZ
 
 **Usage:** `leadr [OPTIONS] [COMMAND]`
@@ -97,6 +99,7 @@ Discord:      https://discord.gg/RMUukcAxSZ
 * `device-session` — Device session management
 * `score-flag` — Score flag management (anti-cheat)
 * `score-submission-meta` — Score submission metadata (analytics)
+* `invite` — Invite a user to the account (interactive)
 
 ###### **Options:**
 
@@ -196,7 +199,7 @@ Get account by ID
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
 
 
 
@@ -208,8 +211,8 @@ Update an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--json <JSON>` — JSON string with fields to update (e.g., `{"name": "New Name", "status": "suspended"}`)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--json <JSON>` — JSON string with fields to update [required]
 
 
 
@@ -221,7 +224,7 @@ Delete an account (soft delete)
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
 
 
 
@@ -249,9 +252,9 @@ Create a new user
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--email <EMAIL>` — User email
-* `--display-name <DISPLAY_NAME>` — Display name
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--email <EMAIL>` — User email [required]
+* `--display-name <DISPLAY_NAME>` — Display name [required]
 
 
 
@@ -263,7 +266,7 @@ List users for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
 
 
 
@@ -275,7 +278,7 @@ Get user by ID
 
 ###### **Options:**
 
-* `--user-id <USER_ID>` — User ID (UUID)
+* `--user-id <USER_ID>` — User ID (UUID) [required]
 
 
 
@@ -287,8 +290,8 @@ Update a user
 
 ###### **Options:**
 
-* `--user-id <USER_ID>` — User ID (UUID)
-* `--json <JSON>` — JSON string with fields to update (e.g., `{"email": "new@example.com", "display_name": "New Name"}`)
+* `--user-id <USER_ID>` — User ID (UUID) [required]
+* `--json <JSON>` — JSON string with fields to update [required]
 
 
 
@@ -300,7 +303,7 @@ Delete a user (soft delete)
 
 ###### **Options:**
 
-* `--user-id <USER_ID>` — User ID (UUID)
+* `--user-id <USER_ID>` — User ID (UUID) [required]
 
 
 
@@ -327,9 +330,9 @@ Create a new API key
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--user-id <USER_ID>` — User ID (UUID) - the user who owns this API key
-* `--name <NAME>` — API key name
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--user-id <USER_ID>` — User ID (UUID), the user who owns this API key [required]
+* `--name <NAME>` — API key name [required]
 
 
 
@@ -341,7 +344,7 @@ List API keys for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
 
 
 
@@ -353,7 +356,7 @@ Get API key by ID
 
 ###### **Options:**
 
-* `--key-id <KEY_ID>` — API key ID (UUID)
+* `--key-id <KEY_ID>` — API key ID (UUID) [required]
 
 
 
@@ -365,7 +368,7 @@ Revoke an API key (soft delete)
 
 ###### **Options:**
 
-* `--key-id <KEY_ID>` — API key ID (UUID)
+* `--key-id <KEY_ID>` — API key ID (UUID) [required]
 
 
 
@@ -393,12 +396,12 @@ Create a new game
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--name <NAME>` — Game name
-* `--description <DESCRIPTION>` — Game description
-* `--page-url <PAGE_URL>` — URL to game's page (e.g., Steam store page, itch.io page)
-* `--steam-app-id <STEAM_APP_ID>` — Steam App ID (optional)
-* `--anti-cheat-enabled <ANTI_CHEAT_ENABLED>` — Enable anti-cheat (default: true)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--name <NAME>` — Game name [required]
+* `--description <DESCRIPTION>` — Game description [optional]
+* `--page-url <PAGE_URL>` — URL to game's page, e.g. Steam store, itch.io [optional]
+* `--steam-app-id <STEAM_APP_ID>` — Steam App ID [optional]
+* `--anti-cheat-enabled <ANTI_CHEAT_ENABLED>` — Enable anti-cheat [optional, default: true]
 
   Possible values: `true`, `false`
 
@@ -413,7 +416,7 @@ List games for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
 
 
 
@@ -425,7 +428,7 @@ Get game by ID
 
 ###### **Options:**
 
-* `--game-id <GAME_ID>` — Game ID (UUID)
+* `--game-id <GAME_ID>` — Game ID (UUID) [required]
 
 
 
@@ -437,8 +440,8 @@ Update a game
 
 ###### **Options:**
 
-* `--game-id <GAME_ID>` — Game ID (UUID)
-* `--json <JSON>` — JSON string with fields to update
+* `--game-id <GAME_ID>` — Game ID (UUID) [required]
+* `--json <JSON>` — JSON string with fields to update [required]
 
 
 
@@ -450,7 +453,7 @@ Delete a game (soft delete)
 
 ###### **Options:**
 
-* `--game-id <GAME_ID>` — Game ID (UUID)
+* `--game-id <GAME_ID>` — Game ID (UUID) [required]
 
 
 
@@ -466,6 +469,7 @@ Board (leaderboard) management
 * `list` — List boards for an account
 * `get` — Get board by ID
 * `get-by-code` — Get board by short code
+* `get-by-slug` — Get board by slug
 * `update` — Update a board
 * `delete` — Delete a board (soft delete)
 
@@ -479,29 +483,29 @@ Create a new board
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--game-id <GAME_ID>` — Game ID (UUID)
-* `--name <NAME>` — Board name
-* `--description <DESCRIPTION>` — Board description
-* `--icon <ICON>` — Icon (emoji or URL)
-* `--short-code <SHORT_CODE>` — Short code (globally unique identifier)
-* `--unit <UNIT>` — Unit (e.g., "points", "seconds", "kills")
-* `--sort-direction <SORT_DIRECTION>` — Sort direction (asc or desc)
-* `--keep-strategy <KEEP_STRATEGY>` — Keep strategy (best, first, last, or all)
-* `--is-active <IS_ACTIVE>` — Board is active (default: true)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--game-id <GAME_ID>` — Game ID (UUID) [required]
+* `--name <NAME>` — Board name [required]
+* `--description <DESCRIPTION>` — Board description [optional]
+* `--icon <ICON>` — Icon - emoji or URL [optional]
+* `--short-code <SHORT_CODE>` — Short code [optional, auto-generated if omitted]
+* `--unit <UNIT>` — Unit, e.g. "points", "seconds" [optional]
+* `--sort-direction <SORT_DIRECTION>` — Sort direction: asc or desc [optional, default: desc]
+* `--keep-strategy <KEEP_STRATEGY>` — Keep strategy: best, first, last, or all [optional, default: best]
+* `--is-active <IS_ACTIVE>` — Board is active [default: true]
 
   Default value: `true`
 
   Possible values: `true`, `false`
 
-* `--is-published <IS_PUBLISHED>` — Board is published/visible to clients (default: true)
+* `--is-published <IS_PUBLISHED>` — Board is published/visible to clients [default: true]
 
   Default value: `true`
 
   Possible values: `true`, `false`
 
-* `--starts-at <STARTS_AT>` — Optional start time for time-bounded boards (ISO 8601 datetime)
-* `--ends-at <ENDS_AT>` — Optional end time for time-bounded boards (ISO 8601 datetime)
+* `--starts-at <STARTS_AT>` — Start time for time-bounded boards, ISO 8601 [optional]
+* `--ends-at <ENDS_AT>` — End time for time-bounded boards, ISO 8601 [optional]
 
 
 
@@ -513,8 +517,8 @@ List boards for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional when using client authentication
-* `--game-id <GAME_ID>` — Optional Game ID to filter boards by (UUID)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--game-id <GAME_ID>` — Game ID to filter boards by (UUID) [optional]
 
 
 
@@ -526,8 +530,8 @@ Get board by ID
 
 ###### **Options:**
 
-* `--board-id <BOARD_ID>` — Board ID (e.g., `brd_xxx`)
-* `--account-id <ACCOUNT_ID>` — Account ID (for superadmin cross-account access)
+* `--board-id <BOARD_ID>` — Board ID (e.g. `brd_xxx`) [required]
+* `--account-id <ACCOUNT_ID>` — Account ID for superadmin cross-account access [optional]
 
 
 
@@ -539,8 +543,22 @@ Get board by short code
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--short-code <SHORT_CODE>` — Short code
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--short-code <SHORT_CODE>` — Short code [required]
+
+
+
+## `leadr board get-by-slug`
+
+Get board by slug
+
+**Usage:** `leadr board get-by-slug [OPTIONS] --game-id <GAME_ID> --slug <SLUG>`
+
+###### **Options:**
+
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--game-id <GAME_ID>` — Game ID (UUID) [required]
+* `--slug <SLUG>` — Board slug [required]
 
 
 
@@ -552,8 +570,8 @@ Update a board
 
 ###### **Options:**
 
-* `--board-id <BOARD_ID>` — Board ID (UUID)
-* `--json <JSON>` — JSON string with fields to update
+* `--board-id <BOARD_ID>` — Board ID (UUID) [required]
+* `--json <JSON>` — JSON string with fields to update [required]
 
 
 
@@ -565,7 +583,7 @@ Delete a board (soft delete)
 
 ###### **Options:**
 
-* `--board-id <BOARD_ID>` — Board ID (UUID)
+* `--board-id <BOARD_ID>` — Board ID (UUID) [required]
 
 
 
@@ -593,29 +611,29 @@ Create a new board template
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--game-id <GAME_ID>` — Game ID (UUID)
-* `--name <NAME>` — Template name
-* `--slug <SLUG>` — URL-friendly slug for boards created from this template
-* `--repeat-interval <REPEAT_INTERVAL>` — Repeat interval (`PostgreSQL` interval syntax, e.g., "7 days", "1 month")
-* `--next-run-at <NEXT_RUN_AT>` — Next run time (ISO 8601 datetime, e.g., "2025-01-01T00:00:00Z")
-* `--is-active <IS_ACTIVE>` — Template is active (default: true)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--game-id <GAME_ID>` — Game ID (UUID) [required]
+* `--name <NAME>` — Template name [required]
+* `--slug <SLUG>` — URL-friendly slug for boards created from this template [optional]
+* `--repeat-interval <REPEAT_INTERVAL>` — Repeat interval, `PostgreSQL` syntax e.g. "7 days", "1 month" [required]
+* `--next-run-at <NEXT_RUN_AT>` — Next run time, ISO 8601 datetime [required]
+* `--is-active <IS_ACTIVE>` — Template is active [default: true]
 
   Default value: `true`
 
   Possible values: `true`, `false`
 
-* `--is-published <IS_PUBLISHED>` — Whether boards created from this template should be published (default: true)
+* `--is-published <IS_PUBLISHED>` — Boards created from this template should be published [default: true]
 
   Default value: `true`
 
   Possible values: `true`, `false`
 
-* `--name-template <NAME_TEMPLATE>` — Optional name template for generated boards
-* `--series <SERIES>` — Optional series identifier for sequential board naming
-* `--icon <ICON>` — Icon identifier for boards (e.g., "fa-crown")
-* `--unit <UNIT>` — Unit of measurement for scores (e.g., "seconds", "points")
-* `--sort-direction <SORT_DIRECTION>` — Sort direction for scores (default: desc)
+* `--name-template <NAME_TEMPLATE>` — Name template for generated boards [optional]
+* `--series <SERIES>` — Series identifier for sequential board naming [optional]
+* `--icon <ICON>` — Icon identifier for boards, e.g. "fa-crown" [optional]
+* `--unit <UNIT>` — Unit of measurement, e.g. "seconds", "points" [optional]
+* `--sort-direction <SORT_DIRECTION>` — Sort direction for scores [default: desc]
 
   Default value: `desc`
 
@@ -625,7 +643,7 @@ Create a new board template
   - `desc`:
     Descending order (highest score first)
 
-* `--keep-strategy <KEEP_STRATEGY>` — Strategy for keeping multiple scores from the same user (default: all)
+* `--keep-strategy <KEEP_STRATEGY>` — Strategy for keeping multiple scores from same user [default: all]
 
   Default value: `all`
 
@@ -639,8 +657,8 @@ Create a new board template
   - `last`:
     Keep only the latest score
 
-* `--starts-at <STARTS_AT>` — Optional start time for time-bounded boards (ISO 8601 datetime)
-* `--ends-at <ENDS_AT>` — Optional end time for time-bounded boards (ISO 8601 datetime)
+* `--starts-at <STARTS_AT>` — Start time for time-bounded boards, ISO 8601 [optional]
+* `--ends-at <ENDS_AT>` — End time for time-bounded boards, ISO 8601 [optional]
 
 
 
@@ -652,8 +670,8 @@ List board templates for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--game-id <GAME_ID>` — Optional Game ID to filter templates by (UUID)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--game-id <GAME_ID>` — Game ID to filter templates by (UUID) [optional]
 
 
 
@@ -665,7 +683,7 @@ Get board template by ID
 
 ###### **Options:**
 
-* `--template-id <TEMPLATE_ID>` — Template ID (UUID)
+* `--template-id <TEMPLATE_ID>` — Template ID (UUID) [required]
 
 
 
@@ -677,8 +695,8 @@ Update a board template
 
 ###### **Options:**
 
-* `--template-id <TEMPLATE_ID>` — Template ID (UUID)
-* `--json <JSON>` — JSON string with fields to update
+* `--template-id <TEMPLATE_ID>` — Template ID (UUID) [required]
+* `--json <JSON>` — JSON string with fields to update [required]
 
 
 
@@ -690,7 +708,7 @@ Delete a board template (soft delete)
 
 ###### **Options:**
 
-* `--template-id <TEMPLATE_ID>` — Template ID (UUID)
+* `--template-id <TEMPLATE_ID>` — Template ID (UUID) [required]
 
 
 
@@ -718,16 +736,16 @@ Create a new score
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional when using client authentication
-* `--game-id <GAME_ID>` — Game ID (UUID) - optional when using client authentication
-* `--board-id <BOARD_ID>` — Board ID (UUID)
-* `--device-id <DEVICE_ID>` — Device ID (UUID) - optional when using client authentication
-* `--player-name <PLAYER_NAME>` — Player name
-* `--value <VALUE>` — Score value (number)
-* `--value-display <VALUE_DISPLAY>` — Optional display string (e.g., "1:23.45", "1,234 points")
-* `--filter-timezone <FILTER_TIMEZONE>` — Optional timezone filter
-* `--filter-country <FILTER_COUNTRY>` — Optional country filter
-* `--filter-city <FILTER_CITY>` — Optional city filter
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional with client auth]
+* `--game-id <GAME_ID>` — Game ID (UUID) [optional with client auth]
+* `--board-id <BOARD_ID>` — Board ID (UUID) [required]
+* `--device-id <DEVICE_ID>` — Device ID (UUID) [optional with client auth]
+* `--player-name <PLAYER_NAME>` — Player name [required]
+* `--value <VALUE>` — Score value (number) [required]
+* `--value-display <VALUE_DISPLAY>` — Display string, e.g. "1:23.45", "1,234 points" [optional]
+* `--filter-timezone <FILTER_TIMEZONE>` — Timezone filter [optional]
+* `--filter-country <FILTER_COUNTRY>` — Country filter [optional]
+* `--filter-city <FILTER_CITY>` — City filter [optional]
 
 
 
@@ -739,13 +757,13 @@ List scores for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional when using client authentication
-* `--board-id <BOARD_ID>` — Optional Board ID to filter by (UUID)
-* `--game-id <GAME_ID>` — Optional Game ID to filter by (UUID)
-* `--device-id <DEVICE_ID>` — Optional Device ID to filter by (UUID)
-* `--cursor <CURSOR>` — Pagination cursor (from previous response)
-* `--limit <LIMIT>` — Number of items per page (1-100, default: 20)
-* `--sort <SORT>` — Sort order (e.g., "value:desc", "`created_at:asc`")
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional with client auth]
+* `--board-id <BOARD_ID>` — Board ID to filter by (UUID) [optional]
+* `--game-id <GAME_ID>` — Game ID to filter by (UUID) [optional]
+* `--device-id <DEVICE_ID>` — Device ID to filter by (UUID) [optional]
+* `--cursor <CURSOR>` — Pagination cursor from previous response [optional]
+* `--limit <LIMIT>` — Items per page, 1-100 [optional, default: 20]
+* `--sort <SORT>` — Sort order, e.g. "value:desc", "`created_at:asc`" [optional]
 * `--all` — Fetch all pages automatically
 
 
@@ -758,7 +776,7 @@ Get score by ID
 
 ###### **Options:**
 
-* `--score-id <SCORE_ID>` — Score ID (UUID)
+* `--score-id <SCORE_ID>` — Score ID (UUID) [required]
 
 
 
@@ -770,8 +788,8 @@ Update a score
 
 ###### **Options:**
 
-* `--score-id <SCORE_ID>` — Score ID (UUID)
-* `--json <JSON>` — JSON string with fields to update
+* `--score-id <SCORE_ID>` — Score ID (UUID) [required]
+* `--json <JSON>` — JSON string with fields to update [required]
 
 
 
@@ -783,7 +801,7 @@ Delete a score (soft delete)
 
 ###### **Options:**
 
-* `--score-id <SCORE_ID>` — Score ID (UUID)
+* `--score-id <SCORE_ID>` — Score ID (UUID) [required]
 
 
 
@@ -810,9 +828,9 @@ List devices for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--game-id <GAME_ID>` — Optional Game ID to filter by (UUID)
-* `--status <STATUS>` — Optional status filter (active, banned, suspended)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--game-id <GAME_ID>` — Game ID to filter by (UUID) [optional]
+* `--status <STATUS>` — Status filter: active, banned, suspended [optional]
 
 
 
@@ -824,7 +842,7 @@ Get device by ID
 
 ###### **Options:**
 
-* `--device-id <DEVICE_ID>` — Device ID (UUID)
+* `--device-id <DEVICE_ID>` — Device ID (UUID) [required]
 
 
 
@@ -836,8 +854,8 @@ Update device status
 
 ###### **Options:**
 
-* `--device-id <DEVICE_ID>` — Device ID (UUID)
-* `--status <STATUS>` — New status (active, banned, suspended)
+* `--device-id <DEVICE_ID>` — Device ID (UUID) [required]
+* `--status <STATUS>` — New status: active, banned, suspended [optional]
 
 
 
@@ -849,7 +867,7 @@ Delete a device (soft delete)
 
 ###### **Options:**
 
-* `--device-id <DEVICE_ID>` — Device ID (UUID)
+* `--device-id <DEVICE_ID>` — Device ID (UUID) [required]
 
 
 
@@ -876,10 +894,10 @@ List device sessions for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--device-id <DEVICE_ID>` — Optional Device ID to filter by (UUID)
-* `--game-id <GAME_ID>` — Optional Game ID to filter by (UUID)
-* `--status <STATUS>` — Optional status filter
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--device-id <DEVICE_ID>` — Device ID to filter by (UUID) [optional]
+* `--game-id <GAME_ID>` — Game ID to filter by (UUID) [optional]
+* `--status <STATUS>` — Status filter [optional]
 
 
 
@@ -891,7 +909,7 @@ Get device session by ID
 
 ###### **Options:**
 
-* `--session-id <SESSION_ID>` — Session ID (UUID)
+* `--session-id <SESSION_ID>` — Session ID (UUID) [required]
 
 
 
@@ -903,8 +921,8 @@ Update device session status
 
 ###### **Options:**
 
-* `--session-id <SESSION_ID>` — Session ID (UUID)
-* `--status <STATUS>` — New status
+* `--session-id <SESSION_ID>` — Session ID (UUID) [required]
+* `--status <STATUS>` — New status [optional]
 
 
 
@@ -916,7 +934,7 @@ Delete a device session (soft delete)
 
 ###### **Options:**
 
-* `--session-id <SESSION_ID>` — Session ID (UUID)
+* `--session-id <SESSION_ID>` — Session ID (UUID) [required]
 
 
 
@@ -943,11 +961,11 @@ List score flags for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--board-id <BOARD_ID>` — Optional Board ID to filter by (UUID)
-* `--game-id <GAME_ID>` — Optional Game ID to filter by (UUID)
-* `--status <STATUS>` — Optional status filter (`PENDING`, `CONFIRMED_CHEAT`, `FALSE_POSITIVE`, `DISMISSED`)
-* `--flag-type <FLAG_TYPE>` — Optional flag type filter (`VELOCITY`, `DUPLICATE`, `RATE_LIMIT`)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--board-id <BOARD_ID>` — Board ID to filter by (UUID) [optional]
+* `--game-id <GAME_ID>` — Game ID to filter by (UUID) [optional]
+* `--status <STATUS>` — Status: PENDING/CONFIRMED_CHEAT/FALSE_POSITIVE/DISMISSED [optional]
+* `--flag-type <FLAG_TYPE>` — Flag type: VELOCITY/DUPLICATE/RATE_LIMIT [optional]
 
 
 
@@ -959,7 +977,7 @@ Get score flag by ID
 
 ###### **Options:**
 
-* `--flag-id <FLAG_ID>` — Flag ID (UUID)
+* `--flag-id <FLAG_ID>` — Flag ID (UUID) [required]
 
 
 
@@ -971,9 +989,9 @@ Review/update a score flag
 
 ###### **Options:**
 
-* `--flag-id <FLAG_ID>` — Flag ID (UUID)
-* `--status <STATUS>` — New status (`PENDING`, `CONFIRMED_CHEAT`, `FALSE_POSITIVE`, `DISMISSED`)
-* `--reviewer-decision <REVIEWER_DECISION>` — Reviewer decision/notes
+* `--flag-id <FLAG_ID>` — Flag ID (UUID) [required]
+* `--status <STATUS>` — New status: PENDING/CONFIRMED_CHEAT/FALSE_POSITIVE/DISMISSED [optional]
+* `--reviewer-decision <REVIEWER_DECISION>` — Reviewer decision/notes [optional]
 
 
 
@@ -985,7 +1003,7 @@ Delete a score flag (soft delete)
 
 ###### **Options:**
 
-* `--flag-id <FLAG_ID>` — Flag ID (UUID)
+* `--flag-id <FLAG_ID>` — Flag ID (UUID) [required]
 
 
 
@@ -1010,10 +1028,10 @@ List score submission metadata for an account
 
 ###### **Options:**
 
-* `--account-id <ACCOUNT_ID>` — Account ID (UUID) - optional if configured via `auth admin configure`
-* `--board-id <BOARD_ID>` — Optional Board ID to filter by (UUID)
-* `--device-id <DEVICE_ID>` — Optional Device ID to filter by (UUID)
-* `--game-id <GAME_ID>` — Optional Game ID to filter by (UUID)
+* `--account-id <ACCOUNT_ID>` — Account ID (UUID) [optional if configured]
+* `--board-id <BOARD_ID>` — Board ID to filter by (UUID) [optional]
+* `--device-id <DEVICE_ID>` — Device ID to filter by (UUID) [optional]
+* `--game-id <GAME_ID>` — Game ID to filter by (UUID) [optional]
 
 
 
@@ -1025,7 +1043,15 @@ Get score submission metadata by ID
 
 ###### **Options:**
 
-* `--meta-id <META_ID>` — Metadata ID (UUID)
+* `--meta-id <META_ID>` — Metadata ID (UUID) [required]
+
+
+
+## `leadr invite`
+
+Invite a user to the account (interactive)
+
+**Usage:** `leadr invite`
 
 
 

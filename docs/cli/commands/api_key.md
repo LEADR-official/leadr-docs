@@ -25,9 +25,9 @@ Create a new API key
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--user-id` | User ID (UUID) - the user who owns this API key | Yes |
-| `--name` | API key name | Yes |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--user-id` | User ID (UUID), the user who owns this API key [required] | Yes |
+| `--name` | API key name [required] | Yes |
 
 **Example:**
 
@@ -43,7 +43,7 @@ List API keys for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
 
 **Example:**
 
@@ -59,7 +59,7 @@ Get API key by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--key-id` | API key ID (UUID) | Yes |
+| `--key-id` | API key ID (UUID) [required] | Yes |
 
 **Example:**
 
@@ -75,7 +75,7 @@ Revoke an API key (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--key-id` | API key ID (UUID) | Yes |
+| `--key-id` | API key ID (UUID) [required] | Yes |
 
 **Example:**
 

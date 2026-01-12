@@ -25,11 +25,11 @@ List score flags for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--board-id` | Optional Board ID to filter by (UUID) | No |
-| `--game-id` | Optional Game ID to filter by (UUID) | No |
-| `--status` | Optional status filter (`PENDING`, `CONFIRMED_CHEAT`, `FALSE_POSITIVE`, `DISMISSED`) | No |
-| `--flag-type` | Optional flag type filter (`VELOCITY`, `DUPLICATE`, `RATE_LIMIT`) | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--board-id` | Board ID to filter by (UUID) [optional] | No |
+| `--game-id` | Game ID to filter by (UUID) [optional] | No |
+| `--status` | Status: PENDING/CONFIRMED_CHEAT/FALSE_POSITIVE/DISMISSED [optional] | No |
+| `--flag-type` | Flag type: VELOCITY/DUPLICATE/RATE_LIMIT [optional] | No |
 
 **Example:**
 
@@ -46,7 +46,7 @@ Get score flag by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--flag-id` | Flag ID (UUID) | Yes |
+| `--flag-id` | Flag ID (UUID) [required] | Yes |
 
 **Example:**
 
@@ -62,9 +62,9 @@ Review/update a score flag
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--flag-id` | Flag ID (UUID) | Yes |
-| `--status` | New status (`PENDING`, `CONFIRMED_CHEAT`, `FALSE_POSITIVE`, `DISMISSED`) | No |
-| `--reviewer-decision` | Reviewer decision/notes | No |
+| `--flag-id` | Flag ID (UUID) [required] | Yes |
+| `--status` | New status: PENDING/CONFIRMED_CHEAT/FALSE_POSITIVE/DISMISSED [optional] | No |
+| `--reviewer-decision` | Reviewer decision/notes [optional] | No |
 
 **Example:**
 
@@ -81,7 +81,7 @@ Delete a score flag (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--flag-id` | Flag ID (UUID) | Yes |
+| `--flag-id` | Flag ID (UUID) [required] | Yes |
 
 **Example:**
 

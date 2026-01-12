@@ -26,22 +26,22 @@ Create a new board template
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--game-id` | Game ID (UUID) | Yes |
-| `--name` | Template name | Yes |
-| `--slug` | URL-friendly slug for boards created from this template | No |
-| `--repeat-interval` | Repeat interval (`PostgreSQL` interval syntax, e.g., "7 days", "1 month") | Yes |
-| `--next-run-at` | Next run time (ISO 8601 datetime, e.g., "2025-01-01T00:00:00Z") | Yes |
-| `--is-active` | Template is active (default: true) | No |
-| `--is-published` | Whether boards created from this template should be published (default: true) | No |
-| `--name-template` | Optional name template for generated boards | No |
-| `--series` | Optional series identifier for sequential board naming | No |
-| `--icon` | Icon identifier for boards (e.g., "fa-crown") | No |
-| `--unit` | Unit of measurement for scores (e.g., "seconds", "points") | No |
-| `--sort-direction` | Sort direction for scores (default: desc) | No |
-| `--keep-strategy` | Strategy for keeping multiple scores from the same user (default: all) | No |
-| `--starts-at` | Optional start time for time-bounded boards (ISO 8601 datetime) | No |
-| `--ends-at` | Optional end time for time-bounded boards (ISO 8601 datetime) | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--game-id` | Game ID (UUID) [required] | Yes |
+| `--name` | Template name [required] | Yes |
+| `--slug` | URL-friendly slug for boards created from this template [optional] | No |
+| `--repeat-interval` | Repeat interval, `PostgreSQL` syntax e.g. "7 days", "1 month" [required] | Yes |
+| `--next-run-at` | Next run time, ISO 8601 datetime [required] | Yes |
+| `--is-active` | Template is active [default: true] | No |
+| `--is-published` | Boards created from this template should be published [default: true] | No |
+| `--name-template` | Name template for generated boards [optional] | No |
+| `--series` | Series identifier for sequential board naming [optional] | No |
+| `--icon` | Icon identifier for boards, e.g. "fa-crown" [optional] | No |
+| `--unit` | Unit of measurement, e.g. "seconds", "points" [optional] | No |
+| `--sort-direction` | Sort direction for scores [default: desc] | No |
+| `--keep-strategy` | Strategy for keeping multiple scores from same user [default: all] | No |
+| `--starts-at` | Start time for time-bounded boards, ISO 8601 [optional] | No |
+| `--ends-at` | End time for time-bounded boards, ISO 8601 [optional] | No |
 
 **Example:**
 
@@ -57,8 +57,8 @@ List board templates for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--game-id` | Optional Game ID to filter templates by (UUID) | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--game-id` | Game ID to filter templates by (UUID) [optional] | No |
 
 **Example:**
 
@@ -74,7 +74,7 @@ Get board template by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--template-id` | Template ID (UUID) | Yes |
+| `--template-id` | Template ID (UUID) [required] | Yes |
 
 **Example:**
 
@@ -90,8 +90,8 @@ Update a board template
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--template-id` | Template ID (UUID) | Yes |
-| `--json` | JSON string with fields to update | Yes |
+| `--template-id` | Template ID (UUID) [required] | Yes |
+| `--json` | JSON string with fields to update [required] | Yes |
 
 **Example:**
 
@@ -107,7 +107,7 @@ Delete a board template (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--template-id` | Template ID (UUID) | Yes |
+| `--template-id` | Template ID (UUID) [required] | Yes |
 
 **Example:**
 
