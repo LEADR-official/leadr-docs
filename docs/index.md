@@ -12,7 +12,7 @@
 
 ## Get Started
 
-**[Quick Start](quick_start.md)**
+**[Quick Start](quick-start.md)**
 Create a LEADR account and set up your first leaderboard in minutes. No credit card required.
 
 **[Add LEADR To Your Game](sdks/index.md)**
