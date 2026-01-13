@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block site_meta %}
+{{ super() }}
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LEADR Docs">
+<meta property="og:title" content="{% if page and page.title %}{{ page.title }} | {% endif %}{{ config.site_name }}">
+<meta property="og:description" content="{% if page and page.meta and page.meta.description %}{{ page.meta.description }}{% else %}{{ config.site_description }}{% endif %}">
+<meta property="og:url" content="{% if page %}{{ page.canonical_url }}{% else %}{{ config.site_url }}{% endif %}">
+<meta property="og:image" content="{{ config.site_url }}/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LEADR - Cross-platform leaderboard backend for indie game developers">
+<meta property="og:locale" content="en_US">
+
+<!-- Fediverse Meta Tags -->
+<meta name="fediverse:creator" content="@LEADR_official">
+<meta property="profile:username" content="leadr-official.bsky.social">
+
+<!-- Additional SEO Meta Tags -->
+<meta name="keywords" content="leaderboard, game backend, indie games, REST API, cross-platform, game development, FastAPI, open source">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="referrer" content="no-referrer-when-downgrade">
+
+<!-- Theme Color for Mobile Browsers -->
+<meta name="theme-color" content="#FF007A">
+<meta name="msapplication-TileColor" content="#FF007A">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ config.site_name }}",
+  "url": "{{ config.site_url }}",
+  "description": "{{ config.site_description }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "LEADR",
+    "url": "https://github.com/LEADR-official"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ config.site_url }}?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Analytics -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="1c543107-ded6-4eb1-8f34-01ee69bb95ef"></script>
+
+{% endblock %}
