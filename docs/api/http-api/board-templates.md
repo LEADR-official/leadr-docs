@@ -80,12 +80,13 @@ Args:
     request: Template creation details including repeat_interval and configuration.
     service: Injected board template service dependency.
     auth: Authentication context with user info.
+    pre_hook: Pre-create hook for entitlement checks.
 
 Returns:
     BoardTemplateResponse with the created template including auto-generated ID.
 
 Raises:
-    403: User does not have access to the specified account.
+    403: User does not have access to the specified account, or repeat_interval not allowed.
     404: Game or account not found.
     400: Game doesn't belong to the specified account.
 
@@ -472,12 +473,13 @@ Args:
     request: Template update details (all fields optional).
     service: Injected board template service dependency.
     auth: Authentication context with user info.
+    pre_hook: Pre-update hook for entitlement checks.
 
 Returns:
     BoardTemplateResponse with the updated template details.
 
 Raises:
-    403: User does not have access to this template's account.
+    403: User does not have access to this template's account, or repeat_interval not allowed.
     404: Template not found.
 
 > Body parameter
