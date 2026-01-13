@@ -133,6 +133,7 @@ Raises:
   "city": "string",
   "metadata": {},
   "rank": 0,
+  "is_placeholder": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -211,14 +212,17 @@ Pagination:
 
 Around Score:
 - Use around_score_id to get scores centered around a specific score
-- Requires board_id to be specified
-- Mutually exclusive with cursor pagination
+- Use around_score_value to get scores centered around a hypothetical value
+  (returns a placeholder score with is_placeholder=True)
+- Both require board_id to be specified
+- Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
 
 Example:
     GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
     GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
+    GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 
 Args:
     auth: Authentication context with user info.
@@ -229,12 +233,13 @@ Args:
     game_id: Optional game ID to filter by.
     device_id: Optional device ID to filter by.
     around_score_id: Optional score ID to center results around.
+    around_score_value: Optional value to center results around (with placeholder).
 
 Returns:
     PaginatedResponse with scores and pagination metadata.
 
 Raises:
-    400: Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
+    400: Invalid cursor, sort field, cursor state mismatch, or around validation.
     400: Superadmin did not provide account_id.
     403: User does not have access to the specified account.
     404: around_score_id score not found.
@@ -248,6 +253,7 @@ Raises:
 |game_id|query|any|false|none|
 |device_id|query|any|false|none|
 |around_score_id|query|any|false|Center results around this score ID|
+|around_score_value|query|any|false|Center results around this score value (returns placeholder)|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
 |sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
@@ -377,6 +383,7 @@ Raises:
   "city": "string",
   "metadata": {},
   "rank": 0,
+  "is_placeholder": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -511,6 +518,7 @@ Raises:
   "city": "string",
   "metadata": {},
   "rank": 0,
+  "is_placeholder": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -783,6 +791,7 @@ Raises:
   "value_display": "string",
   "metadata": {},
   "rank": 0,
+  "is_placeholder": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -858,14 +867,17 @@ Pagination:
 
 Around Score:
 - Use around_score_id to get scores centered around a specific score
-- Requires board_id to be specified
-- Mutually exclusive with cursor pagination
+- Use around_score_value to get scores centered around a hypothetical value
+  (returns a placeholder score with is_placeholder=True)
+- Both require board_id to be specified
+- Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
 
 Example:
     GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
     GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
+    GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
 
 Args:
     auth: Authentication context with user info.
@@ -874,12 +886,13 @@ Args:
     board_id: Optional board ID to filter by.
     device_id: Optional device ID to filter by (e.g., to get "my scores").
     around_score_id: Optional score ID to center results around.
+    around_score_value: Optional value to center results around (with placeholder).
 
 Returns:
     PaginatedResponse with scores and pagination metadata.
 
 Raises:
-    400: Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
+    400: Invalid cursor, sort field, cursor state mismatch, or around validation.
     403: User does not have access to the specified account.
     404: around_score_id score not found.
 
@@ -890,6 +903,7 @@ Raises:
 |board_id|query|any|false|none|
 |device_id|query|any|false|none|
 |around_score_id|query|any|false|Center results around this score ID|
+|around_score_value|query|any|false|Center results around this score value (returns placeholder)|
 |account_id|query|any|false|none|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
@@ -924,6 +938,112 @@ Raises:
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_ScoreClientResponse_](./schemas.md#paginatedresponse_scoreclientresponse_)|
+|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
+
+!!! success
+    This operation does not require authentication
+
+## Get Score Client
+
+=== "Python"
+
+    ```python
+    import requests
+    headers = {
+      'Accept': 'application/json',
+      'leadr-api-key': 'string',
+      'authorization': 'string',
+      'leadr-client-nonce': 'string'
+    }
+
+    r = requests.get('/v1/client/scores/{score_id}', headers = headers)
+
+    print(r.json())
+
+    ```
+
+=== "JavaScript"
+
+    ```javascript
+
+    const headers = {
+      'Accept':'application/json',
+      'leadr-api-key':'string',
+      'authorization':'string',
+      'leadr-client-nonce':'string'
+    };
+
+    fetch('/v1/client/scores/{score_id}',
+    {
+      method: 'GET',
+
+      headers: headers
+    })
+    .then(function(res) {
+        return res.json();
+    }).then(function(body) {
+        console.log(body);
+    });
+
+    ```
+`GET /v1/client/scores/{score_id}`
+
+Get a score by ID (Client API).
+
+Returns the score with its computed rank based on the board's sort direction.
+The rank represents the score's position in the leaderboard (1 = first place).
+
+Clients can only access scores from boards belonging to the same game
+as their authenticated device.
+
+Args:
+    score_id: Score identifier to retrieve.
+    service: Injected score service dependency.
+    auth: Client authentication context with device info.
+
+Returns:
+    ScoreClientResponse with the score details including rank.
+
+Raises:
+    403: Client does not have access to this score's game.
+    404: Score not found or soft-deleted.
+
+### Parameters
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|score_id|path|string|true|none|
+|account_id|query|any|false|none|
+|leadr-api-key|header|any|false|none|
+|authorization|header|any|false|none|
+|leadr-client-nonce|header|any|false|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "id": "string",
+  "account_id": "string",
+  "game_id": "string",
+  "board_id": "string",
+  "player_name": "string",
+  "value": 0,
+  "value_display": "string",
+  "metadata": {},
+  "rank": 0,
+  "is_placeholder": false,
+  "created_at": "2019-08-24T14:15:22Z",
+  "updated_at": "2019-08-24T14:15:22Z"
+}
+```
+
+### Responses
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[ScoreClientResponse](./schemas.md#scoreclientresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success

@@ -1,8 +1,8 @@
 ---
-title: LEADR Open-Source Edition - Admin & Client API v0.5.0
+title: LEADR Open-Source Edition - Admin & Client API v0.6.1
 ---
 
-# LEADR Open-Source Edition - Admin & Client API v0.5.0
+# LEADR Open-Source Edition - Admin & Client API v0.6.1
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 

@@ -652,6 +652,7 @@ API routes for score management.
 - [**create_score_admin**](#leadr.scores.api.score_routes.create_score_admin) – Create a new score (Admin API).
 - [**create_score_client**](#leadr.scores.api.score_routes.create_score_client) – Create a new score (Client API).
 - [**get_score**](#leadr.scores.api.score_routes.get_score) – Get a score by ID.
+- [**get_score_client**](#leadr.scores.api.score_routes.get_score_client) – Get a score by ID (Client API).
 - [**handle_list_scores**](#leadr.scores.api.score_routes.handle_list_scores) – Handle list scores logic for both admin and client endpoints.
 - [**list_scores_admin**](#leadr.scores.api.score_routes.list_scores_admin) – List scores for an account with optional filters and pagination.
 - [**list_scores_client**](#leadr.scores.api.score_routes.list_scores_client) – List scores for an account with optional filters and pagination.
@@ -761,10 +762,39 @@ The rank represents the score's position in the leaderboard (1 = first place).
 - <code>403</code> – User does not have access to this score's account.
 - <code>404</code> – Score not found or soft-deleted.
 
+###### `leadr.scores.api.score_routes.get_score_client`
+
+```python
+get_score_client(score_id, service, auth)
+```
+
+Get a score by ID (Client API).
+
+Returns the score with its computed rank based on the board's sort direction.
+The rank represents the score's position in the leaderboard (1 = first place).
+
+Clients can only access scores from boards belonging to the same game
+as their authenticated device.
+
+**Parameters:**
+
+- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – Score identifier to retrieve.
+- **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
+- **auth** (<code>[ClientAuthContextDep](./auth.md#leadr.auth.dependencies.ClientAuthContextDep)</code>) – Client authentication context with device info.
+
+**Returns:**
+
+- <code>[ScoreClientResponse](#leadr.scores.api.score_schemas.ScoreClientResponse)</code> – ScoreClientResponse with the score details including rank.
+
+**Raises:**
+
+- <code>403</code> – Client does not have access to this score's game.
+- <code>404</code> – Score not found or soft-deleted.
+
 ###### `leadr.scores.api.score_routes.handle_list_scores`
 
 ```python
-handle_list_scores(auth, service, pagination, account_id, board_id, game_id, device_id, around_score_id=None)
+handle_list_scores(auth, service, pagination, account_id, board_id, game_id, device_id, around_score_id=None, around_score_value=None)
 ```
 
 Handle list scores logic for both admin and client endpoints.
@@ -785,6 +815,7 @@ different response models based on the authentication type:
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID filter.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID filter.
 - **around_score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None</code>) – Optional score ID to center results around.
+- **around_score_value** (<code>[float](#float) | None</code>) – Optional score value to center results around (with placeholder).
 
 **Returns:**
 
@@ -793,13 +824,13 @@ different response models based on the authentication type:
 **Raises:**
 
 - <code>[HTTPException](#fastapi.HTTPException)</code> – 400 if cursor is invalid, sort field is invalid,
-  or validation fails for around_score_id.
+  or validation fails for around_score_id/around_score_value.
 - <code>[HTTPException](#fastapi.HTTPException)</code> – 404 if around_score_id score not found.
 
 ###### `leadr.scores.api.score_routes.list_scores_admin`
 
 ```python
-list_scores_admin(auth, service, pagination, account_id=None, board_id=None, game_id=None, device_id=None, around_score_id=None)
+list_scores_admin(auth, service, pagination, account_id=None, board_id=None, game_id=None, device_id=None, around_score_id=None, around_score_value=None)
 ```
 
 List scores for an account with optional filters and pagination.
@@ -822,8 +853,10 @@ Pagination:
 Around Score:
 
 - Use around_score_id to get scores centered around a specific score
-- Requires board_id to be specified
-- Mutually exclusive with cursor pagination
+- Use around_score_value to get scores centered around a hypothetical value
+  (returns a placeholder score with is_placeholder=True)
+- Both require board_id to be specified
+- Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
 
@@ -832,6 +865,7 @@ Around Score:
 
 GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
+GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 
 </details>
 
@@ -845,6 +879,7 @@ GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
 - **around_score_id** (<code>[Annotated](#typing.Annotated)\[[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None, [Query](#fastapi.Query)(description='Center results around this score ID')\]</code>) – Optional score ID to center results around.
+- **around_score_value** (<code>[Annotated](#typing.Annotated)\[[float](#float) | None, [Query](#fastapi.Query)(description='Center results around this score value (returns placeholder)')\]</code>) – Optional value to center results around (with placeholder).
 
 **Returns:**
 
@@ -852,7 +887,7 @@ GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 
 **Raises:**
 
-- <code>400</code> – Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
+- <code>400</code> – Invalid cursor, sort field, cursor state mismatch, or around validation.
 - <code>400</code> – Superadmin did not provide account_id.
 - <code>403</code> – User does not have access to the specified account.
 - <code>404</code> – around_score_id score not found.
@@ -860,7 +895,7 @@ GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 ###### `leadr.scores.api.score_routes.list_scores_client`
 
 ```python
-list_scores_client(auth, service, pagination, board_id=None, device_id=None, around_score_id=None)
+list_scores_client(auth, service, pagination, board_id=None, device_id=None, around_score_id=None, around_score_value=None)
 ```
 
 List scores for an account with optional filters and pagination.
@@ -880,8 +915,10 @@ Pagination:
 Around Score:
 
 - Use around_score_id to get scores centered around a specific score
-- Requires board_id to be specified
-- Mutually exclusive with cursor pagination
+- Use around_score_value to get scores centered around a hypothetical value
+  (returns a placeholder score with is_placeholder=True)
+- Both require board_id to be specified
+- Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
 
@@ -890,6 +927,7 @@ Around Score:
 
 GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
+GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
 
 </details>
 
@@ -901,6 +939,7 @@ GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by (e.g., to get "my scores").
 - **around_score_id** (<code>[Annotated](#typing.Annotated)\[[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None, [Query](#fastapi.Query)(description='Center results around this score ID')\]</code>) – Optional score ID to center results around.
+- **around_score_value** (<code>[Annotated](#typing.Annotated)\[[float](#float) | None, [Query](#fastapi.Query)(description='Center results around this score value (returns placeholder)')\]</code>) – Optional value to center results around (with placeholder).
 
 **Returns:**
 
@@ -908,7 +947,7 @@ GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 
 **Raises:**
 
-- <code>400</code> – Invalid cursor, sort field, cursor state mismatch, or around_score_id validation.
+- <code>400</code> – Invalid cursor, sort field, cursor state mismatch, or around validation.
 - <code>403</code> – User does not have access to the specified account.
 - <code>404</code> – around_score_id score not found.
 
@@ -999,6 +1038,7 @@ Response model for a score (client API - excludes device_id and geo fields).
 - [**created_at**](#leadr.scores.api.score_schemas.ScoreClientResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**game_id**](#leadr.scores.api.score_schemas.ScoreClientResponse.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**id**](#leadr.scores.api.score_schemas.ScoreClientResponse.id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**is_placeholder**](#leadr.scores.api.score_schemas.ScoreClientResponse.is_placeholder) (<code>[bool](#bool)</code>) –
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreClientResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**player_name**](#leadr.scores.api.score_schemas.ScoreClientResponse.player_name) (<code>[str](#str)</code>) –
 - [**rank**](#leadr.scores.api.score_schemas.ScoreClientResponse.rank) (<code>[int](#int) | None</code>) –
@@ -1050,6 +1090,12 @@ game_id: GameID = Field(description='ID of the game this score belongs to')
 
 ```python
 id: ScoreID = Field(description='Unique identifier for the score')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreClientResponse.is_placeholder`
+
+```python
+is_placeholder: bool = Field(default=False, description='True if this is a synthetic placeholder score (from around_score_value query)')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreClientResponse.metadata`
@@ -1269,6 +1315,7 @@ Response model for a score.
 - [**device_id**](#leadr.scores.api.score_schemas.ScoreResponse.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
 - [**game_id**](#leadr.scores.api.score_schemas.ScoreResponse.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**id**](#leadr.scores.api.score_schemas.ScoreResponse.id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**is_placeholder**](#leadr.scores.api.score_schemas.ScoreResponse.is_placeholder) (<code>[bool](#bool)</code>) –
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**player_name**](#leadr.scores.api.score_schemas.ScoreResponse.player_name) (<code>[str](#str)</code>) –
 - [**rank**](#leadr.scores.api.score_schemas.ScoreResponse.rank) (<code>[int](#int) | None</code>) –
@@ -1339,6 +1386,12 @@ game_id: GameID = Field(description='ID of the game this score belongs to')
 
 ```python
 id: ScoreID = Field(description='Unique identifier for the score')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreResponse.is_placeholder`
+
+```python
+is_placeholder: bool = Field(default=False, description='True if this is a synthetic placeholder score (from around_score_value query)')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreResponse.metadata`
@@ -2879,8 +2932,9 @@ but mutable in terms of their value and metadata for corrections/updates.
 
 - [**restore**](./scores.md#leadr.scores.domain.score.Score.restore) – Restore a soft-deleted entity.
 - [**soft_delete**](#leadr.scores.domain.score.Score.soft_delete) – Mark entity as soft-deleted.
+- [**strip_player_name**](#leadr.scores.domain.score.Score.strip_player_name) – Strip whitespace from player_name.
 - [**validate_metadata_size**](#leadr.scores.domain.score.Score.validate_metadata_size) – Validate that metadata does not exceed size limit.
-- [**validate_player_name**](#leadr.scores.domain.score.Score.validate_player_name) – Validate that player_name is not empty and strip whitespace.
+- [**validate_player_name_not_empty**](#leadr.scores.domain.score.Score.validate_player_name_not_empty) – Validate that player_name is not empty for non-placeholder scores.
 
 **Attributes:**
 
@@ -2894,6 +2948,7 @@ but mutable in terms of their value and metadata for corrections/updates.
 - [**game_id**](#leadr.scores.domain.score.Score.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**id**](./scores.md#leadr.scores.domain.score.Score.id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
 - [**is_deleted**](#leadr.scores.domain.score.Score.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
+- [**is_placeholder**](#leadr.scores.domain.score.Score.is_placeholder) (<code>[bool](#bool)</code>) –
 - [**metadata**](./scores.md#leadr.scores.domain.score.Score.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**model_config**](#leadr.scores.domain.score.Score.model_config) –
 - [**player_name**](#leadr.scores.domain.score.Score.player_name) (<code>[str](#str)</code>) –
@@ -2969,6 +3024,12 @@ Check if entity is soft-deleted.
 
 - <code>[bool](#bool)</code> – True if the entity has a deleted_at timestamp, False otherwise.
 
+####### `leadr.scores.domain.score.Score.is_placeholder`
+
+```python
+is_placeholder: bool = Field(default=False, description='True if this is a synthetic placeholder score (from around_score_value query)')
+```
+
 ####### `leadr.scores.domain.score.Score.metadata`
 
 ```python
@@ -3032,6 +3093,22 @@ already deleted are not affected (deleted_at remains at original deletion time).
 
 </details>
 
+####### `leadr.scores.domain.score.Score.strip_player_name`
+
+```python
+strip_player_name(v)
+```
+
+Strip whitespace from player_name.
+
+**Parameters:**
+
+- **v** (<code>[str](#str)</code>) – The player_name to validate.
+
+**Returns:**
+
+- <code>[str](#str)</code> – The trimmed player_name.
+
 ####### `leadr.scores.domain.score.Score.timezone`
 
 ```python
@@ -3064,25 +3141,24 @@ Validate that metadata does not exceed size limit.
 
 - <code>[ValueError](#ValueError)</code> – If metadata exceeds the configured size limit.
 
-####### `leadr.scores.domain.score.Score.validate_player_name`
+####### `leadr.scores.domain.score.Score.validate_player_name_not_empty`
 
 ```python
-validate_player_name(v)
+validate_player_name_not_empty()
 ```
 
-Validate that player_name is not empty and strip whitespace.
+Validate that player_name is not empty for non-placeholder scores.
 
-**Parameters:**
-
-- **v** (<code>[str](#str)</code>) – The player_name to validate.
+Placeholder scores are allowed to have empty player_name since they
+are synthetic scores created for around_score_value queries.
 
 **Returns:**
 
-- <code>[str](#str)</code> – The validated and trimmed player_name.
+- <code>[Score](./scores.md#leadr.scores.domain.score.Score)</code> – The validated Score instance.
 
 **Raises:**
 
-- <code>[ValueError](#ValueError)</code> – If player_name is empty or whitespace only.
+- <code>[ValueError](#ValueError)</code> – If player_name is empty and this is not a placeholder.
 
 ####### `leadr.scores.domain.score.Score.value`
 
@@ -3573,6 +3649,16 @@ Score repository services.
 
 - [**ScoreRepository**](./scores.md#leadr.scores.services.repositories.ScoreRepository) – Score repository for managing score persistence.
 
+**Attributes:**
+
+- [**NIL_UUID**](#leadr.scores.services.repositories.NIL_UUID) –
+
+###### `leadr.scores.services.repositories.NIL_UUID`
+
+```python
+NIL_UUID = UUID('00000000-0000-0000-0000-000000000000')
+```
+
 ###### `leadr.scores.services.repositories.ScoreRepository`
 
 Bases: <code>[BaseRepository](./common.md#leadr.common.repositories.BaseRepository)\[[Score](./scores.md#leadr.scores.domain.score.Score), [ScoreORM](./scores.md#leadr.scores.adapters.orm.ScoreORM)\]</code>
@@ -3635,7 +3721,7 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.scores.services.repositories.ScoreRepository.filter`
 
 ```python
-filter(account_id=None, board_id=None, game_id=None, device_id=None, *, pagination, around_score=None, **kwargs)
+filter(account_id=None, board_id=None, game_id=None, device_id=None, *, pagination, around_score=None, around_score_value=None, around_value_board=None, **kwargs)
 ```
 
 Filter scores by account and optional criteria.
@@ -3651,6 +3737,9 @@ Filter scores by account and optional criteria.
 - **around_score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score) | None</code>) – Optional target score to center results around. When provided,
   returns a window of scores centered on this score (mutually exclusive
   with cursor pagination).
+- **around_score_value** (<code>[float](#float) | None</code>) – Optional value to center results around. Returns a
+  placeholder score with is_placeholder=True at the appropriate position.
+- **around_value_board** (<code>[Board](./boards.md#leadr.boards.domain.board.Board) | None</code>) – The board entity (required when around_score_value is set).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
@@ -4184,7 +4273,7 @@ List all non-deleted entities.
 ####### `leadr.scores.services.score_service.ScoreService.list_scores`
 
 ```python
-list_scores(account_id, board_id=None, game_id=None, device_id=None, *, pagination, around_score_id=None)
+list_scores(account_id, board_id=None, game_id=None, device_id=None, *, pagination, around_score_id=None, around_score_value=None)
 ```
 
 List scores for an account with optional filters and pagination.
@@ -4199,7 +4288,10 @@ List scores for an account with optional filters and pagination.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - **around_score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None</code>) – Optional score ID to center results around. When provided,
   returns a window of scores centered on this score. Mutually exclusive
-  with cursor pagination.
+  with cursor pagination and around_score_value.
+- **around_score_value** (<code>[float](#float) | None</code>) – Optional value to center results around. Returns a
+  placeholder score with is_placeholder=True at the appropriate position.
+  Mutually exclusive with cursor pagination and around_score_id.
 
 **Returns:**
 
