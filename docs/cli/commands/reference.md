@@ -75,7 +75,7 @@ This document contains the help content for the `leadr` command-line program.
 
 ## `leadr`
 
-LEADR CLI - Admin tool for LEADR API (v0.5.5)
+LEADR CLI - Admin tool for LEADR API (v0.5.6)
 
 CLI docs:  https://docs.leadr.gg/latest/cli/
 Website:      https://www.leadr.gg
