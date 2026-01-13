@@ -16,10 +16,6 @@
         <link rel="canonical" href="https://docs.leadr.gg/v0.7/api/self_host/">
       
       
-        <link rel="prev" href="../template_naming/">
-      
-      
-        <link rel="next" href="../">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -29,7 +25,7 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LEADR Docs">
-<meta property="og:title" content="Self Host | LEADR Docs">
+<meta property="og:title" content="Self-Hosting LEADR | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
 <meta property="og:url" content="https://docs.leadr.gg/v0.7/api/self_host/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.7/assets/images/og-image.png">
@@ -78,7 +74,7 @@
 
     
       
-        <title>Self Host - LEADR Docs</title>
+        <title>Self-Hosting LEADR - LEADR Docs</title>
       
     
     
@@ -171,7 +167,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Self Host
+              Self-Hosting LEADR
             
           </span>
         </div>
@@ -510,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../client_api.md" class="md-nav__link">
+      <a href="../client-api/" class="md-nav__link">
         
   
   
@@ -533,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../client_auth/" class="md-nav__link">
+      <a href="../client-auth.md" class="md-nav__link">
         
   
   
@@ -1080,8 +1076,6 @@
       
   
   
-    
-  
   
   
     
@@ -1094,11 +1088,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -1114,7 +1108,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Concepts
@@ -1128,7 +1122,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../template_naming/" class="md-nav__link">
+      <a href="../template-naming.md" class="md-nav__link">
         
   
   
@@ -1148,32 +1142,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Self Host
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../self-host.md" class="md-nav__link">
         
   
   
@@ -1184,272 +1156,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prerequisites
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      Quick Start
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Environment Variables
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Environment Variables">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#required" class="md-nav__link">
-    <span class="md-ellipsis">
-      Required
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#optional-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Optional Variables
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      Architecture
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dns-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      DNS Setup
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-the-stack" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running the Stack
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Running the Stack">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#start" class="md-nav__link">
-    <span class="md-ellipsis">
-      Start
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#view-logs" class="md-nav__link">
-    <span class="md-ellipsis">
-      View Logs
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#stop" class="md-nav__link">
-    <span class="md-ellipsis">
-      Stop
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#verify-health" class="md-nav__link">
-    <span class="md-ellipsis">
-      Verify Health
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#first-steps-after-deploy" class="md-nav__link">
-    <span class="md-ellipsis">
-      First Steps After Deploy
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="First Steps After Deploy">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install-the-leadr-cli" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install the LEADR CLI
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configure-admin-authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure Admin Authentication
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-your-first-game" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create Your First Game
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Optional Features
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Optional Features">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#geoip-auto-labeling" class="md-nav__link">
-    <span class="md-ellipsis">
-      GeoIP Auto-Labeling
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#email-notifications" class="md-nav__link">
-    <span class="md-ellipsis">
-      Email Notifications
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#updating" class="md-nav__link">
-    <span class="md-ellipsis">
-      Updating
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#container-wont-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      Container won't start
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#caddy-certificate-errors" class="md-nav__link">
-    <span class="md-ellipsis">
-      Caddy certificate errors
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#api-returns-401403" class="md-nav__link">
-    <span class="md-ellipsis">
-      API returns 401/403
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 

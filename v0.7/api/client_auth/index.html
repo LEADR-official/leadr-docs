@@ -16,10 +16,6 @@
         <link rel="canonical" href="https://docs.leadr.gg/v0.7/api/client_auth/">
       
       
-        <link rel="prev" href="../../sdks/">
-      
-      
-        <link rel="next" href="../../cli/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -29,7 +25,7 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LEADR Docs">
-<meta property="og:title" content="Authentication | LEADR Docs">
+<meta property="og:title" content="LEADR Client Authentication Guide | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
 <meta property="og:url" content="https://docs.leadr.gg/v0.7/api/client_auth/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.7/assets/images/og-image.png">
@@ -78,7 +74,7 @@
 
     
       
-        <title>Authentication - LEADR Docs</title>
+        <title>LEADR Client Authentication Guide - LEADR Docs</title>
       
     
     
@@ -171,7 +167,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Authentication
+              LEADR Client Authentication Guide
             
           </span>
         </div>
@@ -355,8 +351,6 @@
       
   
   
-    
-  
   
   
     
@@ -369,11 +363,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
@@ -389,7 +383,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             SDKs
@@ -469,8 +463,6 @@
                 
   
   
-    
-  
   
   
     
@@ -480,11 +472,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
         
           
           <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
@@ -500,7 +492,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_4">
             <span class="md-nav__icon md-icon"></span>
             REST API
@@ -514,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../client_api.md" class="md-nav__link">
+      <a href="../client-api/" class="md-nav__link">
         
   
   
@@ -534,32 +526,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Authentication
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../client-auth.md" class="md-nav__link">
         
   
   
@@ -570,509 +540,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      Overview
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      Quick Reference
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Quick Reference">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#required-headers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Required Headers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#token-lifetimes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Token Lifetimes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#endpoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      Endpoints
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-terms" class="md-nav__link">
-    <span class="md-ellipsis">
-      Key Terms
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#security-goals" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Goals
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#phase-0-starting-a-session" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 0: Starting a Session
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Phase 0: Starting a Session">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#the-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      The Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#why-this-design" class="md-nav__link">
-    <span class="md-ellipsis">
-      Why This Design?
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inputs
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#client-action" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client Action
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#server-response" class="md-nav__link">
-    <span class="md-ellipsis">
-      Server Response
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#client-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client Storage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#subsequent-requests" class="md-nav__link">
-    <span class="md-ellipsis">
-      Subsequent Requests
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#common-errors" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Errors
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#phase-1-token-refresh" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 1: Token Refresh
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Phase 1: Token Refresh">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#the-flow_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      The Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#why-token-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      Why Token Rotation?
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#inputs_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inputs
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#client-action_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client Action
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#server-response_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Server Response
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#client-storage_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client Storage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#retry-logic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Retry Logic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#best-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      Best Practices
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#common-errors_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Errors
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#phase-2-replay-protection-with-nonces" class="md-nav__link">
-    <span class="md-ellipsis">
-      Phase 2: Replay Protection with Nonces
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Phase 2: Replay Protection with Nonces">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#the-flow_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      The Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#why-nonces-matter" class="md-nav__link">
-    <span class="md-ellipsis">
-      Why Nonces Matter
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#client-action-1-request-nonce" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client Action 1: Request Nonce
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#server-response_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Server Response
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#client-action-2-use-nonce" class="md-nav__link">
-    <span class="md-ellipsis">
-      Client Action 2: Use Nonce
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#server-actions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Server Actions
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nonce-lifecycle" class="md-nav__link">
-    <span class="md-ellipsis">
-      Nonce Lifecycle
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#when-to-get-a-nonce" class="md-nav__link">
-    <span class="md-ellipsis">
-      When to Get a Nonce
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nonce-management-best-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      Nonce Management Best Practices
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#common-errors_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Errors
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#complete-flow-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Complete Flow Example
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Complete Flow Example">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#timeline-30-minute-play-session" class="md-nav__link">
-    <span class="md-ellipsis">
-      Timeline: 30-Minute Play Session
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#what-happens-over-time" class="md-nav__link">
-    <span class="md-ellipsis">
-      What Happens Over Time
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#error-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      Error Reference
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Error Reference">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#http-status-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      HTTP Status Codes
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#common-error-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Error Messages
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting-guide" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting Guide
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting Guide">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#all-my-requests-return-401" class="md-nav__link">
-    <span class="md-ellipsis">
-      "All my requests return 401"
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nonce-validation-keeps-failing" class="md-nav__link">
-    <span class="md-ellipsis">
-      "Nonce validation keeps failing"
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#refresh-token-rotation-is-confusing-my-code" class="md-nav__link">
-    <span class="md-ellipsis">
-      "Refresh token rotation is confusing my code"
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-412-errors-on-read-requests" class="md-nav__link">
-    <span class="md-ellipsis">
-      "Getting 412 errors on read requests"
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#support" class="md-nav__link">
-    <span class="md-ellipsis">
-      Support
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1655,7 +1122,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../template_naming/" class="md-nav__link">
+      <a href="../template-naming.md" class="md-nav__link">
         
   
   
@@ -1678,7 +1145,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../self_host/" class="md-nav__link">
+      <a href="../self-host.md" class="md-nav__link">
         
   
   
