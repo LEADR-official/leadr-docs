@@ -3349,6 +3349,7 @@ or
   "value_display": "string",
   "metadata": {},
   "rank": 0,
+  "is_placeholder": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -3421,6 +3422,7 @@ continued
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
+|is_placeholder|boolean|false|none|True if this is a synthetic placeholder score (from around_score_value query)|
 |created_at|string(date-time)|true|none|Timestamp when the score was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
@@ -3730,6 +3732,7 @@ or
   "city": "string",
   "metadata": {},
   "rank": 0,
+  "is_placeholder": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -3857,6 +3860,7 @@ continued
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
+|is_placeholder|boolean|false|none|True if this is a synthetic placeholder score (from around_score_value query)|
 |created_at|string(date-time)|true|none|Timestamp when the score was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
