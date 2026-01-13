@@ -26,12 +26,12 @@ Create a new game
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--name` | Game name | Yes |
-| `--description` | Game description | No |
-| `--page-url` | URL to game's page (e.g., Steam store page, itch.io page) | No |
-| `--steam-app-id` | Steam App ID (optional) | No |
-| `--anti-cheat-enabled` | Enable anti-cheat (default: true) | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--name` | Game name [required] | Yes |
+| `--description` | Game description [optional] | No |
+| `--page-url` | URL to game's page, e.g. Steam store, itch.io [optional] | No |
+| `--steam-app-id` | Steam App ID [optional] | No |
+| `--anti-cheat-enabled` | Enable anti-cheat [optional, default: true] | No |
 
 **Example:**
 
@@ -48,7 +48,7 @@ List games for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
 
 **Example:**
 
@@ -64,7 +64,7 @@ Get game by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--game-id` | Game ID (UUID) | Yes |
+| `--game-id` | Game ID (UUID) [required] | Yes |
 
 **Example:**
 
@@ -80,8 +80,8 @@ Update a game
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--game-id` | Game ID (UUID) | Yes |
-| `--json` | JSON string with fields to update | Yes |
+| `--game-id` | Game ID (UUID) [required] | Yes |
+| `--json` | JSON string with fields to update [required] | Yes |
 
 **Example:**
 
@@ -97,7 +97,7 @@ Delete a game (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--game-id` | Game ID (UUID) | Yes |
+| `--game-id` | Game ID (UUID) [required] | Yes |
 
 **Example:**
 

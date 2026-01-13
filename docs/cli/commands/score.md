@@ -26,16 +26,16 @@ Create a new score
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional when using client authentication | No |
-| `--game-id` | Game ID (UUID) - optional when using client authentication | No |
-| `--board-id` | Board ID (UUID) | Yes |
-| `--device-id` | Device ID (UUID) - optional when using client authentication | No |
-| `--player-name` | Player name | Yes |
-| `--value` | Score value (number) | Yes |
-| `--value-display` | Optional display string (e.g., "1:23.45", "1,234 points") | No |
-| `--filter-timezone` | Optional timezone filter | No |
-| `--filter-country` | Optional country filter | No |
-| `--filter-city` | Optional city filter | No |
+| `--account-id` | Account ID (UUID) [optional with client auth] | No |
+| `--game-id` | Game ID (UUID) [optional with client auth] | No |
+| `--board-id` | Board ID (UUID) [required] | Yes |
+| `--device-id` | Device ID (UUID) [optional with client auth] | No |
+| `--player-name` | Player name [required] | Yes |
+| `--value` | Score value (number) [required] | Yes |
+| `--value-display` | Display string, e.g. "1:23.45", "1,234 points" [optional] | No |
+| `--filter-timezone` | Timezone filter [optional] | No |
+| `--filter-country` | Country filter [optional] | No |
+| `--filter-city` | City filter [optional] | No |
 
 **Example:**
 
@@ -52,13 +52,13 @@ List scores for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional when using client authentication | No |
-| `--board-id` | Optional Board ID to filter by (UUID) | No |
-| `--game-id` | Optional Game ID to filter by (UUID) | No |
-| `--device-id` | Optional Device ID to filter by (UUID) | No |
-| `--cursor` | Pagination cursor (from previous response) | No |
-| `--limit` | Number of items per page (1-100, default: 20) | No |
-| `--sort` | Sort order (e.g., "value:desc", "`created_at:asc`") | No |
+| `--account-id` | Account ID (UUID) [optional with client auth] | No |
+| `--board-id` | Board ID to filter by (UUID) [optional] | No |
+| `--game-id` | Game ID to filter by (UUID) [optional] | No |
+| `--device-id` | Device ID to filter by (UUID) [optional] | No |
+| `--cursor` | Pagination cursor from previous response [optional] | No |
+| `--limit` | Items per page, 1-100 [optional, default: 20] | No |
+| `--sort` | Sort order, e.g. "value:desc", "`created_at:asc`" [optional] | No |
 | `--all` | Fetch all pages automatically | No |
 
 **Example:**
@@ -76,7 +76,7 @@ Get score by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--score-id` | Score ID (UUID) | Yes |
+| `--score-id` | Score ID (UUID) [required] | Yes |
 
 **Example:**
 
@@ -92,8 +92,8 @@ Update a score
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--score-id` | Score ID (UUID) | Yes |
-| `--json` | JSON string with fields to update | Yes |
+| `--score-id` | Score ID (UUID) [required] | Yes |
+| `--json` | JSON string with fields to update [required] | Yes |
 
 **Example:**
 
@@ -109,7 +109,7 @@ Delete a score (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--score-id` | Score ID (UUID) | Yes |
+| `--score-id` | Score ID (UUID) [required] | Yes |
 
 **Example:**
 

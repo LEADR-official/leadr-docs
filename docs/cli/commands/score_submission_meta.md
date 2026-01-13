@@ -23,10 +23,10 @@ List score submission metadata for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--board-id` | Optional Board ID to filter by (UUID) | No |
-| `--device-id` | Optional Device ID to filter by (UUID) | No |
-| `--game-id` | Optional Game ID to filter by (UUID) | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--board-id` | Board ID to filter by (UUID) [optional] | No |
+| `--device-id` | Device ID to filter by (UUID) [optional] | No |
+| `--game-id` | Game ID to filter by (UUID) [optional] | No |
 
 **Example:**
 
@@ -42,7 +42,7 @@ Get score submission metadata by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--meta-id` | Metadata ID (UUID) | Yes |
+| `--meta-id` | Metadata ID (UUID) [required] | Yes |
 
 **Example:**
 

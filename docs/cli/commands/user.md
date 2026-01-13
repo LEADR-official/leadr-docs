@@ -26,9 +26,9 @@ Create a new user
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--email` | User email | Yes |
-| `--display-name` | Display name | Yes |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--email` | User email [required] | Yes |
+| `--display-name` | Display name [required] | Yes |
 
 **Example:**
 
@@ -44,7 +44,7 @@ List users for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
 
 **Example:**
 
@@ -60,7 +60,7 @@ Get user by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--user-id` | User ID (UUID) | Yes |
+| `--user-id` | User ID (UUID) [required] | Yes |
 
 **Example:**
 
@@ -76,8 +76,8 @@ Update a user
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--user-id` | User ID (UUID) | Yes |
-| `--json` | JSON string with fields to update (e.g., `{"email": "new@example.com", "display_name": "New Name"}`) | Yes |
+| `--user-id` | User ID (UUID) [required] | Yes |
+| `--json` | JSON string with fields to update [required] | Yes |
 
 **Example:**
 
@@ -93,7 +93,7 @@ Delete a user (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--user-id` | User ID (UUID) | Yes |
+| `--user-id` | User ID (UUID) [required] | Yes |
 
 **Example:**
 

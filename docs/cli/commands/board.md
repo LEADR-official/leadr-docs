@@ -16,6 +16,7 @@ leadr board <COMMAND>
 | `list` | List boards for an account |
 | `get` | Get board by ID |
 | `get-by-code` | Get board by short code |
+| `get-by-slug` | Get board by slug |
 | `update` | Update a board |
 | `delete` | Delete a board (soft delete) |
 
@@ -27,19 +28,19 @@ Create a new board
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--game-id` | Game ID (UUID) | Yes |
-| `--name` | Board name | Yes |
-| `--description` | Board description | No |
-| `--icon` | Icon (emoji or URL) | No |
-| `--short-code` | Short code (globally unique identifier) | No |
-| `--unit` | Unit (e.g., "points", "seconds", "kills") | No |
-| `--sort-direction` | Sort direction (asc or desc) | No |
-| `--keep-strategy` | Keep strategy (best, first, last, or all) | No |
-| `--is-active` | Board is active (default: true) | No |
-| `--is-published` | Board is published/visible to clients (default: true) | No |
-| `--starts-at` | Optional start time for time-bounded boards (ISO 8601 datetime) | No |
-| `--ends-at` | Optional end time for time-bounded boards (ISO 8601 datetime) | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--game-id` | Game ID (UUID) [required] | Yes |
+| `--name` | Board name [required] | Yes |
+| `--description` | Board description [optional] | No |
+| `--icon` | Icon - emoji or URL [optional] | No |
+| `--short-code` | Short code [optional, auto-generated if omitted] | No |
+| `--unit` | Unit, e.g. "points", "seconds" [optional] | No |
+| `--sort-direction` | Sort direction: asc or desc [optional, default: desc] | No |
+| `--keep-strategy` | Keep strategy: best, first, last, or all [optional, default: best] | No |
+| `--is-active` | Board is active [default: true] | No |
+| `--is-published` | Board is published/visible to clients [default: true] | No |
+| `--starts-at` | Start time for time-bounded boards, ISO 8601 [optional] | No |
+| `--ends-at` | End time for time-bounded boards, ISO 8601 [optional] | No |
 
 **Example:**
 
@@ -56,8 +57,8 @@ List boards for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional when using client authentication | No |
-| `--game-id` | Optional Game ID to filter boards by (UUID) | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--game-id` | Game ID to filter boards by (UUID) [optional] | No |
 
 **Example:**
 
@@ -74,8 +75,8 @@ Get board by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--board-id` | Board ID (e.g., `brd_xxx`) | Yes |
-| `--account-id` | Account ID (for superadmin cross-account access) | No |
+| `--board-id` | Board ID (e.g. `brd_xxx`) [required] | Yes |
+| `--account-id` | Account ID for superadmin cross-account access [optional] | No |
 
 **Example:**
 
@@ -91,14 +92,27 @@ Get board by short code
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--short-code` | Short code | Yes |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--short-code` | Short code [required] | Yes |
 
 **Example:**
 
 ```bash
 leadr board get-by-code --short-code highscores
 ```
+
+### board get-by-slug
+
+Get board by slug
+
+**Options:**
+
+| Option | Description | Required |
+|--------|-------------|----------|
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--game-id` | Game ID (UUID) [required] | Yes |
+| `--slug` | Board slug [required] | Yes |
+
 
 ### board update
 
@@ -108,8 +122,8 @@ Update a board
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--board-id` | Board ID (UUID) | Yes |
-| `--json` | JSON string with fields to update | Yes |
+| `--board-id` | Board ID (UUID) [required] | Yes |
+| `--json` | JSON string with fields to update [required] | Yes |
 
 **Example:**
 
@@ -125,7 +139,7 @@ Delete a board (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--board-id` | Board ID (UUID) | Yes |
+| `--board-id` | Board ID (UUID) [required] | Yes |
 
 **Example:**
 

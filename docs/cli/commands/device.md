@@ -25,9 +25,9 @@ List devices for an account
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--account-id` | Account ID (UUID) - optional if configured via `auth admin configure` | No |
-| `--game-id` | Optional Game ID to filter by (UUID) | No |
-| `--status` | Optional status filter (active, banned, suspended) | No |
+| `--account-id` | Account ID (UUID) [optional if configured] | No |
+| `--game-id` | Game ID to filter by (UUID) [optional] | No |
+| `--status` | Status filter: active, banned, suspended [optional] | No |
 
 **Example:**
 
@@ -44,7 +44,7 @@ Get device by ID
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--device-id` | Device ID (UUID) | Yes |
+| `--device-id` | Device ID (UUID) [required] | Yes |
 
 **Example:**
 
@@ -60,8 +60,8 @@ Update device status
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--device-id` | Device ID (UUID) | Yes |
-| `--status` | New status (active, banned, suspended) | No |
+| `--device-id` | Device ID (UUID) [required] | Yes |
+| `--status` | New status: active, banned, suspended [optional] | No |
 
 **Example:**
 
@@ -77,7 +77,7 @@ Delete a device (soft delete)
 
 | Option | Description | Required |
 |--------|-------------|----------|
-| `--device-id` | Device ID (UUID) | Yes |
+| `--device-id` | Device ID (UUID) [required] | Yes |
 
 **Example:**
 
