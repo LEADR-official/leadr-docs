@@ -55,8 +55,8 @@ nav:
       - Unity: sdks/unity/index.md
       - Godot: sdks/godot/index.md
       - REST API:
-          - Reference: api/client_api.md
-          - Authentication: api/client_auth.md
+          - Reference: api/client-api.md
+          - Authentication: api/client-auth.md
   - CLI:
       - Overview: cli/index.md
       - Getting Started: cli/getting-started.md
@@ -78,8 +78,8 @@ nav:
           - score-flag: cli/commands/score_flag.md
           - score-submission-meta: cli/commands/score_submission_meta.md
   - Concepts:
-      - Board Template Naming: api/template_naming.md
-      - Self Host: api/self_host.md
+      - Board Template Naming: api/template-naming.md
+      - Self Host: api/self-host.md
   - Admin API:
       - Overview: api/index.md
       - Patterns: api/patterns.md
