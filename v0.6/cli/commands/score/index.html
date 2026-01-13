@@ -1679,52 +1679,52 @@
 <tbody>
 <tr>
 <td><code>--account-id</code></td>
-<td>Account ID (UUID) - optional when using client authentication</td>
+<td>Account ID (UUID) [optional with client auth]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--game-id</code></td>
-<td>Game ID (UUID) - optional when using client authentication</td>
+<td>Game ID (UUID) [optional with client auth]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--board-id</code></td>
-<td>Board ID (UUID)</td>
+<td>Board ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--device-id</code></td>
-<td>Device ID (UUID) - optional when using client authentication</td>
+<td>Device ID (UUID) [optional with client auth]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--player-name</code></td>
-<td>Player name</td>
+<td>Player name [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--value</code></td>
-<td>Score value (number)</td>
+<td>Score value (number) [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--value-display</code></td>
-<td>Optional display string (e.g., "1:23.45", "1,234 points")</td>
+<td>Display string, e.g. "1:23.45", "1,234 points" [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--filter-timezone</code></td>
-<td>Optional timezone filter</td>
+<td>Timezone filter [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--filter-country</code></td>
-<td>Optional country filter</td>
+<td>Country filter [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--filter-city</code></td>
-<td>Optional city filter</td>
+<td>City filter [optional]</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1747,37 +1747,37 @@ leadr<span class="w"> </span>score<span class="w"> </span>create<span class="w">
 <tbody>
 <tr>
 <td><code>--account-id</code></td>
-<td>Account ID (UUID) - optional when using client authentication</td>
+<td>Account ID (UUID) [optional with client auth]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--board-id</code></td>
-<td>Optional Board ID to filter by (UUID)</td>
+<td>Board ID to filter by (UUID) [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--game-id</code></td>
-<td>Optional Game ID to filter by (UUID)</td>
+<td>Game ID to filter by (UUID) [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--device-id</code></td>
-<td>Optional Device ID to filter by (UUID)</td>
+<td>Device ID to filter by (UUID) [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--cursor</code></td>
-<td>Pagination cursor (from previous response)</td>
+<td>Pagination cursor from previous response [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--limit</code></td>
-<td>Number of items per page (1-100, default: 20)</td>
+<td>Items per page, 1-100 [optional, default: 20]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--sort</code></td>
-<td>Sort order (e.g., "value:desc", "<code>created_at:asc</code>")</td>
+<td>Sort order, e.g. "value:desc", "<code>created_at:asc</code>" [optional]</td>
 <td>No</td>
 </tr>
 <tr>
@@ -1805,7 +1805,7 @@ leadr<span class="w"> </span>score<span class="w"> </span>list<span class="w"> <
 <tbody>
 <tr>
 <td><code>--score-id</code></td>
-<td>Score ID (UUID)</td>
+<td>Score ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -1827,12 +1827,12 @@ leadr<span class="w"> </span>score<span class="w"> </span>list<span class="w"> <
 <tbody>
 <tr>
 <td><code>--score-id</code></td>
-<td>Score ID (UUID)</td>
+<td>Score ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--json</code></td>
-<td>JSON string with fields to update</td>
+<td>JSON string with fields to update [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -1854,7 +1854,7 @@ leadr<span class="w"> </span>score<span class="w"> </span>list<span class="w"> <
 <tbody>
 <tr>
 <td><code>--score-id</code></td>
-<td>Score ID (UUID)</td>
+<td>Score ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>

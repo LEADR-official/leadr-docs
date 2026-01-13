@@ -1679,82 +1679,82 @@
 <tbody>
 <tr>
 <td><code>--account-id</code></td>
-<td>Account ID (UUID) - optional if configured via <code>auth admin configure</code></td>
+<td>Account ID (UUID) [optional if configured]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--game-id</code></td>
-<td>Game ID (UUID)</td>
+<td>Game ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--name</code></td>
-<td>Template name</td>
+<td>Template name [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--slug</code></td>
-<td>URL-friendly slug for boards created from this template</td>
+<td>URL-friendly slug for boards created from this template [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--repeat-interval</code></td>
-<td>Repeat interval (<code>PostgreSQL</code> interval syntax, e.g., "7 days", "1 month")</td>
+<td>Repeat interval, <code>PostgreSQL</code> syntax e.g. "7 days", "1 month" [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--next-run-at</code></td>
-<td>Next run time (ISO 8601 datetime, e.g., "2025-01-01T00:00:00Z")</td>
+<td>Next run time, ISO 8601 datetime [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--is-active</code></td>
-<td>Template is active (default: true)</td>
+<td>Template is active [default: true]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--is-published</code></td>
-<td>Whether boards created from this template should be published (default: true)</td>
+<td>Boards created from this template should be published [default: true]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--name-template</code></td>
-<td>Optional name template for generated boards</td>
+<td>Name template for generated boards [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--series</code></td>
-<td>Optional series identifier for sequential board naming</td>
+<td>Series identifier for sequential board naming [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--icon</code></td>
-<td>Icon identifier for boards (e.g., "fa-crown")</td>
+<td>Icon identifier for boards, e.g. "fa-crown" [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--unit</code></td>
-<td>Unit of measurement for scores (e.g., "seconds", "points")</td>
+<td>Unit of measurement, e.g. "seconds", "points" [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--sort-direction</code></td>
-<td>Sort direction for scores (default: desc)</td>
+<td>Sort direction for scores [default: desc]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--keep-strategy</code></td>
-<td>Strategy for keeping multiple scores from the same user (default: all)</td>
+<td>Strategy for keeping multiple scores from same user [default: all]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--starts-at</code></td>
-<td>Optional start time for time-bounded boards (ISO 8601 datetime)</td>
+<td>Start time for time-bounded boards, ISO 8601 [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--ends-at</code></td>
-<td>Optional end time for time-bounded boards (ISO 8601 datetime)</td>
+<td>End time for time-bounded boards, ISO 8601 [optional]</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1776,12 +1776,12 @@
 <tbody>
 <tr>
 <td><code>--account-id</code></td>
-<td>Account ID (UUID) - optional if configured via <code>auth admin configure</code></td>
+<td>Account ID (UUID) [optional if configured]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--game-id</code></td>
-<td>Optional Game ID to filter templates by (UUID)</td>
+<td>Game ID to filter templates by (UUID) [optional]</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1803,7 +1803,7 @@
 <tbody>
 <tr>
 <td><code>--template-id</code></td>
-<td>Template ID (UUID)</td>
+<td>Template ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -1825,12 +1825,12 @@
 <tbody>
 <tr>
 <td><code>--template-id</code></td>
-<td>Template ID (UUID)</td>
+<td>Template ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--json</code></td>
-<td>JSON string with fields to update</td>
+<td>JSON string with fields to update [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -1852,7 +1852,7 @@
 <tbody>
 <tr>
 <td><code>--template-id</code></td>
-<td>Template ID (UUID)</td>
+<td>Template ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>

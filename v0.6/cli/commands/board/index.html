@@ -1016,6 +1016,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#board-get-by-slug" class="md-nav__link">
+    <span class="md-ellipsis">
+      board get-by-slug
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#board-update" class="md-nav__link">
     <span class="md-ellipsis">
       board update
@@ -1609,6 +1618,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#board-get-by-slug" class="md-nav__link">
+    <span class="md-ellipsis">
+      board get-by-slug
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#board-update" class="md-nav__link">
     <span class="md-ellipsis">
       board update
@@ -1678,6 +1696,10 @@
 <td>Get board by short code</td>
 </tr>
 <tr>
+<td><code>get-by-slug</code></td>
+<td>Get board by slug</td>
+</tr>
+<tr>
 <td><code>update</code></td>
 <td>Update a board</td>
 </tr>
@@ -1701,67 +1723,67 @@
 <tbody>
 <tr>
 <td><code>--account-id</code></td>
-<td>Account ID (UUID) - optional if configured via <code>auth admin configure</code></td>
+<td>Account ID (UUID) [optional if configured]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--game-id</code></td>
-<td>Game ID (UUID)</td>
+<td>Game ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--name</code></td>
-<td>Board name</td>
+<td>Board name [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--description</code></td>
-<td>Board description</td>
+<td>Board description [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--icon</code></td>
-<td>Icon (emoji or URL)</td>
+<td>Icon - emoji or URL [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--short-code</code></td>
-<td>Short code (globally unique identifier)</td>
+<td>Short code [optional, auto-generated if omitted]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--unit</code></td>
-<td>Unit (e.g., "points", "seconds", "kills")</td>
+<td>Unit, e.g. "points", "seconds" [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--sort-direction</code></td>
-<td>Sort direction (asc or desc)</td>
+<td>Sort direction: asc or desc [optional, default: desc]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--keep-strategy</code></td>
-<td>Keep strategy (best, first, last, or all)</td>
+<td>Keep strategy: best, first, last, or all [optional, default: best]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--is-active</code></td>
-<td>Board is active (default: true)</td>
+<td>Board is active [default: true]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--is-published</code></td>
-<td>Board is published/visible to clients (default: true)</td>
+<td>Board is published/visible to clients [default: true]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--starts-at</code></td>
-<td>Optional start time for time-bounded boards (ISO 8601 datetime)</td>
+<td>Start time for time-bounded boards, ISO 8601 [optional]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--ends-at</code></td>
-<td>Optional end time for time-bounded boards (ISO 8601 datetime)</td>
+<td>End time for time-bounded boards, ISO 8601 [optional]</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1784,12 +1806,12 @@ leadr<span class="w"> </span>board<span class="w"> </span>create<span class="w">
 <tbody>
 <tr>
 <td><code>--account-id</code></td>
-<td>Account ID (UUID) - optional when using client authentication</td>
+<td>Account ID (UUID) [optional if configured]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--game-id</code></td>
-<td>Optional Game ID to filter boards by (UUID)</td>
+<td>Game ID to filter boards by (UUID) [optional]</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1812,12 +1834,12 @@ leadr<span class="w"> </span>board<span class="w"> </span>list<span class="w"> <
 <tbody>
 <tr>
 <td><code>--board-id</code></td>
-<td>Board ID (e.g., <code>brd_xxx</code>)</td>
+<td>Board ID (e.g. <code>brd_xxx</code>) [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--account-id</code></td>
-<td>Account ID (for superadmin cross-account access)</td>
+<td>Account ID for superadmin cross-account access [optional]</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1839,12 +1861,12 @@ leadr<span class="w"> </span>board<span class="w"> </span>list<span class="w"> <
 <tbody>
 <tr>
 <td><code>--account-id</code></td>
-<td>Account ID (UUID) - optional if configured via <code>auth admin configure</code></td>
+<td>Account ID (UUID) [optional if configured]</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>--short-code</code></td>
-<td>Short code</td>
+<td>Short code [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -1852,6 +1874,35 @@ leadr<span class="w"> </span>board<span class="w"> </span>list<span class="w"> <
 <p><strong>Example:</strong></p>
 <div class="highlight"><pre><span></span><code>leadr<span class="w"> </span>board<span class="w"> </span>get-by-code<span class="w"> </span>--short-code<span class="w"> </span>highscores
 </code></pre></div>
+<h3 id="board-get-by-slug">board get-by-slug<a class="headerlink" href="#board-get-by-slug" title="Permanent link">&para;</a></h3>
+<p>Get board by slug</p>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--account-id</code></td>
+<td>Account ID (UUID) [optional if configured]</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>--game-id</code></td>
+<td>Game ID (UUID) [required]</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>--slug</code></td>
+<td>Board slug [required]</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
 <h3 id="board-update">board update<a class="headerlink" href="#board-update" title="Permanent link">&para;</a></h3>
 <p>Update a board</p>
 <p><strong>Options:</strong></p>
@@ -1866,12 +1917,12 @@ leadr<span class="w"> </span>board<span class="w"> </span>list<span class="w"> <
 <tbody>
 <tr>
 <td><code>--board-id</code></td>
-<td>Board ID (UUID)</td>
+<td>Board ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>--json</code></td>
-<td>JSON string with fields to update</td>
+<td>JSON string with fields to update [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -1893,7 +1944,7 @@ leadr<span class="w"> </span>board<span class="w"> </span>list<span class="w"> <
 <tbody>
 <tr>
 <td><code>--board-id</code></td>
-<td>Board ID (UUID)</td>
+<td>Board ID (UUID) [required]</td>
 <td>Yes</td>
 </tr>
 </tbody>
