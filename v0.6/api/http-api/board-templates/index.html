@@ -1647,11 +1647,12 @@ For superadmins, any account_id is accepted.</p>
 <p>Args:
     request: Template creation details including repeat_interval and configuration.
     service: Injected board template service dependency.
-    auth: Authentication context with user info.</p>
+    auth: Authentication context with user info.
+    pre_hook: Pre-create hook for entitlement checks.</p>
 <p>Returns:
     BoardTemplateResponse with the created template including auto-generated ID.</p>
 <p>Raises:
-    403: User does not have access to the specified account.
+    403: User does not have access to the specified account, or repeat_interval not allowed.
     404: Game or account not found.
     400: Game doesn't belong to the specified account.</p>
 <blockquote>
@@ -2197,11 +2198,12 @@ For superadmins, account_id is optional - if omitted, returns templates from all
     template_id: Unique identifier for the template.
     request: Template update details (all fields optional).
     service: Injected board template service dependency.
-    auth: Authentication context with user info.</p>
+    auth: Authentication context with user info.
+    pre_hook: Pre-update hook for entitlement checks.</p>
 <p>Returns:
     BoardTemplateResponse with the updated template details.</p>
 <p>Raises:
-    403: User does not have access to this template's account.
+    403: User does not have access to this template's account, or repeat_interval not allowed.
     404: Template not found.</p>
 <blockquote>
 <p>Body parameter</p>

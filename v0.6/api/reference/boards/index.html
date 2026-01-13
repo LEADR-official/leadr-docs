@@ -5267,7 +5267,7 @@ otherwise None.</p>
 <li><a href="#leadr.boards.api.board_template_routes.router"><strong>router</strong></a> –</li>
 </ul>
 <h6 id="leadrboardsapiboard_template_routescreate_board_template"><code>leadr.boards.api.board_template_routes.create_board_template</code><a class="headerlink" href="#leadrboardsapiboard_template_routescreate_board_template" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">create_board_template</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">auth</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">create_board_template</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">,</span> <span class="n">pre_hook</span><span class="p">)</span>
 </code></pre></div>
 <p>Create a new board template.</p>
 <p>Creates a template for automatically generating boards at regular intervals.
@@ -5279,6 +5279,7 @@ For superadmins, any account_id is accepted.</p>
 <li><strong>request</strong> (<code><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest">BoardTemplateCreateRequest</a></code>) – Template creation details including repeat_interval and configuration.</li>
 <li><strong>service</strong> (<code><a href="./#leadr.boards.services.dependencies.BoardTemplateServiceDep">BoardTemplateServiceDep</a></code>) – Injected board template service dependency.</li>
 <li><strong>auth</strong> (<code><a href="../auth/#leadr.auth.dependencies.AdminAuthContextDep">AdminAuthContextDep</a></code>) – Authentication context with user info.</li>
+<li><strong>pre_hook</strong> (<code><a href="../common/#leadr.common.api.hooks.PreCreateBoardTemplateHookDep">PreCreateBoardTemplateHookDep</a></code>) – Pre-create hook for entitlement checks.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -5286,7 +5287,7 @@ For superadmins, any account_id is accepted.</p>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>403</code> – User does not have access to the specified account.</li>
+<li><code>403</code> – User does not have access to the specified account, or repeat_interval not allowed.</li>
 <li><code>404</code> – Game or account not found.</li>
 <li><code>400</code> – Game doesn't belong to the specified account.</li>
 </ul>
@@ -5350,7 +5351,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <div class="highlight"><pre><span></span><code><span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_routesupdate_board_template"><code>leadr.boards.api.board_template_routes.update_board_template</code><a class="headerlink" href="#leadrboardsapiboard_template_routesupdate_board_template" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">update_board_template</span><span class="p">(</span><span class="n">template_id</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">auth</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">update_board_template</span><span class="p">(</span><span class="n">template_id</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">,</span> <span class="n">pre_hook</span><span class="p">)</span>
 </code></pre></div>
 <p>Update a board template.</p>
 <p>Supports updating any template field or soft-deleting the template.</p>
@@ -5360,6 +5361,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <li><strong>request</strong> (<code><a href="#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest">BoardTemplateUpdateRequest</a></code>) – Template update details (all fields optional).</li>
 <li><strong>service</strong> (<code><a href="./#leadr.boards.services.dependencies.BoardTemplateServiceDep">BoardTemplateServiceDep</a></code>) – Injected board template service dependency.</li>
 <li><strong>auth</strong> (<code><a href="../auth/#leadr.auth.dependencies.AdminAuthContextDep">AdminAuthContextDep</a></code>) – Authentication context with user info.</li>
+<li><strong>pre_hook</strong> (<code><a href="../common/#leadr.common.api.hooks.PreUpdateBoardTemplateHookDep">PreUpdateBoardTemplateHookDep</a></code>) – Pre-update hook for entitlement checks.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -5367,7 +5369,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>403</code> – User does not have access to this template's account.</li>
+<li><code>403</code> – User does not have access to this template's account, or repeat_interval not allowed.</li>
 <li><code>404</code> – Template not found.</li>
 </ul>
 <h5 id="leadrboardsapiboard_template_schemas"><code>leadr.boards.api.board_template_schemas</code><a class="headerlink" href="#leadrboardsapiboard_template_schemas" title="Permanent link">&para;</a></h5>
