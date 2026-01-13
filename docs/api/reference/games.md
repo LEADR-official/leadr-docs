@@ -158,7 +158,7 @@ Game API routes.
 ###### `leadr.games.api.game_routes.create_game`
 
 ```python
-create_game(request, service, auth)
+create_game(request, service, auth, background_tasks, pre_create_hook, post_create_hook)
 ```
 
 Create a new game.
@@ -174,6 +174,8 @@ For superadmins, any account_id is accepted.
 - **request** (<code>[GameCreateRequest](#leadr.games.api.game_schemas.GameCreateRequest)</code>) – Game creation details including account_id, name, and optional settings.
 - **service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+- **pre_create_hook** (<code>[PreCreateGameHookDep](./common.md#leadr.common.api.hooks.PreCreateGameHookDep)</code>) – Hook called before game creation (for quota checks).
+- **post_create_hook** (<code>[PostCreateGameHookDep](./common.md#leadr.common.api.hooks.PostCreateGameHookDep)</code>) – Hook called after successful game creation.
 
 **Returns:**
 

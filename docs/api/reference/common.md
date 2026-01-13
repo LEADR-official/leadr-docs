@@ -20,6 +20,7 @@ API utilities and exception handlers.
 **Modules:**
 
 - [**exceptions**](./common.md#leadr.common.api.exceptions) – Global exception handlers for API layer.
+- [**hooks**](./common.md#leadr.common.api.hooks) – Request hooks for cloud/enterprise extensibility.
 - [**pagination**](./common.md#leadr.common.api.pagination) – API pagination models and dependencies.
 
 ##### `leadr.common.api.exceptions`
@@ -112,6 +113,244 @@ error response envelope.
 **Returns:**
 
 - <code>[JSONResponse](#fastapi.responses.JSONResponse)</code> – JSONResponse with 422 status and list of validation errors
+
+##### `leadr.common.api.hooks`
+
+Request hooks for cloud/enterprise extensibility.
+
+These hooks are no-ops in OSS but can be overridden via FastAPI dependency_overrides.
+
+**Functions:**
+
+- [**get_post_create_board_hook**](#leadr.common.api.hooks.get_post_create_board_hook) – Get the post-create board hook. Override in cloud.
+- [**get_post_create_game_hook**](#leadr.common.api.hooks.get_post_create_game_hook) – Get the post-create game hook. Override in cloud.
+- [**get_post_create_score_hook**](#leadr.common.api.hooks.get_post_create_score_hook) – Get the post-create score hook. Override in cloud.
+- [**get_pre_create_board_hook**](#leadr.common.api.hooks.get_pre_create_board_hook) – Get the pre-create board hook. Override in cloud.
+- [**get_pre_create_game_hook**](#leadr.common.api.hooks.get_pre_create_game_hook) – Get the pre-create game hook. Override in cloud.
+- [**get_pre_create_score_hook**](#leadr.common.api.hooks.get_pre_create_score_hook) – Get the pre-create score hook. Override in cloud.
+- [**get_rate_limit_hook**](#leadr.common.api.hooks.get_rate_limit_hook) – Get the rate limit hook. Override in cloud.
+- [**noop_post_create_board**](#leadr.common.api.hooks.noop_post_create_board) – No-op post-create board hook.
+- [**noop_post_create_game**](#leadr.common.api.hooks.noop_post_create_game) – No-op post-create game hook.
+- [**noop_post_create_score**](#leadr.common.api.hooks.noop_post_create_score) – No-op post-create score hook.
+- [**noop_pre_create_board**](#leadr.common.api.hooks.noop_pre_create_board) – No-op pre-create board hook.
+- [**noop_pre_create_game**](#leadr.common.api.hooks.noop_pre_create_game) – No-op pre-create game hook.
+- [**noop_pre_create_score**](#leadr.common.api.hooks.noop_pre_create_score) – No-op pre-create score hook.
+- [**noop_rate_limit_check**](#leadr.common.api.hooks.noop_rate_limit_check) – No-op rate limit hook.
+- [**require_rate_limit_check**](#leadr.common.api.hooks.require_rate_limit_check) – Rate limit dependency for router-level application.
+
+**Attributes:**
+
+- [**PostCreateBoardHook**](./common.md#leadr.common.api.hooks.PostCreateBoardHook) –
+- [**PostCreateBoardHookDep**](./common.md#leadr.common.api.hooks.PostCreateBoardHookDep) –
+- [**PostCreateGameHook**](./common.md#leadr.common.api.hooks.PostCreateGameHook) –
+- [**PostCreateGameHookDep**](./common.md#leadr.common.api.hooks.PostCreateGameHookDep) –
+- [**PostCreateScoreHook**](./common.md#leadr.common.api.hooks.PostCreateScoreHook) –
+- [**PostCreateScoreHookDep**](./common.md#leadr.common.api.hooks.PostCreateScoreHookDep) –
+- [**PreCreateBoardHook**](./common.md#leadr.common.api.hooks.PreCreateBoardHook) –
+- [**PreCreateBoardHookDep**](./common.md#leadr.common.api.hooks.PreCreateBoardHookDep) –
+- [**PreCreateGameHook**](./common.md#leadr.common.api.hooks.PreCreateGameHook) –
+- [**PreCreateGameHookDep**](./common.md#leadr.common.api.hooks.PreCreateGameHookDep) –
+- [**PreCreateScoreHook**](./common.md#leadr.common.api.hooks.PreCreateScoreHook) –
+- [**PreCreateScoreHookDep**](./common.md#leadr.common.api.hooks.PreCreateScoreHookDep) –
+- [**RateLimitHook**](./common.md#leadr.common.api.hooks.RateLimitHook) –
+
+###### `leadr.common.api.hooks.PostCreateBoardHook`
+
+```python
+PostCreateBoardHook = Callable[[AccountID, GameID, AdminAuthContext, BackgroundTasks], Awaitable[None]]
+```
+
+###### `leadr.common.api.hooks.PostCreateBoardHookDep`
+
+```python
+PostCreateBoardHookDep = Annotated[PostCreateBoardHook, Depends(get_post_create_board_hook)]
+```
+
+###### `leadr.common.api.hooks.PostCreateGameHook`
+
+```python
+PostCreateGameHook = Callable[[AccountID, AdminAuthContext, BackgroundTasks], Awaitable[None]]
+```
+
+###### `leadr.common.api.hooks.PostCreateGameHookDep`
+
+```python
+PostCreateGameHookDep = Annotated[PostCreateGameHook, Depends(get_post_create_game_hook)]
+```
+
+###### `leadr.common.api.hooks.PostCreateScoreHook`
+
+```python
+PostCreateScoreHook = Callable[[AccountID, ClientAuthContext, BackgroundTasks], Awaitable[None]]
+```
+
+###### `leadr.common.api.hooks.PostCreateScoreHookDep`
+
+```python
+PostCreateScoreHookDep = Annotated[PostCreateScoreHook, Depends(get_post_create_score_hook)]
+```
+
+###### `leadr.common.api.hooks.PreCreateBoardHook`
+
+```python
+PreCreateBoardHook = Callable[[AccountID, GameID, AdminAuthContext], Awaitable[None]]
+```
+
+###### `leadr.common.api.hooks.PreCreateBoardHookDep`
+
+```python
+PreCreateBoardHookDep = Annotated[PreCreateBoardHook, Depends(get_pre_create_board_hook)]
+```
+
+###### `leadr.common.api.hooks.PreCreateGameHook`
+
+```python
+PreCreateGameHook = Callable[[AccountID, AdminAuthContext], Awaitable[None]]
+```
+
+###### `leadr.common.api.hooks.PreCreateGameHookDep`
+
+```python
+PreCreateGameHookDep = Annotated[PreCreateGameHook, Depends(get_pre_create_game_hook)]
+```
+
+###### `leadr.common.api.hooks.PreCreateScoreHook`
+
+```python
+PreCreateScoreHook = Callable[[AccountID, ClientAuthContext], Awaitable[None]]
+```
+
+###### `leadr.common.api.hooks.PreCreateScoreHookDep`
+
+```python
+PreCreateScoreHookDep = Annotated[PreCreateScoreHook, Depends(get_pre_create_score_hook)]
+```
+
+###### `leadr.common.api.hooks.RateLimitHook`
+
+```python
+RateLimitHook = Callable[[Request], Awaitable[None]]
+```
+
+###### `leadr.common.api.hooks.get_post_create_board_hook`
+
+```python
+get_post_create_board_hook()
+```
+
+Get the post-create board hook. Override in cloud.
+
+###### `leadr.common.api.hooks.get_post_create_game_hook`
+
+```python
+get_post_create_game_hook()
+```
+
+Get the post-create game hook. Override in cloud.
+
+###### `leadr.common.api.hooks.get_post_create_score_hook`
+
+```python
+get_post_create_score_hook()
+```
+
+Get the post-create score hook. Override in cloud.
+
+###### `leadr.common.api.hooks.get_pre_create_board_hook`
+
+```python
+get_pre_create_board_hook()
+```
+
+Get the pre-create board hook. Override in cloud.
+
+###### `leadr.common.api.hooks.get_pre_create_game_hook`
+
+```python
+get_pre_create_game_hook()
+```
+
+Get the pre-create game hook. Override in cloud.
+
+###### `leadr.common.api.hooks.get_pre_create_score_hook`
+
+```python
+get_pre_create_score_hook()
+```
+
+Get the pre-create score hook. Override in cloud.
+
+###### `leadr.common.api.hooks.get_rate_limit_hook`
+
+```python
+get_rate_limit_hook()
+```
+
+Get the rate limit hook. Override in cloud.
+
+###### `leadr.common.api.hooks.noop_post_create_board`
+
+```python
+noop_post_create_board(account_id, game_id, auth, background_tasks)
+```
+
+No-op post-create board hook.
+
+###### `leadr.common.api.hooks.noop_post_create_game`
+
+```python
+noop_post_create_game(account_id, auth, background_tasks)
+```
+
+No-op post-create game hook.
+
+###### `leadr.common.api.hooks.noop_post_create_score`
+
+```python
+noop_post_create_score(account_id, auth, background_tasks)
+```
+
+No-op post-create score hook.
+
+###### `leadr.common.api.hooks.noop_pre_create_board`
+
+```python
+noop_pre_create_board(account_id, game_id, auth)
+```
+
+No-op pre-create board hook.
+
+###### `leadr.common.api.hooks.noop_pre_create_game`
+
+```python
+noop_pre_create_game(account_id, auth)
+```
+
+No-op pre-create game hook.
+
+###### `leadr.common.api.hooks.noop_pre_create_score`
+
+```python
+noop_pre_create_score(account_id, auth)
+```
+
+No-op pre-create score hook.
+
+###### `leadr.common.api.hooks.noop_rate_limit_check`
+
+```python
+noop_rate_limit_check(request)
+```
+
+No-op rate limit hook.
+
+###### `leadr.common.api.hooks.require_rate_limit_check`
+
+```python
+require_rate_limit_check(request, hook)
+```
+
+Rate limit dependency for router-level application.
 
 ##### `leadr.common.api.pagination`
 

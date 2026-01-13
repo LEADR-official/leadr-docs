@@ -61,8 +61,8 @@ Args:
     account_id: Optional account_id query parameter (superadmins can omit to see all).
     board_id: Optional board ID to filter by.
     game_id: Optional game ID to filter by.
-    status: Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).
-    flag_type: Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).
+    status: Optional status to filter by (pending, confirmed_cheat, etc.).
+    flag_type: Optional flag type to filter by (velocity, duplicate, etc.).
 
 Returns:
     PaginatedResponse containing ScoreFlagResponse objects matching the filter criteria.

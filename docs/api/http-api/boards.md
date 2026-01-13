@@ -79,6 +79,8 @@ Args:
     request: Board creation details including account_id, game_id, name, and settings.
     service: Injected board service dependency.
     auth: Authentication context with user info.
+    pre_create_hook: Hook called before board creation (for quota checks).
+    post_create_hook: Hook called after successful board creation.
 
 Returns:
     BoardResponse with the created board including auto-generated ID and timestamps.
