@@ -1157,7 +1157,7 @@ Board template API routes.
 ###### `leadr.boards.api.board_template_routes.create_board_template`
 
 ```python
-create_board_template(request, service, auth)
+create_board_template(request, service, auth, background_tasks, pre_hook)
 ```
 
 Create a new board template.
@@ -1173,6 +1173,7 @@ For superadmins, any account_id is accepted.
 - **request** (<code>[BoardTemplateCreateRequest](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest)</code>) – Template creation details including repeat_interval and configuration.
 - **service** (<code>[BoardTemplateServiceDep](./boards.md#leadr.boards.services.dependencies.BoardTemplateServiceDep)</code>) – Injected board template service dependency.
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+- **pre_hook** (<code>[PreCreateBoardTemplateHookDep](./common.md#leadr.common.api.hooks.PreCreateBoardTemplateHookDep)</code>) – Pre-create hook for entitlement checks.
 
 **Returns:**
 
@@ -1180,7 +1181,7 @@ For superadmins, any account_id is accepted.
 
 **Raises:**
 
-- <code>403</code> – User does not have access to the specified account.
+- <code>403</code> – User does not have access to the specified account, or repeat_interval not allowed.
 - <code>404</code> – Game or account not found.
 - <code>400</code> – Game doesn't belong to the specified account.
 
@@ -1258,7 +1259,7 @@ router = APIRouter()
 ###### `leadr.boards.api.board_template_routes.update_board_template`
 
 ```python
-update_board_template(template_id, request, service, auth)
+update_board_template(template_id, request, service, auth, background_tasks, pre_hook)
 ```
 
 Update a board template.
@@ -1271,6 +1272,7 @@ Supports updating any template field or soft-deleting the template.
 - **request** (<code>[BoardTemplateUpdateRequest](#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest)</code>) – Template update details (all fields optional).
 - **service** (<code>[BoardTemplateServiceDep](./boards.md#leadr.boards.services.dependencies.BoardTemplateServiceDep)</code>) – Injected board template service dependency.
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+- **pre_hook** (<code>[PreUpdateBoardTemplateHookDep](./common.md#leadr.common.api.hooks.PreUpdateBoardTemplateHookDep)</code>) – Pre-update hook for entitlement checks.
 
 **Returns:**
 
@@ -1278,7 +1280,7 @@ Supports updating any template field or soft-deleting the template.
 
 **Raises:**
 
-- <code>403</code> – User does not have access to this template's account.
+- <code>403</code> – User does not have access to this template's account, or repeat_interval not allowed.
 - <code>404</code> – Template not found.
 
 ##### `leadr.boards.api.board_template_schemas`

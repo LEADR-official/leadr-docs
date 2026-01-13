@@ -120,44 +120,77 @@ Request hooks for cloud/enterprise extensibility.
 
 These hooks are no-ops in OSS but can be overridden via FastAPI dependency_overrides.
 
+**Classes:**
+
+- [**Hook**](./common.md#leadr.common.api.hooks.Hook) – Generic hook type for resource lifecycle events.
+- [**UpdateHook**](./common.md#leadr.common.api.hooks.UpdateHook) – Hook type for update operations that need the resource's account_id.
+
 **Functions:**
 
 - [**get_post_create_board_hook**](#leadr.common.api.hooks.get_post_create_board_hook) – Get the post-create board hook. Override in cloud.
 - [**get_post_create_game_hook**](#leadr.common.api.hooks.get_post_create_game_hook) – Get the post-create game hook. Override in cloud.
 - [**get_post_create_score_hook**](#leadr.common.api.hooks.get_post_create_score_hook) – Get the post-create score hook. Override in cloud.
 - [**get_pre_create_board_hook**](#leadr.common.api.hooks.get_pre_create_board_hook) – Get the pre-create board hook. Override in cloud.
+- [**get_pre_create_board_template_hook**](#leadr.common.api.hooks.get_pre_create_board_template_hook) – Get the pre-create board template hook. Override in cloud.
 - [**get_pre_create_game_hook**](#leadr.common.api.hooks.get_pre_create_game_hook) – Get the pre-create game hook. Override in cloud.
 - [**get_pre_create_score_hook**](#leadr.common.api.hooks.get_pre_create_score_hook) – Get the pre-create score hook. Override in cloud.
+- [**get_pre_update_board_template_hook**](#leadr.common.api.hooks.get_pre_update_board_template_hook) – Get the pre-update board template hook. Override in cloud.
 - [**get_rate_limit_hook**](#leadr.common.api.hooks.get_rate_limit_hook) – Get the rate limit hook. Override in cloud.
 - [**noop_post_create_board**](#leadr.common.api.hooks.noop_post_create_board) – No-op post-create board hook.
 - [**noop_post_create_game**](#leadr.common.api.hooks.noop_post_create_game) – No-op post-create game hook.
 - [**noop_post_create_score**](#leadr.common.api.hooks.noop_post_create_score) – No-op post-create score hook.
 - [**noop_pre_create_board**](#leadr.common.api.hooks.noop_pre_create_board) – No-op pre-create board hook.
+- [**noop_pre_create_board_template**](#leadr.common.api.hooks.noop_pre_create_board_template) – No-op pre-create board template hook.
 - [**noop_pre_create_game**](#leadr.common.api.hooks.noop_pre_create_game) – No-op pre-create game hook.
 - [**noop_pre_create_score**](#leadr.common.api.hooks.noop_pre_create_score) – No-op pre-create score hook.
+- [**noop_pre_update_board_template**](#leadr.common.api.hooks.noop_pre_update_board_template) – No-op pre-update board template hook.
 - [**noop_rate_limit_check**](#leadr.common.api.hooks.noop_rate_limit_check) – No-op rate limit hook.
 - [**require_rate_limit_check**](#leadr.common.api.hooks.require_rate_limit_check) – Rate limit dependency for router-level application.
 
 **Attributes:**
 
-- [**PostCreateBoardHook**](./common.md#leadr.common.api.hooks.PostCreateBoardHook) –
+- [**AuthT**](./common.md#leadr.common.api.hooks.AuthT) –
+- [**PostCreateBoardHook**](./common.md#leadr.common.api.hooks.PostCreateBoardHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
 - [**PostCreateBoardHookDep**](./common.md#leadr.common.api.hooks.PostCreateBoardHookDep) –
-- [**PostCreateGameHook**](./common.md#leadr.common.api.hooks.PostCreateGameHook) –
+- [**PostCreateGameHook**](./common.md#leadr.common.api.hooks.PostCreateGameHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
 - [**PostCreateGameHookDep**](./common.md#leadr.common.api.hooks.PostCreateGameHookDep) –
-- [**PostCreateScoreHook**](./common.md#leadr.common.api.hooks.PostCreateScoreHook) –
+- [**PostCreateScoreHook**](./common.md#leadr.common.api.hooks.PostCreateScoreHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
 - [**PostCreateScoreHookDep**](./common.md#leadr.common.api.hooks.PostCreateScoreHookDep) –
-- [**PreCreateBoardHook**](./common.md#leadr.common.api.hooks.PreCreateBoardHook) –
+- [**PreCreateBoardHook**](./common.md#leadr.common.api.hooks.PreCreateBoardHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
 - [**PreCreateBoardHookDep**](./common.md#leadr.common.api.hooks.PreCreateBoardHookDep) –
-- [**PreCreateGameHook**](./common.md#leadr.common.api.hooks.PreCreateGameHook) –
+- [**PreCreateBoardTemplateHook**](./common.md#leadr.common.api.hooks.PreCreateBoardTemplateHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
+- [**PreCreateBoardTemplateHookDep**](./common.md#leadr.common.api.hooks.PreCreateBoardTemplateHookDep) –
+- [**PreCreateGameHook**](./common.md#leadr.common.api.hooks.PreCreateGameHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
 - [**PreCreateGameHookDep**](./common.md#leadr.common.api.hooks.PreCreateGameHookDep) –
-- [**PreCreateScoreHook**](./common.md#leadr.common.api.hooks.PreCreateScoreHook) –
+- [**PreCreateScoreHook**](./common.md#leadr.common.api.hooks.PreCreateScoreHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
 - [**PreCreateScoreHookDep**](./common.md#leadr.common.api.hooks.PreCreateScoreHookDep) –
+- [**PreUpdateBoardTemplateHook**](./common.md#leadr.common.api.hooks.PreUpdateBoardTemplateHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
+- [**PreUpdateBoardTemplateHookDep**](./common.md#leadr.common.api.hooks.PreUpdateBoardTemplateHookDep) –
 - [**RateLimitHook**](./common.md#leadr.common.api.hooks.RateLimitHook) –
+- [**RequestT**](./common.md#leadr.common.api.hooks.RequestT) –
+
+###### `leadr.common.api.hooks.AuthT`
+
+```python
+AuthT = TypeVar('AuthT', contravariant=True)
+```
+
+###### `leadr.common.api.hooks.Hook`
+
+Bases: <code>[Protocol](#typing.Protocol)\[[RequestT](./common.md#leadr.common.api.hooks.RequestT), [AuthT](./common.md#leadr.common.api.hooks.AuthT)\]</code>
+
+Generic hook type for resource lifecycle events.
+
+All hooks follow the signature: (request, auth, background_tasks) -> None
+
+- request: The Pydantic request schema for the operation
+- auth: The authentication context (AdminAuthContext or ClientAuthContext)
+- background_tasks: FastAPI BackgroundTasks for scheduling async work
 
 ###### `leadr.common.api.hooks.PostCreateBoardHook`
 
 ```python
-PostCreateBoardHook = Callable[[AccountID, GameID, AdminAuthContext, BackgroundTasks], Awaitable[None]]
+PostCreateBoardHook: TypeAlias = Hook[BoardCreateRequest, AdminAuthContext]
 ```
 
 ###### `leadr.common.api.hooks.PostCreateBoardHookDep`
@@ -169,7 +202,7 @@ PostCreateBoardHookDep = Annotated[PostCreateBoardHook, Depends(get_post_create_
 ###### `leadr.common.api.hooks.PostCreateGameHook`
 
 ```python
-PostCreateGameHook = Callable[[AccountID, AdminAuthContext, BackgroundTasks], Awaitable[None]]
+PostCreateGameHook: TypeAlias = Hook[GameCreateRequest, AdminAuthContext]
 ```
 
 ###### `leadr.common.api.hooks.PostCreateGameHookDep`
@@ -181,7 +214,7 @@ PostCreateGameHookDep = Annotated[PostCreateGameHook, Depends(get_post_create_ga
 ###### `leadr.common.api.hooks.PostCreateScoreHook`
 
 ```python
-PostCreateScoreHook = Callable[[AccountID, ClientAuthContext, BackgroundTasks], Awaitable[None]]
+PostCreateScoreHook: TypeAlias = Hook[ScoreClientCreateRequest, ClientAuthContext]
 ```
 
 ###### `leadr.common.api.hooks.PostCreateScoreHookDep`
@@ -193,7 +226,7 @@ PostCreateScoreHookDep = Annotated[PostCreateScoreHook, Depends(get_post_create_
 ###### `leadr.common.api.hooks.PreCreateBoardHook`
 
 ```python
-PreCreateBoardHook = Callable[[AccountID, GameID, AdminAuthContext], Awaitable[None]]
+PreCreateBoardHook: TypeAlias = Hook[BoardCreateRequest, AdminAuthContext]
 ```
 
 ###### `leadr.common.api.hooks.PreCreateBoardHookDep`
@@ -202,10 +235,22 @@ PreCreateBoardHook = Callable[[AccountID, GameID, AdminAuthContext], Awaitable[N
 PreCreateBoardHookDep = Annotated[PreCreateBoardHook, Depends(get_pre_create_board_hook)]
 ```
 
+###### `leadr.common.api.hooks.PreCreateBoardTemplateHook`
+
+```python
+PreCreateBoardTemplateHook: TypeAlias = Hook[BoardTemplateCreateRequest, AdminAuthContext]
+```
+
+###### `leadr.common.api.hooks.PreCreateBoardTemplateHookDep`
+
+```python
+PreCreateBoardTemplateHookDep = Annotated[PreCreateBoardTemplateHook, Depends(get_pre_create_board_template_hook)]
+```
+
 ###### `leadr.common.api.hooks.PreCreateGameHook`
 
 ```python
-PreCreateGameHook = Callable[[AccountID, AdminAuthContext], Awaitable[None]]
+PreCreateGameHook: TypeAlias = Hook[GameCreateRequest, AdminAuthContext]
 ```
 
 ###### `leadr.common.api.hooks.PreCreateGameHookDep`
@@ -217,7 +262,7 @@ PreCreateGameHookDep = Annotated[PreCreateGameHook, Depends(get_pre_create_game_
 ###### `leadr.common.api.hooks.PreCreateScoreHook`
 
 ```python
-PreCreateScoreHook = Callable[[AccountID, ClientAuthContext], Awaitable[None]]
+PreCreateScoreHook: TypeAlias = Hook[ScoreClientCreateRequest, ClientAuthContext]
 ```
 
 ###### `leadr.common.api.hooks.PreCreateScoreHookDep`
@@ -226,11 +271,38 @@ PreCreateScoreHook = Callable[[AccountID, ClientAuthContext], Awaitable[None]]
 PreCreateScoreHookDep = Annotated[PreCreateScoreHook, Depends(get_pre_create_score_hook)]
 ```
 
+###### `leadr.common.api.hooks.PreUpdateBoardTemplateHook`
+
+```python
+PreUpdateBoardTemplateHook: TypeAlias = UpdateHook[BoardTemplateUpdateRequest, AdminAuthContext]
+```
+
+###### `leadr.common.api.hooks.PreUpdateBoardTemplateHookDep`
+
+```python
+PreUpdateBoardTemplateHookDep = Annotated[PreUpdateBoardTemplateHook, Depends(get_pre_update_board_template_hook)]
+```
+
 ###### `leadr.common.api.hooks.RateLimitHook`
 
 ```python
 RateLimitHook = Callable[[Request], Awaitable[None]]
 ```
+
+###### `leadr.common.api.hooks.RequestT`
+
+```python
+RequestT = TypeVar('RequestT', contravariant=True)
+```
+
+###### `leadr.common.api.hooks.UpdateHook`
+
+Bases: <code>[Protocol](#typing.Protocol)\[[RequestT](./common.md#leadr.common.api.hooks.RequestT), [AuthT](./common.md#leadr.common.api.hooks.AuthT)\]</code>
+
+Hook type for update operations that need the resource's account_id.
+
+Update hooks receive account_id separately since it comes from the existing
+resource, not the update request body.
 
 ###### `leadr.common.api.hooks.get_post_create_board_hook`
 
@@ -264,6 +336,14 @@ get_pre_create_board_hook()
 
 Get the pre-create board hook. Override in cloud.
 
+###### `leadr.common.api.hooks.get_pre_create_board_template_hook`
+
+```python
+get_pre_create_board_template_hook()
+```
+
+Get the pre-create board template hook. Override in cloud.
+
 ###### `leadr.common.api.hooks.get_pre_create_game_hook`
 
 ```python
@@ -280,6 +360,14 @@ get_pre_create_score_hook()
 
 Get the pre-create score hook. Override in cloud.
 
+###### `leadr.common.api.hooks.get_pre_update_board_template_hook`
+
+```python
+get_pre_update_board_template_hook()
+```
+
+Get the pre-update board template hook. Override in cloud.
+
 ###### `leadr.common.api.hooks.get_rate_limit_hook`
 
 ```python
@@ -291,7 +379,7 @@ Get the rate limit hook. Override in cloud.
 ###### `leadr.common.api.hooks.noop_post_create_board`
 
 ```python
-noop_post_create_board(account_id, game_id, auth, background_tasks)
+noop_post_create_board(request, auth, background_tasks)
 ```
 
 No-op post-create board hook.
@@ -299,7 +387,7 @@ No-op post-create board hook.
 ###### `leadr.common.api.hooks.noop_post_create_game`
 
 ```python
-noop_post_create_game(account_id, auth, background_tasks)
+noop_post_create_game(request, auth, background_tasks)
 ```
 
 No-op post-create game hook.
@@ -307,7 +395,7 @@ No-op post-create game hook.
 ###### `leadr.common.api.hooks.noop_post_create_score`
 
 ```python
-noop_post_create_score(account_id, auth, background_tasks)
+noop_post_create_score(request, auth, background_tasks)
 ```
 
 No-op post-create score hook.
@@ -315,15 +403,23 @@ No-op post-create score hook.
 ###### `leadr.common.api.hooks.noop_pre_create_board`
 
 ```python
-noop_pre_create_board(account_id, game_id, auth)
+noop_pre_create_board(request, auth, background_tasks)
 ```
 
 No-op pre-create board hook.
 
+###### `leadr.common.api.hooks.noop_pre_create_board_template`
+
+```python
+noop_pre_create_board_template(request, auth, background_tasks)
+```
+
+No-op pre-create board template hook.
+
 ###### `leadr.common.api.hooks.noop_pre_create_game`
 
 ```python
-noop_pre_create_game(account_id, auth)
+noop_pre_create_game(request, auth, background_tasks)
 ```
 
 No-op pre-create game hook.
@@ -331,10 +427,18 @@ No-op pre-create game hook.
 ###### `leadr.common.api.hooks.noop_pre_create_score`
 
 ```python
-noop_pre_create_score(account_id, auth)
+noop_pre_create_score(request, auth, background_tasks)
 ```
 
 No-op pre-create score hook.
+
+###### `leadr.common.api.hooks.noop_pre_update_board_template`
+
+```python
+noop_pre_update_board_template(account_id, request, auth, background_tasks)
+```
+
+No-op pre-update board template hook.
 
 ###### `leadr.common.api.hooks.noop_rate_limit_check`
 

@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.5.0"
+    "version": "0.6.0"
   },
   "paths": {
     "/v1/accounts": {
@@ -2630,7 +2630,7 @@
           "Board Templates"
         ],
         "summary": "Create Board Template",
-        "description": "Create a new board template.\n\nCreates a template for automatically generating boards at regular intervals.\nThe game must belong to the specified account.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Template creation details including repeat_interval and configuration.\n    service: Injected board template service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardTemplateResponse with the created template including auto-generated ID.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Game or account not found.\n    400: Game doesn't belong to the specified account.",
+        "description": "Create a new board template.\n\nCreates a template for automatically generating boards at regular intervals.\nThe game must belong to the specified account.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Template creation details including repeat_interval and configuration.\n    service: Injected board template service dependency.\n    auth: Authentication context with user info.\n    pre_hook: Pre-create hook for entitlement checks.\n\nReturns:\n    BoardTemplateResponse with the created template including auto-generated ID.\n\nRaises:\n    403: User does not have access to the specified account, or repeat_interval not allowed.\n    404: Game or account not found.\n    400: Game doesn't belong to the specified account.",
         "operationId": "create_board_template_v1_board_templates_post",
         "parameters": [
           {
@@ -3007,7 +3007,7 @@
           "Board Templates"
         ],
         "summary": "Update Board Template",
-        "description": "Update a board template.\n\nSupports updating any template field or soft-deleting the template.\n\nArgs:\n    template_id: Unique identifier for the template.\n    request: Template update details (all fields optional).\n    service: Injected board template service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardTemplateResponse with the updated template details.\n\nRaises:\n    403: User does not have access to this template's account.\n    404: Template not found.",
+        "description": "Update a board template.\n\nSupports updating any template field or soft-deleting the template.\n\nArgs:\n    template_id: Unique identifier for the template.\n    request: Template update details (all fields optional).\n    service: Injected board template service dependency.\n    auth: Authentication context with user info.\n    pre_hook: Pre-update hook for entitlement checks.\n\nReturns:\n    BoardTemplateResponse with the updated template details.\n\nRaises:\n    403: User does not have access to this template's account, or repeat_interval not allowed.\n    404: Template not found.",
         "operationId": "update_board_template_v1_board_templates__template_id__patch",
         "parameters": [
           {
