@@ -1694,7 +1694,24 @@ CompleteRegistrationRequest
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |verification_token|string|true|none|Token from code verification step|
-|account_name|string|true|none|Name for the new account|
+|account_name|any|false|none|Name for the new account (required for registration, ignored for invite)|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
 |account_slug|any|false|none|Optional URL slug (auto-generated if not provided)|
 
 anyOf
@@ -1750,6 +1767,7 @@ or
 ```json
 {
   "account_id": "string",
+  "account_name": "string",
   "account_slug": "string",
   "api_key": "string",
   "display_name": "string"
@@ -1764,6 +1782,7 @@ CompleteRegistrationResponse
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |account_id|string|true|none|ID of the created account|
+|account_name|string|true|none|Name of the account|
 |account_slug|string|true|none|URL slug of the account|
 |api_key|string|true|none|API key for authentication|
 |display_name|string|true|none|Display name of the created user|
@@ -2623,6 +2642,60 @@ InitiateRegistrationResponse
 |message|string|true|none|Success message|
 |code_expires_in|integer|true|none|Seconds until the code expires|
 
+## InviteUserRequest
+
+```json
+{
+  "email": "user@example.com",
+  "display_name": "string"
+}
+
+```
+
+InviteUserRequest
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|email|string(email)|true|none|Email address to invite|
+|display_name|any|false|none|Optional display name (defaults to email prefix if not provided)|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+## InviteUserResponse
+
+```json
+{
+  "user_id": "string",
+  "email": "string",
+  "status": "string",
+  "message": "string"
+}
+
+```
+
+InviteUserResponse
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|user_id|string|true|none|ID of the invited user|
+|email|string|true|none|Email address of the invited user|
+|status|string|true|none|User status (INVITED)|
+|message|string|true|none|Success message|
+
 ## JamCodeResponse
 
 ```json
@@ -3275,6 +3348,7 @@ or
   "value": 0,
   "value_display": "string",
   "metadata": {},
+  "rank": 0,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -3318,6 +3392,24 @@ anyOf
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» *anonymous*|any|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|rank|any|false|none|Leaderboard position (1 = first). Null if not querying by board_id.|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|integer|false|none|none|
 
 or
 
@@ -3493,10 +3585,10 @@ ScoreFlagResponse
 |---|---|---|---|---|
 |id|string|true|none|Unique identifier for the score flag|
 |score_id|string|true|none|ID of the score that was flagged|
-|flag_type|string|true|none|Type of flag (e.g., VELOCITY, DUPLICATE, RATE_LIMIT)|
-|confidence|string|true|none|Confidence level of the flag (LOW, MEDIUM, HIGH)|
+|flag_type|string|true|none|Type of flag (e.g., velocity, duplicate, rate_limit)|
+|confidence|string|true|none|Confidence level of the flag (low, medium, high)|
 |metadata|object|true|none|Additional metadata about the flag|
-|status|string|true|none|Status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED|
+|status|string|true|none|Status: pending, confirmed_cheat, false_positive, or dismissed|
 |reviewed_at|any|false|none|Timestamp when flag was reviewed, or null|
 
 anyOf
@@ -3571,7 +3663,7 @@ ScoreFlagUpdateRequest
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|status|any|false|none|Updated status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED|
+|status|any|false|none|Updated status: pending, confirmed_cheat, false_positive, or dismissed|
 
 anyOf
 
@@ -3637,6 +3729,7 @@ or
   "country": "string",
   "city": "string",
   "metadata": {},
+  "rank": 0,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -3735,6 +3828,24 @@ anyOf
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» *anonymous*|any|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|rank|any|false|none|Leaderboard position (1 = first). Null if not querying by board_id.|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|integer|false|none|none|
 
 or
 
@@ -4274,6 +4385,7 @@ UserCreateRequest
   "email": "string",
   "display_name": "string",
   "super_admin": true,
+  "status": "invited",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -4291,8 +4403,32 @@ UserResponse
 |email|string|true|none|User's email address|
 |display_name|string|true|none|User's display name|
 |super_admin|boolean|true|none|Whether this user has superadmin privileges|
+|status|[UserStatus](./schemas.md#userstatus)|true|none|User's current status (INVITED, ACTIVE, SUSPENDED)|
 |created_at|string(date-time)|true|none|Timestamp when the user was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
+
+## UserStatus
+
+```json
+"invited"
+
+```
+
+UserStatus
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|UserStatus|string|false|none|User status enum.<br><br>Represents the lifecycle state of a user.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|UserStatus|invited|
+|UserStatus|active|
+|UserStatus|suspended|
 
 ## UserUpdateRequest
 
@@ -4301,6 +4437,7 @@ UserResponse
   "email": "user@example.com",
   "display_name": "string",
   "super_admin": true,
+  "status": "invited",
   "deleted": true
 }
 
@@ -4355,6 +4492,24 @@ anyOf
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» *anonymous*|boolean|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|status|any|false|none|User status (INVITED, ACTIVE, SUSPENDED)|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[UserStatus](./schemas.md#userstatus)|false|none|User status enum.<br><br>Represents the lifecycle state of a user.|
 
 or
 
@@ -4444,7 +4599,8 @@ VerifyCodeRequest
 ```json
 {
   "verification_token": "string",
-  "expires_in": 0
+  "expires_in": 0,
+  "type": "string"
 }
 
 ```
@@ -4457,3 +4613,4 @@ VerifyCodeResponse
 |---|---|---|---|---|
 |verification_token|string|true|none|Temporary token for completing registration|
 |expires_in|integer|true|none|Seconds until the token expires|
+|type|string|true|none|Type of verification: REGISTRATION for new accounts, INVITE for invited users|

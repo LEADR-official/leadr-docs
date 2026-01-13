@@ -1,5 +1,105 @@
 # Registration
 
+## Invite User
+
+=== "Python"
+
+    ```python
+    import requests
+    headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'leadr-api-key': 'string',
+      'authorization': 'string',
+      'leadr-client-nonce': 'string'
+    }
+
+    r = requests.post('/v1/register/invite', headers = headers)
+
+    print(r.json())
+
+    ```
+
+=== "JavaScript"
+
+    ```javascript
+    const inputBody = '{
+      "email": "user@example.com",
+      "display_name": "string"
+    }';
+    const headers = {
+      'Content-Type':'application/json',
+      'Accept':'application/json',
+      'leadr-api-key':'string',
+      'authorization':'string',
+      'leadr-client-nonce':'string'
+    };
+
+    fetch('/v1/register/invite',
+    {
+      method: 'POST',
+      body: inputBody,
+      headers: headers
+    })
+    .then(function(res) {
+        return res.json();
+    }).then(function(body) {
+        console.log(body);
+    });
+
+    ```
+`POST /v1/register/invite`
+
+Invite a user to the authenticated admin's account.
+
+Creates a user with INVITED status and sends an invite email with
+a verification code. If the user already exists with INVITED status,
+resends the invite (invalidates old code, sends new one).
+
+Requires admin authentication.
+
+> Body parameter
+
+```json
+{
+  "email": "user@example.com",
+  "display_name": "string"
+}
+```
+
+### Parameters
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|account_id|query|any|false|none|
+|leadr-api-key|header|any|false|none|
+|authorization|header|any|false|none|
+|leadr-client-nonce|header|any|false|none|
+|body|body|[InviteUserRequest](./schemas.md#inviteuserrequest)|true|none|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "user_id": "string",
+  "email": "string",
+  "status": "string",
+  "message": "string"
+}
+```
+
+### Responses
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[InviteUserResponse](./schemas.md#inviteuserresponse)|
+|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
+
+!!! success
+    This operation does not require authentication
+
 ## Create Jam Code
 
 === "Python"
@@ -526,7 +626,9 @@ A 6-character verification code will be sent to the email address.
 Verify an email verification code and return a temporary token.
 
 This endpoint validates the verification code and returns a short-lived
-token that can be used to complete the registration process.
+token that can be used to complete the registration process. The response
+includes the type (REGISTRATION or INVITE) so the client can determine
+which fields to prompt for.
 
 > Body parameter
 
@@ -550,7 +652,8 @@ token that can be used to complete the registration process.
 ```json
 {
   "verification_token": "string",
-  "expires_in": 0
+  "expires_in": 0,
+  "type": "string"
 }
 ```
 
@@ -611,13 +714,20 @@ token that can be used to complete the registration process.
     ```
 `POST /v1/register/complete`
 
-Complete registration by creating the account, user, and API key.
+Complete registration or invite acceptance.
 
-This endpoint creates the full account structure:
-- Account with the specified name and slug
-- User associated with the verified email
-- API key for CLI authentication
-- Optional jam code redemption
+This endpoint handles two flows based on the verification token type:
+
+Registration flow (new account):
+- Creates account with the specified name and slug
+- Creates user as account owner
+- Creates API key for CLI authentication
+- Optionally redeems jam code
+
+Invite flow (joining existing account):
+- Activates the invited user (changes status from INVITED to ACTIVE)
+- Creates API key for CLI authentication
+- account_name and jam_code are ignored
 
 The API key is returned in plaintext and should be stored securely by the client.
 
@@ -646,6 +756,7 @@ The API key is returned in plaintext and should be stored securely by the client
 ```json
 {
   "account_id": "string",
+  "account_name": "string",
   "account_slug": "string",
   "api_key": "string",
   "display_name": "string"

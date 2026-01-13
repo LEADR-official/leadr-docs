@@ -3,7 +3,7 @@
 **Modules:**
 
 - [**blob_storage**](#leadr.infra.blob_storage) –
-- [**cache**](./infra.md#leadr.infra.cache) –
+- [**cache**](./infra.md#leadr.infra.cache) – Cache infrastructure module.
 - [**email**](./infra.md#leadr.infra.email) – Email infrastructure domain with factory functions for easy integration.
 
 #### `leadr.infra.blob_storage`
@@ -22,17 +22,678 @@
 
 #### `leadr.infra.cache`
 
+Cache infrastructure module.
+
 **Modules:**
 
-- [**adapters**](./infra.md#leadr.infra.cache.adapters) –
-- [**domain**](./infra.md#leadr.infra.cache.domain) –
-- [**services**](./infra.md#leadr.infra.cache.services) –
+- [**adapters**](./infra.md#leadr.infra.cache.adapters) – Cache adapters module.
+- [**domain**](./infra.md#leadr.infra.cache.domain) – Cache domain module.
+- [**services**](./infra.md#leadr.infra.cache.services) – Cache services module.
+
+**Classes:**
+
+- [**CacheBackend**](./infra.md#leadr.infra.cache.CacheBackend) – Protocol for cache backends.
+- [**InMemoryCache**](./infra.md#leadr.infra.cache.InMemoryCache) – Thread-safe in-memory cache with TTL support.
+
+**Functions:**
+
+- [**get_cache**](#leadr.infra.cache.get_cache) – Get the cache backend singleton.
+
+**Attributes:**
+
+- [**CacheDep**](./infra.md#leadr.infra.cache.CacheDep) –
+
+##### `leadr.infra.cache.CacheBackend`
+
+Bases: <code>[Protocol](#typing.Protocol)</code>
+
+Protocol for cache backends.
+
+Defines the interface for cache implementations.
+This abstraction allows swapping cache backends (e.g., in-memory to Redis)
+without changing the consuming code.
+
+**Functions:**
+
+- [**delete**](./infra.md#leadr.infra.cache.CacheBackend.delete) – Delete a key from the cache.
+- [**get**](./infra.md#leadr.infra.cache.CacheBackend.get) – Get a value from the cache.
+- [**set**](./infra.md#leadr.infra.cache.CacheBackend.set) – Set a value in the cache with a TTL.
+
+###### `leadr.infra.cache.CacheBackend.delete`
+
+```python
+delete(key)
+```
+
+Delete a key from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to delete.
+
+###### `leadr.infra.cache.CacheBackend.get`
+
+```python
+get(key)
+```
+
+Get a value from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to retrieve.
+
+**Returns:**
+
+- <code>[Any](#typing.Any) | None</code> – The cached value, or None if not found or expired.
+
+###### `leadr.infra.cache.CacheBackend.set`
+
+```python
+set(key, value, ttl_seconds)
+```
+
+Set a value in the cache with a TTL.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key.
+- **value** (<code>[Any](#typing.Any)</code>) – The value to cache.
+- **ttl_seconds** (<code>[int](#int)</code>) – Time-to-live in seconds.
+
+##### `leadr.infra.cache.CacheDep`
+
+```python
+CacheDep = Annotated[CacheBackend, Depends(get_cache)]
+```
+
+##### `leadr.infra.cache.InMemoryCache`
+
+```python
+InMemoryCache()
+```
+
+Thread-safe in-memory cache with TTL support.
+
+This implementation uses a simple dict with expiration checking on read.
+Suitable for single-process applications. For multi-process or distributed
+deployments, replace with a Redis-backed implementation.
+
+<details class="usage" open markdown="1">
+<summary>Usage</summary>
+
+# Create a new instance
+
+cache = InMemoryCache()
+cache.set("key", "value", ttl_seconds=60)
+value = cache.get("key")
+
+# Or use the singleton for application-wide caching
+
+cache = InMemoryCache.get_instance()
+
+</details>
+
+**Functions:**
+
+- [**clear**](./infra.md#leadr.infra.cache.InMemoryCache.clear) – Clear all entries from the cache.
+- [**delete**](./infra.md#leadr.infra.cache.InMemoryCache.delete) – Delete a key from the cache.
+- [**get**](./infra.md#leadr.infra.cache.InMemoryCache.get) – Get a value from the cache.
+- [**get_instance**](#leadr.infra.cache.InMemoryCache.get_instance) – Get the singleton instance.
+- [**reset_instance**](#leadr.infra.cache.InMemoryCache.reset_instance) – Reset the singleton instance.
+- [**set**](./infra.md#leadr.infra.cache.InMemoryCache.set) – Set a value in the cache with a TTL.
+
+###### `leadr.infra.cache.InMemoryCache.clear`
+
+```python
+clear()
+```
+
+Clear all entries from the cache.
+
+###### `leadr.infra.cache.InMemoryCache.delete`
+
+```python
+delete(key)
+```
+
+Delete a key from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to delete.
+
+###### `leadr.infra.cache.InMemoryCache.get`
+
+```python
+get(key)
+```
+
+Get a value from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to retrieve.
+
+**Returns:**
+
+- <code>[Any](#typing.Any) | None</code> – The cached value, or None if not found or expired.
+
+###### `leadr.infra.cache.InMemoryCache.get_instance`
+
+```python
+get_instance()
+```
+
+Get the singleton instance.
+
+Thread-safe singleton pattern for application-wide caching.
+
+**Returns:**
+
+- <code>[InMemoryCache](./infra.md#leadr.infra.cache.adapters.memory.InMemoryCache)</code> – The singleton InMemoryCache instance.
+
+###### `leadr.infra.cache.InMemoryCache.reset_instance`
+
+```python
+reset_instance()
+```
+
+Reset the singleton instance.
+
+Primarily useful for testing to ensure a clean state.
+
+###### `leadr.infra.cache.InMemoryCache.set`
+
+```python
+set(key, value, ttl_seconds)
+```
+
+Set a value in the cache with a TTL.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key.
+- **value** (<code>[Any](#typing.Any)</code>) – The value to cache.
+- **ttl_seconds** (<code>[int](#int)</code>) – Time-to-live in seconds.
 
 ##### `leadr.infra.cache.adapters`
 
+Cache adapters module.
+
+**Modules:**
+
+- [**memory**](./infra.md#leadr.infra.cache.adapters.memory) – In-memory cache implementation.
+
+**Classes:**
+
+- [**InMemoryCache**](./infra.md#leadr.infra.cache.adapters.InMemoryCache) – Thread-safe in-memory cache with TTL support.
+
+###### `leadr.infra.cache.adapters.InMemoryCache`
+
+```python
+InMemoryCache()
+```
+
+Thread-safe in-memory cache with TTL support.
+
+This implementation uses a simple dict with expiration checking on read.
+Suitable for single-process applications. For multi-process or distributed
+deployments, replace with a Redis-backed implementation.
+
+<details class="usage" open markdown="1">
+<summary>Usage</summary>
+
+# Create a new instance
+
+cache = InMemoryCache()
+cache.set("key", "value", ttl_seconds=60)
+value = cache.get("key")
+
+# Or use the singleton for application-wide caching
+
+cache = InMemoryCache.get_instance()
+
+</details>
+
+**Functions:**
+
+- [**clear**](./infra.md#leadr.infra.cache.adapters.InMemoryCache.clear) – Clear all entries from the cache.
+- [**delete**](./infra.md#leadr.infra.cache.adapters.InMemoryCache.delete) – Delete a key from the cache.
+- [**get**](./infra.md#leadr.infra.cache.adapters.InMemoryCache.get) – Get a value from the cache.
+- [**get_instance**](#leadr.infra.cache.adapters.InMemoryCache.get_instance) – Get the singleton instance.
+- [**reset_instance**](#leadr.infra.cache.adapters.InMemoryCache.reset_instance) – Reset the singleton instance.
+- [**set**](./infra.md#leadr.infra.cache.adapters.InMemoryCache.set) – Set a value in the cache with a TTL.
+
+####### `leadr.infra.cache.adapters.InMemoryCache.clear`
+
+```python
+clear()
+```
+
+Clear all entries from the cache.
+
+####### `leadr.infra.cache.adapters.InMemoryCache.delete`
+
+```python
+delete(key)
+```
+
+Delete a key from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to delete.
+
+####### `leadr.infra.cache.adapters.InMemoryCache.get`
+
+```python
+get(key)
+```
+
+Get a value from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to retrieve.
+
+**Returns:**
+
+- <code>[Any](#typing.Any) | None</code> – The cached value, or None if not found or expired.
+
+####### `leadr.infra.cache.adapters.InMemoryCache.get_instance`
+
+```python
+get_instance()
+```
+
+Get the singleton instance.
+
+Thread-safe singleton pattern for application-wide caching.
+
+**Returns:**
+
+- <code>[InMemoryCache](./infra.md#leadr.infra.cache.adapters.memory.InMemoryCache)</code> – The singleton InMemoryCache instance.
+
+####### `leadr.infra.cache.adapters.InMemoryCache.reset_instance`
+
+```python
+reset_instance()
+```
+
+Reset the singleton instance.
+
+Primarily useful for testing to ensure a clean state.
+
+####### `leadr.infra.cache.adapters.InMemoryCache.set`
+
+```python
+set(key, value, ttl_seconds)
+```
+
+Set a value in the cache with a TTL.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key.
+- **value** (<code>[Any](#typing.Any)</code>) – The value to cache.
+- **ttl_seconds** (<code>[int](#int)</code>) – Time-to-live in seconds.
+
+###### `leadr.infra.cache.adapters.memory`
+
+In-memory cache implementation.
+
+**Classes:**
+
+- [**CacheEntry**](./infra.md#leadr.infra.cache.adapters.memory.CacheEntry) – A cache entry with value and expiration time.
+- [**InMemoryCache**](./infra.md#leadr.infra.cache.adapters.memory.InMemoryCache) – Thread-safe in-memory cache with TTL support.
+
+####### `leadr.infra.cache.adapters.memory.CacheEntry`
+
+```python
+CacheEntry(value, expires_at)
+```
+
+A cache entry with value and expiration time.
+
+**Attributes:**
+
+- [**expires_at**](#leadr.infra.cache.adapters.memory.CacheEntry.expires_at) (<code>[float](#float)</code>) –
+- [**value**](#leadr.infra.cache.adapters.memory.CacheEntry.value) (<code>[Any](#typing.Any)</code>) –
+
+######## `leadr.infra.cache.adapters.memory.CacheEntry.expires_at`
+
+```python
+expires_at: float
+```
+
+######## `leadr.infra.cache.adapters.memory.CacheEntry.value`
+
+```python
+value: Any
+```
+
+####### `leadr.infra.cache.adapters.memory.InMemoryCache`
+
+```python
+InMemoryCache()
+```
+
+Thread-safe in-memory cache with TTL support.
+
+This implementation uses a simple dict with expiration checking on read.
+Suitable for single-process applications. For multi-process or distributed
+deployments, replace with a Redis-backed implementation.
+
+<details class="usage" open markdown="1">
+<summary>Usage</summary>
+
+# Create a new instance
+
+cache = InMemoryCache()
+cache.set("key", "value", ttl_seconds=60)
+value = cache.get("key")
+
+# Or use the singleton for application-wide caching
+
+cache = InMemoryCache.get_instance()
+
+</details>
+
+**Functions:**
+
+- [**clear**](#leadr.infra.cache.adapters.memory.InMemoryCache.clear) – Clear all entries from the cache.
+- [**delete**](#leadr.infra.cache.adapters.memory.InMemoryCache.delete) – Delete a key from the cache.
+- [**get**](#leadr.infra.cache.adapters.memory.InMemoryCache.get) – Get a value from the cache.
+- [**get_instance**](#leadr.infra.cache.adapters.memory.InMemoryCache.get_instance) – Get the singleton instance.
+- [**reset_instance**](#leadr.infra.cache.adapters.memory.InMemoryCache.reset_instance) – Reset the singleton instance.
+- [**set**](#leadr.infra.cache.adapters.memory.InMemoryCache.set) – Set a value in the cache with a TTL.
+
+######## `leadr.infra.cache.adapters.memory.InMemoryCache.clear`
+
+```python
+clear()
+```
+
+Clear all entries from the cache.
+
+######## `leadr.infra.cache.adapters.memory.InMemoryCache.delete`
+
+```python
+delete(key)
+```
+
+Delete a key from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to delete.
+
+######## `leadr.infra.cache.adapters.memory.InMemoryCache.get`
+
+```python
+get(key)
+```
+
+Get a value from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to retrieve.
+
+**Returns:**
+
+- <code>[Any](#typing.Any) | None</code> – The cached value, or None if not found or expired.
+
+######## `leadr.infra.cache.adapters.memory.InMemoryCache.get_instance`
+
+```python
+get_instance()
+```
+
+Get the singleton instance.
+
+Thread-safe singleton pattern for application-wide caching.
+
+**Returns:**
+
+- <code>[InMemoryCache](./infra.md#leadr.infra.cache.adapters.memory.InMemoryCache)</code> – The singleton InMemoryCache instance.
+
+######## `leadr.infra.cache.adapters.memory.InMemoryCache.reset_instance`
+
+```python
+reset_instance()
+```
+
+Reset the singleton instance.
+
+Primarily useful for testing to ensure a clean state.
+
+######## `leadr.infra.cache.adapters.memory.InMemoryCache.set`
+
+```python
+set(key, value, ttl_seconds)
+```
+
+Set a value in the cache with a TTL.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key.
+- **value** (<code>[Any](#typing.Any)</code>) – The value to cache.
+- **ttl_seconds** (<code>[int](#int)</code>) – Time-to-live in seconds.
+
 ##### `leadr.infra.cache.domain`
 
+Cache domain module.
+
+**Modules:**
+
+- [**interfaces**](./infra.md#leadr.infra.cache.domain.interfaces) – Cache backend protocol definition.
+
+**Classes:**
+
+- [**CacheBackend**](./infra.md#leadr.infra.cache.domain.CacheBackend) – Protocol for cache backends.
+
+###### `leadr.infra.cache.domain.CacheBackend`
+
+Bases: <code>[Protocol](#typing.Protocol)</code>
+
+Protocol for cache backends.
+
+Defines the interface for cache implementations.
+This abstraction allows swapping cache backends (e.g., in-memory to Redis)
+without changing the consuming code.
+
+**Functions:**
+
+- [**delete**](./infra.md#leadr.infra.cache.domain.CacheBackend.delete) – Delete a key from the cache.
+- [**get**](./infra.md#leadr.infra.cache.domain.CacheBackend.get) – Get a value from the cache.
+- [**set**](./infra.md#leadr.infra.cache.domain.CacheBackend.set) – Set a value in the cache with a TTL.
+
+####### `leadr.infra.cache.domain.CacheBackend.delete`
+
+```python
+delete(key)
+```
+
+Delete a key from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to delete.
+
+####### `leadr.infra.cache.domain.CacheBackend.get`
+
+```python
+get(key)
+```
+
+Get a value from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to retrieve.
+
+**Returns:**
+
+- <code>[Any](#typing.Any) | None</code> – The cached value, or None if not found or expired.
+
+####### `leadr.infra.cache.domain.CacheBackend.set`
+
+```python
+set(key, value, ttl_seconds)
+```
+
+Set a value in the cache with a TTL.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key.
+- **value** (<code>[Any](#typing.Any)</code>) – The value to cache.
+- **ttl_seconds** (<code>[int](#int)</code>) – Time-to-live in seconds.
+
+###### `leadr.infra.cache.domain.interfaces`
+
+Cache backend protocol definition.
+
+**Classes:**
+
+- [**CacheBackend**](./infra.md#leadr.infra.cache.domain.interfaces.CacheBackend) – Protocol for cache backends.
+
+####### `leadr.infra.cache.domain.interfaces.CacheBackend`
+
+Bases: <code>[Protocol](#typing.Protocol)</code>
+
+Protocol for cache backends.
+
+Defines the interface for cache implementations.
+This abstraction allows swapping cache backends (e.g., in-memory to Redis)
+without changing the consuming code.
+
+**Functions:**
+
+- [**delete**](#leadr.infra.cache.domain.interfaces.CacheBackend.delete) – Delete a key from the cache.
+- [**get**](#leadr.infra.cache.domain.interfaces.CacheBackend.get) – Get a value from the cache.
+- [**set**](#leadr.infra.cache.domain.interfaces.CacheBackend.set) – Set a value in the cache with a TTL.
+
+######## `leadr.infra.cache.domain.interfaces.CacheBackend.delete`
+
+```python
+delete(key)
+```
+
+Delete a key from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to delete.
+
+######## `leadr.infra.cache.domain.interfaces.CacheBackend.get`
+
+```python
+get(key)
+```
+
+Get a value from the cache.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key to retrieve.
+
+**Returns:**
+
+- <code>[Any](#typing.Any) | None</code> – The cached value, or None if not found or expired.
+
+######## `leadr.infra.cache.domain.interfaces.CacheBackend.set`
+
+```python
+set(key, value, ttl_seconds)
+```
+
+Set a value in the cache with a TTL.
+
+**Parameters:**
+
+- **key** (<code>[str](#str)</code>) – The cache key.
+- **value** (<code>[Any](#typing.Any)</code>) – The value to cache.
+- **ttl_seconds** (<code>[int](#int)</code>) – Time-to-live in seconds.
+
+##### `leadr.infra.cache.get_cache`
+
+```python
+get_cache()
+```
+
+Get the cache backend singleton.
+
+**Returns:**
+
+- <code>[CacheBackend](./infra.md#leadr.infra.cache.domain.interfaces.CacheBackend)</code> – The application-wide cache backend instance.
+
 ##### `leadr.infra.cache.services`
+
+Cache services module.
+
+**Modules:**
+
+- [**dependencies**](./infra.md#leadr.infra.cache.services.dependencies) – FastAPI dependencies for cache infrastructure.
+
+**Functions:**
+
+- [**get_cache**](#leadr.infra.cache.services.get_cache) – Get the cache backend singleton.
+
+**Attributes:**
+
+- [**CacheDep**](./infra.md#leadr.infra.cache.services.CacheDep) –
+
+###### `leadr.infra.cache.services.CacheDep`
+
+```python
+CacheDep = Annotated[CacheBackend, Depends(get_cache)]
+```
+
+###### `leadr.infra.cache.services.dependencies`
+
+FastAPI dependencies for cache infrastructure.
+
+**Functions:**
+
+- [**get_cache**](#leadr.infra.cache.services.dependencies.get_cache) – Get the cache backend singleton.
+
+**Attributes:**
+
+- [**CacheDep**](./infra.md#leadr.infra.cache.services.dependencies.CacheDep) –
+
+####### `leadr.infra.cache.services.dependencies.CacheDep`
+
+```python
+CacheDep = Annotated[CacheBackend, Depends(get_cache)]
+```
+
+####### `leadr.infra.cache.services.dependencies.get_cache`
+
+```python
+get_cache()
+```
+
+Get the cache backend singleton.
+
+**Returns:**
+
+- <code>[CacheBackend](./infra.md#leadr.infra.cache.domain.interfaces.CacheBackend)</code> – The application-wide cache backend instance.
+
+###### `leadr.infra.cache.services.get_cache`
+
+```python
+get_cache()
+```
+
+Get the cache backend singleton.
+
+**Returns:**
+
+- <code>[CacheBackend](./infra.md#leadr.infra.cache.domain.interfaces.CacheBackend)</code> – The application-wide cache backend instance.
 
 #### `leadr.infra.email`
 
@@ -468,6 +1129,7 @@ Email service with dependency injection for testing and flexibility.
 
 - [**get_default_from_email**](#leadr.infra.email.EmailService.get_default_from_email) – Get default from email address.
 - [**send_email**](#leadr.infra.email.EmailService.send_email) – Send an email using the configured provider.
+- [**send_invite_email**](#leadr.infra.email.EmailService.send_invite_email) – Send an invite email when a user is invited to an account.
 - [**send_notification_email**](#leadr.infra.email.EmailService.send_notification_email) – Send a notification email.
 - [**send_verification_code**](#leadr.infra.email.EmailService.send_verification_code) – Send a verification code email for LEADR registration.
 - [**send_welcome_email**](#leadr.infra.email.EmailService.send_welcome_email) – Send a welcome email after successful LEADR registration.
@@ -519,6 +1181,24 @@ send_email(to, subject, body, from_email=None, reply_to=None, cc=None, bcc=None,
 ```
 
 Send an email using the configured provider.
+
+###### `leadr.infra.email.EmailService.send_invite_email`
+
+```python
+send_invite_email(to, account_name, code)
+```
+
+Send an invite email when a user is invited to an account.
+
+**Parameters:**
+
+- **to** (<code>[str](#str)</code>) – Email address to send the invite to.
+- **account_name** (<code>[str](#str)</code>) – Name of the account the user is being invited to.
+- **code** (<code>[str](#str)</code>) – The 6-character verification code.
+
+**Returns:**
+
+- <code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code> – Email provider response dict.
 
 ###### `leadr.infra.email.EmailService.send_notification_email`
 
@@ -631,7 +1311,7 @@ api_key = settings.MAILGUN_API_KEY
 ###### `leadr.infra.email.MailgunEmailProvider.client`
 
 ```python
-client = Client(auth=('api', self.api_key))
+client = Client(auth=('api', self.api_key), api_url=(settings.MAILGUN_API_URL))
 ```
 
 ###### `leadr.infra.email.MailgunEmailProvider.domain`
@@ -758,7 +1438,7 @@ api_key = settings.MAILGUN_API_KEY
 ######## `leadr.infra.email.adapters.mailgun.MailgunEmailProvider.client`
 
 ```python
-client = Client(auth=('api', self.api_key))
+client = Client(auth=('api', self.api_key), api_url=(settings.MAILGUN_API_URL))
 ```
 
 ######## `leadr.infra.email.adapters.mailgun.MailgunEmailProvider.domain`
@@ -1781,6 +2461,7 @@ Email service with dependency injection for testing and flexibility.
 
 - [**get_default_from_email**](#leadr.infra.email.service.EmailService.get_default_from_email) – Get default from email address.
 - [**send_email**](#leadr.infra.email.service.EmailService.send_email) – Send an email using the configured provider.
+- [**send_invite_email**](#leadr.infra.email.service.EmailService.send_invite_email) – Send an invite email when a user is invited to an account.
 - [**send_notification_email**](#leadr.infra.email.service.EmailService.send_notification_email) – Send a notification email.
 - [**send_verification_code**](#leadr.infra.email.service.EmailService.send_verification_code) – Send a verification code email for LEADR registration.
 - [**send_welcome_email**](#leadr.infra.email.service.EmailService.send_welcome_email) – Send a welcome email after successful LEADR registration.
@@ -1832,6 +2513,24 @@ send_email(to, subject, body, from_email=None, reply_to=None, cc=None, bcc=None,
 ```
 
 Send an email using the configured provider.
+
+####### `leadr.infra.email.service.EmailService.send_invite_email`
+
+```python
+send_invite_email(to, account_name, code)
+```
+
+Send an invite email when a user is invited to an account.
+
+**Parameters:**
+
+- **to** (<code>[str](#str)</code>) – Email address to send the invite to.
+- **account_name** (<code>[str](#str)</code>) – Name of the account the user is being invited to.
+- **code** (<code>[str](#str)</code>) – The 6-character verification code.
+
+**Returns:**
+
+- <code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code> – Email provider response dict.
 
 ####### `leadr.infra.email.service.EmailService.send_notification_email`
 

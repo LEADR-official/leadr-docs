@@ -132,6 +132,7 @@ Raises:
   "country": "string",
   "city": "string",
   "metadata": {},
+  "rank": 0,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -332,13 +333,16 @@ Raises:
 
 Get a score by ID.
 
+Returns the score with its computed rank based on the board's sort direction.
+The rank represents the score's position in the leaderboard (1 = first place).
+
 Args:
     score_id: Score identifier to retrieve.
     service: Injected score service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    ScoreResponse with the score details.
+    ScoreResponse with the score details including rank.
 
 Raises:
     403: User does not have access to this score's account.
@@ -372,6 +376,7 @@ Raises:
   "country": "string",
   "city": "string",
   "metadata": {},
+  "rank": 0,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -505,6 +510,7 @@ Raises:
   "country": "string",
   "city": "string",
   "metadata": {},
+  "rank": 0,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -729,6 +735,8 @@ Args:
     service: Injected score service dependency.
     background_tasks: FastAPI background tasks for async metadata updates.
     auth: Client authentication context with device info.
+    pre_create_hook: Hook called before score creation (for quota checks).
+    post_create_hook: Hook called after successful score creation.
 
 Returns:
     ScoreClientResponse with the created score (excludes device_id).
@@ -774,6 +782,7 @@ Raises:
   "value": 0,
   "value_display": "string",
   "metadata": {},
+  "rank": 0,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }

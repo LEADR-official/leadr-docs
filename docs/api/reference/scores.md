@@ -123,7 +123,7 @@ score_id: Mapped[UUID] = mapped_column(ForeignKey('scores.id', ondelete='CASCADE
 ####### `leadr.scores.adapters.orm.ScoreFlagORM.status`
 
 ```python
-status: Mapped[str] = mapped_column(String, nullable=False, default='PENDING', index=True)
+status: Mapped[str] = mapped_column(String, nullable=False, default='pending', index=True)
 ```
 
 ####### `leadr.scores.adapters.orm.ScoreFlagORM.to_domain`
@@ -452,8 +452,8 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 - **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
-- **status** (<code>[str](#str) | None</code>) – Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).
-- **flag_type** (<code>[str](#str) | None</code>) – Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).
+- **status** (<code>[str](#str) | None</code>) – Optional status to filter by (pending, confirmed_cheat, etc.).
+- **flag_type** (<code>[str](#str) | None</code>) – Optional flag type to filter by (velocity, duplicate, etc.).
 
 **Returns:**
 
@@ -534,7 +534,7 @@ Response model for a score flag.
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.confidence`
 
 ```python
-confidence: str = Field(description='Confidence level of the flag (LOW, MEDIUM, HIGH)')
+confidence: str = Field(description='Confidence level of the flag (low, medium, high)')
 ```
 
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.created_at`
@@ -546,7 +546,7 @@ created_at: datetime = Field(description='Timestamp when the flag was created (U
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.flag_type`
 
 ```python
-flag_type: str = Field(description='Type of flag (e.g., VELOCITY, DUPLICATE, RATE_LIMIT)')
+flag_type: str = Field(description='Type of flag (e.g., velocity, duplicate, rate_limit)')
 ```
 
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.from_domain`
@@ -604,7 +604,7 @@ score_id: ScoreID = Field(description='ID of the score that was flagged')
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.status`
 
 ```python
-status: str = Field(description='Status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED')
+status: str = Field(description='Status: pending, confirmed_cheat, false_positive, or dismissed')
 ```
 
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.updated_at`
@@ -640,7 +640,7 @@ reviewer_decision: str | None = Field(default=None, description="Admin's decisio
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagUpdateRequest.status`
 
 ```python
-status: str | None = Field(default=None, description='Updated status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED')
+status: str | None = Field(default=None, description='Updated status: pending, confirmed_cheat, false_positive, or dismissed')
 ```
 
 ##### `leadr.scores.api.score_routes`
@@ -707,7 +707,7 @@ For superadmins: can provide account_id to create scores for any account.
 ###### `leadr.scores.api.score_routes.create_score_client`
 
 ```python
-create_score_client(score_request, request, service, background_tasks, auth)
+create_score_client(score_request, request, service, background_tasks, auth, pre_create_hook, post_create_hook)
 ```
 
 Create a new score (Client API).
@@ -722,6 +722,8 @@ are automatically derived from the authenticated device session.
 - **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
 - **background_tasks** (<code>[BackgroundTasks](#fastapi.BackgroundTasks)</code>) – FastAPI background tasks for async metadata updates.
 - **auth** (<code>[ClientAuthContextWithNonceDep](./auth.md#leadr.auth.dependencies.ClientAuthContextWithNonceDep)</code>) – Client authentication context with device info.
+- **pre_create_hook** (<code>[PreCreateScoreHookDep](./common.md#leadr.common.api.hooks.PreCreateScoreHookDep)</code>) – Hook called before score creation (for quota checks).
+- **post_create_hook** (<code>[PostCreateScoreHookDep](./common.md#leadr.common.api.hooks.PostCreateScoreHookDep)</code>) – Hook called after successful score creation.
 
 **Returns:**
 
@@ -741,6 +743,9 @@ get_score(score_id, service, auth)
 
 Get a score by ID.
 
+Returns the score with its computed rank based on the board's sort direction.
+The rank represents the score's position in the leaderboard (1 = first place).
+
 **Parameters:**
 
 - **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – Score identifier to retrieve.
@@ -749,7 +754,7 @@ Get a score by ID.
 
 **Returns:**
 
-- <code>[ScoreResponse](#leadr.scores.api.score_schemas.ScoreResponse)</code> – ScoreResponse with the score details.
+- <code>[ScoreResponse](#leadr.scores.api.score_schemas.ScoreResponse)</code> – ScoreResponse with the score details including rank.
 
 **Raises:**
 
@@ -996,6 +1001,7 @@ Response model for a score (client API - excludes device_id and geo fields).
 - [**id**](#leadr.scores.api.score_schemas.ScoreClientResponse.id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreClientResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**player_name**](#leadr.scores.api.score_schemas.ScoreClientResponse.player_name) (<code>[str](#str)</code>) –
+- [**rank**](#leadr.scores.api.score_schemas.ScoreClientResponse.rank) (<code>[int](#int) | None</code>) –
 - [**updated_at**](#leadr.scores.api.score_schemas.ScoreClientResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**value**](#leadr.scores.api.score_schemas.ScoreClientResponse.value) (<code>[float](#float)</code>) –
 - [**value_display**](#leadr.scores.api.score_schemas.ScoreClientResponse.value_display) (<code>[str](#str) | None</code>) –
@@ -1056,6 +1062,12 @@ metadata: Any | None = Field(default=None, description='Game-specific metadata, 
 
 ```python
 player_name: str = Field(description='Display name of the player')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreClientResponse.rank`
+
+```python
+rank: int | None = Field(default=None, description='Leaderboard position (1 = first). Null if not querying by board_id.')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreClientResponse.updated_at`
@@ -1259,6 +1271,7 @@ Response model for a score.
 - [**id**](#leadr.scores.api.score_schemas.ScoreResponse.id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**player_name**](#leadr.scores.api.score_schemas.ScoreResponse.player_name) (<code>[str](#str)</code>) –
+- [**rank**](#leadr.scores.api.score_schemas.ScoreResponse.rank) (<code>[int](#int) | None</code>) –
 - [**timezone**](#leadr.scores.api.score_schemas.ScoreResponse.timezone) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.scores.api.score_schemas.ScoreResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**value**](#leadr.scores.api.score_schemas.ScoreResponse.value) (<code>[float](#float)</code>) –
@@ -1338,6 +1351,12 @@ metadata: Any | None = Field(default=None, description='Game-specific metadata, 
 
 ```python
 player_name: str = Field(description='Display name of the player')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreResponse.rank`
+
+```python
+rank: int | None = Field(default=None, description='Leaderboard position (1 = first). Null if not querying by board_id.')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreResponse.timezone`
@@ -1706,7 +1725,7 @@ Determines how the score submission should be handled.
 ####### `leadr.scores.domain.anti_cheat.FlagAction.ACCEPT`
 
 ```python
-ACCEPT = 'ACCEPT'
+ACCEPT = 'accept'
 ```
 
 Accept the score submission without any flags.
@@ -1714,7 +1733,7 @@ Accept the score submission without any flags.
 ####### `leadr.scores.domain.anti_cheat.FlagAction.FLAG`
 
 ```python
-FLAG = 'FLAG'
+FLAG = 'flag'
 ```
 
 Accept the score but flag it for manual review.
@@ -1722,7 +1741,7 @@ Accept the score but flag it for manual review.
 ####### `leadr.scores.domain.anti_cheat.FlagAction.REJECT`
 
 ```python
-REJECT = 'REJECT'
+REJECT = 'reject'
 ```
 
 Reject the score submission (do not save to database).
@@ -1748,7 +1767,7 @@ Determines the action taken when a flag is raised:
 ####### `leadr.scores.domain.anti_cheat.FlagConfidence.HIGH`
 
 ```python
-HIGH = 'HIGH'
+HIGH = 'high'
 ```
 
 High confidence detection - reject submission.
@@ -1756,7 +1775,7 @@ High confidence detection - reject submission.
 ####### `leadr.scores.domain.anti_cheat.FlagConfidence.LOW`
 
 ```python
-LOW = 'LOW'
+LOW = 'low'
 ```
 
 Low confidence detection - log but accept.
@@ -1764,7 +1783,7 @@ Low confidence detection - log but accept.
 ####### `leadr.scores.domain.anti_cheat.FlagConfidence.MEDIUM`
 
 ```python
-MEDIUM = 'MEDIUM'
+MEDIUM = 'medium'
 ```
 
 Medium confidence detection - flag for review but accept.
@@ -1792,7 +1811,7 @@ potentially suspicious score submissions.
 ####### `leadr.scores.domain.anti_cheat.FlagType.CLUSTER`
 
 ```python
-CLUSTER = 'CLUSTER'
+CLUSTER = 'cluster'
 ```
 
 Multiple users submitting identical scores in short time window.
@@ -1800,7 +1819,7 @@ Multiple users submitting identical scores in short time window.
 ####### `leadr.scores.domain.anti_cheat.FlagType.DUPLICATE`
 
 ```python
-DUPLICATE = 'DUPLICATE'
+DUPLICATE = 'duplicate'
 ```
 
 Identical score value submitted multiple times in short time window.
@@ -1808,7 +1827,7 @@ Identical score value submitted multiple times in short time window.
 ####### `leadr.scores.domain.anti_cheat.FlagType.IMPOSSIBLE_VALUE`
 
 ```python
-IMPOSSIBLE_VALUE = 'IMPOSSIBLE_VALUE'
+IMPOSSIBLE_VALUE = 'impossible_value'
 ```
 
 Score contains mathematically impossible value (negative, NaN, etc).
@@ -1816,7 +1835,7 @@ Score contains mathematically impossible value (negative, NaN, etc).
 ####### `leadr.scores.domain.anti_cheat.FlagType.OUTLIER`
 
 ```python
-OUTLIER = 'OUTLIER'
+OUTLIER = 'outlier'
 ```
 
 Score is statistically anomalous compared to board distribution.
@@ -1824,7 +1843,7 @@ Score is statistically anomalous compared to board distribution.
 ####### `leadr.scores.domain.anti_cheat.FlagType.PATTERN`
 
 ```python
-PATTERN = 'PATTERN'
+PATTERN = 'pattern'
 ```
 
 Suspicious pattern detected in submission history (all round numbers, etc).
@@ -1832,7 +1851,7 @@ Suspicious pattern detected in submission history (all round numbers, etc).
 ####### `leadr.scores.domain.anti_cheat.FlagType.PROGRESSION`
 
 ```python
-PROGRESSION = 'PROGRESSION'
+PROGRESSION = 'progression'
 ```
 
 Unrealistic improvement percentage between submissions.
@@ -1840,7 +1859,7 @@ Unrealistic improvement percentage between submissions.
 ####### `leadr.scores.domain.anti_cheat.FlagType.RATE_LIMIT`
 
 ```python
-RATE_LIMIT = 'RATE_LIMIT'
+RATE_LIMIT = 'rate_limit'
 ```
 
 Score submission exceeds rate limits for the user/board.
@@ -1848,7 +1867,7 @@ Score submission exceeds rate limits for the user/board.
 ####### `leadr.scores.domain.anti_cheat.FlagType.VELOCITY`
 
 ```python
-VELOCITY = 'VELOCITY'
+VELOCITY = 'velocity'
 ```
 
 Submissions are happening too quickly (< 2 seconds apart).
@@ -2181,7 +2200,7 @@ Different tiers have different rate limits and detection thresholds:
 ####### `leadr.scores.domain.anti_cheat.TrustTier.A`
 
 ```python
-A = 'A'
+A = 'a'
 ```
 
 Tier A - Trusted devices with verified attestation.
@@ -2189,7 +2208,7 @@ Tier A - Trusted devices with verified attestation.
 ####### `leadr.scores.domain.anti_cheat.TrustTier.B`
 
 ```python
-B = 'B'
+B = 'b'
 ```
 
 Tier B - Verified devices without full attestation.
@@ -2197,7 +2216,7 @@ Tier B - Verified devices without full attestation.
 ####### `leadr.scores.domain.anti_cheat.TrustTier.C`
 
 ```python
-C = 'C'
+C = 'c'
 ```
 
 Tier C - Unverified or new devices.
@@ -2231,7 +2250,7 @@ Determines how the score submission should be handled.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagAction.ACCEPT`
 
 ```python
-ACCEPT = 'ACCEPT'
+ACCEPT = 'accept'
 ```
 
 Accept the score submission without any flags.
@@ -2239,7 +2258,7 @@ Accept the score submission without any flags.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagAction.FLAG`
 
 ```python
-FLAG = 'FLAG'
+FLAG = 'flag'
 ```
 
 Accept the score but flag it for manual review.
@@ -2247,7 +2266,7 @@ Accept the score but flag it for manual review.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagAction.REJECT`
 
 ```python
-REJECT = 'REJECT'
+REJECT = 'reject'
 ```
 
 Reject the score submission (do not save to database).
@@ -2273,7 +2292,7 @@ Determines the action taken when a flag is raised:
 ######## `leadr.scores.domain.anti_cheat.enums.FlagConfidence.HIGH`
 
 ```python
-HIGH = 'HIGH'
+HIGH = 'high'
 ```
 
 High confidence detection - reject submission.
@@ -2281,7 +2300,7 @@ High confidence detection - reject submission.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagConfidence.LOW`
 
 ```python
-LOW = 'LOW'
+LOW = 'low'
 ```
 
 Low confidence detection - log but accept.
@@ -2289,7 +2308,7 @@ Low confidence detection - log but accept.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagConfidence.MEDIUM`
 
 ```python
-MEDIUM = 'MEDIUM'
+MEDIUM = 'medium'
 ```
 
 Medium confidence detection - flag for review but accept.
@@ -2317,7 +2336,7 @@ potentially suspicious score submissions.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.CLUSTER`
 
 ```python
-CLUSTER = 'CLUSTER'
+CLUSTER = 'cluster'
 ```
 
 Multiple users submitting identical scores in short time window.
@@ -2325,7 +2344,7 @@ Multiple users submitting identical scores in short time window.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.DUPLICATE`
 
 ```python
-DUPLICATE = 'DUPLICATE'
+DUPLICATE = 'duplicate'
 ```
 
 Identical score value submitted multiple times in short time window.
@@ -2333,7 +2352,7 @@ Identical score value submitted multiple times in short time window.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.IMPOSSIBLE_VALUE`
 
 ```python
-IMPOSSIBLE_VALUE = 'IMPOSSIBLE_VALUE'
+IMPOSSIBLE_VALUE = 'impossible_value'
 ```
 
 Score contains mathematically impossible value (negative, NaN, etc).
@@ -2341,7 +2360,7 @@ Score contains mathematically impossible value (negative, NaN, etc).
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.OUTLIER`
 
 ```python
-OUTLIER = 'OUTLIER'
+OUTLIER = 'outlier'
 ```
 
 Score is statistically anomalous compared to board distribution.
@@ -2349,7 +2368,7 @@ Score is statistically anomalous compared to board distribution.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.PATTERN`
 
 ```python
-PATTERN = 'PATTERN'
+PATTERN = 'pattern'
 ```
 
 Suspicious pattern detected in submission history (all round numbers, etc).
@@ -2357,7 +2376,7 @@ Suspicious pattern detected in submission history (all round numbers, etc).
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.PROGRESSION`
 
 ```python
-PROGRESSION = 'PROGRESSION'
+PROGRESSION = 'progression'
 ```
 
 Unrealistic improvement percentage between submissions.
@@ -2365,7 +2384,7 @@ Unrealistic improvement percentage between submissions.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.RATE_LIMIT`
 
 ```python
-RATE_LIMIT = 'RATE_LIMIT'
+RATE_LIMIT = 'rate_limit'
 ```
 
 Score submission exceeds rate limits for the user/board.
@@ -2373,7 +2392,7 @@ Score submission exceeds rate limits for the user/board.
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.VELOCITY`
 
 ```python
-VELOCITY = 'VELOCITY'
+VELOCITY = 'velocity'
 ```
 
 Submissions are happening too quickly (< 2 seconds apart).
@@ -2396,7 +2415,7 @@ Indicates whether a flag has been reviewed and what decision was made.
 ######## `leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.CONFIRMED_CHEAT`
 
 ```python
-CONFIRMED_CHEAT = 'CONFIRMED_CHEAT'
+CONFIRMED_CHEAT = 'confirmed_cheat'
 ```
 
 Admin confirmed this is cheating behavior.
@@ -2404,7 +2423,7 @@ Admin confirmed this is cheating behavior.
 ######## `leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.DISMISSED`
 
 ```python
-DISMISSED = 'DISMISSED'
+DISMISSED = 'dismissed'
 ```
 
 Admin dismissed the flag without a specific determination.
@@ -2412,7 +2431,7 @@ Admin dismissed the flag without a specific determination.
 ######## `leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.FALSE_POSITIVE`
 
 ```python
-FALSE_POSITIVE = 'FALSE_POSITIVE'
+FALSE_POSITIVE = 'false_positive'
 ```
 
 Admin determined this was legitimate gameplay.
@@ -2420,7 +2439,7 @@ Admin determined this was legitimate gameplay.
 ######## `leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.PENDING`
 
 ```python
-PENDING = 'PENDING'
+PENDING = 'pending'
 ```
 
 Flag has not been reviewed yet.
@@ -2446,7 +2465,7 @@ Different tiers have different rate limits and detection thresholds:
 ######## `leadr.scores.domain.anti_cheat.enums.TrustTier.A`
 
 ```python
-A = 'A'
+A = 'a'
 ```
 
 Tier A - Trusted devices with verified attestation.
@@ -2454,7 +2473,7 @@ Tier A - Trusted devices with verified attestation.
 ######## `leadr.scores.domain.anti_cheat.enums.TrustTier.B`
 
 ```python
-B = 'B'
+B = 'b'
 ```
 
 Tier B - Verified devices without full attestation.
@@ -2462,7 +2481,7 @@ Tier B - Verified devices without full attestation.
 ######## `leadr.scores.domain.anti_cheat.enums.TrustTier.C`
 
 ```python
-C = 'C'
+C = 'c'
 ```
 
 Tier C - Unverified or new devices.
@@ -2878,6 +2897,7 @@ but mutable in terms of their value and metadata for corrections/updates.
 - [**metadata**](./scores.md#leadr.scores.domain.score.Score.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**model_config**](#leadr.scores.domain.score.Score.model_config) –
 - [**player_name**](#leadr.scores.domain.score.Score.player_name) (<code>[str](#str)</code>) –
+- [**rank**](./scores.md#leadr.scores.domain.score.Score.rank) (<code>[int](#int) | None</code>) –
 - [**timezone**](./scores.md#leadr.scores.domain.score.Score.timezone) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.scores.domain.score.Score.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**value**](./scores.md#leadr.scores.domain.score.Score.value) (<code>[float](#float)</code>) –
@@ -2965,6 +2985,12 @@ model_config = ConfigDict(validate_assignment=True)
 
 ```python
 player_name: str = Field(description='Display name of the player')
+```
+
+####### `leadr.scores.domain.score.Score.rank`
+
+```python
+rank: int | None = Field(default=None, description='Position in leaderboard (1 = first place). Populated when querying with board_id.')
 ```
 
 ####### `leadr.scores.domain.score.Score.restore`
@@ -3560,6 +3586,7 @@ Score repository for managing score persistence.
 - [**filter**](./scores.md#leadr.scores.services.repositories.ScoreRepository.filter) – Filter scores by account and optional criteria.
 - [**get_by_device_and_board**](#leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board) – Get the active score for a specific device on a board.
 - [**get_by_id**](#leadr.scores.services.repositories.ScoreRepository.get_by_id) – Get an entity by its ID.
+- [**get_score_rank**](#leadr.scores.services.repositories.ScoreRepository.get_score_rank) – Compute rank for a single score using COUNT approach.
 - [**update**](./scores.md#leadr.scores.services.repositories.ScoreRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
@@ -3671,6 +3698,26 @@ Get an entity by its ID.
 **Returns:**
 
 - <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT) | None</code> – Domain entity if found, None otherwise
+
+####### `leadr.scores.services.repositories.ScoreRepository.get_score_rank`
+
+```python
+get_score_rank(score, sort_fields)
+```
+
+Compute rank for a single score using COUNT approach.
+
+Counts how many scores rank better than the given score using the
+same multi-field comparison logic used for sorting.
+
+**Parameters:**
+
+- **score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score)</code>) – Score to compute rank for
+- **sort_fields** (<code>[list](#list)\[[SortField](./common.md#leadr.common.domain.pagination.SortField)\]</code>) – Sort fields defining the ranking order
+
+**Returns:**
+
+- <code>[int](#int)</code> – Rank (1-indexed, where 1 is the best)
 
 ####### `leadr.scores.services.repositories.ScoreRepository.session`
 
@@ -3846,7 +3893,7 @@ List score flags for an account with optional filters and pagination.
 
 > > > flags = await service.list_flags(
 > > > ... account_id=account.id,
-> > > ... status="PENDING",
+> > > ... status="pending",
 > > > ... pagination=PaginationParams(cursor=None, limit=100, sort=None),
 > > > ... )
 
@@ -3971,6 +4018,7 @@ Ensures business rules like board/game validation are enforced.
 - [**get_by_id**](#leadr.scores.services.score_service.ScoreService.get_by_id) – Get an entity by its ID.
 - [**get_by_id_or_raise**](#leadr.scores.services.score_service.ScoreService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**get_score**](#leadr.scores.services.score_service.ScoreService.get_score) – Get a score by its ID.
+- [**get_score_with_rank**](#leadr.scores.services.score_service.ScoreService.get_score_with_rank) – Get a score with its rank computed.
 - [**list_all**](#leadr.scores.services.score_service.ScoreService.list_all) – List all non-deleted entities.
 - [**list_scores**](#leadr.scores.services.score_service.ScoreService.list_scores) – List scores for an account with optional filters and pagination.
 - [**soft_delete**](#leadr.scores.services.score_service.ScoreService.soft_delete) – Soft-delete an entity and return it before deletion.
@@ -4096,6 +4144,30 @@ Get a score by its ID.
 **Returns:**
 
 - <code>[Score](./scores.md#leadr.scores.domain.score.Score) | None</code> – The Score domain entity if found, None otherwise.
+
+####### `leadr.scores.services.score_service.ScoreService.get_score_with_rank`
+
+```python
+get_score_with_rank(score_id)
+```
+
+Get a score with its rank computed.
+
+The rank is computed using the score's board's sort direction.
+This method is suitable for single score lookups where you need
+to know the score's position in the leaderboard.
+
+**Parameters:**
+
+- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – The ID of the score to retrieve.
+
+**Returns:**
+
+- <code>[Score](./scores.md#leadr.scores.domain.score.Score)</code> – The Score domain entity with rank populated.
+
+**Raises:**
+
+- <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the score doesn't exist.
 
 ####### `leadr.scores.services.score_service.ScoreService.list_all`
 

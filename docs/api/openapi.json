@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.3.3"
+    "version": "0.5.0"
   },
   "paths": {
     "/v1/accounts": {
@@ -865,7 +865,7 @@
           "Users"
         ],
         "summary": "Update User",
-        "description": "Update a user.\n\nSupports updating email, display name, or soft-deleting the user.\n\nArgs:\n    user_id: Unique identifier for the user.\n    request: User update details (all fields optional).\n    service: Injected user service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    UserResponse with the updated user details.\n\nRaises:\n    403: User does not have access to this user's account.\n    404: User not found.",
+        "description": "Update a user.\n\nSupports updating email, display name, status, or soft-deleting the user.\nStatus changes (active/suspended) are handled through dedicated service methods.\n\nArgs:\n    user_id: Unique identifier for the user.\n    request: User update details (all fields optional).\n    service: Injected user service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    UserResponse with the updated user details.\n\nRaises:\n    403: User does not have access to this user's account.\n    404: User not found.",
         "operationId": "update_user_v1_users__user_id__patch",
         "parameters": [
           {
@@ -1476,7 +1476,7 @@
           "Games"
         ],
         "summary": "Create Game",
-        "description": "Create a new game.\n\nCreates a new game associated with an existing account. Games can optionally\nbe configured with Steam integration and a default leaderboard.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Game creation details including account_id, name, and optional settings.\n    service: Injected game service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    GameResponse with the created game including auto-generated ID and timestamps.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Account not found.",
+        "description": "Create a new game.\n\nCreates a new game associated with an existing account. Games can optionally\nbe configured with Steam integration and a default leaderboard.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Game creation details including account_id, name, and optional settings.\n    service: Injected game service dependency.\n    auth: Authentication context with user info.\n    pre_create_hook: Hook called before game creation (for quota checks).\n    post_create_hook: Hook called after successful game creation.\n\nReturns:\n    GameResponse with the created game including auto-generated ID and timestamps.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Account not found.",
         "operationId": "create_game_v1_games_post",
         "parameters": [
           {
@@ -1970,7 +1970,7 @@
           "Boards"
         ],
         "summary": "Create Board",
-        "description": "Create a new board.\n\nCreates a new leaderboard associated with an existing game and account.\nThe game must belong to the specified account.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Board creation details including account_id, game_id, name, and settings.\n    service: Injected board service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    BoardResponse with the created board including auto-generated ID and timestamps.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Game or account not found.\n    400: Game doesn't belong to the specified account.",
+        "description": "Create a new board.\n\nCreates a new leaderboard associated with an existing game and account.\nThe game must belong to the specified account.\n\nFor regular users, account_id must match their API key's account.\nFor superadmins, any account_id is accepted.\n\nArgs:\n    request: Board creation details including account_id, game_id, name, and settings.\n    service: Injected board service dependency.\n    auth: Authentication context with user info.\n    pre_create_hook: Hook called before board creation (for quota checks).\n    post_create_hook: Hook called after successful board creation.\n\nReturns:\n    BoardResponse with the created board including auto-generated ID and timestamps.\n\nRaises:\n    403: User does not have access to the specified account.\n    404: Game or account not found.\n    400: Game doesn't belong to the specified account.",
         "operationId": "create_board_v1_boards_post",
         "parameters": [
           {
@@ -3444,7 +3444,7 @@
           "Scores"
         ],
         "summary": "Get Score",
-        "description": "Get a score by ID.\n\nArgs:\n    score_id: Score identifier to retrieve.\n    service: Injected score service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    ScoreResponse with the score details.\n\nRaises:\n    403: User does not have access to this score's account.\n    404: Score not found or soft-deleted.",
+        "description": "Get a score by ID.\n\nReturns the score with its computed rank based on the board's sort direction.\nThe rank represents the score's position in the leaderboard (1 = first place).\n\nArgs:\n    score_id: Score identifier to retrieve.\n    service: Injected score service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    ScoreResponse with the score details including rank.\n\nRaises:\n    403: User does not have access to this score's account.\n    404: Score not found or soft-deleted.",
         "operationId": "get_score_v1_scores__score_id__get",
         "parameters": [
           {
@@ -3666,7 +3666,7 @@
           "Score Flags"
         ],
         "summary": "List Score Flags",
-        "description": "List score flags for an account with optional filters and pagination.\n\nReturns paginated flags for the specified account, with optional\nfiltering by board, game, status, or flag type. Supports cursor-based\npagination with bidirectional navigation and custom sorting.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns flags from all accounts.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score flag service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    status: Optional status to filter by (PENDING, CONFIRMED_CHEAT, etc.).\n    flag_type: Optional flag type to filter by (VELOCITY, DUPLICATE, etc.).\n\nReturns:\n    PaginatedResponse containing ScoreFlagResponse objects matching the filter criteria.\n\nRaises:\n    400: Invalid cursor or sort field.\n    403: User does not have access to the specified account.",
+        "description": "List score flags for an account with optional filters and pagination.\n\nReturns paginated flags for the specified account, with optional\nfiltering by board, game, status, or flag type. Supports cursor-based\npagination with bidirectional navigation and custom sorting.\n\nFor regular users, account_id is automatically derived from their API key.\nFor superadmins, account_id is optional - if omitted, returns flags from all accounts.\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score flag service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (superadmins can omit to see all).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    status: Optional status to filter by (pending, confirmed_cheat, etc.).\n    flag_type: Optional flag type to filter by (velocity, duplicate, etc.).\n\nReturns:\n    PaginatedResponse containing ScoreFlagResponse objects matching the filter criteria.\n\nRaises:\n    400: Invalid cursor or sort field.\n    403: User does not have access to the specified account.",
         "operationId": "list_score_flags_v1_score_flags_get",
         "parameters": [
           {
@@ -5175,6 +5175,114 @@
         }
       }
     },
+    "/v1/register/invite": {
+      "post": {
+        "tags": [
+          "Registration"
+        ],
+        "summary": "Invite User",
+        "description": "Invite a user to the authenticated admin's account.\n\nCreates a user with INVITED status and sends an invite email with\na verification code. If the user already exists with INVITED status,\nresends the invite (invalidates old code, sends new one).\n\nRequires admin authentication.",
+        "operationId": "invite_user_v1_register_invite_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteUserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/jam-codes": {
       "post": {
         "tags": [
@@ -6113,7 +6221,7 @@
           "Scores"
         ],
         "summary": "Create Score Client",
-        "description": "Create a new score (Client API).\n\nCreates a new score submission for a board. All IDs (account_id, game_id, device_id)\nare automatically derived from the authenticated device session.\n\nArgs:\n    score_request: Score creation details including board_id, player_name, and value.\n    request: FastAPI request object for accessing geo data.\n    service: Injected score service dependency.\n    background_tasks: FastAPI background tasks for async metadata updates.\n    auth: Client authentication context with device info.\n\nReturns:\n    ScoreClientResponse with the created score (excludes device_id).\n\nRaises:\n    404: Board not found.\n    400: Validation failed (board doesn't belong to account, or game doesn't\n        match board's game).",
+        "description": "Create a new score (Client API).\n\nCreates a new score submission for a board. All IDs (account_id, game_id, device_id)\nare automatically derived from the authenticated device session.\n\nArgs:\n    score_request: Score creation details including board_id, player_name, and value.\n    request: FastAPI request object for accessing geo data.\n    service: Injected score service dependency.\n    background_tasks: FastAPI background tasks for async metadata updates.\n    auth: Client authentication context with device info.\n    pre_create_hook: Hook called before score creation (for quota checks).\n    post_create_hook: Hook called after successful score creation.\n\nReturns:\n    ScoreClientResponse with the created score (excludes device_id).\n\nRaises:\n    404: Board not found.\n    400: Validation failed (board doesn't belong to account, or game doesn't\n        match board's game).",
         "operationId": "create_score_client_v1_client_scores_post",
         "parameters": [
           {
@@ -6527,7 +6635,7 @@
           "Registration"
         ],
         "summary": "Verify Code",
-        "description": "Verify an email verification code and return a temporary token.\n\nThis endpoint validates the verification code and returns a short-lived\ntoken that can be used to complete the registration process.",
+        "description": "Verify an email verification code and return a temporary token.\n\nThis endpoint validates the verification code and returns a short-lived\ntoken that can be used to complete the registration process. The response\nincludes the type (REGISTRATION or INVITE) so the client can determine\nwhich fields to prompt for.",
         "operationId": "verify_code_v1_register_verify_post",
         "requestBody": {
           "content": {
@@ -6569,7 +6677,7 @@
           "Registration"
         ],
         "summary": "Complete Registration",
-        "description": "Complete registration by creating the account, user, and API key.\n\nThis endpoint creates the full account structure:\n- Account with the specified name and slug\n- User associated with the verified email\n- API key for CLI authentication\n- Optional jam code redemption\n\nThe API key is returned in plaintext and should be stored securely by the client.",
+        "description": "Complete registration or invite acceptance.\n\nThis endpoint handles two flows based on the verification token type:\n\nRegistration flow (new account):\n- Creates account with the specified name and slug\n- Creates user as account owner\n- Creates API key for CLI authentication\n- Optionally redeems jam code\n\nInvite flow (joining existing account):\n- Activates the invited user (changes status from INVITED to ACTIVE)\n- Creates API key for CLI authentication\n- account_name and jam_code are ignored\n\nThe API key is returned in plaintext and should be stored securely by the client.",
         "operationId": "complete_registration_v1_register_complete_post",
         "requestBody": {
           "content": {
@@ -8067,11 +8175,16 @@
             "description": "Token from code verification step"
           },
           "account_name": {
-            "type": "string",
-            "maxLength": 100,
-            "minLength": 1,
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Account Name",
-            "description": "Name for the new account"
+            "description": "Name for the new account (required for registration, ignored for invite)"
           },
           "account_slug": {
             "anyOf": [
@@ -8112,11 +8225,10 @@
         },
         "type": "object",
         "required": [
-          "verification_token",
-          "account_name"
+          "verification_token"
         ],
         "title": "CompleteRegistrationRequest",
-        "description": "Request to complete registration and create account."
+        "description": "Request to complete registration or invite acceptance.\n\nUsed for both new account registration and invited user activation.\nThe verification token type determines which flow is executed."
       },
       "CompleteRegistrationResponse": {
         "properties": {
@@ -8124,6 +8236,11 @@
             "type": "string",
             "title": "Account Id",
             "description": "ID of the created account"
+          },
+          "account_name": {
+            "type": "string",
+            "title": "Account Name",
+            "description": "Name of the account"
           },
           "account_slug": {
             "type": "string",
@@ -8144,12 +8261,13 @@
         "type": "object",
         "required": [
           "account_id",
+          "account_name",
           "account_slug",
           "api_key",
           "display_name"
         ],
         "title": "CompleteRegistrationResponse",
-        "description": "Response after completing registration."
+        "description": "Response after completing registration or invite acceptance."
       },
       "CreateAPIKeyRequest": {
         "properties": {
@@ -8923,6 +9041,67 @@
         ],
         "title": "InitiateRegistrationResponse",
         "description": "Response after initiating registration."
+      },
+      "InviteUserRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email",
+            "description": "Email address to invite"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name",
+            "description": "Optional display name (defaults to email prefix if not provided)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "InviteUserRequest",
+        "description": "Request to invite a user to an account."
+      },
+      "InviteUserResponse": {
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "title": "User Id",
+            "description": "ID of the invited user"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "description": "Email address of the invited user"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "User status (INVITED)"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Success message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "email",
+          "status",
+          "message"
+        ],
+        "title": "InviteUserResponse",
+        "description": "Response after inviting a user."
       },
       "JamCodeResponse": {
         "properties": {
@@ -9698,6 +9877,18 @@
             "title": "Metadata",
             "description": "Game-specific metadata, or null"
           },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rank",
+            "description": "Leaderboard position (1 = first). Null if not querying by board_id."
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -9849,12 +10040,12 @@
           "flag_type": {
             "type": "string",
             "title": "Flag Type",
-            "description": "Type of flag (e.g., VELOCITY, DUPLICATE, RATE_LIMIT)"
+            "description": "Type of flag (e.g., velocity, duplicate, rate_limit)"
           },
           "confidence": {
             "type": "string",
             "title": "Confidence",
-            "description": "Confidence level of the flag (LOW, MEDIUM, HIGH)"
+            "description": "Confidence level of the flag (low, medium, high)"
           },
           "metadata": {
             "additionalProperties": true,
@@ -9865,7 +10056,7 @@
           "status": {
             "type": "string",
             "title": "Status",
-            "description": "Status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED"
+            "description": "Status: pending, confirmed_cheat, false_positive, or dismissed"
           },
           "reviewed_at": {
             "anyOf": [
@@ -9943,7 +10134,7 @@
               }
             ],
             "title": "Status",
-            "description": "Updated status: PENDING, CONFIRMED_CHEAT, FALSE_POSITIVE, or DISMISSED"
+            "description": "Updated status: pending, confirmed_cheat, false_positive, or dismissed"
           },
           "reviewer_decision": {
             "anyOf": [
@@ -10068,6 +10259,18 @@
             ],
             "title": "Metadata",
             "description": "Game-specific metadata, or null"
+          },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rank",
+            "description": "Leaderboard position (1 = first). Null if not querying by board_id."
           },
           "created_at": {
             "type": "string",
@@ -10559,6 +10762,10 @@
             "title": "Super Admin",
             "description": "Whether this user has superadmin privileges"
           },
+          "status": {
+            "$ref": "#/components/schemas/UserStatus",
+            "description": "User's current status (INVITED, ACTIVE, SUSPENDED)"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -10579,11 +10786,22 @@
           "email",
           "display_name",
           "super_admin",
+          "status",
           "created_at",
           "updated_at"
         ],
         "title": "UserResponse",
         "description": "Response model for a user."
+      },
+      "UserStatus": {
+        "type": "string",
+        "enum": [
+          "invited",
+          "active",
+          "suspended"
+        ],
+        "title": "UserStatus",
+        "description": "User status enum.\n\nRepresents the lifecycle state of a user."
       },
       "UserUpdateRequest": {
         "properties": {
@@ -10623,6 +10841,17 @@
             ],
             "title": "Super Admin",
             "description": "Set superadmin privileges (true/false)"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/UserStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "User status (INVITED, ACTIVE, SUSPENDED)"
           },
           "deleted": {
             "anyOf": [
@@ -10709,12 +10938,18 @@
             "type": "integer",
             "title": "Expires In",
             "description": "Seconds until the token expires"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "description": "Type of verification: REGISTRATION for new accounts, INVITE for invited users"
           }
         },
         "type": "object",
         "required": [
           "verification_token",
-          "expires_in"
+          "expires_in",
+          "type"
         ],
         "title": "VerifyCodeResponse",
         "description": "Response after verifying a code."

@@ -21,6 +21,7 @@ Account and User ORM models.
 - [**AccountORM**](./accounts.md#leadr.accounts.adapters.orm.AccountORM) – Account ORM model.
 - [**AccountStatusEnum**](./accounts.md#leadr.accounts.adapters.orm.AccountStatusEnum) – Account status enum for database.
 - [**UserORM**](./accounts.md#leadr.accounts.adapters.orm.UserORM) – User ORM model.
+- [**UserStatusEnum**](./accounts.md#leadr.accounts.adapters.orm.UserStatusEnum) – User status enum for database.
 
 ###### `leadr.accounts.adapters.orm.AccountORM`
 
@@ -131,6 +132,8 @@ Maps to the users table with foreign key to accounts.
 - [**display_name**](#leadr.accounts.adapters.orm.UserORM.display_name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**email**](./accounts.md#leadr.accounts.adapters.orm.UserORM.email) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**id**](./accounts.md#leadr.accounts.adapters.orm.UserORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**is_owner**](#leadr.accounts.adapters.orm.UserORM.is_owner) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
+- [**status**](./accounts.md#leadr.accounts.adapters.orm.UserORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UserStatusEnum](./accounts.md#leadr.accounts.adapters.orm.UserStatusEnum)\]</code>) –
 - [**super_admin**](#leadr.accounts.adapters.orm.UserORM.super_admin) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
 - [**updated_at**](#leadr.accounts.adapters.orm.UserORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 
@@ -176,6 +179,18 @@ email: Mapped[str] = mapped_column(String, nullable=False, unique=True, index=Tr
 id: Mapped[uuid_pk]
 ```
 
+####### `leadr.accounts.adapters.orm.UserORM.is_owner`
+
+```python
+is_owner: Mapped[bool] = mapped_column(nullable=False, default=False, server_default='false')
+```
+
+####### `leadr.accounts.adapters.orm.UserORM.status`
+
+```python
+status: Mapped[UserStatusEnum] = mapped_column(Enum(UserStatusEnum, name='user_status', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, default=(UserStatusEnum.ACTIVE), server_default='active')
+```
+
 ####### `leadr.accounts.adapters.orm.UserORM.super_admin`
 
 ```python
@@ -186,6 +201,36 @@ super_admin: Mapped[bool] = mapped_column(nullable=False, default=False, server_
 
 ```python
 updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
+```
+
+###### `leadr.accounts.adapters.orm.UserStatusEnum`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+User status enum for database.
+
+**Attributes:**
+
+- [**ACTIVE**](./accounts.md#leadr.accounts.adapters.orm.UserStatusEnum.ACTIVE) –
+- [**INVITED**](./accounts.md#leadr.accounts.adapters.orm.UserStatusEnum.INVITED) –
+- [**SUSPENDED**](./accounts.md#leadr.accounts.adapters.orm.UserStatusEnum.SUSPENDED) –
+
+####### `leadr.accounts.adapters.orm.UserStatusEnum.ACTIVE`
+
+```python
+ACTIVE = 'active'
+```
+
+####### `leadr.accounts.adapters.orm.UserStatusEnum.INVITED`
+
+```python
+INVITED = 'invited'
+```
+
+####### `leadr.accounts.adapters.orm.UserStatusEnum.SUSPENDED`
+
+```python
+SUSPENDED = 'suspended'
 ```
 
 #### `leadr.accounts.api`
@@ -599,7 +644,8 @@ update_user(user_id, request, service, auth)
 
 Update a user.
 
-Supports updating email, display name, or soft-deleting the user.
+Supports updating email, display name, status, or soft-deleting the user.
+Status changes (active/suspended) are handled through dedicated service methods.
 
 **Parameters:**
 
@@ -674,6 +720,7 @@ Response model for a user.
 - [**display_name**](#leadr.accounts.api.user_schemas.UserResponse.display_name) (<code>[str](#str)</code>) –
 - [**email**](#leadr.accounts.api.user_schemas.UserResponse.email) (<code>[str](#str)</code>) –
 - [**id**](#leadr.accounts.api.user_schemas.UserResponse.id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) –
+- [**status**](#leadr.accounts.api.user_schemas.UserResponse.status) (<code>[UserStatus](./accounts.md#leadr.accounts.domain.user.UserStatus)</code>) –
 - [**super_admin**](#leadr.accounts.api.user_schemas.UserResponse.super_admin) (<code>[bool](#bool)</code>) –
 - [**updated_at**](#leadr.accounts.api.user_schemas.UserResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -723,6 +770,12 @@ Convert domain entity to response model.
 id: UserID = Field(description='Unique identifier for the user')
 ```
 
+####### `leadr.accounts.api.user_schemas.UserResponse.status`
+
+```python
+status: UserStatus = Field(description="User's current status (INVITED, ACTIVE, SUSPENDED)")
+```
+
 ####### `leadr.accounts.api.user_schemas.UserResponse.super_admin`
 
 ```python
@@ -746,6 +799,7 @@ Request model for updating a user.
 - [**deleted**](#leadr.accounts.api.user_schemas.UserUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
 - [**display_name**](#leadr.accounts.api.user_schemas.UserUpdateRequest.display_name) (<code>[str](#str) | None</code>) –
 - [**email**](#leadr.accounts.api.user_schemas.UserUpdateRequest.email) (<code>[EmailStr](#pydantic.EmailStr) | None</code>) –
+- [**status**](#leadr.accounts.api.user_schemas.UserUpdateRequest.status) (<code>[UserStatus](./accounts.md#leadr.accounts.domain.user.UserStatus) | None</code>) –
 - [**super_admin**](#leadr.accounts.api.user_schemas.UserUpdateRequest.super_admin) (<code>[bool](#bool) | None</code>) –
 
 ####### `leadr.accounts.api.user_schemas.UserUpdateRequest.deleted`
@@ -764,6 +818,12 @@ display_name: str | None = Field(default=None, description='Updated display name
 
 ```python
 email: EmailStr | None = Field(default=None, description='Updated email address')
+```
+
+####### `leadr.accounts.api.user_schemas.UserUpdateRequest.status`
+
+```python
+status: UserStatus | None = Field(default=None, description='User status (INVITED, ACTIVE, SUSPENDED)')
 ```
 
 ####### `leadr.accounts.api.user_schemas.UserUpdateRequest.super_admin`
@@ -980,6 +1040,7 @@ User domain model.
 **Classes:**
 
 - [**User**](./accounts.md#leadr.accounts.domain.user.User) – User domain entity.
+- [**UserStatus**](./accounts.md#leadr.accounts.domain.user.UserStatus) – User status enum.
 
 ###### `leadr.accounts.domain.user.User`
 
@@ -1000,8 +1061,10 @@ across all accounts in the system.
 
 **Functions:**
 
+- [**activate**](./accounts.md#leadr.accounts.domain.user.User.activate) – Activate the user.
 - [**restore**](./accounts.md#leadr.accounts.domain.user.User.restore) – Restore a soft-deleted entity.
 - [**soft_delete**](#leadr.accounts.domain.user.User.soft_delete) – Mark entity as soft-deleted.
+- [**suspend**](./accounts.md#leadr.accounts.domain.user.User.suspend) – Suspend the user.
 - [**validate_display_name**](#leadr.accounts.domain.user.User.validate_display_name) – Validate display name length and format.
 
 **Attributes:**
@@ -1012,8 +1075,13 @@ across all accounts in the system.
 - [**display_name**](#leadr.accounts.domain.user.User.display_name) (<code>[str](#str)</code>) –
 - [**email**](./accounts.md#leadr.accounts.domain.user.User.email) (<code>[EmailStr](#pydantic.EmailStr)</code>) –
 - [**id**](./accounts.md#leadr.accounts.domain.user.User.id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID)</code>) –
+- [**is_active**](#leadr.accounts.domain.user.User.is_active) (<code>[bool](#bool)</code>) – Check if user is active.
 - [**is_deleted**](#leadr.accounts.domain.user.User.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
+- [**is_invited**](#leadr.accounts.domain.user.User.is_invited) (<code>[bool](#bool)</code>) – Check if user is in invited state.
+- [**is_owner**](#leadr.accounts.domain.user.User.is_owner) (<code>[bool](#bool)</code>) –
+- [**is_suspended**](#leadr.accounts.domain.user.User.is_suspended) (<code>[bool](#bool)</code>) – Check if user is suspended.
 - [**model_config**](#leadr.accounts.domain.user.User.model_config) –
+- [**status**](./accounts.md#leadr.accounts.domain.user.User.status) (<code>[UserStatus](./accounts.md#leadr.accounts.domain.user.UserStatus)</code>) –
 - [**super_admin**](#leadr.accounts.domain.user.User.super_admin) (<code>[bool](#bool)</code>) –
 - [**updated_at**](#leadr.accounts.domain.user.User.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -1022,6 +1090,16 @@ across all accounts in the system.
 ```python
 account_id: AccountID = Field(frozen=True, description='ID of the account this user belongs to (immutable)')
 ```
+
+####### `leadr.accounts.domain.user.User.activate`
+
+```python
+activate()
+```
+
+Activate the user.
+
+Changes status to ACTIVE. Idempotent if already active.
 
 ####### `leadr.accounts.domain.user.User.created_at`
 
@@ -1053,6 +1131,14 @@ email: EmailStr = Field(description="User's email address (validated format)")
 id: UserID = Field(frozen=True, default_factory=UserID, description='Unique user identifier')
 ```
 
+####### `leadr.accounts.domain.user.User.is_active`
+
+```python
+is_active: bool
+```
+
+Check if user is active.
+
 ####### `leadr.accounts.domain.user.User.is_deleted`
 
 ```python
@@ -1064,6 +1150,28 @@ Check if entity is soft-deleted.
 **Returns:**
 
 - <code>[bool](#bool)</code> – True if the entity has a deleted_at timestamp, False otherwise.
+
+####### `leadr.accounts.domain.user.User.is_invited`
+
+```python
+is_invited: bool
+```
+
+Check if user is in invited state.
+
+####### `leadr.accounts.domain.user.User.is_owner`
+
+```python
+is_owner: bool = Field(default=False, description='Whether this user is the account owner')
+```
+
+####### `leadr.accounts.domain.user.User.is_suspended`
+
+```python
+is_suspended: bool
+```
+
+Check if user is suspended.
 
 ####### `leadr.accounts.domain.user.User.model_config`
 
@@ -1110,11 +1218,27 @@ already deleted are not affected (deleted_at remains at original deletion time).
 
 </details>
 
+####### `leadr.accounts.domain.user.User.status`
+
+```python
+status: UserStatus = Field(default=(UserStatus.ACTIVE), description="User's current status")
+```
+
 ####### `leadr.accounts.domain.user.User.super_admin`
 
 ```python
 super_admin: bool = Field(default=False, description='Whether this user has superadmin privileges')
 ```
+
+####### `leadr.accounts.domain.user.User.suspend`
+
+```python
+suspend()
+```
+
+Suspend the user.
+
+Changes status to SUSPENDED.
 
 ####### `leadr.accounts.domain.user.User.updated_at`
 
@@ -1141,3 +1265,41 @@ Validate display name length and format.
 **Raises:**
 
 - <code>[ValueError](#ValueError)</code> – If display name is empty, too short, or too long.
+
+###### `leadr.accounts.domain.user.UserStatus`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+User status enum.
+
+Represents the lifecycle state of a user.
+
+**Attributes:**
+
+- [**ACTIVE**](./accounts.md#leadr.accounts.domain.user.UserStatus.ACTIVE) – User is active and can use the system.
+- [**INVITED**](./accounts.md#leadr.accounts.domain.user.UserStatus.INVITED) – User has been invited but hasn't completed registration.
+- [**SUSPENDED**](./accounts.md#leadr.accounts.domain.user.UserStatus.SUSPENDED) – User has been suspended and cannot access the system.
+
+####### `leadr.accounts.domain.user.UserStatus.ACTIVE`
+
+```python
+ACTIVE = 'active'
+```
+
+User is active and can use the system.
+
+####### `leadr.accounts.domain.user.UserStatus.INVITED`
+
+```python
+INVITED = 'invited'
+```
+
+User has been invited but hasn't completed registration.
+
+####### `leadr.accounts.domain.user.UserStatus.SUSPENDED`
+
+```python
+SUSPENDED = 'suspended'
+```
+
+User has been suspended and cannot access the system.

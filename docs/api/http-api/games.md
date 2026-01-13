@@ -71,6 +71,8 @@ Args:
     request: Game creation details including account_id, name, and optional settings.
     service: Injected game service dependency.
     auth: Authentication context with user info.
+    pre_create_hook: Hook called before game creation (for quota checks).
+    post_create_hook: Hook called after successful game creation.
 
 Returns:
     GameResponse with the created game including auto-generated ID and timestamps.

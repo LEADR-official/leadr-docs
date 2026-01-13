@@ -449,7 +449,7 @@ client_router = APIRouter()
 ###### `leadr.boards.api.board_routes.create_board`
 
 ```python
-create_board(request, service, auth)
+create_board(request, service, auth, background_tasks, pre_create_hook, post_create_hook)
 ```
 
 Create a new board.
@@ -465,6 +465,8 @@ For superadmins, any account_id is accepted.
 - **request** (<code>[BoardCreateRequest](#leadr.boards.api.board_schemas.BoardCreateRequest)</code>) – Board creation details including account_id, game_id, name, and settings.
 - **service** (<code>[BoardServiceDep](./boards.md#leadr.boards.services.dependencies.BoardServiceDep)</code>) – Injected board service dependency.
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+- **pre_create_hook** (<code>[PreCreateBoardHookDep](./common.md#leadr.common.api.hooks.PreCreateBoardHookDep)</code>) – Hook called before board creation (for quota checks).
+- **post_create_hook** (<code>[PostCreateBoardHookDep](./common.md#leadr.common.api.hooks.PostCreateBoardHookDep)</code>) – Hook called after successful board creation.
 
 **Returns:**
 
