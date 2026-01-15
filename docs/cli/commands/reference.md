@@ -75,7 +75,7 @@ This document contains the help content for the `leadr` command-line program.
 
 ## `leadr`
 
-LEADR CLI - Admin tool for LEADR API (v0.5.6)
+LEADR CLI - Admin tool for LEADR API (v0.5.7)
 
 CLI docs:  https://docs.leadr.gg/latest/cli/
 Website:      https://www.leadr.gg
@@ -765,6 +765,7 @@ List scores for an account
 * `--limit <LIMIT>` — Items per page, 1-100 [optional, default: 20]
 * `--sort <SORT>` — Sort order, e.g. "value:desc", "`created_at:asc`" [optional]
 * `--all` — Fetch all pages automatically
+* `--is-test <IS_TEST>` — Filter by test mode: true (test only), false (production only), all (both). API defaults to false (production only) when omitted
 
 
 
