@@ -60,6 +60,7 @@ List scores for an account
 | `--limit` | Items per page, 1-100 [optional, default: 20] | No |
 | `--sort` | Sort order, e.g. "value:desc", "`created_at:asc`" [optional] | No |
 | `--all` | Fetch all pages automatically | No |
+| `--is-test` | Filter by test mode: true (test only), false (production only), all (both). API defaults to false (production only) when omitted | No |
 
 **Example:**
 
