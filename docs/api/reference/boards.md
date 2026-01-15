@@ -2793,28 +2793,19 @@ Useful for endpoints that need to return the deleted entity in the response.
 ####### `leadr.boards.services.board_service.BoardService.update_board`
 
 ```python
-update_board(board_id, name=None, icon=None, short_code=None, unit=None, is_active=None, is_published=None, sort_direction=None, keep_strategy=None, created_from_template_id=None, template_name=None, starts_at=None, ends_at=None, tags=None, description=None)
+update_board(board_id, **updates)
 ```
 
 Update board fields.
 
+Accepts any fields to update as keyword arguments. Only fields
+explicitly provided will be updated, allowing null values to
+clear optional fields.
+
 **Parameters:**
 
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – The ID of the board to update
-- **name** (<code>[str](#str) | None</code>) – New board name, if provided
-- **icon** (<code>[str](#str) | None</code>) – New icon, if provided
-- **short_code** (<code>[str](#str) | None</code>) – New short_code, if provided
-- **unit** (<code>[str](#str) | None</code>) – New unit, if provided
-- **is_active** (<code>[bool](#bool) | None</code>) – New is_active status, if provided
-- **is_published** (<code>[bool](#bool) | None</code>) – New is_published status, if provided
-- **sort_direction** (<code>[SortDirection](./boards.md#leadr.boards.domain.board.SortDirection) | None</code>) – New sort_direction, if provided
-- **keep_strategy** (<code>[KeepStrategy](./boards.md#leadr.boards.domain.board.KeepStrategy) | None</code>) – New keep_strategy, if provided
-- **created_from_template_id** (<code>[BoardTemplateID](./common.md#leadr.common.domain.ids.BoardTemplateID) | None</code>) – New created_from_template_id, if provided
-- **template_name** (<code>[str](#str) | None</code>) – New template_name, if provided
-- **starts_at** (<code>[datetime](#datetime.datetime) | None</code>) – New starts_at, if provided
-- **ends_at** (<code>[datetime](#datetime.datetime) | None</code>) – New ends_at, if provided
-- **tags** (<code>[list](#list)\[[str](#str)\] | None</code>) – New tags list, if provided
-- **description** (<code>[str](#str) | None</code>) – New description, if provided
+- \*\***updates** (<code>[Any](#typing.Any)</code>) – Field names and values to update
 
 **Returns:**
 
@@ -3137,22 +3128,19 @@ Useful for endpoints that need to return the deleted entity in the response.
 ####### `leadr.boards.services.board_template_service.BoardTemplateService.update_board_template`
 
 ```python
-update_board_template(template_id, name=None, slug=None, name_template=None, series=None, icon=None, unit=None, sort_direction=None, keep_strategy=None, starts_at=None, ends_at=None, tags=None, repeat_interval=None, config=None, next_run_at=None, is_active=None, is_published=None)
+update_board_template(template_id, **updates)
 ```
 
 Update board template fields.
 
+Accepts any fields to update as keyword arguments. Only fields
+explicitly provided will be updated, allowing null values to
+clear optional fields.
+
 **Parameters:**
 
 - **template_id** (<code>[BoardTemplateID](./common.md#leadr.common.domain.ids.BoardTemplateID)</code>) – The ID of the template to update.
-- **name** (<code>[str](#str) | None</code>) – New template name, if provided.
-- **name_template** (<code>[str](#str) | None</code>) – New name template, if provided.
-- **series** (<code>[str](#str) | None</code>) – New series identifier, if provided.
-- **repeat_interval** (<code>[str](#str) | None</code>) – New repeat interval, if provided.
-- **config** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – New config, if provided.
-- **config_template** – New config template, if provided.
-- **next_run_at** (<code>[datetime](#datetime.datetime) | None</code>) – New next_run_at, if provided.
-- **is_active** (<code>[bool](#bool) | None</code>) – New is_active status, if provided.
+- \*\***updates** (<code>[Any](#typing.Any)</code>) – Field names and values to update
 
 **Returns:**
 

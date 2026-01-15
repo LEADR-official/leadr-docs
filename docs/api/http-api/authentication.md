@@ -222,7 +222,8 @@ Example:
       "game_id": "string",
       "client_fingerprint": "string",
       "platform": "string",
-      "metadata": {}
+      "metadata": {},
+      "test_mode": false
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -270,7 +271,8 @@ Raises:
   "game_id": "string",
   "client_fingerprint": "string",
   "platform": "string",
-  "metadata": {}
+  "metadata": {},
+  "test_mode": false
 }
 ```
 
@@ -297,7 +299,8 @@ Raises:
   "refresh_token": "string",
   "expires_in": 0,
   "first_seen_at": "2019-08-24T14:15:22Z",
-  "last_seen_at": "2019-08-24T14:15:22Z"
+  "last_seen_at": "2019-08-24T14:15:22Z",
+  "test_mode": true
 }
 ```
 

@@ -1225,6 +1225,7 @@ Used by game clients to authenticate and obtain an access token.
 - [**game_id**](#leadr.auth.api.client_schemas.StartSessionRequest.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**metadata**](#leadr.auth.api.client_schemas.StartSessionRequest.metadata) (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) –
 - [**platform**](#leadr.auth.api.client_schemas.StartSessionRequest.platform) (<code>[str](#str) | None</code>) –
+- [**test_mode**](#leadr.auth.api.client_schemas.StartSessionRequest.test_mode) (<code>[bool](#bool)</code>) –
 
 ####### `leadr.auth.api.client_schemas.StartSessionRequest.client_fingerprint`
 
@@ -1248,6 +1249,12 @@ metadata: dict[str, Any] | None = Field(default=None, description='Optional devi
 
 ```python
 platform: str | None = Field(default=None, description="Device platform (e.g., 'ios', 'android', 'pc', 'console')")
+```
+
+####### `leadr.auth.api.client_schemas.StartSessionRequest.test_mode`
+
+```python
+test_mode: bool = Field(default=False, description='If true, session is in test mode and scores will be marked as test')
 ```
 
 ###### `leadr.auth.api.client_schemas.StartSessionResponse`
@@ -1279,6 +1286,7 @@ Includes both access and refresh tokens which must be saved by the client.
 - [**platform**](#leadr.auth.api.client_schemas.StartSessionResponse.platform) (<code>[str](#str) | None</code>) –
 - [**refresh_token**](#leadr.auth.api.client_schemas.StartSessionResponse.refresh_token) (<code>[str](#str)</code>) –
 - [**status**](#leadr.auth.api.client_schemas.StartSessionResponse.status) (<code>[DeviceStatus](./auth.md#leadr.auth.domain.device.DeviceStatus)</code>) –
+- [**test_mode**](#leadr.auth.api.client_schemas.StartSessionResponse.test_mode) (<code>[bool](#bool)</code>) –
 
 ####### `leadr.auth.api.client_schemas.StartSessionResponse.access_token`
 
@@ -1313,7 +1321,7 @@ first_seen_at: datetime = Field(description='Timestamp when device was first see
 ####### `leadr.auth.api.client_schemas.StartSessionResponse.from_domain`
 
 ```python
-from_domain(device, access_token, refresh_token, expires_in)
+from_domain(device, access_token, refresh_token, expires_in, test_mode=False)
 ```
 
 Convert domain entity to response model with tokens.
@@ -1324,6 +1332,7 @@ Convert domain entity to response model with tokens.
 - **access_token** (<code>[str](#str)</code>) – The plain JWT access token
 - **refresh_token** (<code>[str](#str)</code>) – The plain JWT refresh token
 - **expires_in** (<code>[int](#int)</code>) – Access token expiration time in seconds
+- **test_mode** (<code>[bool](#bool)</code>) – Whether session is in test mode
 
 **Returns:**
 
@@ -1369,6 +1378,12 @@ refresh_token: str = Field(description='JWT refresh token for obtaining new acce
 
 ```python
 status: DeviceStatus = Field(description='Device status (active, suspended, banned)')
+```
+
+####### `leadr.auth.api.client_schemas.StartSessionResponse.test_mode`
+
+```python
+test_mode: bool = Field(description='Whether session is in test mode')
 ```
 
 ##### `leadr.auth.api.device_routes`
@@ -2232,7 +2247,7 @@ require_superadmin_account_id = require_superadmin_account_id
 ##### `leadr.auth.dependencies.ClientAuthContext`
 
 ```python
-ClientAuthContext(account_id, device, user=None, api_key=None)
+ClientAuthContext(account_id, device, user=None, api_key=None, test_mode=False)
 ```
 
 Bases: <code>[AuthContext](./auth.md#leadr.auth.dependencies.AuthContext)</code>
@@ -2251,6 +2266,7 @@ frozen dataclass fields and property overrides.
 - [**device**](./auth.md#leadr.auth.dependencies.ClientAuthContext.device) (<code>[Device](./auth.md#leadr.auth.domain.device.Device)</code>) – The authenticated device (guaranteed non-None).
 - [**user**](./auth.md#leadr.auth.dependencies.ClientAuthContext.user) (<code>None</code>) – Always None for client auth.
 - [**api_key**](#leadr.auth.dependencies.ClientAuthContext.api_key) (<code>None</code>) – Always None for client auth.
+- [**test_mode**](#leadr.auth.dependencies.ClientAuthContext.test_mode) (<code>[bool](#bool)</code>) – Whether this session is in test mode.
 
 **Functions:**
 
@@ -2336,6 +2352,14 @@ Only applies to admin auth. Client auth never has superadmin privileges.
 **Returns:**
 
 - <code>[bool](#bool)</code> – True if user is a superadmin, False otherwise.
+
+###### `leadr.auth.dependencies.ClientAuthContext.test_mode`
+
+```python
+test_mode: bool
+```
+
+Get test_mode flag (whether session is in test mode).
 
 ###### `leadr.auth.dependencies.ClientAuthContext.user`
 
@@ -4420,7 +4444,7 @@ Useful for endpoints that need to return the deleted entity in the response.
 ####### `leadr.auth.services.device_service.DeviceService.start_session`
 
 ```python
-start_session(game_id, client_fingerprint, platform=None, ip_address=None, user_agent=None, metadata=None)
+start_session(game_id, client_fingerprint, platform=None, ip_address=None, user_agent=None, metadata=None, test_mode=False)
 ```
 
 Start a new device session.
@@ -4437,6 +4461,7 @@ updates last_seen_at.
 - **ip_address** (<code>[str](#str) | None</code>) – Client IP address
 - **user_agent** (<code>[str](#str) | None</code>) – Client user agent string
 - **metadata** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – Additional device metadata
+- **test_mode** (<code>[bool](#bool)</code>) – If True, session is in test mode and scores will be marked as test
 
 **Returns:**
 
@@ -4508,7 +4533,7 @@ Cryptographic operations for device access and refresh tokens.
 ###### `leadr.auth.services.device_token_crypto.generate_access_token`
 
 ```python
-generate_access_token(client_fingerprint, game_id, account_id, expires_delta, secret)
+generate_access_token(client_fingerprint, game_id, account_id, expires_delta, secret, test_mode=False)
 ```
 
 Generate JWT access token for device authentication.
@@ -4547,7 +4572,7 @@ and returns both the plain token and its SHA-256 hash for storage.
 ###### `leadr.auth.services.device_token_crypto.generate_refresh_token`
 
 ```python
-generate_refresh_token(client_fingerprint, game_id, account_id, token_version, expires_delta, secret)
+generate_refresh_token(client_fingerprint, game_id, account_id, token_version, expires_delta, secret, test_mode=False)
 ```
 
 Generate JWT refresh token for device authentication.
