@@ -529,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client-auth.md" class="md-nav__link">
+      <a href="../../client-auth/" class="md-nav__link">
         
   
   
@@ -610,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../template-naming.md" class="md-nav__link">
+      <a href="../../template-naming/" class="md-nav__link">
         
   
   
@@ -633,7 +633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../self-host.md" class="md-nav__link">
+      <a href="../../self-host/" class="md-nav__link">
         
   
   
@@ -1308,7 +1308,8 @@ replay attacks by ensuring each request is fresh and authorized.</p>
 <span class="s1">  &quot;game_id&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;client_fingerprint&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;platform&quot;: &quot;string&quot;,</span>
-<span class="s1">  &quot;metadata&quot;: {}</span>
+<span class="s1">  &quot;metadata&quot;: {},</span>
+<span class="s1">  &quot;test_mode&quot;: false</span>
 <span class="s1">}&#39;</span><span class="p">;</span>
 <span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
@@ -1351,7 +1352,8 @@ and generates a new access token.</p>
 <span class="w">  </span><span class="nt">&quot;game_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;client_fingerprint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;platform&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">  </span><span class="nt">&quot;test_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
@@ -1391,7 +1393,8 @@ and generates a new access token.</p>
 <span class="w">  </span><span class="nt">&quot;refresh_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;expires_in&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;first_seen_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;last_seen_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
+<span class="w">  </span><span class="nt">&quot;last_seen_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;test_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="responses_2">Responses<a class="headerlink" href="#responses_2" title="Permanent link">&para;</a></h3>

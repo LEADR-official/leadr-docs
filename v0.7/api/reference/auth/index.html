@@ -529,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client-auth.md" class="md-nav__link">
+      <a href="../../client-auth/" class="md-nav__link">
         
   
   
@@ -610,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../template-naming.md" class="md-nav__link">
+      <a href="../../template-naming/" class="md-nav__link">
         
   
   
@@ -633,7 +633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../self-host.md" class="md-nav__link">
+      <a href="../../self-host/" class="md-nav__link">
         
   
   
@@ -2151,6 +2151,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrauthapiclient_schemasstartsessionrequesttest_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.client_schemas.StartSessionRequest.test_mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrauthapiclient_schemasstartsessionresponse" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.auth.api.client_schemas.StartSessionResponse
@@ -2271,6 +2280,15 @@
   <a href="#leadrauthapiclient_schemasstartsessionresponsestatus" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.auth.api.client_schemas.StartSessionResponse.status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthapiclient_schemasstartsessionresponsetest_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.api.client_schemas.StartSessionResponse.test_mode
     </span>
   </a>
   
@@ -3006,6 +3024,15 @@
   <a href="#leadrauthdependenciesclientauthcontextis_superadmin" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.auth.dependencies.ClientAuthContext.is_superadmin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthdependenciesclientauthcontexttest_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.auth.dependencies.ClientAuthContext.test_mode
     </span>
   </a>
   
@@ -5970,6 +5997,7 @@ The old refresh token is invalidated and cannot be reused.</p>
 <li><a href="#leadr.auth.api.client_schemas.StartSessionRequest.game_id"><strong>game_id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a></code>) –</li>
 <li><a href="#leadr.auth.api.client_schemas.StartSessionRequest.metadata"><strong>metadata</strong></a> (<code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#typing.Any">Any</a>] | None</code>) –</li>
 <li><a href="#leadr.auth.api.client_schemas.StartSessionRequest.platform"><strong>platform</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
+<li><a href="#leadr.auth.api.client_schemas.StartSessionRequest.test_mode"><strong>test_mode</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 </ul>
 <h6 id="leadrauthapiclient_schemasstartsessionrequestclient_fingerprint"># <code>leadr.auth.api.client_schemas.StartSessionRequest.client_fingerprint</code><a class="headerlink" href="#leadrauthapiclient_schemasstartsessionrequestclient_fingerprint" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">client_fingerprint</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Client-generated SHA256 device fingerprint (64 hex characters)&#39;</span><span class="p">)</span>
@@ -5982,6 +6010,9 @@ The old refresh token is invalidated and cannot be reused.</p>
 </code></pre></div>
 <h6 id="leadrauthapiclient_schemasstartsessionrequestplatform"># <code>leadr.auth.api.client_schemas.StartSessionRequest.platform</code><a class="headerlink" href="#leadrauthapiclient_schemasstartsessionrequestplatform" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">platform</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Device platform (e.g., &#39;ios&#39;, &#39;android&#39;, &#39;pc&#39;, &#39;console&#39;)&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapiclient_schemasstartsessionrequesttest_mode"># <code>leadr.auth.api.client_schemas.StartSessionRequest.test_mode</code><a class="headerlink" href="#leadrauthapiclient_schemasstartsessionrequesttest_mode" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">test_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;If true, session is in test mode and scores will be marked as test&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrauthapiclient_schemasstartsessionresponse"><code>leadr.auth.api.client_schemas.StartSessionResponse</code><a class="headerlink" href="#leadrauthapiclient_schemasstartsessionresponse" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
@@ -6009,6 +6040,7 @@ The old refresh token is invalidated and cannot be reused.</p>
 <li><a href="#leadr.auth.api.client_schemas.StartSessionResponse.platform"><strong>platform</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.auth.api.client_schemas.StartSessionResponse.refresh_token"><strong>refresh_token</strong></a> (<code><a href="#str">str</a></code>) –</li>
 <li><a href="#leadr.auth.api.client_schemas.StartSessionResponse.status"><strong>status</strong></a> (<code><a href="./#leadr.auth.domain.device.DeviceStatus">DeviceStatus</a></code>) –</li>
+<li><a href="#leadr.auth.api.client_schemas.StartSessionResponse.test_mode"><strong>test_mode</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 </ul>
 <h6 id="leadrauthapiclient_schemasstartsessionresponseaccess_token"># <code>leadr.auth.api.client_schemas.StartSessionResponse.access_token</code><a class="headerlink" href="#leadrauthapiclient_schemasstartsessionresponseaccess_token" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">access_token</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;JWT access token for authenticating API requests&#39;</span><span class="p">)</span>
@@ -6026,7 +6058,7 @@ The old refresh token is invalidated and cannot be reused.</p>
 <div class="highlight"><pre><span></span><code><span class="n">first_seen_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp when device was first seen (UTC)&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrauthapiclient_schemasstartsessionresponsefrom_domain"># <code>leadr.auth.api.client_schemas.StartSessionResponse.from_domain</code><a class="headerlink" href="#leadrauthapiclient_schemasstartsessionresponsefrom_domain" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">from_domain</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">refresh_token</span><span class="p">,</span> <span class="n">expires_in</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">from_domain</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">refresh_token</span><span class="p">,</span> <span class="n">expires_in</span><span class="p">,</span> <span class="n">test_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p>Convert domain entity to response model with tokens.</p>
 <p><strong>Parameters:</strong></p>
@@ -6035,6 +6067,7 @@ The old refresh token is invalidated and cannot be reused.</p>
 <li><strong>access_token</strong> (<code><a href="#str">str</a></code>) – The plain JWT access token</li>
 <li><strong>refresh_token</strong> (<code><a href="#str">str</a></code>) – The plain JWT refresh token</li>
 <li><strong>expires_in</strong> (<code><a href="#int">int</a></code>) – Access token expiration time in seconds</li>
+<li><strong>test_mode</strong> (<code><a href="#bool">bool</a></code>) – Whether session is in test mode</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -6060,6 +6093,9 @@ The old refresh token is invalidated and cannot be reused.</p>
 </code></pre></div>
 <h6 id="leadrauthapiclient_schemasstartsessionresponsestatus"># <code>leadr.auth.api.client_schemas.StartSessionResponse.status</code><a class="headerlink" href="#leadrauthapiclient_schemasstartsessionresponsestatus" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">DeviceStatus</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Device status (active, suspended, banned)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrauthapiclient_schemasstartsessionresponsetest_mode"># <code>leadr.auth.api.client_schemas.StartSessionResponse.test_mode</code><a class="headerlink" href="#leadrauthapiclient_schemasstartsessionresponsetest_mode" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">test_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether session is in test mode&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrauthapidevice_routes"><code>leadr.auth.api.device_routes</code><a class="headerlink" href="#leadrauthapidevice_routes" title="Permanent link">&para;</a></h5>
 <p>API routes for device management.</p>
@@ -6682,7 +6718,7 @@ to require different auth types.</p>
 <div class="highlight"><pre><span></span><code><span class="n">require_superadmin_account_id</span> <span class="o">=</span> <span class="n">require_superadmin_account_id</span>
 </code></pre></div>
 <h5 id="leadrauthdependenciesclientauthcontext"><code>leadr.auth.dependencies.ClientAuthContext</code><a class="headerlink" href="#leadrauthdependenciesclientauthcontext" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="n">ClientAuthContext</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">ClientAuthContext</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p>Bases: <code><a href="./#leadr.auth.dependencies.AuthContext">AuthContext</a></code></p>
 <p>Client authentication context with guaranteed device field.</p>
@@ -6696,6 +6732,7 @@ frozen dataclass fields and property overrides.</p>
 <li><a href="./#leadr.auth.dependencies.ClientAuthContext.device"><strong>device</strong></a> (<code><a href="./#leadr.auth.domain.device.Device">Device</a></code>) – The authenticated device (guaranteed non-None).</li>
 <li><a href="./#leadr.auth.dependencies.ClientAuthContext.user"><strong>user</strong></a> (<code>None</code>) – Always None for client auth.</li>
 <li><a href="#leadr.auth.dependencies.ClientAuthContext.api_key"><strong>api_key</strong></a> (<code>None</code>) – Always None for client auth.</li>
+<li><a href="#leadr.auth.dependencies.ClientAuthContext.test_mode"><strong>test_mode</strong></a> (<code><a href="#bool">bool</a></code>) – Whether this session is in test mode.</li>
 </ul>
 <p><strong>Functions:</strong></p>
 <ul>
@@ -6757,6 +6794,10 @@ frozen dataclass fields and property overrides.</p>
 <ul>
 <li><code><a href="#bool">bool</a></code> – True if user is a superadmin, False otherwise.</li>
 </ul>
+<h6 id="leadrauthdependenciesclientauthcontexttest_mode"><code>leadr.auth.dependencies.ClientAuthContext.test_mode</code><a class="headerlink" href="#leadrauthdependenciesclientauthcontexttest_mode" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">test_mode</span><span class="p">:</span> <span class="nb">bool</span>
+</code></pre></div>
+<p>Get test_mode flag (whether session is in test mode).</p>
 <h6 id="leadrauthdependenciesclientauthcontextuser"><code>leadr.auth.dependencies.ClientAuthContext.user</code><a class="headerlink" href="#leadrauthdependenciesclientauthcontextuser" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">user</span><span class="p">:</span> <span class="kc">None</span>
 </code></pre></div>
@@ -8255,7 +8296,7 @@ the session.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the entity doesn't exist</li>
 </ul>
 <h6 id="leadrauthservicesdevice_servicedeviceservicestart_session"># <code>leadr.auth.services.device_service.DeviceService.start_session</code><a class="headerlink" href="#leadrauthservicesdevice_servicedeviceservicestart_session" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">start_session</span><span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">client_fingerprint</span><span class="p">,</span> <span class="n">platform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ip_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_agent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">start_session</span><span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">client_fingerprint</span><span class="p">,</span> <span class="n">platform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ip_address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_agent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p>Start a new device session.</p>
 <p>Creates or updates device, generates JWT access and refresh tokens,
@@ -8269,6 +8310,7 @@ updates last_seen_at.</p>
 <li><strong>ip_address</strong> (<code><a href="#str">str</a> | None</code>) – Client IP address</li>
 <li><strong>user_agent</strong> (<code><a href="#str">str</a> | None</code>) – Client user agent string</li>
 <li><strong>metadata</strong> (<code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#typing.Any">Any</a>] | None</code>) – Additional device metadata</li>
+<li><strong>test_mode</strong> (<code><a href="#bool">bool</a></code>) – If True, session is in test mode and scores will be marked as test</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -8327,7 +8369,7 @@ and ensures device is active.</p>
 <li><a href="#leadr.auth.services.device_token_crypto.validate_refresh_token"><strong>validate_refresh_token</strong></a> – Validate and decode JWT refresh token.</li>
 </ul>
 <h6 id="leadrauthservicesdevice_token_cryptogenerate_access_token"><code>leadr.auth.services.device_token_crypto.generate_access_token</code><a class="headerlink" href="#leadrauthservicesdevice_token_cryptogenerate_access_token" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">generate_access_token</span><span class="p">(</span><span class="n">client_fingerprint</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">expires_delta</span><span class="p">,</span> <span class="n">secret</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">generate_access_token</span><span class="p">(</span><span class="n">client_fingerprint</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">expires_delta</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">test_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p>Generate JWT access token for device authentication.</p>
 <p>Creates a JWT with device, game, and account claims, signs it with the secret,
@@ -8361,7 +8403,7 @@ and returns both the plain token and its SHA-256 hash for storage.</p>
 </details>
 
 <h6 id="leadrauthservicesdevice_token_cryptogenerate_refresh_token"><code>leadr.auth.services.device_token_crypto.generate_refresh_token</code><a class="headerlink" href="#leadrauthservicesdevice_token_cryptogenerate_refresh_token" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">generate_refresh_token</span><span class="p">(</span><span class="n">client_fingerprint</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">token_version</span><span class="p">,</span> <span class="n">expires_delta</span><span class="p">,</span> <span class="n">secret</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">generate_refresh_token</span><span class="p">(</span><span class="n">client_fingerprint</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">token_version</span><span class="p">,</span> <span class="n">expires_delta</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">test_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p>Generate JWT refresh token for device authentication.</p>
 <p>Creates a JWT with device, game, account, and version claims, signs it with the secret,

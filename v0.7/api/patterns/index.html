@@ -533,7 +533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../client-auth.md" class="md-nav__link">
+      <a href="../client-auth/" class="md-nav__link">
         
   
   
@@ -614,7 +614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../template-naming.md" class="md-nav__link">
+      <a href="../template-naming/" class="md-nav__link">
         
   
   
@@ -637,7 +637,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../self-host.md" class="md-nav__link">
+      <a href="../self-host/" class="md-nav__link">
         
   
   
@@ -1746,10 +1746,12 @@
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_by_slug</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_by_field</span><span class="p">(</span><span class="n">AccountORM</span><span class="o">.</span><span class="n">slug</span><span class="p">,</span> <span class="n">slug</span><span class="p">)</span>
 </code></pre></div>
-<p>Available mixins:
-- <code>GetByFieldMixin</code>: Provides <code>_get_by_field(field, value)</code> helper
-- <code>ListByAccountMixin</code>: Provides <code>_list_by_account(account_id)</code> helper
-- <code>CountByStatusMixin</code>: Provides <code>_count_where(conditions)</code> helper</p>
+<p>Available mixins:</p>
+<ul>
+<li><code>GetByFieldMixin</code>: Provides <code>_get_by_field(field, value)</code> helper</li>
+<li><code>ListByAccountMixin</code>: Provides <code>_list_by_account(account_id)</code> helper</li>
+<li><code>CountByStatusMixin</code>: Provides <code>_count_where(conditions)</code> helper</li>
+</ul>
 <h3 id="custom-repository-methods">Custom Repository Methods<a class="headerlink" href="#custom-repository-methods" title="Permanent link">&para;</a></h3>
 <p>Add domain-specific query methods to repositories:</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">AccountRepository</span><span class="p">(</span><span class="n">BaseRepository</span><span class="p">[</span><span class="n">Account</span><span class="p">,</span> <span class="n">AccountORM</span><span class="p">]):</span>

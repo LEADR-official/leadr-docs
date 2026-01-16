@@ -529,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client-auth.md" class="md-nav__link">
+      <a href="../../client-auth/" class="md-nav__link">
         
   
   
@@ -610,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../template-naming.md" class="md-nav__link">
+      <a href="../../template-naming/" class="md-nav__link">
         
   
   
@@ -633,7 +633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../self-host.md" class="md-nav__link">
+      <a href="../../self-host/" class="md-nav__link">
         
   
   
@@ -1203,6 +1203,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrscoresadaptersormscoreormis_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.adapters.orm.ScoreORM.is_test
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrscoresadaptersormscoreormplayer_name" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.scores.adapters.orm.ScoreORM.player_name
@@ -1719,6 +1728,42 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#leadrscoresapiscore_schemasistestfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.scores.api.score_schemas.IsTestFilter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresapiscore_schemasistestfilterall" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.api.score_schemas.IsTestFilter.ALL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresapiscore_schemasistestfilterfalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.api.score_schemas.IsTestFilter.FALSE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresapiscore_schemasistestfiltertrue" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.api.score_schemas.IsTestFilter.TRUE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrscoresapiscore_schemasscoreclientcreaterequest" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.scores.api.score_schemas.ScoreClientCreateRequest
@@ -1794,6 +1839,15 @@
   <a href="#leadrscoresapiscore_schemasscoreclientresponseis_placeholder" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.scores.api.score_schemas.ScoreClientResponse.is_placeholder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresapiscore_schemasscoreclientresponseis_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.api.score_schemas.ScoreClientResponse.is_test
     </span>
   </a>
   
@@ -2127,6 +2181,15 @@
   <a href="#leadrscoresapiscore_schemasscoreresponseis_placeholder" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.scores.api.score_schemas.ScoreResponse.is_placeholder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresapiscore_schemasscoreresponseis_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.api.score_schemas.ScoreResponse.is_test
     </span>
   </a>
   
@@ -3738,6 +3801,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrscoresdomainscorescoreis_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.domain.score.Score.is_test
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrscoresdomainscorescoremetadata" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.scores.domain.score.Score.metadata
@@ -4774,6 +4846,7 @@ Maps to the scores table with foreign keys to accounts, devices, games, and boar
 <li><a href="./#leadr.scores.adapters.orm.ScoreORM.game"><strong>game</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="../games/#leadr.games.adapters.orm.GameORM">GameORM</a>]</code>) –</li>
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.game_id"><strong>game_id</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#uuid.UUID">UUID</a>]</code>) –</li>
 <li><a href="./#leadr.scores.adapters.orm.ScoreORM.id"><strong>id</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#leadr.common.orm.uuid_pk">uuid_pk</a>]</code>) –</li>
+<li><a href="#leadr.scores.adapters.orm.ScoreORM.is_test"><strong>is_test</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#bool">bool</a>]</code>) –</li>
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.player_name"><strong>player_name</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a>]</code>) –</li>
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.score_metadata"><strong>score_metadata</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#typing.Any">Any</a> | None]</code>) –</li>
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.updated_at"><strong>updated_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="../common/#leadr.common.orm.timestamp">timestamp</a>]</code>) –</li>
@@ -4818,6 +4891,9 @@ Maps to the scores table with foreign keys to accounts, devices, games, and boar
 </code></pre></div>
 <h6 id="leadrscoresadaptersormscoreormid"># <code>leadr.scores.adapters.orm.ScoreORM.id</code><a class="headerlink" href="#leadrscoresadaptersormscoreormid" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="nb">id</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">uuid_pk</span><span class="p">]</span>
+</code></pre></div>
+<h6 id="leadrscoresadaptersormscoreormis_test"># <code>leadr.scores.adapters.orm.ScoreORM.is_test</code><a class="headerlink" href="#leadrscoresadaptersormscoreormis_test" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">is_test</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">Boolean</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrscoresadaptersormscoreormplayer_name"># <code>leadr.scores.adapters.orm.ScoreORM.player_name</code><a class="headerlink" href="#leadrscoresadaptersormscoreormplayer_name" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">player_name</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -5204,7 +5280,7 @@ as their authenticated device.</p>
 <li><code>404</code> – Score not found or soft-deleted.</li>
 </ul>
 <h6 id="leadrscoresapiscore_routeshandle_list_scores"><code>leadr.scores.api.score_routes.handle_list_scores</code><a class="headerlink" href="#leadrscoresapiscore_routeshandle_list_scores" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">handle_list_scores</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">handle_list_scores</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Handle list scores logic for both admin and client endpoints.</p>
 <p>This shared handler implements the core list scores functionality and returns
@@ -5222,6 +5298,8 @@ different response models based on the authentication type:</p>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID filter.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID filter.</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID filter.</li>
+<li><strong>is_test</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for test scores. True returns only test scores,
+  False returns only production scores, None returns all scores.</li>
 <li><strong>around_score_id</strong> (<code><a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a> | None</code>) – Optional score ID to center results around.</li>
 <li><strong>around_score_value</strong> (<code><a href="#float">float</a> | None</code>) – Optional score value to center results around (with placeholder).</li>
 </ul>
@@ -5236,7 +5314,7 @@ different response models based on the authentication type:</p>
 <li><code><a href="#fastapi.HTTPException">HTTPException</a></code> – 404 if around_score_id score not found.</li>
 </ul>
 <h6 id="leadrscoresapiscore_routeslist_scores_admin"><code>leadr.scores.api.score_routes.list_scores_admin</code><a class="headerlink" href="#leadrscoresapiscore_routeslist_scores_admin" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_scores_admin</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_scores_admin</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="n">IsTestFilter</span><span class="o">.</span><span class="n">FALSE</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>List scores for an account with optional filters and pagination.</p>
 <p>Returns paginated scores for the specified account, with optional
@@ -5377,6 +5455,7 @@ remain unchanged. Set deleted: true to soft delete the score.</p>
 <p>API request and response models for scores.</p>
 <p><strong>Classes:</strong></p>
 <ul>
+<li><a href="#leadr.scores.api.score_schemas.IsTestFilter"><strong>IsTestFilter</strong></a> – Filter options for is_test query parameter in admin score listing.</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreClientCreateRequest"><strong>ScoreClientCreateRequest</strong></a> – Request model for creating a score (Client API).</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreClientResponse"><strong>ScoreClientResponse</strong></a> – Response model for a score (client API - excludes device_id and geo fields).</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreCreateRequest"><strong>ScoreCreateRequest</strong></a> – Request model for creating a score (Admin API).</li>
@@ -5384,6 +5463,24 @@ remain unchanged. Set deleted: true to soft delete the score.</p>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse"><strong>ScoreResponse</strong></a> – Response model for a score.</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreUpdateRequest"><strong>ScoreUpdateRequest</strong></a> – Request model for updating a score.</li>
 </ul>
+<h6 id="leadrscoresapiscore_schemasistestfilter"><code>leadr.scores.api.score_schemas.IsTestFilter</code><a class="headerlink" href="#leadrscoresapiscore_schemasistestfilter" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#str">str</a></code>, <code><a href="#enum.Enum">Enum</a></code></p>
+<p>Filter options for is_test query parameter in admin score listing.</p>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.scores.api.score_schemas.IsTestFilter.ALL"><strong>ALL</strong></a> –</li>
+<li><a href="#leadr.scores.api.score_schemas.IsTestFilter.FALSE"><strong>FALSE</strong></a> –</li>
+<li><a href="#leadr.scores.api.score_schemas.IsTestFilter.TRUE"><strong>TRUE</strong></a> –</li>
+</ul>
+<h6 id="leadrscoresapiscore_schemasistestfilterall"># <code>leadr.scores.api.score_schemas.IsTestFilter.ALL</code><a class="headerlink" href="#leadrscoresapiscore_schemasistestfilterall" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">ALL</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span>
+</code></pre></div>
+<h6 id="leadrscoresapiscore_schemasistestfilterfalse"># <code>leadr.scores.api.score_schemas.IsTestFilter.FALSE</code><a class="headerlink" href="#leadrscoresapiscore_schemasistestfilterfalse" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">FALSE</span> <span class="o">=</span> <span class="s1">&#39;false&#39;</span>
+</code></pre></div>
+<h6 id="leadrscoresapiscore_schemasistestfiltertrue"># <code>leadr.scores.api.score_schemas.IsTestFilter.TRUE</code><a class="headerlink" href="#leadrscoresapiscore_schemasistestfiltertrue" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">TRUE</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span>
+</code></pre></div>
 <h6 id="leadrscoresapiscore_schemasscoreclientcreaterequest"><code>leadr.scores.api.score_schemas.ScoreClientCreateRequest</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreclientcreaterequest" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="#leadr.scores.api.score_schemas.ScoreCreateRequestBase">ScoreCreateRequestBase</a></code></p>
 <p>Request model for creating a score (Client API).</p>
@@ -5418,6 +5515,7 @@ IP address via GeoIP middleware.</p>
 <li><a href="#leadr.scores.api.score_schemas.ScoreClientResponse.game_id"><strong>game_id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreClientResponse.id"><strong>id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreClientResponse.is_placeholder"><strong>is_placeholder</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
+<li><a href="#leadr.scores.api.score_schemas.ScoreClientResponse.is_test"><strong>is_test</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreClientResponse.metadata"><strong>metadata</strong></a> (<code><a href="#typing.Any">Any</a> | None</code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreClientResponse.player_name"><strong>player_name</strong></a> (<code><a href="#str">str</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreClientResponse.rank"><strong>rank</strong></a> (<code><a href="#int">int</a> | None</code>) –</li>
@@ -5454,6 +5552,9 @@ IP address via GeoIP middleware.</p>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_schemasscoreclientresponseis_placeholder"># <code>leadr.scores.api.score_schemas.ScoreClientResponse.is_placeholder</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreclientresponseis_placeholder" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">is_placeholder</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;True if this is a synthetic placeholder score (from around_score_value query)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrscoresapiscore_schemasscoreclientresponseis_test"># <code>leadr.scores.api.score_schemas.ScoreClientResponse.is_test</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreclientresponseis_test" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">is_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;True if this score was submitted in test mode&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_schemasscoreclientresponsemetadata"># <code>leadr.scores.api.score_schemas.ScoreClientResponse.metadata</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreclientresponsemetadata" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">metadata</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Game-specific metadata, or null&#39;</span><span class="p">)</span>
@@ -5588,6 +5689,7 @@ must provide game_id and device_id.</p>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.game_id"><strong>game_id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.id"><strong>id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.is_placeholder"><strong>is_placeholder</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
+<li><a href="#leadr.scores.api.score_schemas.ScoreResponse.is_test"><strong>is_test</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.metadata"><strong>metadata</strong></a> (<code><a href="#typing.Any">Any</a> | None</code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.player_name"><strong>player_name</strong></a> (<code><a href="#str">str</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.rank"><strong>rank</strong></a> (<code><a href="#int">int</a> | None</code>) –</li>
@@ -5634,6 +5736,9 @@ must provide game_id and device_id.</p>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_schemasscoreresponseis_placeholder"># <code>leadr.scores.api.score_schemas.ScoreResponse.is_placeholder</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreresponseis_placeholder" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">is_placeholder</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;True if this is a synthetic placeholder score (from around_score_value query)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrscoresapiscore_schemasscoreresponseis_test"># <code>leadr.scores.api.score_schemas.ScoreResponse.is_test</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreresponseis_test" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">is_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;True if this score was submitted in test mode&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_schemasscoreresponsemetadata"># <code>leadr.scores.api.score_schemas.ScoreResponse.metadata</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreresponsemetadata" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">metadata</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Game-specific metadata, or null&#39;</span><span class="p">)</span>
@@ -6630,6 +6735,7 @@ but mutable in terms of their value and metadata for corrections/updates.</p>
 <li><a href="./#leadr.scores.domain.score.Score.id"><strong>id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a></code>) –</li>
 <li><a href="#leadr.scores.domain.score.Score.is_deleted"><strong>is_deleted</strong></a> (<code><a href="#bool">bool</a></code>) – Check if entity is soft-deleted.</li>
 <li><a href="#leadr.scores.domain.score.Score.is_placeholder"><strong>is_placeholder</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
+<li><a href="#leadr.scores.domain.score.Score.is_test"><strong>is_test</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="./#leadr.scores.domain.score.Score.metadata"><strong>metadata</strong></a> (<code><a href="#typing.Any">Any</a> | None</code>) –</li>
 <li><a href="#leadr.scores.domain.score.Score.model_config"><strong>model_config</strong></a> –</li>
 <li><a href="#leadr.scores.domain.score.Score.player_name"><strong>player_name</strong></a> (<code><a href="#str">str</a></code>) –</li>
@@ -6676,6 +6782,9 @@ but mutable in terms of their value and metadata for corrections/updates.</p>
 </ul>
 <h6 id="leadrscoresdomainscorescoreis_placeholder"># <code>leadr.scores.domain.score.Score.is_placeholder</code><a class="headerlink" href="#leadrscoresdomainscorescoreis_placeholder" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">is_placeholder</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;True if this is a synthetic placeholder score (from around_score_value query)&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrscoresdomainscorescoreis_test"># <code>leadr.scores.domain.score.Score.is_test</code><a class="headerlink" href="#leadrscoresdomainscorescoreis_test" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">is_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;True if score was submitted in test mode&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrscoresdomainscorescoremetadata"># <code>leadr.scores.domain.score.Score.metadata</code><a class="headerlink" href="#leadrscoresdomainscorescoremetadata" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">metadata</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Optional JSON metadata for game-specific data (loadouts, seeds, etc.)&#39;</span><span class="p">)</span>
@@ -7186,7 +7295,7 @@ a direct account relation.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If entity is not found</li>
 </ul>
 <h6 id="leadrscoresservicesrepositoriesscorerepositoryfilter"># <code>leadr.scores.services.repositories.ScoreRepository.filter</code><a class="headerlink" href="#leadrscoresservicesrepositoriesscorerepositoryfilter" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">around_score</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_value_board</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">around_score</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_value_board</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
 <p>Filter scores by account and optional criteria.</p>
 <p><strong>Parameters:</strong></p>
@@ -7196,6 +7305,8 @@ a direct account relation.</p>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by</li>
+<li><strong>is_test</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for test scores. True returns only test scores,
+  False returns only production scores, None returns all scores.</li>
 <li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required)</li>
 <li><strong>around_score</strong> (<code><a href="./#leadr.scores.domain.score.Score">Score</a> | None</code>) – Optional target score to center results around. When provided,
   returns a window of scores centered on this score (mutually exclusive
@@ -7248,6 +7359,8 @@ a direct account relation.</p>
 <p>Compute rank for a single score using COUNT approach.</p>
 <p>Counts how many scores rank better than the given score using the
 same multi-field comparison logic used for sorting.</p>
+<p>Note: Ranks are computed separately for test vs production scores.
+A test score's rank is within the test score pool only.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>score</strong> (<code><a href="./#leadr.scores.domain.score.Score">Score</a></code>) – Score to compute rank for</li>
@@ -7451,14 +7564,18 @@ by coordinating between the domain models and repository layer.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the entity doesn't exist</li>
 </ul>
 <h6 id="leadrscoresservicesscore_flag_servicescoreflagserviceupdate_flag"># <code>leadr.scores.services.score_flag_service.ScoreFlagService.update_flag</code><a class="headerlink" href="#leadrscoresservicesscore_flag_servicescoreflagserviceupdate_flag" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">update_flag</span><span class="p">(</span><span class="n">flag_id</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reviewer_decision</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">update_flag</span><span class="p">(</span><span class="n">flag_id</span><span class="p">,</span> <span class="o">**</span><span class="n">updates</span><span class="p">)</span>
 </code></pre></div>
 <p>Update a flag's status and/or reviewer decision.</p>
+<p>Accepts any fields to update as keyword arguments. Only fields
+explicitly provided will be updated, allowing null values to
+clear optional fields.</p>
+<p>Note: When status is updated, reviewed_at is automatically set
+to the current time.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>flag_id</strong> (<code><a href="../common/#leadr.common.domain.ids.ScoreFlagID">ScoreFlagID</a></code>) – The ID of the flag to update</li>
-<li><strong>status</strong> (<code><a href="#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus">ScoreFlagStatus</a> | None</code>) – Optional new status</li>
-<li><strong>reviewer_decision</strong> (<code><a href="#str">str</a> | None</code>) – Optional new reviewer decision</li>
+<li>**<strong>updates</strong> (<code><a href="#typing.Any">Any</a></code>) – Field names and values to update</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -7509,7 +7626,7 @@ Ensures business rules like board/game validation are enforced.</p>
 <li><a href="#leadr.scores.services.score_service.ScoreService.repository"><strong>repository</strong></a> –</li>
 </ul>
 <h6 id="leadrscoresservicesscore_servicescoreservicecreate_score"># <code>leadr.scores.services.score_service.ScoreService.create_score</code><a class="headerlink" href="#leadrscoresservicesscore_servicescoreservicecreate_score" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">create_score</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">player_name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">value_display</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timezone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trust_tier</span><span class="o">=</span><span class="n">TrustTier</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">background_tasks</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">create_score</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">device_id</span><span class="p">,</span> <span class="n">player_name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">value_display</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timezone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">trust_tier</span><span class="o">=</span><span class="n">TrustTier</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="n">background_tasks</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Create a new score.</p>
 <p><strong>Parameters:</strong></p>
@@ -7525,6 +7642,7 @@ Ensures business rules like board/game validation are enforced.</p>
 <li><strong>country</strong> (<code><a href="#str">str</a> | None</code>) – Optional country filter for categorization.</li>
 <li><strong>city</strong> (<code><a href="#str">str</a> | None</code>) – Optional city filter for categorization.</li>
 <li><strong>metadata</strong> (<code><a href="#typing.Any">Any</a> | None</code>) – Optional JSON metadata for game-specific data.</li>
+<li><strong>is_test</strong> (<code><a href="#bool">bool</a></code>) – If True, marks this score as a test score.</li>
 <li><strong>trust_tier</strong> (<code><a href="#leadr.scores.domain.anti_cheat.enums.TrustTier">TrustTier</a></code>) – Trust tier of the device (defaults to B/medium trust).</li>
 </ul>
 <p><strong>Returns:</strong></p>
@@ -7632,7 +7750,7 @@ to know the score's position in the leaderboard.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrscoresservicesscore_servicescoreservicelist_scores"># <code>leadr.scores.services.score_service.ScoreService.list_scores</code><a class="headerlink" href="#leadrscoresservicesscore_servicescoreservicelist_scores" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_scores</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_scores</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">device_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>List scores for an account with optional filters and pagination.</p>
 <p><strong>Parameters:</strong></p>
@@ -7642,6 +7760,8 @@ to know the score's position in the leaderboard.</p>
 <li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by.</li>
 <li><strong>device_id</strong> (<code><a href="../common/#leadr.common.domain.ids.DeviceID">DeviceID</a> | None</code>) – Optional device ID to filter by.</li>
+<li><strong>is_test</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for test scores. True returns only test scores,
+  False returns only production scores, None returns all scores.</li>
 <li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (required).</li>
 <li><strong>around_score_id</strong> (<code><a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a> | None</code>) – Optional score ID to center results around. When provided,
   returns a window of scores centered on this score. Mutually exclusive
@@ -7680,19 +7800,16 @@ to know the score's position in the leaderboard.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the entity doesn't exist</li>
 </ul>
 <h6 id="leadrscoresservicesscore_servicescoreserviceupdate_score"># <code>leadr.scores.services.score_service.ScoreService.update_score</code><a class="headerlink" href="#leadrscoresservicesscore_servicescoreserviceupdate_score" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">update_score</span><span class="p">(</span><span class="n">score_id</span><span class="p">,</span> <span class="n">player_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value_display</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timezone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">update_score</span><span class="p">(</span><span class="n">score_id</span><span class="p">,</span> <span class="o">**</span><span class="n">updates</span><span class="p">)</span>
 </code></pre></div>
 <p>Update a score's mutable fields.</p>
+<p>Accepts any fields to update as keyword arguments. Only fields
+explicitly provided will be updated, allowing null values to
+clear optional fields.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>score_id</strong> (<code><a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a></code>) – The ID of the score to update.</li>
-<li><strong>player_name</strong> (<code><a href="#str">str</a> | None</code>) – Optional new player name.</li>
-<li><strong>value</strong> (<code><a href="#float">float</a> | None</code>) – Optional new value.</li>
-<li><strong>value_display</strong> (<code><a href="#str">str</a> | None</code>) – Optional new value display string.</li>
-<li><strong>timezone</strong> (<code><a href="#str">str</a> | None</code>) – Optional new timezone.</li>
-<li><strong>country</strong> (<code><a href="#str">str</a> | None</code>) – Optional new country.</li>
-<li><strong>city</strong> (<code><a href="#str">str</a> | None</code>) – Optional new city.</li>
-<li><strong>metadata</strong> (<code><a href="#typing.Any">Any</a> | None</code>) – Optional new metadata.</li>
+<li>**<strong>updates</strong> (<code><a href="#typing.Any">Any</a></code>) – Field names and values to update</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>

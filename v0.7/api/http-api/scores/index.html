@@ -529,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client-auth.md" class="md-nav__link">
+      <a href="../../client-auth/" class="md-nav__link">
         
   
   
@@ -610,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../template-naming.md" class="md-nav__link">
+      <a href="../../template-naming/" class="md-nav__link">
         
   
   
@@ -633,7 +633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../self-host.md" class="md-nav__link">
+      <a href="../../self-host/" class="md-nav__link">
         
   
   
@@ -962,6 +962,21 @@
       Parameters
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Parameters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enumerated-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumerated Values
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1356,6 +1371,7 @@ For superadmins: can provide account_id to create scores for any account.</p>
 <span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">  </span><span class="nt">&quot;rank&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_placeholder&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_test&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -1512,6 +1528,13 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
 <td>none</td>
 </tr>
 <tr>
+<td>is_test</td>
+<td>query</td>
+<td><a href="../schemas/#istestfilter">IsTestFilter</a></td>
+<td>false</td>
+<td>Filter for test scores. 'false' (default) returns production only, 'true' returns test only, 'all' returns both test and production</td>
+</tr>
+<tr>
 <td>around_score_id</td>
 <td>query</td>
 <td>any</td>
@@ -1566,6 +1589,29 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
 <td>any</td>
 <td>false</td>
 <td>none</td>
+</tr>
+</tbody>
+</table>
+<h4 id="enumerated-values">Enumerated Values<a class="headerlink" href="#enumerated-values" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is_test</td>
+<td>true</td>
+</tr>
+<tr>
+<td>is_test</td>
+<td>false</td>
+</tr>
+<tr>
+<td>is_test</td>
+<td>all</td>
 </tr>
 </tbody>
 </table>
@@ -1738,6 +1784,7 @@ The rank represents the score's position in the leaderboard (1 = first place).</
 <span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">  </span><span class="nt">&quot;rank&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_placeholder&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_test&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -1926,6 +1973,7 @@ remain unchanged. Set deleted: true to soft delete the score.</p>
 <span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">  </span><span class="nt">&quot;rank&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_placeholder&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_test&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -2356,6 +2404,7 @@ are automatically derived from the authenticated device session.</p>
 <span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">  </span><span class="nt">&quot;rank&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_placeholder&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_test&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
@@ -2724,6 +2773,7 @@ as their authenticated device.</p>
 <span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">  </span><span class="nt">&quot;rank&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;is_placeholder&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_test&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>

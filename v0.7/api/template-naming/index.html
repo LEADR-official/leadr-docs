@@ -13,9 +13,13 @@
         <meta name="author" content="LEADR">
       
       
-        <link rel="canonical" href="https://docs.leadr.gg/v0.7/api/self_host/">
+        <link rel="canonical" href="https://docs.leadr.gg/v0.7/api/template-naming/">
       
       
+        <link rel="prev" href="../client-auth/">
+      
+      
+        <link rel="next" href="../self-host/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -25,9 +29,9 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LEADR Docs">
-<meta property="og:title" content="Self-Hosting LEADR | LEADR Docs">
+<meta property="og:title" content="Board Template Naming | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
-<meta property="og:url" content="https://docs.leadr.gg/v0.7/api/self_host/">
+<meta property="og:url" content="https://docs.leadr.gg/v0.7/api/template-naming/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.7/assets/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -74,7 +78,7 @@
 
     
       
-        <title>Self-Hosting LEADR - LEADR Docs</title>
+        <title>Board Template Naming - LEADR Docs</title>
       
     
     
@@ -128,7 +132,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#self-hosting-leadr" class="md-skip">
+        <a href="#board-template-naming" class="md-skip">
           Skip to content
         </a>
       
@@ -167,7 +171,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Self-Hosting LEADR
+              Board Template Naming
             
           </span>
         </div>
@@ -529,7 +533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../client-auth.md" class="md-nav__link">
+      <a href="../client-auth/" class="md-nav__link">
         
   
   
@@ -564,8 +568,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -576,11 +582,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -596,7 +602,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Concepts
@@ -607,10 +613,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../template-naming.md" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Board Template Naming
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -621,6 +649,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#placeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Placeholders
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sequential-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequential Series
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -633,7 +717,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../self-host.md" class="md-nav__link">
+      <a href="../self-host/" class="md-nav__link">
         
   
   
@@ -914,248 +998,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#placeholders" class="md-nav__link">
     <span class="md-ellipsis">
-      Prerequisites
+      Placeholders
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#sequential-series" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick Start
+      Sequential Series
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#environment-variables" class="md-nav__link">
+  <a href="#examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Environment Variables
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Environment Variables">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#required" class="md-nav__link">
-    <span class="md-ellipsis">
-      Required
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#optional-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      Optional Variables
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      Architecture
+      Examples
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#dns-setup" class="md-nav__link">
+  <a href="#validation" class="md-nav__link">
     <span class="md-ellipsis">
-      DNS Setup
+      Validation
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-the-stack" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running the Stack
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Running the Stack">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#start" class="md-nav__link">
-    <span class="md-ellipsis">
-      Start
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#view-logs" class="md-nav__link">
-    <span class="md-ellipsis">
-      View Logs
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#stop" class="md-nav__link">
-    <span class="md-ellipsis">
-      Stop
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#verify-health" class="md-nav__link">
-    <span class="md-ellipsis">
-      Verify Health
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#first-steps-after-deploy" class="md-nav__link">
-    <span class="md-ellipsis">
-      First Steps After Deploy
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="First Steps After Deploy">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#install-the-leadr-cli" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install the LEADR CLI
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configure-admin-authentication" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configure Admin Authentication
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-your-first-game" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create Your First Game
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Optional Features
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Optional Features">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#geoip-auto-labeling" class="md-nav__link">
-    <span class="md-ellipsis">
-      GeoIP Auto-Labeling
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#email-notifications" class="md-nav__link">
-    <span class="md-ellipsis">
-      Email Notifications
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#updating" class="md-nav__link">
-    <span class="md-ellipsis">
-      Updating
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Troubleshooting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#container-wont-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      Container won't start
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#caddy-certificate-errors" class="md-nav__link">
-    <span class="md-ellipsis">
-      Caddy certificate errors
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#api-returns-401403" class="md-nav__link">
-    <span class="md-ellipsis">
-      API returns 401/403
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1175,269 +1049,92 @@
 
 
 
-<h1 id="self-hosting-leadr">Self-Hosting LEADR<a class="headerlink" href="#self-hosting-leadr" title="Permanent link">&para;</a></h1>
-<p>This guide covers deploying your own LEADR instance using Docker Compose.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
-<ul>
-<li>A ready cloud-hosting environment or your own server</li>
-<li><strong>Docker</strong> and <strong>Docker Compose</strong> (v2.20+)</li>
-<li>A <strong>domain name</strong> with DNS control</li>
-<li>A <strong>PostgreSQL 16+</strong> database (cloud-hosted or self-managed)</li>
-</ul>
-<p>For PostgreSQL, you can use any provider that gives you a standard connection string:</p>
-<ul>
-<li>Cloud: Supabase, Neon, AWS RDS, Google Cloud SQL, DigitalOcean</li>
-<li>Self-hosted: Your own PostgreSQL instance</li>
-</ul>
-<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Clone the repository:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/LEADR-official/leadr-oss.git
-<span class="nb">cd</span><span class="w"> </span>leadr-oss
-</code></pre></div>
-<ol>
-<li>Create your environment file:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>.env.example<span class="w"> </span>.env
-</code></pre></div>
-<ol>
-<li>
-<p>Configure your <code>.env</code> file (see <a href="#environment-variables">Environment Variables</a>)</p>
-</li>
-<li>
-<p>Start the stack:</p>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.base.yml<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.selfhost.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>up<span class="w"> </span>-d
-</code></pre></div>
-<h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
-<h3 id="required">Required<a class="headerlink" href="#required" title="Permanent link">&para;</a></h3>
+<h1 id="board-template-naming">Board Template Naming<a class="headerlink" href="#board-template-naming" title="Permanent link">&para;</a></h1>
+<p>Board templates can automatically generate board names using placeholders and sequential series.</p>
+<h2 id="placeholders">Placeholders<a class="headerlink" href="#placeholders" title="Permanent link">&para;</a></h2>
+<p>Use placeholders in the <code>name_template</code> field to generate dynamic board names:</p>
 <table>
 <thead>
 <tr>
-<th>Variable</th>
-<th>Description</th>
+<th>Placeholder</th>
+<th>Output</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>ENV</code></td>
-<td>Environment name (e.g., <code>PROD</code>)</td>
+<td><code>{year}</code></td>
+<td>Four-digit year</td>
+<td><code>2025</code></td>
 </tr>
 <tr>
-<td><code>DB_HOST</code></td>
-<td>PostgreSQL host (e.g., <code>db.example.com</code>)</td>
+<td><code>{month}</code></td>
+<td>Full month name</td>
+<td><code>January</code></td>
 </tr>
 <tr>
-<td><code>DB_PASSWORD</code></td>
-<td>Database password</td>
+<td><code>{month_short}</code></td>
+<td>Abbreviated month</td>
+<td><code>Jan</code></td>
 </tr>
 <tr>
-<td><code>DB_NAME</code></td>
-<td>Database name (default: <code>leadr</code>)</td>
+<td><code>{week}</code></td>
+<td>ISO week number</td>
+<td><code>42</code></td>
 </tr>
 <tr>
-<td><code>DB_USER</code></td>
-<td>Database user (default: <code>leadr</code>)</td>
+<td><code>{quarter}</code></td>
+<td>Quarter of year</td>
+<td><code>Q1</code></td>
 </tr>
 <tr>
-<td><code>DOMAIN</code></td>
-<td>Your domain for routing (e.g., <code>example.com</code>)</td>
+<td><code>{date}</code></td>
+<td>ISO date format</td>
+<td><code>2025-01-15</code></td>
 </tr>
 <tr>
-<td><code>SUPERADMIN_API_KEY</code></td>
-<td>Admin API key - <strong>must start with <code>ldr_</code></strong></td>
-</tr>
-<tr>
-<td><code>JWT_SECRET</code></td>
-<td>Secret for JWT signing - <strong>generate a strong random string</strong></td>
-</tr>
-<tr>
-<td><code>API_KEY_SECRET</code></td>
-<td>Secret for API key hashing - <strong>generate a strong random string</strong></td>
+<td><code>{series}</code></td>
+<td>Sequential number</td>
+<td><code>1</code>, <code>2</code>, <code>3</code>...</td>
 </tr>
 </tbody>
 </table>
-<h3 id="optional-variables">Optional Variables<a class="headerlink" href="#optional-variables" title="Permanent link">&para;</a></h3>
-<p>These have sensible defaults but can be customized:</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>LEADR_IMAGE_TAG</code></td>
-<td><code>latest</code></td>
-<td>Docker image version (e.g., <code>v0.1.0</code>)</td>
-</tr>
-<tr>
-<td><code>DB_PORT</code></td>
-<td><code>5432</code></td>
-<td>PostgreSQL port</td>
-</tr>
-<tr>
-<td><code>DB_POOL_SIZE</code></td>
-<td><code>20</code></td>
-<td>Database connection pool size</td>
-</tr>
-<tr>
-<td><code>ACCESS_TOKEN_EXPIRY_HOURS</code></td>
-<td><code>24</code></td>
-<td>Device access token lifetime</td>
-</tr>
-<tr>
-<td><code>REFRESH_TOKEN_EXPIRY_DAYS</code></td>
-<td><code>30</code></td>
-<td>Device refresh token lifetime</td>
-</tr>
-<tr>
-<td><code>ANTICHEAT_ENABLED</code></td>
-<td><code>false</code></td>
-<td>Enable anti-cheat checks</td>
-</tr>
-</tbody>
-</table>
-<p>See <code>src/leadr/config.py</code> for the complete list of configuration options.</p>
-<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
-<p>The self-hosted stack consists of:</p>
-<div class="highlight"><pre><span></span><code>                    ┌─────────────────────────────────┐
-                    │           Caddy                 │
-                    │    (Reverse Proxy + HTTPS)      │
-                    └───────────┬─────────────────────┘
-                                │
-              ┌─────────────────┴─────────────────┐
-              │                                   │
-              ▼                                   ▼
-┌─────────────────────────┐         ┌─────────────────────────┐
-│       admin-api         │         │       client-api        │
-│  api.admin.example.com  │         │    api.example.com      │
-│                         │         │                         │
-│  - Account management   │         │  - Score submissions    │
-│  - Game configuration   │         │  - Leaderboard queries  │
-│  - User management      │         │  - Device registration  │
-└─────────────────────────┘         └─────────────────────────┘
-              │                                   │
-              └─────────────────┬─────────────────┘
-                                │
-                                ▼
-                    ┌─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─┐
-                    │      PostgreSQL (not included)  │
-                    └─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─┘
-</code></pre></div>
+<h2 id="sequential-series">Sequential Series<a class="headerlink" href="#sequential-series" title="Permanent link">&para;</a></h2>
+<p>The <code>series</code> field enables sequential numbering for boards created from the same template:</p>
 <ul>
-<li><strong>admin-api</strong>: Administrative endpoints for managing accounts, games, and users</li>
-<li><strong>client-api</strong>: Public endpoints for game clients (score submission, leaderboards)</li>
-<li><strong>Caddy</strong>: Automatic HTTPS with Let's Encrypt, routes traffic to appropriate API</li>
+<li><strong>Scoped per template</strong>: Each template maintains its own series sequence</li>
+<li><strong>Calculated dynamically</strong>: Series values are generated from existing board count + 1</li>
+<li><strong>Reuses numbers</strong>: If boards are deleted, their numbers become available again</li>
 </ul>
-<h2 id="dns-setup">DNS Setup<a class="headerlink" href="#dns-setup" title="Permanent link">&para;</a></h2>
-<p>Create two A records pointing to your server's IP address:</p>
-<table>
-<thead>
-<tr>
-<th>Record</th>
-<th>Type</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>api.example.com</code></td>
-<td>A</td>
-<td><code>&lt;your-server-ip&gt;</code></td>
-</tr>
-<tr>
-<td><code>api.admin.example.com</code></td>
-<td>A</td>
-<td><code>&lt;your-server-ip&gt;</code></td>
-</tr>
-</tbody>
-</table>
-<p>Caddy will automatically obtain and renew TLS certificates from Let's Encrypt.</p>
-<h2 id="running-the-stack">Running the Stack<a class="headerlink" href="#running-the-stack" title="Permanent link">&para;</a></h2>
-<h3 id="start">Start<a class="headerlink" href="#start" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.base.yml<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.selfhost.yml<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>up<span class="w"> </span>-d
-</code></pre></div>
-<h3 id="view-logs">View Logs<a class="headerlink" href="#view-logs" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.base.yml<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.selfhost.yml<span class="w"> </span>logs<span class="w"> </span>-f
-</code></pre></div>
-<h3 id="stop">Stop<a class="headerlink" href="#stop" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.base.yml<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.selfhost.yml<span class="w"> </span>down
-</code></pre></div>
-<h3 id="verify-health">Verify Health<a class="headerlink" href="#verify-health" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://api.example.com/v1/health
-curl<span class="w"> </span>https://api.admin.example.com/v1/health
-</code></pre></div>
-<p>Both should return a <code>200 OK</code> response.</p>
-<h2 id="first-steps-after-deploy">First Steps After Deploy<a class="headerlink" href="#first-steps-after-deploy" title="Permanent link">&para;</a></h2>
-<h3 id="install-the-leadr-cli">Install the LEADR CLI<a class="headerlink" href="#install-the-leadr-cli" title="Permanent link">&para;</a></h3>
-<p>Download and install the CLI from the releases page:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sSL<span class="w"> </span>https://github.com/LEADR-official/leadr-cli-releases/raw/main/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-</code></pre></div>
-<p>Or download binaries directly from <a href="https://github.com/LEADR-official/leadr-cli-releases/releases">github.com/LEADR-official/leadr-cli-releases</a>.</p>
-<h3 id="configure-admin-authentication">Configure Admin Authentication<a class="headerlink" href="#configure-admin-authentication" title="Permanent link">&para;</a></h3>
+<p>To use series:</p>
 <ol>
-<li>
-<p><strong>Verify the superadmin bootstrap</strong>: On first startup, LEADR creates a superadmin account using your <code>SUPERADMIN_*</code> environment variables.</p>
-</li>
-<li>
-<p><strong>Configure the CLI with your superadmin API key</strong>:</p>
-</li>
+<li>Set the <code>series</code> field to any identifier (e.g., <code>"weekly"</code>, <code>"seasonal"</code>)</li>
+<li>Include <code>{series}</code> in your <code>name_template</code></li>
 </ol>
-<div class="highlight"><pre><span></span><code>leadr<span class="w"> </span>--host<span class="w"> </span>api.admin.example.com<span class="w"> </span>auth<span class="w"> </span>admin<span class="w"> </span>configure
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Weekly Challenge&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Week {week} Challenge - {year}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;series&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>Enter your <code>SUPERADMIN_API_KEY</code> when prompted.</p>
-<h3 id="create-your-first-game">Create Your First Game<a class="headerlink" href="#create-your-first-game" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Get your account ID (created during bootstrap)</span>
-leadr<span class="w"> </span>--host<span class="w"> </span>api.admin.example.com<span class="w"> </span>account<span class="w"> </span>get<span class="w"> </span>&lt;account-id&gt;
-
-<span class="c1"># Create a game</span>
-leadr<span class="w"> </span>--host<span class="w"> </span>api.admin.example.com<span class="w"> </span>game<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--account-id<span class="w"> </span>&lt;account-id&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--name<span class="w"> </span><span class="s2">&quot;My Game&quot;</span>
+<p><strong>Generates</strong>: "Week 42 Challenge - 2025"</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Monthly Tournament&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{month} Tournament #{series}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;series&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;monthly&quot;</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>Run <code>leadr --help</code> to see all available commands.</p>
-<h2 id="optional-features">Optional Features<a class="headerlink" href="#optional-features" title="Permanent link">&para;</a></h2>
-<h3 id="geoip-auto-labeling">GeoIP Auto-Labeling<a class="headerlink" href="#geoip-auto-labeling" title="Permanent link">&para;</a></h3>
-<p>LEADR can automatically extract geolocation (country, city, timezone) from player IP addresses using MaxMind GeoLite2 databases. This requires a free MaxMind account.</p>
-<p>See the "GeoIP Auto-Labeling" section in <code>CLAUDE.md</code> for configuration details.</p>
-<h3 id="email-notifications">Email Notifications<a class="headerlink" href="#email-notifications" title="Permanent link">&para;</a></h3>
-<p>Email functionality (verification codes, notifications) requires Mailgun credentials:</p>
-<ul>
-<li><code>MAILGUN_API_KEY</code></li>
-<li><code>MAILGUN_DOMAIN</code></li>
-</ul>
-<h2 id="updating">Updating<a class="headerlink" href="#updating" title="Permanent link">&para;</a></h2>
-<p>To update to a newer version:</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.base.yml<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.selfhost.yml<span class="w"> </span>pull
-docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.base.yml<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.selfhost.yml<span class="w"> </span>up<span class="w"> </span>-d
+<p><strong>Generates</strong>: "January Tournament #1", "January Tournament #2"...</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Seasonal Board&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{year} {quarter} Season&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;series&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>Database migrations run automatically on startup when <code>RUN_MIGRATIONS=true</code> (default for selfhost).</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<h3 id="container-wont-start">Container won't start<a class="headerlink" href="#container-wont-start" title="Permanent link">&para;</a></h3>
-<p>Check logs for errors:</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>compose<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.base.yml<span class="w"> </span>-f<span class="w"> </span>docker/docker-compose.selfhost.yml<span class="w"> </span>logs<span class="w"> </span>admin-api
-</code></pre></div>
-<p>Common issues:</p>
-<ul>
-<li>Database connection failed: Verify <code>DB_HOST</code>, <code>DB_USER</code>, <code>DB_PASSWORD</code></li>
-<li>Missing required env vars: Ensure all required variables are set</li>
-</ul>
-<h3 id="caddy-certificate-errors">Caddy certificate errors<a class="headerlink" href="#caddy-certificate-errors" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Ensure DNS records are correctly configured and propagated</li>
-<li>Verify ports 80 and 443 are accessible from the internet</li>
-<li>Check Caddy logs: <code>docker compose ... logs caddy</code></li>
-</ul>
-<h3 id="api-returns-401403">API returns 401/403<a class="headerlink" href="#api-returns-401403" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Verify your API key starts with <code>ldr_</code></li>
-<li>Ensure the <code>leadr-api-key</code> header is correctly spelled (lowercase)</li>
-</ul>
+<p><strong>Generates</strong>: "2025 Q1 Season"</p>
+<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>
+<p>Templates with invalid placeholders are rejected at creation time. Only the placeholders listed above are supported.</p>
 
 
 

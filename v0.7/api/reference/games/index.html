@@ -529,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client-auth.md" class="md-nav__link">
+      <a href="../../client-auth/" class="md-nav__link">
         
   
   
@@ -610,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../template-naming.md" class="md-nav__link">
+      <a href="../../template-naming/" class="md-nav__link">
         
   
   
@@ -633,7 +633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../self-host.md" class="md-nav__link">
+      <a href="../../self-host/" class="md-nav__link">
         
   
   
@@ -2713,19 +2713,16 @@ by coordinating between the domain models and repository layer.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the entity doesn't exist</li>
 </ul>
 <h6 id="leadrgamesservicesgame_servicegameserviceupdate_game"># <code>leadr.games.services.game_service.GameService.update_game</code><a class="headerlink" href="#leadrgamesservicesgame_servicegameserviceupdate_game" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">update_game</span><span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">steam_app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default_board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">anti_cheat_enabled</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_url</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">update_game</span><span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="o">**</span><span class="n">updates</span><span class="p">)</span>
 </code></pre></div>
 <p>Update game fields.</p>
+<p>Accepts any fields to update as keyword arguments. Only fields
+explicitly provided will be updated, allowing null values to
+clear optional fields.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a></code>) – The ID of the game to update</li>
-<li><strong>name</strong> (<code><a href="#str">str</a> | None</code>) – New game name, if provided</li>
-<li><strong>steam_app_id</strong> (<code><a href="#str">str</a> | None</code>) – New Steam app ID, if provided</li>
-<li><strong>default_board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – New default board ID, if provided</li>
-<li><strong>anti_cheat_enabled</strong> (<code><a href="#bool">bool</a> | None</code>) – Whether anti-cheat is enabled, if provided</li>
-<li><strong>description</strong> (<code><a href="#str">str</a> | None</code>) – New game description, if provided</li>
-<li><strong>tags</strong> (<code><a href="#list">list</a>[<a href="#str">str</a>] | None</code>) – New list of tags, if provided</li>
-<li><strong>page_url</strong> (<code><a href="#str">str</a> | None</code>) – New page URL, if provided</li>
+<li>**<strong>updates</strong> (<code><a href="#typing.Any">Any</a></code>) – Field names and values to update</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
