@@ -134,6 +134,7 @@ Raises:
   "metadata": {},
   "rank": 0,
   "is_placeholder": false,
+  "is_test": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -252,6 +253,7 @@ Raises:
 |board_id|query|any|false|none|
 |game_id|query|any|false|none|
 |device_id|query|any|false|none|
+|is_test|query|[IsTestFilter](./schemas.md#istestfilter)|false|Filter for test scores. 'false' (default) returns production only, 'true' returns test only, 'all' returns both test and production|
 |around_score_id|query|any|false|Center results around this score ID|
 |around_score_value|query|any|false|Center results around this score value (returns placeholder)|
 |cursor|query|any|false|Pagination cursor for navigating results|
@@ -260,6 +262,14 @@ Raises:
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
+
+#### Enumerated Values
+
+|Parameter|Value|
+|---|---|
+|is_test|true|
+|is_test|false|
+|is_test|all|
 
 > Example responses
 
@@ -384,6 +394,7 @@ Raises:
   "metadata": {},
   "rank": 0,
   "is_placeholder": false,
+  "is_test": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -519,6 +530,7 @@ Raises:
   "metadata": {},
   "rank": 0,
   "is_placeholder": false,
+  "is_test": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -792,6 +804,7 @@ Raises:
   "metadata": {},
   "rank": 0,
   "is_placeholder": false,
+  "is_test": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -1034,6 +1047,7 @@ Raises:
   "metadata": {},
   "rank": 0,
   "is_placeholder": false,
+  "is_test": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }

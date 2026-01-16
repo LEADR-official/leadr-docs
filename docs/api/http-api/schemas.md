@@ -2696,6 +2696,29 @@ InviteUserResponse
 |status|string|true|none|User status (INVITED)|
 |message|string|true|none|Success message|
 
+## IsTestFilter
+
+```json
+"true"
+
+```
+
+IsTestFilter
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|IsTestFilter|string|false|none|Filter options for is_test query parameter in admin score listing.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|IsTestFilter|true|
+|IsTestFilter|false|
+|IsTestFilter|all|
+
 ## JamCodeResponse
 
 ```json
@@ -3350,6 +3373,7 @@ or
   "metadata": {},
   "rank": 0,
   "is_placeholder": false,
+  "is_test": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -3423,6 +3447,7 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |is_placeholder|boolean|false|none|True if this is a synthetic placeholder score (from around_score_value query)|
+|is_test|boolean|false|none|True if this score was submitted in test mode|
 |created_at|string(date-time)|true|none|Timestamp when the score was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
@@ -3733,6 +3758,7 @@ or
   "metadata": {},
   "rank": 0,
   "is_placeholder": false,
+  "is_test": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -3861,6 +3887,7 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |is_placeholder|boolean|false|none|True if this is a synthetic placeholder score (from around_score_value query)|
+|is_test|boolean|false|none|True if this score was submitted in test mode|
 |created_at|string(date-time)|true|none|Timestamp when the score was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
@@ -4105,7 +4132,8 @@ SortDirection
   "game_id": "string",
   "client_fingerprint": "string",
   "platform": "string",
-  "metadata": {}
+  "metadata": {},
+  "test_mode": false
 }
 
 ```
@@ -4150,6 +4178,12 @@ or
 |---|---|---|---|---|
 |» *anonymous*|null|false|none|none|
 
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|test_mode|boolean|false|none|If true, session is in test mode and scores will be marked as test|
+
 ## StartSessionResponse
 
 ```json
@@ -4165,7 +4199,8 @@ or
   "refresh_token": "string",
   "expires_in": 0,
   "first_seen_at": "2019-08-24T14:15:22Z",
-  "last_seen_at": "2019-08-24T14:15:22Z"
+  "last_seen_at": "2019-08-24T14:15:22Z",
+  "test_mode": true
 }
 
 ```
@@ -4205,6 +4240,7 @@ continued
 |expires_in|integer|true|none|Access token expiration time in seconds|
 |first_seen_at|string(date-time)|true|none|Timestamp when device was first seen (UTC)|
 |last_seen_at|string(date-time)|true|none|Timestamp when device was last seen (UTC)|
+|test_mode|boolean|true|none|Whether session is in test mode|
 
 ## UpdateAPIKeyRequest
 

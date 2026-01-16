@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.6.1"
+    "version": "0.7.0"
   },
   "paths": {
     "/v1/accounts": {
@@ -3296,6 +3296,17 @@
               ],
               "title": "Device Id"
             }
+          },
+          {
+            "name": "is_test",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/IsTestFilter",
+              "description": "Filter for test scores. 'false' (default) returns production only, 'true' returns test only, 'all' returns both test and production",
+              "default": "false"
+            },
+            "description": "Filter for test scores. 'false' (default) returns production only, 'true' returns test only, 'all' returns both test and production"
           },
           {
             "name": "around_score_id",
@@ -9246,6 +9257,16 @@
         "title": "InviteUserResponse",
         "description": "Response after inviting a user."
       },
+      "IsTestFilter": {
+        "type": "string",
+        "enum": [
+          "true",
+          "false",
+          "all"
+        ],
+        "title": "IsTestFilter",
+        "description": "Filter options for is_test query parameter in admin score listing."
+      },
       "JamCodeResponse": {
         "properties": {
           "id": {
@@ -10038,6 +10059,12 @@
             "description": "True if this is a synthetic placeholder score (from around_score_value query)",
             "default": false
           },
+          "is_test": {
+            "type": "boolean",
+            "title": "Is Test",
+            "description": "True if this score was submitted in test mode",
+            "default": false
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -10427,6 +10454,12 @@
             "description": "True if this is a synthetic placeholder score (from around_score_value query)",
             "default": false
           },
+          "is_test": {
+            "type": "boolean",
+            "title": "Is Test",
+            "description": "True if this score was submitted in test mode",
+            "default": false
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -10665,6 +10698,12 @@
             ],
             "title": "Metadata",
             "description": "Optional device metadata (e.g., OS version, device model)"
+          },
+          "test_mode": {
+            "type": "boolean",
+            "title": "Test Mode",
+            "description": "If true, session is in test mode and scores will be marked as test",
+            "default": false
           }
         },
         "type": "object",
@@ -10745,6 +10784,11 @@
             "format": "date-time",
             "title": "Last Seen At",
             "description": "Timestamp when device was last seen (UTC)"
+          },
+          "test_mode": {
+            "type": "boolean",
+            "title": "Test Mode",
+            "description": "Whether session is in test mode"
           }
         },
         "type": "object",
@@ -10758,7 +10802,8 @@
           "refresh_token",
           "expires_in",
           "first_seen_at",
-          "last_seen_at"
+          "last_seen_at",
+          "test_mode"
         ],
         "title": "StartSessionResponse",
         "description": "Response schema for starting a device session.\n\nIncludes both access and refresh tokens which must be saved by the client.\n- Access token: Short-lived, used for API requests in Authorization header\n- Refresh token: Long-lived, used to obtain new access tokens when expired"

@@ -1043,21 +1043,19 @@ Useful for endpoints that need to return the deleted entity in the response.
 ####### `leadr.games.services.game_service.GameService.update_game`
 
 ```python
-update_game(game_id, name=None, steam_app_id=None, default_board_id=None, anti_cheat_enabled=None, description=None, tags=None, page_url=None)
+update_game(game_id, **updates)
 ```
 
 Update game fields.
 
+Accepts any fields to update as keyword arguments. Only fields
+explicitly provided will be updated, allowing null values to
+clear optional fields.
+
 **Parameters:**
 
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The ID of the game to update
-- **name** (<code>[str](#str) | None</code>) – New game name, if provided
-- **steam_app_id** (<code>[str](#str) | None</code>) – New Steam app ID, if provided
-- **default_board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – New default board ID, if provided
-- **anti_cheat_enabled** (<code>[bool](#bool) | None</code>) – Whether anti-cheat is enabled, if provided
-- **description** (<code>[str](#str) | None</code>) – New game description, if provided
-- **tags** (<code>[list](#list)\[[str](#str)\] | None</code>) – New list of tags, if provided
-- **page_url** (<code>[str](#str) | None</code>) – New page URL, if provided
+- \*\***updates** (<code>[Any](#typing.Any)</code>) – Field names and values to update
 
 **Returns:**
 
