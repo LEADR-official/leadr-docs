@@ -12,36 +12,36 @@
 
 ## Get Started
 
-**[Quick Start](quick-start.md)**
+**[Quick Start](/quick-start)**
 Create a LEADR account and set up your first leaderboard in minutes. No credit card required.
 
-**[Add LEADR To Your Game](sdks/index.md)**
+**[Add LEADR To Your Game](/sdks)**
 Ready to build with LEADR? Use one of our SDKs in your game engine.
 
 **[Cloud Service](https://leadr.gg)**
 Let us handle hosting, scaling, and maintenance. Free tier available.
 
-**[Self-Host](api/self_host.md)**
+**[Self-Host](/api/self-host)**
 Deploy LEADR on your own infrastructure. Complete control, zero cost, Apache 2.0 licensed.
 
 ## Learn More
 
-- **[Features](features.md)** - See what LEADR can do
-- **[CLI](cli/index.md)** - Use LEADR via our command-line tool
-- **[About](about.md)** - Why LEADR exists
+- **[Features](/guides/features)** - See what LEADR can do
+- **[About](/about)** - Why LEADR exists
+- **[Discord](https://discord.gg/RMUukcAxSZ)** - Join the community
 
 ## Development
 
-- **[Roadmap](roadmap.md)** - Planned development and new features for LEADR's open-source core
-- **[Software Patterns](api/patterns.md)** - Core design concepts explained
-- **[Client Authentication](api/client_auth.md)** - How we securely connect game clients to the LEADR API
-- **[API Reference](api/reference/index.md)** - Complete API documentation
+- **[Roadmap](/roadmap)** - Planned development and new features for LEADR's open-source core
+- **[Software Patterns](/api/patterns)** - Core design concepts explained
+- **[Client Authentication](api/client-auth)** - How we securely connect game clients to the LEADR API
+- **[API Reference](/api/reference)** - Complete API documentation
 
 ## Community
 
 Join the conversation and get help:
 
-- [Discord](https://discord.gg/RMUukcAxSZ) - Real-time community chat
+- [Discord](https://discord.gg/RMUukcAxSZ) - Join the community and get support
 - [Reddit](https://www.reddit.com/r/LEADR/) - Discussions and announcements
 - [GitHub](https://github.com/LEADR-official/leadr-oss) - Open-source repository
 - Email: hello@leadr.gg

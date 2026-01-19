@@ -206,7 +206,8 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-*.sw*
+build_log.txt
+
 site-md
 CLAUDE.md
 .claude

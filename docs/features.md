@@ -6,31 +6,33 @@ LEADR provides everything you need to turn your game into a competitive, social 
 
 Create leaderboards that fit your game perfectly. Configure custom units (seconds for speedruns, points for scores, meters for distance challenges), choose ascending or descending sorting, and decide how to handle multiple scores from the same player. Keep only their best score, track their latest attempt, or store their entire history. Organize boards with tags, add icons for visual identification, and give each board a memorable short code for easy sharing.
 
-[Make your first leaderboard](quick_start.md)
+[Make your first leaderboard](quick-start.md)
 
 ## Game Engine SDKs
 
 Native SDKs for Godot, Unity, Unreal, and more game engines make integration straightforward. Drop the SDK into your project, add your API key, and you're ready to submit scores and query leaderboards. Each SDK is built specifically for its platform, providing idiomatic APIs that feel natural to developers already working in that engine.
 
-[Get started with SDKs](sdks/)
+[Get started with SDKs](/sdks)
 
 ## Anti-Cheat
 
 Protect your leaderboards with industry-leading client authentication and built-in detection mechanisms. LEADR's client authentication system ensures scores come from legitimate game clients, while anomaly detection flags suspicious submissions automatically. Keep competition fair without building complex anti-cheat systems yourself.
 
-[Learn about LEADR's anti-cheat system](api/anti_cheat/)
+[Learn about LEADR's anti-cheat system](/guides/anti-cheat)
 
-[Learn about client authentication](api/client_auth/)
+[Learn about client authentication](/api/client-auth)
 
 ## Web Views
 
 Every leaderboard in the hosted LEADR cloud service gets a beautiful, shareable web page. Players can compare their ranks, developers can embed leaderboards on game websites, and streamers can display live competition standings. No additional configuration needed - web views are automatically generated for every board you create.
 
-## Time-Limited Leaderboards
+[Learn about online Board pages](/guides/board-pages)
+
+## Recurring & Time-Limited Leaderboards
 
 Run recurring competitions with seasonal boards that reset automatically from templates - perfect for weekly challenges or seasonal rankings. Create one-off tournaments for special events, streaming competitions, or limited-time modes. Set start and end times, and LEADR handles the rest, including archiving completed boards for historical reference.
 
-[Learn more in the API Reference](api/reference/)
+[Learn about Board Templates](/guides/board-templates)
 
 ---
 

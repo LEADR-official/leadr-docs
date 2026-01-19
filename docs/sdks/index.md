@@ -4,7 +4,7 @@ Software Development Kits (SDKs) are native libraries for your game engine or pr
 
 ## Getting Started
 
-- **[Quick Start Guide](../quick_start.md)** - Integration walkthrough
+- **[Quick Start Guide](../quick-start.md)** - Integration walkthrough
 
 ## SDKs (Coming soon)
 
@@ -15,13 +15,13 @@ Software Development Kits (SDKs) are native libraries for your game engine or pr
 
 We're building native SDKs for the most popular game engines and platforms. SDKs are being developed in priority order based on indie game developer usage:
 
+- **C#** - Standalone .NET library
 - **[Unreal Engine](https://www.unrealengine.com)** - C++ SDK for Unreal Engine
 - **[GameMaker](https://gamemaker.io)** - GML SDK for GameMaker
 - **Lua/Defold/LOVE2D** - For games written in Lua or Lua-based game engines like Defold or LOVE2D
 - **JavaScript/TypeScript** - For web games and Node.js backends
 - **Python** - For game servers and tools
 - **C++** - Standalone C++ library for custom engines
-- **C#** - Standalone .NET library
 
 Want to see an SDK for your platform? Let us know on [Discord](https://discord.gg/RMUukcAxSZ) or [Reddit](https://www.reddit.com/r/LEADR/).
 
