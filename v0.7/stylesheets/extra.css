@@ -60,3 +60,18 @@
   --md-footer-fg-color--light: #1B002E;
   --md-footer-fg-color--lighter: #3D1A54;
 }
+
+/* Work in progress announcement banner */
+.md-banner {
+  background-color: #F59E0B;
+  color: #1a1a1a;
+}
+
+.md-banner__inner {
+  font-size: 0.75rem;
+}
+
+[data-md-color-scheme="slate"] .md-banner {
+  background-color: #D97706;
+  color: #F8F8F8;
+}
