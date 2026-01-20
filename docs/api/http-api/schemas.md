@@ -3374,6 +3374,7 @@ or
   "rank": 0,
   "is_placeholder": false,
   "is_test": false,
+  "status": "provisional",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -3448,6 +3449,7 @@ continued
 |---|---|---|---|---|
 |is_placeholder|boolean|false|none|True if this is a synthetic placeholder score (from around_score_value query)|
 |is_test|boolean|false|none|True if this score was submitted in test mode|
+|status|[ScoreStatus](./schemas.md#scorestatus)|true|none|Score lifecycle status (active, under_review, rejected)|
 |created_at|string(date-time)|true|none|Timestamp when the score was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
@@ -3759,6 +3761,7 @@ or
   "rank": 0,
   "is_placeholder": false,
   "is_test": false,
+  "status": "provisional",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -3888,8 +3891,33 @@ continued
 |---|---|---|---|---|
 |is_placeholder|boolean|false|none|True if this is a synthetic placeholder score (from around_score_value query)|
 |is_test|boolean|false|none|True if this score was submitted in test mode|
+|status|[ScoreStatus](./schemas.md#scorestatus)|true|none|Score lifecycle status (active, under_review, rejected)|
 |created_at|string(date-time)|true|none|Timestamp when the score was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
+
+## ScoreStatus
+
+```json
+"provisional"
+
+```
+
+ScoreStatus
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ScoreStatus|string|false|none|Lifecycle status of a score in the anti-cheat workflow.<br><br>Tracks the score from submission through review, determining visibility<br>on leaderboards.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|ScoreStatus|provisional|
+|ScoreStatus|active|
+|ScoreStatus|under_review|
+|ScoreStatus|rejected|
 
 ## ScoreSubmissionMetaResponse
 
@@ -3952,6 +3980,7 @@ continued
   "country": "string",
   "city": "string",
   "metadata": {},
+  "status": "provisional",
   "deleted": true
 }
 
@@ -4078,6 +4107,24 @@ anyOf
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |» *anonymous*|any|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|status|any|false|none|Updated status (admin only: active, under_review, rejected)|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[ScoreStatus](./schemas.md#scorestatus)|false|none|Lifecycle status of a score in the anti-cheat workflow.<br><br>Tracks the score from submission through review, determining visibility<br>on leaderboards.|
 
 or
 

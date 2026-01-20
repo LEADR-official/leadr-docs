@@ -92,6 +92,7 @@ field names (case-sensitive).
 - [**ENABLE_CLIENT_API**](#leadr.config.CommonSettings.ENABLE_CLIENT_API) (<code>[bool](#bool)</code>) –
 - [**ENV**](./config.md#leadr.config.CommonSettings.ENV) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.CommonSettings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
+- [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.CommonSettings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.CommonSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.CommonSettings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.CommonSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
@@ -344,6 +345,12 @@ ENV: str = Field(default=..., description="Environment name (e.g., 'DEV', 'PROD'
 GEOIP_DATABASE_PATH: Path = Field(default=(PROJ_ROOT / '.geoip'), description='Directory path for storing GeoIP databases')
 ```
 
+##### `leadr.config.CommonSettings.GEOIP_DOWNLOAD_ENABLED`
+
+```python
+GEOIP_DOWNLOAD_ENABLED: bool = Field(default=True, description='Enable GeoIP database downloads on startup. Set to False when downloads are handled by init container.')
+```
+
 ##### `leadr.config.CommonSettings.GEOIP_REFRESH_DAYS`
 
 ```python
@@ -586,6 +593,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**ENABLE_CLIENT_API**](#leadr.config.Settings.ENABLE_CLIENT_API) (<code>[bool](#bool)</code>) –
 - [**ENV**](#leadr.config.Settings.ENV) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.Settings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
+- [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.Settings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.Settings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.Settings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.Settings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
@@ -671,6 +679,7 @@ Test-specific overrides can be added here.
 - [**ENABLE_CLIENT_API**](#leadr.config.TestSettings.ENABLE_CLIENT_API) (<code>[bool](#bool)</code>) –
 - [**ENV**](./config.md#leadr.config.TestSettings.ENV) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.TestSettings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
+- [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.TestSettings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.TestSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.TestSettings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.TestSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
@@ -921,6 +930,12 @@ ENV: str = Field(default=..., description="Environment name (e.g., 'DEV', 'PROD'
 
 ```python
 GEOIP_DATABASE_PATH: Path = Field(default=(PROJ_ROOT / '.geoip'), description='Directory path for storing GeoIP databases')
+```
+
+##### `leadr.config.TestSettings.GEOIP_DOWNLOAD_ENABLED`
+
+```python
+GEOIP_DOWNLOAD_ENABLED: bool = Field(default=True, description='Enable GeoIP database downloads on startup. Set to False when downloads are handled by init container.')
 ```
 
 ##### `leadr.config.TestSettings.GEOIP_REFRESH_DAYS`

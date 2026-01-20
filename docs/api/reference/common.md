@@ -1953,7 +1953,7 @@ GeoIP service for IP address geolocation using MaxMind databases.
 ##### `leadr.common.geoip.GeoIPService`
 
 ```python
-GeoIPService(account_id, license_key, city_db_url, country_db_url, database_path, refresh_days=7)
+GeoIPService(account_id, license_key, city_db_url, country_db_url, database_path, refresh_days=7, download_enabled=True)
 ```
 
 Service for IP address geolocation using MaxMind GeoLite2 databases.
@@ -1991,6 +1991,7 @@ Databases are cached locally and refreshed periodically.
 - [**city_db_url**](#leadr.common.geoip.GeoIPService.city_db_url) –
 - [**country_db_url**](#leadr.common.geoip.GeoIPService.country_db_url) –
 - [**database_path**](#leadr.common.geoip.GeoIPService.database_path) –
+- [**download_enabled**](#leadr.common.geoip.GeoIPService.download_enabled) –
 - [**license_key**](#leadr.common.geoip.GeoIPService.license_key) –
 - [**refresh_days**](#leadr.common.geoip.GeoIPService.refresh_days) –
 
@@ -2002,6 +2003,8 @@ Databases are cached locally and refreshed periodically.
 - **country_db_url** (<code>[str](#str)</code>) – URL to download GeoLite2 Country database (tar.gz)
 - **database_path** (<code>[Path](#pathlib.Path)</code>) – Directory path to store database files
 - **refresh_days** (<code>[int](#int)</code>) – Number of days before refreshing databases (default: 7)
+- **download_enabled** (<code>[bool](#bool)</code>) – Enable database downloads. Set to False when downloads
+  are handled externally (e.g., init container). Default: True.
 
 ###### `leadr.common.geoip.GeoIPService.account_id`
 
@@ -2033,6 +2036,12 @@ country_db_url = country_db_url
 
 ```python
 database_path = database_path
+```
+
+###### `leadr.common.geoip.GeoIPService.download_enabled`
+
+```python
+download_enabled = download_enabled
 ```
 
 ###### `leadr.common.geoip.GeoIPService.get_geo_info`

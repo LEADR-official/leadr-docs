@@ -167,6 +167,7 @@ Maps to the scores table with foreign keys to accounts, devices, games, and boar
 - [**is_test**](#leadr.scores.adapters.orm.ScoreORM.is_test) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
 - [**player_name**](#leadr.scores.adapters.orm.ScoreORM.player_name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**score_metadata**](#leadr.scores.adapters.orm.ScoreORM.score_metadata) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[Any](#typing.Any) | None\]</code>) –
+- [**status**](./scores.md#leadr.scores.adapters.orm.ScoreORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**updated_at**](#leadr.scores.adapters.orm.ScoreORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**value**](./scores.md#leadr.scores.adapters.orm.ScoreORM.value) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[float](#float)\]</code>) –
 - [**value_display**](#leadr.scores.adapters.orm.ScoreORM.value_display) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
@@ -265,6 +266,12 @@ player_name: Mapped[str] = mapped_column(String, nullable=False)
 
 ```python
 score_metadata: Mapped[Any | None] = mapped_column('score_metadata', JSON, nullable=True, default=None)
+```
+
+####### `leadr.scores.adapters.orm.ScoreORM.status`
+
+```python
+status: Mapped[str] = mapped_column(String, nullable=False, default='active', index=True)
 ```
 
 ####### `leadr.scores.adapters.orm.ScoreORM.updated_at`
@@ -1083,6 +1090,7 @@ Response model for a score (client API - excludes device_id and geo fields).
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreClientResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**player_name**](#leadr.scores.api.score_schemas.ScoreClientResponse.player_name) (<code>[str](#str)</code>) –
 - [**rank**](#leadr.scores.api.score_schemas.ScoreClientResponse.rank) (<code>[int](#int) | None</code>) –
+- [**status**](#leadr.scores.api.score_schemas.ScoreClientResponse.status) (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus)</code>) –
 - [**updated_at**](#leadr.scores.api.score_schemas.ScoreClientResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**value**](#leadr.scores.api.score_schemas.ScoreClientResponse.value) (<code>[float](#float)</code>) –
 - [**value_display**](#leadr.scores.api.score_schemas.ScoreClientResponse.value_display) (<code>[str](#str) | None</code>) –
@@ -1161,6 +1169,12 @@ player_name: str = Field(description='Display name of the player')
 
 ```python
 rank: int | None = Field(default=None, description='Leaderboard position (1 = first). Null if not querying by board_id.')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreClientResponse.status`
+
+```python
+status: ScoreStatus = Field(description='Score lifecycle status (active, under_review, rejected)')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreClientResponse.updated_at`
@@ -1367,6 +1381,7 @@ Response model for a score.
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**player_name**](#leadr.scores.api.score_schemas.ScoreResponse.player_name) (<code>[str](#str)</code>) –
 - [**rank**](#leadr.scores.api.score_schemas.ScoreResponse.rank) (<code>[int](#int) | None</code>) –
+- [**status**](#leadr.scores.api.score_schemas.ScoreResponse.status) (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus)</code>) –
 - [**timezone**](#leadr.scores.api.score_schemas.ScoreResponse.timezone) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.scores.api.score_schemas.ScoreResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**value**](#leadr.scores.api.score_schemas.ScoreResponse.value) (<code>[float](#float)</code>) –
@@ -1466,6 +1481,12 @@ player_name: str = Field(description='Display name of the player')
 rank: int | None = Field(default=None, description='Leaderboard position (1 = first). Null if not querying by board_id.')
 ```
 
+####### `leadr.scores.api.score_schemas.ScoreResponse.status`
+
+```python
+status: ScoreStatus = Field(description='Score lifecycle status (active, under_review, rejected)')
+```
+
 ####### `leadr.scores.api.score_schemas.ScoreResponse.timezone`
 
 ```python
@@ -1507,6 +1528,7 @@ Request model for updating a score.
 - [**deleted**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**player_name**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.player_name) (<code>[str](#str) | None</code>) –
+- [**status**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.status) (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus) | None</code>) –
 - [**timezone**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.timezone) (<code>[str](#str) | None</code>) –
 - [**value**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.value) (<code>[float](#float) | None</code>) –
 - [**value_display**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.value_display) (<code>[str](#str) | None</code>) –
@@ -1539,6 +1561,12 @@ metadata: Any | None = Field(default=None, description='Updated metadata')
 
 ```python
 player_name: str | None = Field(default=None, description='Updated player name')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.status`
+
+```python
+status: ScoreStatus | None = Field(default=None, description='Updated status (admin only: active, under_review, rejected)')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.timezone`
@@ -2338,6 +2366,7 @@ Anti-cheat enums for flag types, confidence levels, and actions.
 - [**FlagConfidence**](#leadr.scores.domain.anti_cheat.enums.FlagConfidence) – Confidence level for anti-cheat detection.
 - [**FlagType**](#leadr.scores.domain.anti_cheat.enums.FlagType) – Type of anti-cheat flag detected.
 - [**ScoreFlagStatus**](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus) – Status of a score flag review.
+- [**ScoreStatus**](#leadr.scores.domain.anti_cheat.enums.ScoreStatus) – Lifecycle status of a score in the anti-cheat workflow.
 - [**TrustTier**](#leadr.scores.domain.anti_cheat.enums.TrustTier) – Trust tier for devices/users, determining anti-cheat thresholds.
 
 ####### `leadr.scores.domain.anti_cheat.enums.FlagAction`
@@ -2550,6 +2579,54 @@ PENDING = 'pending'
 ```
 
 Flag has not been reviewed yet.
+
+####### `leadr.scores.domain.anti_cheat.enums.ScoreStatus`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Lifecycle status of a score in the anti-cheat workflow.
+
+Tracks the score from submission through review, determining visibility
+on leaderboards.
+
+**Attributes:**
+
+- [**ACTIVE**](#leadr.scores.domain.anti_cheat.enums.ScoreStatus.ACTIVE) – Score passed anti-cheat checks and is visible on leaderboards.
+- [**PROVISIONAL**](#leadr.scores.domain.anti_cheat.enums.ScoreStatus.PROVISIONAL) – Initial transient state before anti-cheat check completes.
+- [**REJECTED**](#leadr.scores.domain.anti_cheat.enums.ScoreStatus.REJECTED) – Admin confirmed cheating - hidden from leaderboards.
+- [**UNDER_REVIEW**](#leadr.scores.domain.anti_cheat.enums.ScoreStatus.UNDER_REVIEW) – Score was flagged by anti-cheat, pending admin review. Still visible.
+
+######## `leadr.scores.domain.anti_cheat.enums.ScoreStatus.ACTIVE`
+
+```python
+ACTIVE = 'active'
+```
+
+Score passed anti-cheat checks and is visible on leaderboards.
+
+######## `leadr.scores.domain.anti_cheat.enums.ScoreStatus.PROVISIONAL`
+
+```python
+PROVISIONAL = 'provisional'
+```
+
+Initial transient state before anti-cheat check completes.
+
+######## `leadr.scores.domain.anti_cheat.enums.ScoreStatus.REJECTED`
+
+```python
+REJECTED = 'rejected'
+```
+
+Admin confirmed cheating - hidden from leaderboards.
+
+######## `leadr.scores.domain.anti_cheat.enums.ScoreStatus.UNDER_REVIEW`
+
+```python
+UNDER_REVIEW = 'under_review'
+```
+
+Score was flagged by anti-cheat, pending admin review. Still visible.
 
 ####### `leadr.scores.domain.anti_cheat.enums.TrustTier`
 
@@ -2984,6 +3061,9 @@ but mutable in terms of their value and metadata for corrections/updates.
 
 **Functions:**
 
+- [**activate**](./scores.md#leadr.scores.domain.score.Score.activate) – Mark score as active (passed anti-cheat).
+- [**flag_for_review**](#leadr.scores.domain.score.Score.flag_for_review) – Mark score as under review (flagged by anti-cheat).
+- [**reject**](./scores.md#leadr.scores.domain.score.Score.reject) – Mark score as rejected (confirmed cheating).
 - [**restore**](./scores.md#leadr.scores.domain.score.Score.restore) – Restore a soft-deleted entity.
 - [**soft_delete**](#leadr.scores.domain.score.Score.soft_delete) – Mark entity as soft-deleted.
 - [**strip_player_name**](#leadr.scores.domain.score.Score.strip_player_name) – Strip whitespace from player_name.
@@ -3008,6 +3088,7 @@ but mutable in terms of their value and metadata for corrections/updates.
 - [**model_config**](#leadr.scores.domain.score.Score.model_config) –
 - [**player_name**](#leadr.scores.domain.score.Score.player_name) (<code>[str](#str)</code>) –
 - [**rank**](./scores.md#leadr.scores.domain.score.Score.rank) (<code>[int](#int) | None</code>) –
+- [**status**](./scores.md#leadr.scores.domain.score.Score.status) (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus)</code>) –
 - [**timezone**](./scores.md#leadr.scores.domain.score.Score.timezone) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.scores.domain.score.Score.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**value**](./scores.md#leadr.scores.domain.score.Score.value) (<code>[float](#float)</code>) –
@@ -3018,6 +3099,14 @@ but mutable in terms of their value and metadata for corrections/updates.
 ```python
 account_id: AccountID = Field(frozen=True, description='ID of the account this score belongs to (immutable)')
 ```
+
+####### `leadr.scores.domain.score.Score.activate`
+
+```python
+activate()
+```
+
+Mark score as active (passed anti-cheat).
 
 ####### `leadr.scores.domain.score.Score.board_id`
 
@@ -3054,6 +3143,14 @@ deleted_at: datetime | None = Field(default=None, description='Timestamp when en
 ```python
 device_id: DeviceID = Field(frozen=True, description='ID of the device that submitted this score (immutable)')
 ```
+
+####### `leadr.scores.domain.score.Score.flag_for_review`
+
+```python
+flag_for_review()
+```
+
+Mark score as under review (flagged by anti-cheat).
 
 ####### `leadr.scores.domain.score.Score.game_id`
 
@@ -3115,6 +3212,14 @@ player_name: str = Field(description='Display name of the player')
 rank: int | None = Field(default=None, description='Position in leaderboard (1 = first place). Populated when querying with board_id.')
 ```
 
+####### `leadr.scores.domain.score.Score.reject`
+
+```python
+reject()
+```
+
+Mark score as rejected (confirmed cheating).
+
 ####### `leadr.scores.domain.score.Score.restore`
 
 ```python
@@ -3153,6 +3258,12 @@ already deleted are not affected (deleted_at remains at original deletion time).
 > > > assert account.is_deleted is True
 
 </details>
+
+####### `leadr.scores.domain.score.Score.status`
+
+```python
+status: ScoreStatus = Field(default=(ScoreStatus.PROVISIONAL), description='Lifecycle status (provisional, active, under_review, rejected)')
+```
 
 ####### `leadr.scores.domain.score.Score.strip_player_name`
 
@@ -3738,8 +3849,15 @@ Score repository for managing score persistence.
 
 **Attributes:**
 
+- [**EXCLUDED_STATUSES**](#leadr.scores.services.repositories.ScoreRepository.EXCLUDED_STATUSES) –
 - [**SORTABLE_FIELDS**](#leadr.scores.services.repositories.ScoreRepository.SORTABLE_FIELDS) –
 - [**session**](./scores.md#leadr.scores.services.repositories.ScoreRepository.session) –
+
+####### `leadr.scores.services.repositories.ScoreRepository.EXCLUDED_STATUSES`
+
+```python
+EXCLUDED_STATUSES = [ScoreStatus.REJECTED.value, ScoreStatus.PROVISIONAL.value]
+```
 
 ####### `leadr.scores.services.repositories.ScoreRepository.SORTABLE_FIELDS`
 
@@ -3782,7 +3900,7 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.scores.services.repositories.ScoreRepository.filter`
 
 ```python
-filter(account_id=None, board_id=None, game_id=None, device_id=None, is_test=None, *, pagination, around_score=None, around_score_value=None, around_value_board=None, **kwargs)
+filter(account_id=None, board_id=None, game_id=None, device_id=None, is_test=None, status=None, include_all_statuses=False, *, pagination, around_score=None, around_score_value=None, around_value_board=None, **kwargs)
 ```
 
 Filter scores by account and optional criteria.
@@ -3796,6 +3914,10 @@ Filter scores by account and optional criteria.
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
 - **is_test** (<code>[bool](#bool) | None</code>) – Optional filter for test scores. True returns only test scores,
   False returns only production scores, None returns all scores.
+- **status** (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus) | None</code>) – Optional filter for specific score status. If None, excludes
+  REJECTED and PROVISIONAL scores by default.
+- **include_all_statuses** (<code>[bool](#bool)</code>) – If True, includes all statuses (admin use case).
+  Overrides the default exclusion of REJECTED and PROVISIONAL.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 - **around_score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score) | None</code>) – Optional target score to center results around. When provided,
   returns a window of scores centered on this score (mutually exclusive
@@ -3817,7 +3939,7 @@ Filter scores by account and optional criteria.
 ####### `leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board`
 
 ```python
-get_by_device_and_board(account_id, device_id, board_id)
+get_by_device_and_board(account_id, device_id, board_id, include_all_statuses=False)
 ```
 
 Get the active score for a specific device on a board.
@@ -3829,6 +3951,8 @@ This is an optimized single-record lookup for keep_strategy logic.
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – Account ID to filter by (multi-tenant safety).
 - **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – Device ID to search for.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to search for.
+- **include_all_statuses** (<code>[bool](#bool)</code>) – If True, includes all statuses. Default excludes
+  REJECTED and PROVISIONAL scores.
 
 **Returns:**
 
@@ -3864,6 +3988,7 @@ same multi-field comparison logic used for sorting.
 
 Note: Ranks are computed separately for test vs production scores.
 A test score's rank is within the test score pool only.
+Rejected and provisional scores are excluded from rank calculations.
 
 **Parameters:**
 
@@ -4068,6 +4193,11 @@ review_flag(flag_id, status, reviewer_decision=None, reviewer_id=None)
 
 Review a flag and update its status.
 
+IMPORTANT: This also updates the associated Score's status:
+
+- CONFIRMED_CHEAT → Score.status = REJECTED
+- FALSE_POSITIVE or DISMISSED → Score.status = ACTIVE
+
 **Parameters:**
 
 - **flag_id** (<code>[ScoreFlagID](./common.md#leadr.common.domain.ids.ScoreFlagID)</code>) – The ID of the flag to review
@@ -4129,7 +4259,7 @@ explicitly provided will be updated, allowing null values to
 clear optional fields.
 
 Note: When status is updated, reviewed_at is automatically set
-to the current time.
+to the current time, and the associated Score's status is synced.
 
 **Parameters:**
 
@@ -4184,6 +4314,7 @@ Ensures business rules like board/game validation are enforced.
 - [**list_scores**](#leadr.scores.services.score_service.ScoreService.list_scores) – List scores for an account with optional filters and pagination.
 - [**soft_delete**](#leadr.scores.services.score_service.ScoreService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_score**](#leadr.scores.services.score_service.ScoreService.update_score) – Update a score's mutable fields.
+- [**update_score_status**](#leadr.scores.services.score_service.ScoreService.update_score_status) – Update a score's status.
 - [**update_submission_metadata**](#leadr.scores.services.score_service.ScoreService.update_submission_metadata) – Update submission metadata and create flags if needed.
 
 **Attributes:**
@@ -4421,6 +4552,30 @@ clear optional fields.
 
 - **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – The ID of the score to update.
 - \*\***updates** (<code>[Any](#typing.Any)</code>) – Field names and values to update
+
+**Returns:**
+
+- <code>[Score](./scores.md#leadr.scores.domain.score.Score)</code> – The updated Score entity.
+
+**Raises:**
+
+- <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the score doesn't exist.
+
+####### `leadr.scores.services.score_service.ScoreService.update_score_status`
+
+```python
+update_score_status(score_id, status)
+```
+
+Update a score's status.
+
+Used by ScoreFlagService when admin reviews a flag to sync the
+score's status with the flag decision.
+
+**Parameters:**
+
+- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – The ID of the score to update.
+- **status** (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus)</code>) – New status for the score.
 
 **Returns:**
 
