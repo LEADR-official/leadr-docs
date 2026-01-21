@@ -1904,6 +1904,51 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrscoresadaptersormscorestatusenum" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.scores.adapters.orm.ScoreStatusEnum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresadaptersormscorestatusenumactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.adapters.orm.ScoreStatusEnum.ACTIVE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresadaptersormscorestatusenumprovisional" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.adapters.orm.ScoreStatusEnum.PROVISIONAL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresadaptersormscorestatusenumrejected" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.adapters.orm.ScoreStatusEnum.REJECTED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresadaptersormscorestatusenumunder_review" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.adapters.orm.ScoreStatusEnum.UNDER_REVIEW
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrscoresadaptersormscoresubmissionmetaorm" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.scores.adapters.orm.ScoreSubmissionMetaORM
@@ -5528,6 +5573,7 @@
 <ul>
 <li><a href="./#leadr.scores.adapters.orm.ScoreFlagORM"><strong>ScoreFlagORM</strong></a> – Score flag ORM model for anti-cheat detections.</li>
 <li><a href="./#leadr.scores.adapters.orm.ScoreORM"><strong>ScoreORM</strong></a> – Score ORM model.</li>
+<li><a href="./#leadr.scores.adapters.orm.ScoreStatusEnum"><strong>ScoreStatusEnum</strong></a> – Score status enum for database.</li>
 <li><a href="./#leadr.scores.adapters.orm.ScoreSubmissionMetaORM"><strong>ScoreSubmissionMetaORM</strong></a> – Score submission metadata ORM model for anti-cheat tracking.</li>
 </ul>
 <h6 id="leadrscoresadaptersormscoreflagorm"><code>leadr.scores.adapters.orm.ScoreFlagORM</code><a class="headerlink" href="#leadrscoresadaptersormscoreflagorm" title="Permanent link">&para;</a></h6>
@@ -5622,7 +5668,7 @@ Maps to the scores table with foreign keys to accounts, devices, games, and boar
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.is_test"><strong>is_test</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#bool">bool</a>]</code>) –</li>
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.player_name"><strong>player_name</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a>]</code>) –</li>
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.score_metadata"><strong>score_metadata</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#typing.Any">Any</a> | None]</code>) –</li>
-<li><a href="./#leadr.scores.adapters.orm.ScoreORM.status"><strong>status</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="./#leadr.scores.adapters.orm.ScoreORM.status"><strong>status</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="./#leadr.scores.adapters.orm.ScoreStatusEnum">ScoreStatusEnum</a>]</code>) –</li>
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.updated_at"><strong>updated_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="../common/#leadr.common.orm.timestamp">timestamp</a>]</code>) –</li>
 <li><a href="./#leadr.scores.adapters.orm.ScoreORM.value"><strong>value</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#float">float</a>]</code>) –</li>
 <li><a href="#leadr.scores.adapters.orm.ScoreORM.value_display"><strong>value_display</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a> | None]</code>) –</li>
@@ -5676,7 +5722,7 @@ Maps to the scores table with foreign keys to accounts, devices, games, and boar
 <div class="highlight"><pre><span></span><code><span class="n">score_metadata</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="s1">&#39;score_metadata&#39;</span><span class="p">,</span> <span class="n">JSON</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrscoresadaptersormscoreormstatus"># <code>leadr.scores.adapters.orm.ScoreORM.status</code><a class="headerlink" href="#leadrscoresadaptersormscoreormstatus" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;active&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">ScoreStatusEnum</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">Enum</span><span class="p">(</span><span class="n">ScoreStatusEnum</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;score_status&#39;</span><span class="p">,</span> <span class="n">native_enum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">values_callable</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">ScoreStatusEnum</span><span class="o">.</span><span class="n">PROVISIONAL</span><span class="p">),</span> <span class="n">server_default</span><span class="o">=</span><span class="s1">&#39;provisional&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrscoresadaptersormscoreormupdated_at"># <code>leadr.scores.adapters.orm.ScoreORM.updated_at</code><a class="headerlink" href="#leadrscoresadaptersormscoreormupdated_at" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">updated_at</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="n">timestamp</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">onupdate</span><span class="o">=</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">()))</span>
@@ -5686,6 +5732,28 @@ Maps to the scores table with foreign keys to accounts, devices, games, and boar
 </code></pre></div>
 <h6 id="leadrscoresadaptersormscoreormvalue_display"># <code>leadr.scores.adapters.orm.ScoreORM.value_display</code><a class="headerlink" href="#leadrscoresadaptersormscoreormvalue_display" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">value_display</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrscoresadaptersormscorestatusenum"><code>leadr.scores.adapters.orm.ScoreStatusEnum</code><a class="headerlink" href="#leadrscoresadaptersormscorestatusenum" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#str">str</a></code>, <code><a href="#enum.Enum">Enum</a></code></p>
+<p>Score status enum for database.</p>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="./#leadr.scores.adapters.orm.ScoreStatusEnum.ACTIVE"><strong>ACTIVE</strong></a> –</li>
+<li><a href="./#leadr.scores.adapters.orm.ScoreStatusEnum.PROVISIONAL"><strong>PROVISIONAL</strong></a> –</li>
+<li><a href="./#leadr.scores.adapters.orm.ScoreStatusEnum.REJECTED"><strong>REJECTED</strong></a> –</li>
+<li><a href="#leadr.scores.adapters.orm.ScoreStatusEnum.UNDER_REVIEW"><strong>UNDER_REVIEW</strong></a> –</li>
+</ul>
+<h6 id="leadrscoresadaptersormscorestatusenumactive"># <code>leadr.scores.adapters.orm.ScoreStatusEnum.ACTIVE</code><a class="headerlink" href="#leadrscoresadaptersormscorestatusenumactive" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">ACTIVE</span> <span class="o">=</span> <span class="s1">&#39;active&#39;</span>
+</code></pre></div>
+<h6 id="leadrscoresadaptersormscorestatusenumprovisional"># <code>leadr.scores.adapters.orm.ScoreStatusEnum.PROVISIONAL</code><a class="headerlink" href="#leadrscoresadaptersormscorestatusenumprovisional" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">PROVISIONAL</span> <span class="o">=</span> <span class="s1">&#39;provisional&#39;</span>
+</code></pre></div>
+<h6 id="leadrscoresadaptersormscorestatusenumrejected"># <code>leadr.scores.adapters.orm.ScoreStatusEnum.REJECTED</code><a class="headerlink" href="#leadrscoresadaptersormscorestatusenumrejected" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">REJECTED</span> <span class="o">=</span> <span class="s1">&#39;rejected&#39;</span>
+</code></pre></div>
+<h6 id="leadrscoresadaptersormscorestatusenumunder_review"># <code>leadr.scores.adapters.orm.ScoreStatusEnum.UNDER_REVIEW</code><a class="headerlink" href="#leadrscoresadaptersormscorestatusenumunder_review" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">UNDER_REVIEW</span> <span class="o">=</span> <span class="s1">&#39;under_review&#39;</span>
 </code></pre></div>
 <h6 id="leadrscoresadaptersormscoresubmissionmetaorm"><code>leadr.scores.adapters.orm.ScoreSubmissionMetaORM</code><a class="headerlink" href="#leadrscoresadaptersormscoresubmissionmetaorm" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="../common/#leadr.common.orm.Base">Base</a></code></p>
