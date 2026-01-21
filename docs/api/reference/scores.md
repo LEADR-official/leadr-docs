@@ -21,6 +21,7 @@ Score ORM models.
 
 - [**ScoreFlagORM**](./scores.md#leadr.scores.adapters.orm.ScoreFlagORM) – Score flag ORM model for anti-cheat detections.
 - [**ScoreORM**](./scores.md#leadr.scores.adapters.orm.ScoreORM) – Score ORM model.
+- [**ScoreStatusEnum**](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum) – Score status enum for database.
 - [**ScoreSubmissionMetaORM**](./scores.md#leadr.scores.adapters.orm.ScoreSubmissionMetaORM) – Score submission metadata ORM model for anti-cheat tracking.
 
 ###### `leadr.scores.adapters.orm.ScoreFlagORM`
@@ -167,7 +168,7 @@ Maps to the scores table with foreign keys to accounts, devices, games, and boar
 - [**is_test**](#leadr.scores.adapters.orm.ScoreORM.is_test) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
 - [**player_name**](#leadr.scores.adapters.orm.ScoreORM.player_name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**score_metadata**](#leadr.scores.adapters.orm.ScoreORM.score_metadata) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[Any](#typing.Any) | None\]</code>) –
-- [**status**](./scores.md#leadr.scores.adapters.orm.ScoreORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
+- [**status**](./scores.md#leadr.scores.adapters.orm.ScoreORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[ScoreStatusEnum](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum)\]</code>) –
 - [**updated_at**](#leadr.scores.adapters.orm.ScoreORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**value**](./scores.md#leadr.scores.adapters.orm.ScoreORM.value) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[float](#float)\]</code>) –
 - [**value_display**](#leadr.scores.adapters.orm.ScoreORM.value_display) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
@@ -271,7 +272,7 @@ score_metadata: Mapped[Any | None] = mapped_column('score_metadata', JSON, nulla
 ####### `leadr.scores.adapters.orm.ScoreORM.status`
 
 ```python
-status: Mapped[str] = mapped_column(String, nullable=False, default='active', index=True)
+status: Mapped[ScoreStatusEnum] = mapped_column(Enum(ScoreStatusEnum, name='score_status', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, default=(ScoreStatusEnum.PROVISIONAL), server_default='provisional', index=True)
 ```
 
 ####### `leadr.scores.adapters.orm.ScoreORM.updated_at`
@@ -290,6 +291,43 @@ value: Mapped[float] = mapped_column(Float, nullable=False)
 
 ```python
 value_display: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
+
+###### `leadr.scores.adapters.orm.ScoreStatusEnum`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Score status enum for database.
+
+**Attributes:**
+
+- [**ACTIVE**](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum.ACTIVE) –
+- [**PROVISIONAL**](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum.PROVISIONAL) –
+- [**REJECTED**](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum.REJECTED) –
+- [**UNDER_REVIEW**](#leadr.scores.adapters.orm.ScoreStatusEnum.UNDER_REVIEW) –
+
+####### `leadr.scores.adapters.orm.ScoreStatusEnum.ACTIVE`
+
+```python
+ACTIVE = 'active'
+```
+
+####### `leadr.scores.adapters.orm.ScoreStatusEnum.PROVISIONAL`
+
+```python
+PROVISIONAL = 'provisional'
+```
+
+####### `leadr.scores.adapters.orm.ScoreStatusEnum.REJECTED`
+
+```python
+REJECTED = 'rejected'
+```
+
+####### `leadr.scores.adapters.orm.ScoreStatusEnum.UNDER_REVIEW`
+
+```python
+UNDER_REVIEW = 'under_review'
 ```
 
 ###### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM`
