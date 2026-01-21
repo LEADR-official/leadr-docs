@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.7.1"
+    "version": "0.7.2"
   },
   "paths": {
     "/v1/accounts": {
@@ -10065,6 +10065,10 @@
             "description": "True if this score was submitted in test mode",
             "default": false
           },
+          "status": {
+            "$ref": "#/components/schemas/ScoreStatus",
+            "description": "Score lifecycle status (active, under_review, rejected)"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -10086,6 +10090,7 @@
           "board_id",
           "player_name",
           "value",
+          "status",
           "created_at",
           "updated_at"
         ],
@@ -10460,6 +10465,10 @@
             "description": "True if this score was submitted in test mode",
             "default": false
           },
+          "status": {
+            "$ref": "#/components/schemas/ScoreStatus",
+            "description": "Score lifecycle status (active, under_review, rejected)"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -10482,11 +10491,23 @@
           "device_id",
           "player_name",
           "value",
+          "status",
           "created_at",
           "updated_at"
         ],
         "title": "ScoreResponse",
         "description": "Response model for a score."
+      },
+      "ScoreStatus": {
+        "type": "string",
+        "enum": [
+          "provisional",
+          "active",
+          "under_review",
+          "rejected"
+        ],
+        "title": "ScoreStatus",
+        "description": "Lifecycle status of a score in the anti-cheat workflow.\n\nTracks the score from submission through review, determining visibility\non leaderboards."
       },
       "ScoreSubmissionMetaResponse": {
         "properties": {
@@ -10635,6 +10656,17 @@
             ],
             "title": "Metadata",
             "description": "Updated metadata"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ScoreStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Updated status (admin only: active, under_review, rejected)"
           },
           "deleted": {
             "anyOf": [

@@ -3470,6 +3470,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrcommongeoipgeoipservicedownload_enabled" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.geoip.GeoIPService.download_enabled
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommongeoipgeoipserviceget_geo_info" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.geoip.GeoIPService.get_geo_info
@@ -5270,7 +5279,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <li><a href="./#leadr.common.geoip.logger"><strong>logger</strong></a> –</li>
 </ul>
 <h5 id="leadrcommongeoipgeoipservice"><code>leadr.common.geoip.GeoIPService</code><a class="headerlink" href="#leadrcommongeoipgeoipservice" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="n">GeoIPService</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">license_key</span><span class="p">,</span> <span class="n">city_db_url</span><span class="p">,</span> <span class="n">country_db_url</span><span class="p">,</span> <span class="n">database_path</span><span class="p">,</span> <span class="n">refresh_days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">GeoIPService</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">license_key</span><span class="p">,</span> <span class="n">city_db_url</span><span class="p">,</span> <span class="n">country_db_url</span><span class="p">,</span> <span class="n">database_path</span><span class="p">,</span> <span class="n">refresh_days</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">download_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
 <p>Service for IP address geolocation using MaxMind GeoLite2 databases.</p>
 <p>This service downloads and manages MaxMind GeoLite2 databases for IP geolocation.
@@ -5305,6 +5314,7 @@ Databases are cached locally and refreshed periodically.</p>
 <li><a href="#leadr.common.geoip.GeoIPService.city_db_url"><strong>city_db_url</strong></a> –</li>
 <li><a href="#leadr.common.geoip.GeoIPService.country_db_url"><strong>country_db_url</strong></a> –</li>
 <li><a href="#leadr.common.geoip.GeoIPService.database_path"><strong>database_path</strong></a> –</li>
+<li><a href="#leadr.common.geoip.GeoIPService.download_enabled"><strong>download_enabled</strong></a> –</li>
 <li><a href="#leadr.common.geoip.GeoIPService.license_key"><strong>license_key</strong></a> –</li>
 <li><a href="#leadr.common.geoip.GeoIPService.refresh_days"><strong>refresh_days</strong></a> –</li>
 </ul>
@@ -5316,6 +5326,8 @@ Databases are cached locally and refreshed periodically.</p>
 <li><strong>country_db_url</strong> (<code><a href="#str">str</a></code>) – URL to download GeoLite2 Country database (tar.gz)</li>
 <li><strong>database_path</strong> (<code><a href="#pathlib.Path">Path</a></code>) – Directory path to store database files</li>
 <li><strong>refresh_days</strong> (<code><a href="#int">int</a></code>) – Number of days before refreshing databases (default: 7)</li>
+<li><strong>download_enabled</strong> (<code><a href="#bool">bool</a></code>) – Enable database downloads. Set to False when downloads
+  are handled externally (e.g., init container). Default: True.</li>
 </ul>
 <h6 id="leadrcommongeoipgeoipserviceaccount_id"><code>leadr.common.geoip.GeoIPService.account_id</code><a class="headerlink" href="#leadrcommongeoipgeoipserviceaccount_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">account_id</span> <span class="o">=</span> <span class="n">account_id</span>
@@ -5332,6 +5344,9 @@ Databases are cached locally and refreshed periodically.</p>
 </code></pre></div>
 <h6 id="leadrcommongeoipgeoipservicedatabase_path"><code>leadr.common.geoip.GeoIPService.database_path</code><a class="headerlink" href="#leadrcommongeoipgeoipservicedatabase_path" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">database_path</span> <span class="o">=</span> <span class="n">database_path</span>
+</code></pre></div>
+<h6 id="leadrcommongeoipgeoipservicedownload_enabled"><code>leadr.common.geoip.GeoIPService.download_enabled</code><a class="headerlink" href="#leadrcommongeoipgeoipservicedownload_enabled" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">download_enabled</span> <span class="o">=</span> <span class="n">download_enabled</span>
 </code></pre></div>
 <h6 id="leadrcommongeoipgeoipserviceget_geo_info"><code>leadr.common.geoip.GeoIPService.get_geo_info</code><a class="headerlink" href="#leadrcommongeoipgeoipserviceget_geo_info" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_geo_info</span><span class="p">(</span><span class="n">ip_address</span><span class="p">)</span>
