@@ -135,6 +135,7 @@ Raises:
   "rank": 0,
   "is_placeholder": false,
   "is_test": false,
+  "status": "provisional",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -395,6 +396,7 @@ Raises:
   "rank": 0,
   "is_placeholder": false,
   "is_test": false,
+  "status": "provisional",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -441,6 +443,7 @@ Raises:
       "country": "string",
       "city": "string",
       "metadata": {},
+      "status": "provisional",
       "deleted": true
     }';
     const headers = {
@@ -495,6 +498,7 @@ Raises:
   "country": "string",
   "city": "string",
   "metadata": {},
+  "status": "provisional",
   "deleted": true
 }
 ```
@@ -531,6 +535,7 @@ Raises:
   "rank": 0,
   "is_placeholder": false,
   "is_test": false,
+  "status": "provisional",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -805,6 +810,7 @@ Raises:
   "rank": 0,
   "is_placeholder": false,
   "is_test": false,
+  "status": "provisional",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -1048,6 +1054,7 @@ Raises:
   "rank": 0,
   "is_placeholder": false,
   "is_test": false,
+  "status": "provisional",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
