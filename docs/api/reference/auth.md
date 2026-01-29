@@ -24,8 +24,10 @@ Auth ORM models.
 - [**APIKeyORM**](./auth.md#leadr.auth.adapters.orm.APIKeyORM) – API Key ORM model.
 - [**APIKeyStatusEnum**](./auth.md#leadr.auth.adapters.orm.APIKeyStatusEnum) – API Key status enum for database.
 - [**DeviceORM**](./auth.md#leadr.auth.adapters.orm.DeviceORM) – Device ORM model.
-- [**DeviceSessionORM**](./auth.md#leadr.auth.adapters.orm.DeviceSessionORM) – DeviceSession ORM model.
 - [**DeviceStatusEnum**](./auth.md#leadr.auth.adapters.orm.DeviceStatusEnum) – Device status enum for database.
+- [**IdentityKindEnum**](./auth.md#leadr.auth.adapters.orm.IdentityKindEnum) – Identity kind enum for database.
+- [**IdentityORM**](./auth.md#leadr.auth.adapters.orm.IdentityORM) – Identity ORM model.
+- [**IdentitySessionORM**](./auth.md#leadr.auth.adapters.orm.IdentitySessionORM) – IdentitySession ORM model.
 - [**NonceORM**](./auth.md#leadr.auth.adapters.orm.NonceORM) – Nonce ORM model.
 - [**NonceStatusEnum**](./auth.md#leadr.auth.adapters.orm.NonceStatusEnum) – Nonce status enum for database.
 
@@ -176,9 +178,7 @@ Devices are scoped per-game for client authentication.
 - [**game_id**](#leadr.auth.adapters.orm.DeviceORM.game_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
 - [**id**](./auth.md#leadr.auth.adapters.orm.DeviceORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
 - [**last_seen_at**](#leadr.auth.adapters.orm.DeviceORM.last_seen_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime)\]</code>) –
-- [**nonces**](./auth.md#leadr.auth.adapters.orm.DeviceORM.nonces) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[list](#list)\[[NonceORM](./auth.md#leadr.auth.adapters.orm.NonceORM)\]\]</code>) –
 - [**platform**](./auth.md#leadr.auth.adapters.orm.DeviceORM.platform) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
-- [**sessions**](./auth.md#leadr.auth.adapters.orm.DeviceORM.sessions) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[list](#list)\[[DeviceSessionORM](./auth.md#leadr.auth.adapters.orm.DeviceSessionORM)\]\]</code>) –
 - [**status**](./auth.md#leadr.auth.adapters.orm.DeviceORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[DeviceStatusEnum](./auth.md#leadr.auth.adapters.orm.DeviceStatusEnum)\]</code>) –
 - [**updated_at**](#leadr.auth.adapters.orm.DeviceORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 
@@ -250,22 +250,10 @@ id: Mapped[uuid_pk]
 last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 ```
 
-####### `leadr.auth.adapters.orm.DeviceORM.nonces`
-
-```python
-nonces: Mapped[list[NonceORM]] = relationship('NonceORM', cascade='all, delete-orphan')
-```
-
 ####### `leadr.auth.adapters.orm.DeviceORM.platform`
 
 ```python
 platform: Mapped[str | None] = mapped_column(String, nullable=True)
-```
-
-####### `leadr.auth.adapters.orm.DeviceORM.sessions`
-
-```python
-sessions: Mapped[list[DeviceSessionORM]] = relationship('DeviceSessionORM', back_populates='device', cascade='all, delete-orphan')
 ```
 
 ####### `leadr.auth.adapters.orm.DeviceORM.status`
@@ -286,138 +274,6 @@ Convert ORM model to Device domain entity.
 
 ```python
 updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
-```
-
-###### `leadr.auth.adapters.orm.DeviceSessionORM`
-
-Bases: <code>[Base](./common.md#leadr.common.orm.Base)</code>
-
-DeviceSession ORM model.
-
-Represents an active authentication session for a device in the database.
-Maps to the device_sessions table with foreign key to devices.
-Sessions include both access and refresh tokens with token rotation support.
-
-**Functions:**
-
-- [**from_domain**](#leadr.auth.adapters.orm.DeviceSessionORM.from_domain) – Convert DeviceSession domain entity to ORM model.
-- [**to_domain**](#leadr.auth.adapters.orm.DeviceSessionORM.to_domain) – Convert ORM model to DeviceSession domain entity.
-
-**Attributes:**
-
-- [**access_token_hash**](#leadr.auth.adapters.orm.DeviceSessionORM.access_token_hash) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
-- [**created_at**](#leadr.auth.adapters.orm.DeviceSessionORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
-- [**deleted_at**](#leadr.auth.adapters.orm.DeviceSessionORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
-- [**device**](./auth.md#leadr.auth.adapters.orm.DeviceSessionORM.device) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[DeviceORM](./auth.md#leadr.auth.adapters.orm.DeviceORM)\]</code>) –
-- [**device_id**](#leadr.auth.adapters.orm.DeviceSessionORM.device_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
-- [**expires_at**](#leadr.auth.adapters.orm.DeviceSessionORM.expires_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime)\]</code>) –
-- [**id**](./auth.md#leadr.auth.adapters.orm.DeviceSessionORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
-- [**ip_address**](#leadr.auth.adapters.orm.DeviceSessionORM.ip_address) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
-- [**refresh_expires_at**](#leadr.auth.adapters.orm.DeviceSessionORM.refresh_expires_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime)\]</code>) –
-- [**refresh_token_hash**](#leadr.auth.adapters.orm.DeviceSessionORM.refresh_token_hash) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
-- [**revoked_at**](#leadr.auth.adapters.orm.DeviceSessionORM.revoked_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime) | None\]</code>) –
-- [**token_version**](#leadr.auth.adapters.orm.DeviceSessionORM.token_version) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[int](#int)\]</code>) –
-- [**updated_at**](#leadr.auth.adapters.orm.DeviceSessionORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
-- [**user_agent**](#leadr.auth.adapters.orm.DeviceSessionORM.user_agent) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.access_token_hash`
-
-```python
-access_token_hash: Mapped[str] = mapped_column(String, nullable=False, index=True)
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.created_at`
-
-```python
-created_at: Mapped[timestamp]
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.deleted_at`
-
-```python
-deleted_at: Mapped[nullable_timestamp]
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.device`
-
-```python
-device: Mapped[DeviceORM] = relationship('DeviceORM', back_populates='sessions')
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.device_id`
-
-```python
-device_id: Mapped[UUID] = mapped_column(ForeignKey('devices.id', ondelete='CASCADE'), nullable=False, index=True)
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.expires_at`
-
-```python
-expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.from_domain`
-
-```python
-from_domain(session)
-```
-
-Convert DeviceSession domain entity to ORM model.
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.id`
-
-```python
-id: Mapped[uuid_pk]
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.ip_address`
-
-```python
-ip_address: Mapped[str | None] = mapped_column(String, nullable=True)
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.refresh_expires_at`
-
-```python
-refresh_expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.refresh_token_hash`
-
-```python
-refresh_token_hash: Mapped[str] = mapped_column(String, nullable=False, index=True)
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.revoked_at`
-
-```python
-revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.to_domain`
-
-```python
-to_domain()
-```
-
-Convert ORM model to DeviceSession domain entity.
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.token_version`
-
-```python
-token_version: Mapped[int] = mapped_column(Integer, nullable=False, default=1, server_default='1')
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.updated_at`
-
-```python
-updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
-```
-
-####### `leadr.auth.adapters.orm.DeviceSessionORM.user_agent`
-
-```python
-user_agent: Mapped[str | None] = mapped_column(String, nullable=True)
 ```
 
 ###### `leadr.auth.adapters.orm.DeviceStatusEnum`
@@ -450,6 +306,272 @@ BANNED = 'banned'
 SUSPENDED = 'suspended'
 ```
 
+###### `leadr.auth.adapters.orm.IdentityKindEnum`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Identity kind enum for database.
+
+**Attributes:**
+
+- [**CUSTOM**](./auth.md#leadr.auth.adapters.orm.IdentityKindEnum.CUSTOM) –
+- [**DEVICE**](./auth.md#leadr.auth.adapters.orm.IdentityKindEnum.DEVICE) –
+- [**STEAM**](./auth.md#leadr.auth.adapters.orm.IdentityKindEnum.STEAM) –
+
+####### `leadr.auth.adapters.orm.IdentityKindEnum.CUSTOM`
+
+```python
+CUSTOM = 'CUSTOM'
+```
+
+####### `leadr.auth.adapters.orm.IdentityKindEnum.DEVICE`
+
+```python
+DEVICE = 'DEVICE'
+```
+
+####### `leadr.auth.adapters.orm.IdentityKindEnum.STEAM`
+
+```python
+STEAM = 'STEAM'
+```
+
+###### `leadr.auth.adapters.orm.IdentityORM`
+
+Bases: <code>[Base](./common.md#leadr.common.orm.Base)</code>
+
+Identity ORM model.
+
+Represents a player identity within a game in the database.
+Maps to the identities table with foreign keys to accounts and games.
+Identities are the ranking key for leaderboards.
+
+**Functions:**
+
+- [**from_domain**](#leadr.auth.adapters.orm.IdentityORM.from_domain) – Convert Identity domain entity to ORM model.
+- [**to_domain**](#leadr.auth.adapters.orm.IdentityORM.to_domain) – Convert ORM model to Identity domain entity.
+
+**Attributes:**
+
+- [**account_id**](#leadr.auth.adapters.orm.IdentityORM.account_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**created_at**](#leadr.auth.adapters.orm.IdentityORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
+- [**deleted_at**](#leadr.auth.adapters.orm.IdentityORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
+- [**display_name**](#leadr.auth.adapters.orm.IdentityORM.display_name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
+- [**external_key**](#leadr.auth.adapters.orm.IdentityORM.external_key) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
+- [**game**](./auth.md#leadr.auth.adapters.orm.IdentityORM.game) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[GameORM](./games.md#leadr.games.adapters.orm.GameORM)\]</code>) –
+- [**game_id**](#leadr.auth.adapters.orm.IdentityORM.game_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**id**](./auth.md#leadr.auth.adapters.orm.IdentityORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**kind**](./auth.md#leadr.auth.adapters.orm.IdentityORM.kind) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[IdentityKindEnum](./auth.md#leadr.auth.adapters.orm.IdentityKindEnum)\]</code>) –
+- [**nonces**](./auth.md#leadr.auth.adapters.orm.IdentityORM.nonces) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[list](#list)\[[NonceORM](./auth.md#leadr.auth.adapters.orm.NonceORM)\]\]</code>) –
+- [**sessions**](./auth.md#leadr.auth.adapters.orm.IdentityORM.sessions) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[list](#list)\[[IdentitySessionORM](./auth.md#leadr.auth.adapters.orm.IdentitySessionORM)\]\]</code>) –
+- [**updated_at**](#leadr.auth.adapters.orm.IdentityORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
+
+####### `leadr.auth.adapters.orm.IdentityORM.account_id`
+
+```python
+account_id: Mapped[UUID] = mapped_column(ForeignKey('accounts.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.created_at`
+
+```python
+created_at: Mapped[timestamp]
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.deleted_at`
+
+```python
+deleted_at: Mapped[nullable_timestamp]
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.display_name`
+
+```python
+display_name: Mapped[str | None] = mapped_column(String, nullable=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.external_key`
+
+```python
+external_key: Mapped[str] = mapped_column(String, nullable=False)
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.from_domain`
+
+```python
+from_domain(identity)
+```
+
+Convert Identity domain entity to ORM model.
+
+####### `leadr.auth.adapters.orm.IdentityORM.game`
+
+```python
+game: Mapped[GameORM] = relationship('GameORM')
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.game_id`
+
+```python
+game_id: Mapped[UUID] = mapped_column(ForeignKey('games.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.id`
+
+```python
+id: Mapped[uuid_pk]
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.kind`
+
+```python
+kind: Mapped[IdentityKindEnum] = mapped_column(Enum(IdentityKindEnum, name='identity_kind', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False)
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.nonces`
+
+```python
+nonces: Mapped[list[NonceORM]] = relationship('NonceORM', cascade='all, delete-orphan')
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.sessions`
+
+```python
+sessions: Mapped[list[IdentitySessionORM]] = relationship('IdentitySessionORM', back_populates='identity', cascade='all, delete-orphan')
+```
+
+####### `leadr.auth.adapters.orm.IdentityORM.to_domain`
+
+```python
+to_domain()
+```
+
+Convert ORM model to Identity domain entity.
+
+####### `leadr.auth.adapters.orm.IdentityORM.updated_at`
+
+```python
+updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
+```
+
+###### `leadr.auth.adapters.orm.IdentitySessionORM`
+
+Bases: <code>[Base](./common.md#leadr.common.orm.Base)</code>
+
+IdentitySession ORM model.
+
+Represents an active authentication session for an identity in the database.
+Maps to the identity_sessions table with foreign key to identities.
+Sessions include both access and refresh tokens with token rotation support.
+
+**Functions:**
+
+- [**from_domain**](#leadr.auth.adapters.orm.IdentitySessionORM.from_domain) – Convert IdentitySession domain entity to ORM model.
+- [**to_domain**](#leadr.auth.adapters.orm.IdentitySessionORM.to_domain) – Convert ORM model to IdentitySession domain entity.
+
+**Attributes:**
+
+- [**access_token_hash**](#leadr.auth.adapters.orm.IdentitySessionORM.access_token_hash) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
+- [**created_at**](#leadr.auth.adapters.orm.IdentitySessionORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
+- [**deleted_at**](#leadr.auth.adapters.orm.IdentitySessionORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
+- [**expires_at**](#leadr.auth.adapters.orm.IdentitySessionORM.expires_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime)\]</code>) –
+- [**id**](./auth.md#leadr.auth.adapters.orm.IdentitySessionORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**identity**](./auth.md#leadr.auth.adapters.orm.IdentitySessionORM.identity) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[IdentityORM](./auth.md#leadr.auth.adapters.orm.IdentityORM)\]</code>) –
+- [**identity_id**](#leadr.auth.adapters.orm.IdentitySessionORM.identity_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**refresh_expires_at**](#leadr.auth.adapters.orm.IdentitySessionORM.refresh_expires_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime)\]</code>) –
+- [**refresh_token_hash**](#leadr.auth.adapters.orm.IdentitySessionORM.refresh_token_hash) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
+- [**revoked_at**](#leadr.auth.adapters.orm.IdentitySessionORM.revoked_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime) | None\]</code>) –
+- [**token_version**](#leadr.auth.adapters.orm.IdentitySessionORM.token_version) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[int](#int)\]</code>) –
+- [**updated_at**](#leadr.auth.adapters.orm.IdentitySessionORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.access_token_hash`
+
+```python
+access_token_hash: Mapped[str] = mapped_column(String, nullable=False, index=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.created_at`
+
+```python
+created_at: Mapped[timestamp]
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.deleted_at`
+
+```python
+deleted_at: Mapped[nullable_timestamp]
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.expires_at`
+
+```python
+expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.from_domain`
+
+```python
+from_domain(session)
+```
+
+Convert IdentitySession domain entity to ORM model.
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.id`
+
+```python
+id: Mapped[uuid_pk]
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.identity`
+
+```python
+identity: Mapped[IdentityORM] = relationship('IdentityORM', back_populates='sessions')
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.identity_id`
+
+```python
+identity_id: Mapped[UUID] = mapped_column(ForeignKey('identities.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.refresh_expires_at`
+
+```python
+refresh_expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.refresh_token_hash`
+
+```python
+refresh_token_hash: Mapped[str] = mapped_column(String, nullable=False, index=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.revoked_at`
+
+```python
+revoked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.to_domain`
+
+```python
+to_domain()
+```
+
+Convert ORM model to IdentitySession domain entity.
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.token_version`
+
+```python
+token_version: Mapped[int] = mapped_column(Integer, nullable=False, default=1, server_default='1')
+```
+
+####### `leadr.auth.adapters.orm.IdentitySessionORM.updated_at`
+
+```python
+updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
+```
+
 ###### `leadr.auth.adapters.orm.NonceORM`
 
 Bases: <code>[Base](./common.md#leadr.common.orm.Base)</code>
@@ -457,7 +579,7 @@ Bases: <code>[Base](./common.md#leadr.common.orm.Base)</code>
 Nonce ORM model.
 
 Represents a single-use nonce for replay protection in the database.
-Maps to the nonces table with foreign key to devices.
+Maps to the nonces table with foreign key to identities.
 Nonces are short-lived tokens (typically 60 seconds) that must be
 obtained before making mutating requests.
 
@@ -470,10 +592,10 @@ obtained before making mutating requests.
 
 - [**created_at**](#leadr.auth.adapters.orm.NonceORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**deleted_at**](#leadr.auth.adapters.orm.NonceORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
-- [**device**](./auth.md#leadr.auth.adapters.orm.NonceORM.device) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[DeviceORM](./auth.md#leadr.auth.adapters.orm.DeviceORM)\]</code>) –
-- [**device_id**](#leadr.auth.adapters.orm.NonceORM.device_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
 - [**expires_at**](#leadr.auth.adapters.orm.NonceORM.expires_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime)\]</code>) –
 - [**id**](./auth.md#leadr.auth.adapters.orm.NonceORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**identity**](./auth.md#leadr.auth.adapters.orm.NonceORM.identity) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[IdentityORM](./auth.md#leadr.auth.adapters.orm.IdentityORM)\]</code>) –
+- [**identity_id**](#leadr.auth.adapters.orm.NonceORM.identity_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
 - [**nonce_value**](#leadr.auth.adapters.orm.NonceORM.nonce_value) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**status**](./auth.md#leadr.auth.adapters.orm.NonceORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[NonceStatusEnum](./auth.md#leadr.auth.adapters.orm.NonceStatusEnum)\]</code>) –
 - [**updated_at**](#leadr.auth.adapters.orm.NonceORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
@@ -489,18 +611,6 @@ created_at: Mapped[timestamp]
 
 ```python
 deleted_at: Mapped[nullable_timestamp]
-```
-
-####### `leadr.auth.adapters.orm.NonceORM.device`
-
-```python
-device: Mapped[DeviceORM] = relationship('DeviceORM', overlaps='nonces')
-```
-
-####### `leadr.auth.adapters.orm.NonceORM.device_id`
-
-```python
-device_id: Mapped[UUID] = mapped_column(ForeignKey('devices.id', ondelete='CASCADE'), nullable=False, index=True)
 ```
 
 ####### `leadr.auth.adapters.orm.NonceORM.expires_at`
@@ -521,6 +631,18 @@ Convert Nonce domain entity to ORM model.
 
 ```python
 id: Mapped[uuid_pk]
+```
+
+####### `leadr.auth.adapters.orm.NonceORM.identity`
+
+```python
+identity: Mapped[IdentityORM] = relationship('IdentityORM', overlaps='nonces')
+```
+
+####### `leadr.auth.adapters.orm.NonceORM.identity_id`
+
+```python
+identity_id: Mapped[UUID] = mapped_column(ForeignKey('identities.id', ondelete='CASCADE'), nullable=False, index=True)
 ```
 
 ####### `leadr.auth.adapters.orm.NonceORM.nonce_value`
@@ -591,12 +713,13 @@ USED = 'used'
 
 - [**api_key_routes**](#leadr.auth.api.api_key_routes) – API routes for authentication and API key management.
 - [**api_key_schemas**](#leadr.auth.api.api_key_schemas) – API schemas for Authentication endpoints.
-- [**client_routes**](#leadr.auth.api.client_routes) – API routes for client device authentication.
+- [**client_routes**](#leadr.auth.api.client_routes) – API routes for client authentication using Identity.
 - [**client_schemas**](#leadr.auth.api.client_schemas) – API request and response models for client authentication.
 - [**device_routes**](#leadr.auth.api.device_routes) – API routes for device management.
 - [**device_schemas**](#leadr.auth.api.device_schemas) – API request and response models for devices.
-- [**device_session_routes**](#leadr.auth.api.device_session_routes) – API routes for device session management.
-- [**device_session_schemas**](#leadr.auth.api.device_session_schemas) – API schemas for device sessions.
+- [**identity_routes**](#leadr.auth.api.identity_routes) – API routes for identity management.
+- [**identity_schemas**](#leadr.auth.api.identity_schemas) – API request and response models for identities.
+- [**identity_session_routes**](#leadr.auth.api.identity_session_routes) – API routes for identity session management.
 
 ##### `leadr.auth.api.api_key_routes`
 
@@ -1002,13 +1125,13 @@ status: APIKeyStatus | None = Field(default=None, description="Updated status (u
 
 ##### `leadr.auth.api.client_routes`
 
-API routes for client device authentication.
+API routes for client authentication using Identity.
 
 **Functions:**
 
 - [**generate_nonce**](#leadr.auth.api.client_routes.generate_nonce) – Generate a fresh nonce for replay protection.
 - [**refresh_session**](#leadr.auth.api.client_routes.refresh_session) – Refresh an expired access token using a valid refresh token.
-- [**start_session**](#leadr.auth.api.client_routes.start_session) – Start a new device session for a game client.
+- [**start_session**](#leadr.auth.api.client_routes.start_session) – Start a new identity session for a game client.
 
 **Attributes:**
 
@@ -1027,11 +1150,11 @@ Nonces are single-use tokens with short TTL (60 seconds) that clients must
 obtain before making mutating requests (POST, PATCH, DELETE). This prevents
 replay attacks by ensuring each request is fresh and authorized.
 
-Requires device authentication via access token.
+Requires identity authentication via access token.
 
 **Parameters:**
 
-- **auth** (<code>[ClientAuthContextDep](./auth.md#leadr.auth.dependencies.ClientAuthContextDep)</code>) – Authenticated client auth context (device guaranteed non-None)
+- **auth** (<code>[ClientAuthContextDep](./auth.md#leadr.auth.dependencies.ClientAuthContextDep)</code>) – Authenticated client auth context (identity guaranteed non-None)
 - **service** (<code>[NonceServiceDep](./auth.md#leadr.auth.services.dependencies.NonceServiceDep)</code>) – NonceService dependency
 
 **Returns:**
@@ -1040,7 +1163,7 @@ Requires device authentication via access token.
 
 **Raises:**
 
-- <code>401</code> – Invalid or missing device token
+- <code>401</code> – Invalid or missing access token
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -1067,7 +1190,7 @@ public_router = APIRouter(prefix='/client')
 ###### `leadr.auth.api.client_routes.refresh_session`
 
 ```python
-refresh_session(request, service)
+refresh_session(request, identity_service)
 ```
 
 Refresh an expired access token using a valid refresh token.
@@ -1083,7 +1206,7 @@ No authentication is required (the refresh token itself is the credential).
 **Parameters:**
 
 - **request** (<code>[RefreshTokenRequest](#leadr.auth.api.client_schemas.RefreshTokenRequest)</code>) – Refresh token request
-- **service** (<code>[DeviceServiceDep](./auth.md#leadr.auth.services.dependencies.DeviceServiceDep)</code>) – DeviceService dependency
+- **identity_service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – IdentityService dependency
 
 **Returns:**
 
@@ -1097,25 +1220,25 @@ No authentication is required (the refresh token itself is the credential).
 ###### `leadr.auth.api.client_routes.start_session`
 
 ```python
-start_session(request, service)
+start_session(session_request, identity_service)
 ```
 
-Start a new device session for a game client.
+Start a new identity session for a game client.
 
 This endpoint authenticates game clients and provides JWT access tokens.
-It is idempotent - calling multiple times for the same device updates last_seen_at
-and generates a new access token.
+It is idempotent - calling multiple times for the same fingerprint updates
+the device record and creates a new identity session.
 
 No authentication is required to call this endpoint (it IS the authentication).
 
 **Parameters:**
 
-- **request** (<code>[StartSessionRequest](#leadr.auth.api.client_schemas.StartSessionRequest)</code>) – Session start request with game_id and device_id
-- **service** (<code>[DeviceServiceDep](./auth.md#leadr.auth.services.dependencies.DeviceServiceDep)</code>) – DeviceService dependency
+- **session_request** (<code>[StartSessionRequest](#leadr.auth.api.client_schemas.StartSessionRequest)</code>) – Session start request with game_id and fingerprint
+- **identity_service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – IdentityService dependency (handles device and identity creation)
 
 **Returns:**
 
-- <code>[StartSessionResponse](#leadr.auth.api.client_schemas.StartSessionResponse)</code> – StartSessionResponse with device info and access token
+- <code>[StartSessionResponse](#leadr.auth.api.client_schemas.StartSessionResponse)</code> – StartSessionResponse with identity info and access tokens
 
 **Raises:**
 
@@ -1132,7 +1255,7 @@ API request and response models for client authentication.
 - [**RefreshTokenRequest**](#leadr.auth.api.client_schemas.RefreshTokenRequest) – Request schema for refreshing an access token.
 - [**RefreshTokenResponse**](#leadr.auth.api.client_schemas.RefreshTokenResponse) – Response schema for token refresh.
 - [**StartSessionRequest**](#leadr.auth.api.client_schemas.StartSessionRequest) – Request schema for starting a device session.
-- [**StartSessionResponse**](#leadr.auth.api.client_schemas.StartSessionResponse) – Response schema for starting a device session.
+- [**StartSessionResponse**](#leadr.auth.api.client_schemas.StartSessionResponse) – Response schema for starting an identity session.
 
 ###### `leadr.auth.api.client_schemas.NonceResponse`
 
@@ -1261,7 +1384,7 @@ test_mode: bool = Field(default=False, description='If true, session is in test 
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
-Response schema for starting a device session.
+Response schema for starting an identity session.
 
 Includes both access and refresh tokens which must be saved by the client.
 
@@ -1276,16 +1399,12 @@ Includes both access and refresh tokens which must be saved by the client.
 
 - [**access_token**](#leadr.auth.api.client_schemas.StartSessionResponse.access_token) (<code>[str](#str)</code>) –
 - [**account_id**](#leadr.auth.api.client_schemas.StartSessionResponse.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
-- [**client_fingerprint**](#leadr.auth.api.client_schemas.StartSessionResponse.client_fingerprint) (<code>[str](#str)</code>) –
+- [**display_name**](#leadr.auth.api.client_schemas.StartSessionResponse.display_name) (<code>[str](#str) | None</code>) –
 - [**expires_in**](#leadr.auth.api.client_schemas.StartSessionResponse.expires_in) (<code>[int](#int)</code>) –
-- [**first_seen_at**](#leadr.auth.api.client_schemas.StartSessionResponse.first_seen_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**game_id**](#leadr.auth.api.client_schemas.StartSessionResponse.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
-- [**id**](#leadr.auth.api.client_schemas.StartSessionResponse.id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
-- [**last_seen_at**](#leadr.auth.api.client_schemas.StartSessionResponse.last_seen_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**metadata**](#leadr.auth.api.client_schemas.StartSessionResponse.metadata) (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code>) –
-- [**platform**](#leadr.auth.api.client_schemas.StartSessionResponse.platform) (<code>[str](#str) | None</code>) –
+- [**identity_id**](#leadr.auth.api.client_schemas.StartSessionResponse.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
+- [**kind**](#leadr.auth.api.client_schemas.StartSessionResponse.kind) (<code>[IdentityKind](./auth.md#leadr.auth.domain.identity.IdentityKind)</code>) –
 - [**refresh_token**](#leadr.auth.api.client_schemas.StartSessionResponse.refresh_token) (<code>[str](#str)</code>) –
-- [**status**](#leadr.auth.api.client_schemas.StartSessionResponse.status) (<code>[DeviceStatus](./auth.md#leadr.auth.domain.device.DeviceStatus)</code>) –
 - [**test_mode**](#leadr.auth.api.client_schemas.StartSessionResponse.test_mode) (<code>[bool](#bool)</code>) –
 
 ####### `leadr.auth.api.client_schemas.StartSessionResponse.access_token`
@@ -1300,10 +1419,10 @@ access_token: str = Field(description='JWT access token for authenticating API r
 account_id: AccountID = Field(description='ID of the account that owns the game')
 ```
 
-####### `leadr.auth.api.client_schemas.StartSessionResponse.client_fingerprint`
+####### `leadr.auth.api.client_schemas.StartSessionResponse.display_name`
 
 ```python
-client_fingerprint: str = Field(description='Client-generated SHA256 device fingerprint (64 hex characters)')
+display_name: str | None = Field(default=None, description='Player display name')
 ```
 
 ####### `leadr.auth.api.client_schemas.StartSessionResponse.expires_in`
@@ -1312,23 +1431,17 @@ client_fingerprint: str = Field(description='Client-generated SHA256 device fing
 expires_in: int = Field(description='Access token expiration time in seconds')
 ```
 
-####### `leadr.auth.api.client_schemas.StartSessionResponse.first_seen_at`
-
-```python
-first_seen_at: datetime = Field(description='Timestamp when device was first seen (UTC)')
-```
-
 ####### `leadr.auth.api.client_schemas.StartSessionResponse.from_domain`
 
 ```python
-from_domain(device, access_token, refresh_token, expires_in, test_mode=False)
+from_domain(identity, access_token, refresh_token, expires_in, test_mode=False)
 ```
 
 Convert domain entity to response model with tokens.
 
 **Parameters:**
 
-- **device** (<code>[Device](./auth.md#leadr.auth.domain.device.Device)</code>) – The domain Device entity
+- **identity** (<code>[Identity](./auth.md#leadr.auth.domain.identity.Identity)</code>) – The domain Identity entity
 - **access_token** (<code>[str](#str)</code>) – The plain JWT access token
 - **refresh_token** (<code>[str](#str)</code>) – The plain JWT refresh token
 - **expires_in** (<code>[int](#int)</code>) – Access token expiration time in seconds
@@ -1344,40 +1457,22 @@ Convert domain entity to response model with tokens.
 game_id: GameID = Field(description='ID of the game')
 ```
 
-####### `leadr.auth.api.client_schemas.StartSessionResponse.id`
+####### `leadr.auth.api.client_schemas.StartSessionResponse.identity_id`
 
 ```python
-id: DeviceID = Field(description='Unique identifier for the device')
+identity_id: IdentityID = Field(description='Unique identifier for the player identity')
 ```
 
-####### `leadr.auth.api.client_schemas.StartSessionResponse.last_seen_at`
+####### `leadr.auth.api.client_schemas.StartSessionResponse.kind`
 
 ```python
-last_seen_at: datetime = Field(description='Timestamp when device was last seen (UTC)')
-```
-
-####### `leadr.auth.api.client_schemas.StartSessionResponse.metadata`
-
-```python
-metadata: dict[str, Any] = Field(default_factory=dict, description='Device metadata')
-```
-
-####### `leadr.auth.api.client_schemas.StartSessionResponse.platform`
-
-```python
-platform: str | None = Field(default=None, description='Device platform')
+kind: IdentityKind = Field(description='Identity type (DEVICE, STEAM, CUSTOM)')
 ```
 
 ####### `leadr.auth.api.client_schemas.StartSessionResponse.refresh_token`
 
 ```python
 refresh_token: str = Field(description='JWT refresh token for obtaining new access tokens')
-```
-
-####### `leadr.auth.api.client_schemas.StartSessionResponse.status`
-
-```python
-status: DeviceStatus = Field(description='Device status (active, suspended, banned)')
 ```
 
 ####### `leadr.auth.api.client_schemas.StartSessionResponse.test_mode`
@@ -1633,53 +1728,363 @@ Request model for updating a device.
 status: str | None = Field(default=None, description='Updated status: active, banned, or suspended')
 ```
 
-##### `leadr.auth.api.device_session_routes`
+##### `leadr.auth.api.identity_routes`
 
-API routes for device session management.
+API routes for identity management.
 
 **Functions:**
 
-- [**get_session**](#leadr.auth.api.device_session_routes.get_session) – Get a device session by ID.
-- [**list_sessions**](#leadr.auth.api.device_session_routes.list_sessions) – List device sessions for an account with optional filters and pagination.
-- [**update_session**](#leadr.auth.api.device_session_routes.update_session) – Update a device session (revoke).
+- [**get_identity**](#leadr.auth.api.identity_routes.get_identity) – Get an identity by ID.
+- [**list_identities**](#leadr.auth.api.identity_routes.list_identities) – List identities for an account with optional filters and pagination.
+- [**update_identity**](#leadr.auth.api.identity_routes.update_identity) – Update an identity.
 
 **Attributes:**
 
-- [**router**](#leadr.auth.api.device_session_routes.router) –
+- [**router**](#leadr.auth.api.identity_routes.router) –
 
-###### `leadr.auth.api.device_session_routes.get_session`
+###### `leadr.auth.api.identity_routes.get_identity`
 
 ```python
-get_session(session_id, service, auth)
+get_identity(identity_id, service, auth)
 ```
 
-Get a device session by ID.
+Get an identity by ID.
 
 **Parameters:**
 
-- **session_id** (<code>[DeviceSessionID](./common.md#leadr.common.domain.ids.DeviceSessionID)</code>) – Session identifier to retrieve.
-- **service** (<code>[DeviceServiceDep](./auth.md#leadr.auth.services.dependencies.DeviceServiceDep)</code>) – Injected device service dependency.
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – Identity identifier to retrieve.
+- **service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – Injected identity service dependency.
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 
 **Returns:**
 
-- <code>[DeviceSessionResponse](#leadr.auth.api.device_session_schemas.DeviceSessionResponse)</code> – DeviceSessionResponse with the session details.
+- <code>[IdentityResponse](#leadr.auth.api.identity_schemas.IdentityResponse)</code> – IdentityResponse with the identity details.
+
+**Raises:**
+
+- <code>403</code> – User does not have access to this identity's account.
+- <code>404</code> – Identity not found or soft-deleted.
+
+###### `leadr.auth.api.identity_routes.list_identities`
+
+```python
+list_identities(auth, service, pagination, account_id=None, game_id=None, kind=None)
+```
+
+List identities for an account with optional filters and pagination.
+
+Returns all non-deleted identities for the specified account, with optional
+filtering by game or kind.
+
+For regular users, account_id is automatically derived from their API key.
+For superadmins, account_id is optional - if omitted, returns identities from all accounts.
+
+Pagination:
+
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=display_name:asc,created_at:desc
+- Valid sort fields: id, display_name, kind, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+GET /v1/identities?account_id=acc_123&game_id=game_456&kind=DEVICE&limit=50
+
+</details>
+
+**Parameters:**
+
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+- **service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – Injected identity service dependency.
+- **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
+- **game_id** (<code>[Annotated](#typing.Annotated)\[[GameID](./common.md#leadr.common.domain.ids.GameID) | None, [Query](#fastapi.Query)(description='Filter by game ID')\]</code>) – Optional game ID to filter by.
+- **kind** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by identity kind')\]</code>) – Optional kind to filter by (DEVICE, STEAM, CUSTOM).
+
+**Returns:**
+
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[IdentityResponse](#leadr.auth.api.identity_schemas.IdentityResponse)\]</code> – PaginatedResponse with identities and pagination metadata.
+
+**Raises:**
+
+- <code>400</code> – Invalid cursor, sort field, kind, or cursor state mismatch.
+- <code>403</code> – User does not have access to the specified account.
+
+###### `leadr.auth.api.identity_routes.router`
+
+```python
+router = APIRouter()
+```
+
+###### `leadr.auth.api.identity_routes.update_identity`
+
+```python
+update_identity(identity_id, request, service, auth)
+```
+
+Update an identity.
+
+Allows updating display name or soft-deleting the identity.
+
+**Parameters:**
+
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – Identity identifier to update.
+- **request** (<code>[IdentityUpdateRequest](#leadr.auth.api.identity_schemas.IdentityUpdateRequest)</code>) – Update details (display_name, deleted).
+- **service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – Injected identity service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+
+**Returns:**
+
+- <code>[IdentityResponse](#leadr.auth.api.identity_schemas.IdentityResponse)</code> – IdentityResponse with the updated identity details.
+
+**Raises:**
+
+- <code>403</code> – User does not have access to this identity's account.
+- <code>404</code> – Identity not found.
+
+##### `leadr.auth.api.identity_schemas`
+
+API request and response models for identities.
+
+**Classes:**
+
+- [**IdentityResponse**](#leadr.auth.api.identity_schemas.IdentityResponse) – Response model for an identity.
+- [**IdentitySessionResponse**](#leadr.auth.api.identity_schemas.IdentitySessionResponse) – Response model for an identity session.
+- [**IdentityUpdateRequest**](#leadr.auth.api.identity_schemas.IdentityUpdateRequest) – Request model for updating an identity.
+
+###### `leadr.auth.api.identity_schemas.IdentityResponse`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Response model for an identity.
+
+**Functions:**
+
+- [**from_domain**](#leadr.auth.api.identity_schemas.IdentityResponse.from_domain) – Convert domain entity to response model.
+
+**Attributes:**
+
+- [**account_id**](#leadr.auth.api.identity_schemas.IdentityResponse.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**created_at**](#leadr.auth.api.identity_schemas.IdentityResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**display_name**](#leadr.auth.api.identity_schemas.IdentityResponse.display_name) (<code>[str](#str) | None</code>) –
+- [**external_key**](#leadr.auth.api.identity_schemas.IdentityResponse.external_key) (<code>[str](#str)</code>) –
+- [**game_id**](#leadr.auth.api.identity_schemas.IdentityResponse.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
+- [**id**](#leadr.auth.api.identity_schemas.IdentityResponse.id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
+- [**kind**](#leadr.auth.api.identity_schemas.IdentityResponse.kind) (<code>[str](#str)</code>) –
+- [**updated_at**](#leadr.auth.api.identity_schemas.IdentityResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.account_id`
+
+```python
+account_id: AccountID = Field(description='ID of the account this identity belongs to')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.created_at`
+
+```python
+created_at: datetime = Field(description='Timestamp when identity was created (UTC)')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.display_name`
+
+```python
+display_name: str | None = Field(default=None, description='Player display name')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.external_key`
+
+```python
+external_key: str = Field(description='External identifier (device ID, Steam ID, etc.)')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.from_domain`
+
+```python
+from_domain(identity)
+```
+
+Convert domain entity to response model.
+
+**Parameters:**
+
+- **identity** (<code>[Identity](./auth.md#leadr.auth.domain.identity.Identity)</code>) – The domain Identity entity to convert.
+
+**Returns:**
+
+- <code>[IdentityResponse](#leadr.auth.api.identity_schemas.IdentityResponse)</code> – IdentityResponse with all fields populated from the domain entity.
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.game_id`
+
+```python
+game_id: GameID = Field(description='ID of the game this identity belongs to')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.id`
+
+```python
+id: IdentityID = Field(description='Unique identifier for the identity')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.kind`
+
+```python
+kind: str = Field(description='Identity kind: DEVICE, STEAM, or CUSTOM')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentityResponse.updated_at`
+
+```python
+updated_at: datetime = Field(description='Timestamp of last update (UTC)')
+```
+
+###### `leadr.auth.api.identity_schemas.IdentitySessionResponse`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Response model for an identity session.
+
+**Functions:**
+
+- [**from_domain**](#leadr.auth.api.identity_schemas.IdentitySessionResponse.from_domain) – Convert domain entity to response model.
+
+**Attributes:**
+
+- [**created_at**](#leadr.auth.api.identity_schemas.IdentitySessionResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**expires_at**](#leadr.auth.api.identity_schemas.IdentitySessionResponse.expires_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**id**](#leadr.auth.api.identity_schemas.IdentitySessionResponse.id) (<code>[IdentitySessionID](./common.md#leadr.common.domain.ids.IdentitySessionID)</code>) –
+- [**identity_id**](#leadr.auth.api.identity_schemas.IdentitySessionResponse.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
+- [**refresh_expires_at**](#leadr.auth.api.identity_schemas.IdentitySessionResponse.refresh_expires_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**revoked_at**](#leadr.auth.api.identity_schemas.IdentitySessionResponse.revoked_at) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**updated_at**](#leadr.auth.api.identity_schemas.IdentitySessionResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+
+####### `leadr.auth.api.identity_schemas.IdentitySessionResponse.created_at`
+
+```python
+created_at: datetime = Field(description='Timestamp when session was created (UTC)')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentitySessionResponse.expires_at`
+
+```python
+expires_at: datetime = Field(description='Access token expiration time (UTC)')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentitySessionResponse.from_domain`
+
+```python
+from_domain(session)
+```
+
+Convert domain entity to response model.
+
+**Parameters:**
+
+- **session** (<code>[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession)</code>) – The domain IdentitySession entity to convert.
+
+**Returns:**
+
+- <code>[IdentitySessionResponse](#leadr.auth.api.identity_schemas.IdentitySessionResponse)</code> – IdentitySessionResponse with all fields populated from the domain entity.
+
+####### `leadr.auth.api.identity_schemas.IdentitySessionResponse.id`
+
+```python
+id: IdentitySessionID = Field(description='Unique identifier for the session')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentitySessionResponse.identity_id`
+
+```python
+identity_id: IdentityID = Field(description='ID of the identity this session belongs to')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentitySessionResponse.refresh_expires_at`
+
+```python
+refresh_expires_at: datetime = Field(description='Refresh token expiration time (UTC)')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentitySessionResponse.revoked_at`
+
+```python
+revoked_at: datetime | None = Field(default=None, description='Time when session was revoked')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentitySessionResponse.updated_at`
+
+```python
+updated_at: datetime = Field(description='Timestamp of last update (UTC)')
+```
+
+###### `leadr.auth.api.identity_schemas.IdentityUpdateRequest`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Request model for updating an identity.
+
+**Attributes:**
+
+- [**deleted**](#leadr.auth.api.identity_schemas.IdentityUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
+- [**display_name**](#leadr.auth.api.identity_schemas.IdentityUpdateRequest.display_name) (<code>[str](#str) | None</code>) –
+
+####### `leadr.auth.api.identity_schemas.IdentityUpdateRequest.deleted`
+
+```python
+deleted: bool | None = Field(default=None, description='Set to true to soft-delete the identity')
+```
+
+####### `leadr.auth.api.identity_schemas.IdentityUpdateRequest.display_name`
+
+```python
+display_name: str | None = Field(default=None, description='Updated display name')
+```
+
+##### `leadr.auth.api.identity_session_routes`
+
+API routes for identity session management.
+
+**Functions:**
+
+- [**get_identity_session**](#leadr.auth.api.identity_session_routes.get_identity_session) – Get an identity session by ID.
+- [**list_identity_sessions**](#leadr.auth.api.identity_session_routes.list_identity_sessions) – List identity sessions with optional filters and pagination.
+- [**revoke_identity_session**](#leadr.auth.api.identity_session_routes.revoke_identity_session) – Revoke an identity session.
+
+**Attributes:**
+
+- [**router**](#leadr.auth.api.identity_session_routes.router) –
+
+###### `leadr.auth.api.identity_session_routes.get_identity_session`
+
+```python
+get_identity_session(session_id, service, auth)
+```
+
+Get an identity session by ID.
+
+**Parameters:**
+
+- **session_id** (<code>[IdentitySessionID](./common.md#leadr.common.domain.ids.IdentitySessionID)</code>) – Session identifier to retrieve.
+- **service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – Injected identity service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+
+**Returns:**
+
+- <code>[IdentitySessionResponse](#leadr.auth.api.identity_schemas.IdentitySessionResponse)</code> – IdentitySessionResponse with the session details.
 
 **Raises:**
 
 - <code>403</code> – User does not have access to this session's account.
 - <code>404</code> – Session not found or soft-deleted.
 
-###### `leadr.auth.api.device_session_routes.list_sessions`
+###### `leadr.auth.api.identity_session_routes.list_identity_sessions`
 
 ```python
-list_sessions(auth, service, pagination, account_id=None, device_id=None)
+list_identity_sessions(auth, service, pagination, account_id=None, identity_id=None)
 ```
 
-List device sessions for an account with optional filters and pagination.
+List identity sessions with optional filters and pagination.
 
-Returns all non-deleted device sessions for the specified account, with optional
-filtering by device.
+Returns all non-deleted sessions, with optional filtering by account or identity.
 
 For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id is optional - if omitted, returns sessions from all accounts.
@@ -1687,174 +2092,63 @@ For superadmins, account_id is optional - if omitted, returns sessions from all 
 Pagination:
 
 - Default: 20 items per page, sorted by created_at:desc,id:asc
-- Custom sort: Use ?sort=created_at:asc,id:desc
+- Custom sort: Use ?sort=created_at:desc
 - Valid sort fields: id, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
-GET /v1/device-sessions?account_id=acc_123&device_id=dev_456&limit=50
+GET /v1/identity-sessions?account_id=acc_123&identity_id=ide_456&limit=50
 
 </details>
 
 **Parameters:**
 
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
-- **service** (<code>[DeviceServiceDep](./auth.md#leadr.auth.services.dependencies.DeviceServiceDep)</code>) – Injected device service dependency.
+- **service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – Injected identity service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
 - **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
-- **device_id** (<code>[Annotated](#typing.Annotated)\[[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None, [Query](#fastapi.Query)(description='Filter by device ID')\]</code>) – Optional device ID to filter by.
+- **identity_id** (<code>[Annotated](#typing.Annotated)\[[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None, [Query](#fastapi.Query)(description='Filter by identity ID')\]</code>) – Optional identity ID to filter by.
 
 **Returns:**
 
-- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[DeviceSessionResponse](#leadr.auth.api.device_session_schemas.DeviceSessionResponse)\]</code> – PaginatedResponse with device sessions and pagination metadata.
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[IdentitySessionResponse](#leadr.auth.api.identity_schemas.IdentitySessionResponse)\]</code> – PaginatedResponse with sessions and pagination metadata.
 
 **Raises:**
 
 - <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
 - <code>403</code> – User does not have access to the specified account.
 
-###### `leadr.auth.api.device_session_routes.router`
+###### `leadr.auth.api.identity_session_routes.revoke_identity_session`
 
 ```python
-router = APIRouter()
+revoke_identity_session(session_id, service, auth)
 ```
 
-###### `leadr.auth.api.device_session_routes.update_session`
+Revoke an identity session.
 
-```python
-update_session(session_id, request, service, auth)
-```
-
-Update a device session (revoke).
-
-Allows revoking a device session to invalidate authentication.
+Marks the session as revoked, preventing further use.
 
 **Parameters:**
 
-- **session_id** (<code>[DeviceSessionID](./common.md#leadr.common.domain.ids.DeviceSessionID)</code>) – Session identifier to update.
-- **request** (<code>[DeviceSessionUpdateRequest](#leadr.auth.api.device_session_schemas.DeviceSessionUpdateRequest)</code>) – Update details (revoked status).
-- **service** (<code>[DeviceServiceDep](./auth.md#leadr.auth.services.dependencies.DeviceServiceDep)</code>) – Injected device service dependency.
+- **session_id** (<code>[IdentitySessionID](./common.md#leadr.common.domain.ids.IdentitySessionID)</code>) – Session identifier to revoke.
+- **service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – Injected identity service dependency.
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 
 **Returns:**
 
-- <code>[DeviceSessionResponse](#leadr.auth.api.device_session_schemas.DeviceSessionResponse)</code> – DeviceSessionResponse with the updated session details.
+- <code>[IdentitySessionResponse](#leadr.auth.api.identity_schemas.IdentitySessionResponse)</code> – IdentitySessionResponse with the revoked session details.
 
 **Raises:**
 
 - <code>403</code> – User does not have access to this session's account.
 - <code>404</code> – Session not found.
-- <code>400</code> – Invalid request or no revoked field provided.
 
-##### `leadr.auth.api.device_session_schemas`
-
-API schemas for device sessions.
-
-**Classes:**
-
-- [**DeviceSessionResponse**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse) – Response model for device session.
-- [**DeviceSessionUpdateRequest**](#leadr.auth.api.device_session_schemas.DeviceSessionUpdateRequest) – Request model for updating device session.
-
-###### `leadr.auth.api.device_session_schemas.DeviceSessionResponse`
-
-Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
-
-Response model for device session.
-
-**Functions:**
-
-- [**from_domain**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.from_domain) – Convert domain entity to API response.
-
-**Attributes:**
-
-- [**created_at**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**device_id**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
-- [**expires_at**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.expires_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**id**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.id) (<code>[DeviceSessionID](./common.md#leadr.common.domain.ids.DeviceSessionID)</code>) –
-- [**ip_address**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.ip_address) (<code>[str](#str) | None</code>) –
-- [**refresh_expires_at**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.refresh_expires_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**revoked_at**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.revoked_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**updated_at**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**user_agent**](#leadr.auth.api.device_session_schemas.DeviceSessionResponse.user_agent) (<code>[str](#str) | None</code>) –
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.created_at`
+###### `leadr.auth.api.identity_session_routes.router`
 
 ```python
-created_at: datetime
-```
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.device_id`
-
-```python
-device_id: DeviceID
-```
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.expires_at`
-
-```python
-expires_at: datetime
-```
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.from_domain`
-
-```python
-from_domain(session)
-```
-
-Convert domain entity to API response.
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.id`
-
-```python
-id: DeviceSessionID
-```
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.ip_address`
-
-```python
-ip_address: str | None
-```
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.refresh_expires_at`
-
-```python
-refresh_expires_at: datetime
-```
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.revoked_at`
-
-```python
-revoked_at: datetime | None
-```
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.updated_at`
-
-```python
-updated_at: datetime
-```
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionResponse.user_agent`
-
-```python
-user_agent: str | None
-```
-
-###### `leadr.auth.api.device_session_schemas.DeviceSessionUpdateRequest`
-
-Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
-
-Request model for updating device session.
-
-**Attributes:**
-
-- [**revoked**](#leadr.auth.api.device_session_schemas.DeviceSessionUpdateRequest.revoked) (<code>[bool](#bool) | None</code>) –
-
-####### `leadr.auth.api.device_session_schemas.DeviceSessionUpdateRequest.revoked`
-
-```python
-revoked: bool | None = None
+router = APIRouter()
 ```
 
 #### `leadr.auth.bootstrap`
@@ -1917,7 +2211,7 @@ Authentication dependencies for FastAPI.
 - [**AdminAuthContext**](./auth.md#leadr.auth.dependencies.AdminAuthContext) – Admin authentication context with guaranteed user and api_key fields.
 - [**AuthContext**](./auth.md#leadr.auth.dependencies.AuthContext) – Unified authentication context for both admin and client auth.
 - [**AuthContextDependency**](./auth.md#leadr.auth.dependencies.AuthContextDependency) – Parameterizable authentication dependency using FastAPI class instance pattern.
-- [**ClientAuthContext**](./auth.md#leadr.auth.dependencies.ClientAuthContext) – Client authentication context with guaranteed device field.
+- [**ClientAuthContext**](./auth.md#leadr.auth.dependencies.ClientAuthContext) – Client authentication context with guaranteed identity field.
 
 **Attributes:**
 
@@ -1936,7 +2230,7 @@ Authentication dependencies for FastAPI.
 ##### `leadr.auth.dependencies.AdminAuthContext`
 
 ```python
-AdminAuthContext(account_id, user, api_key, device=None)
+AdminAuthContext(account_id, user, api_key, identity=None)
 ```
 
 Bases: <code>[AuthContext](./auth.md#leadr.auth.dependencies.AuthContext)</code>
@@ -1955,7 +2249,7 @@ frozen dataclass fields and property overrides.
   account for superadmins).
 - [**user**](./auth.md#leadr.auth.dependencies.AdminAuthContext.user) (<code>[User](./accounts.md#leadr.accounts.domain.user.User)</code>) – The authenticated user (guaranteed non-None).
 - [**api_key**](#leadr.auth.dependencies.AdminAuthContext.api_key) (<code>[APIKey](#leadr.auth.domain.api_key.APIKey)</code>) – The authenticated API key (guaranteed non-None).
-- [**device**](./auth.md#leadr.auth.dependencies.AdminAuthContext.device) (<code>None</code>) – Always None for admin auth.
+- [**identity**](./auth.md#leadr.auth.dependencies.AdminAuthContext.identity) (<code>None</code>) – Always None for admin auth.
 
 **Functions:**
 
@@ -1987,15 +2281,7 @@ Return the authentication type.
 
 **Returns:**
 
-- <code>[Literal](#typing.Literal)['admin', 'client']</code> – "admin" if authenticated via API key, "client" if via device token.
-
-###### `leadr.auth.dependencies.AdminAuthContext.device`
-
-```python
-device: None
-```
-
-Get device (always None for admin auth).
+- <code>[Literal](#typing.Literal)['admin', 'client']</code> – "admin" if authenticated via API key, "client" if via identity token.
 
 ###### `leadr.auth.dependencies.AdminAuthContext.has_access_to_account`
 
@@ -2016,7 +2302,7 @@ Check if the authenticated context has access to a specific account.
 <details class="for-client-auth" open markdown="1">
 <summary>For client auth</summary>
 
-- Devices only have access to their game's account
+- Identities only have access to their game's account
 
 </details>
 
@@ -2027,6 +2313,14 @@ Check if the authenticated context has access to a specific account.
 **Returns:**
 
 - <code>[bool](#bool)</code> – True if context has access to the account, False otherwise.
+
+###### `leadr.auth.dependencies.AdminAuthContext.identity`
+
+```python
+identity: None
+```
+
+Get identity (always None for admin auth).
 
 ###### `leadr.auth.dependencies.AdminAuthContext.is_superadmin`
 
@@ -2065,13 +2359,13 @@ AdminAuthContextWithAccountIDDep = Annotated[AdminAuthContext, Depends(require_a
 ##### `leadr.auth.dependencies.AuthContext`
 
 ```python
-AuthContext(account_id, user=None, api_key=None, device=None)
+AuthContext(account_id, user=None, api_key=None, identity=None)
 ```
 
 Unified authentication context for both admin and client auth.
 
 This context provides a unified interface for both API key (admin) and
-device token (client) authentication. It includes helper methods for
+identity token (client) authentication. It includes helper methods for
 authorization checks that work transparently across both auth types.
 
 **Attributes:**
@@ -2079,7 +2373,7 @@ authorization checks that work transparently across both auth types.
 - [**account_id**](#leadr.auth.dependencies.AuthContext.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID associated with this auth context.
 - [**user**](./auth.md#leadr.auth.dependencies.AuthContext.user) (<code>[User](./accounts.md#leadr.accounts.domain.user.User) | None</code>) – The user entity (present for admin auth only).
 - [**api_key**](#leadr.auth.dependencies.AuthContext.api_key) (<code>[APIKey](#leadr.auth.domain.api_key.APIKey) | None</code>) – The API key entity (present for admin auth only).
-- [**device**](./auth.md#leadr.auth.dependencies.AuthContext.device) (<code>[Device](./auth.md#leadr.auth.domain.device.Device) | None</code>) – The device entity (present for client auth only).
+- [**identity**](./auth.md#leadr.auth.dependencies.AuthContext.identity) (<code>[Identity](./auth.md#leadr.auth.domain.identity.Identity) | None</code>) – The identity entity (present for client auth only).
 
 **Functions:**
 
@@ -2107,13 +2401,7 @@ Return the authentication type.
 
 **Returns:**
 
-- <code>[Literal](#typing.Literal)['admin', 'client']</code> – "admin" if authenticated via API key, "client" if via device token.
-
-###### `leadr.auth.dependencies.AuthContext.device`
-
-```python
-device: Device | None = None
-```
+- <code>[Literal](#typing.Literal)['admin', 'client']</code> – "admin" if authenticated via API key, "client" if via identity token.
 
 ###### `leadr.auth.dependencies.AuthContext.has_access_to_account`
 
@@ -2134,7 +2422,7 @@ Check if the authenticated context has access to a specific account.
 <details class="for-client-auth" open markdown="1">
 <summary>For client auth</summary>
 
-- Devices only have access to their game's account
+- Identities only have access to their game's account
 
 </details>
 
@@ -2145,6 +2433,12 @@ Check if the authenticated context has access to a specific account.
 **Returns:**
 
 - <code>[bool](#bool)</code> – True if context has access to the account, False otherwise.
+
+###### `leadr.auth.dependencies.AuthContext.identity`
+
+```python
+identity: Identity | None = None
+```
 
 ###### `leadr.auth.dependencies.AuthContext.is_superadmin`
 
@@ -2247,23 +2541,23 @@ require_superadmin_account_id = require_superadmin_account_id
 ##### `leadr.auth.dependencies.ClientAuthContext`
 
 ```python
-ClientAuthContext(account_id, device, user=None, api_key=None, test_mode=False)
+ClientAuthContext(account_id, identity, user=None, api_key=None, test_mode=False)
 ```
 
 Bases: <code>[AuthContext](./auth.md#leadr.auth.dependencies.AuthContext)</code>
 
-Client authentication context with guaranteed device field.
+Client authentication context with guaranteed identity field.
 
 This subclass is returned by client-only authentication dependencies,
-providing type-safe access to device without None checks.
+providing type-safe access to identity without None checks.
 
 Note: This class does not use @dataclass to avoid conflicts between
 frozen dataclass fields and property overrides.
 
 **Attributes:**
 
-- [**account_id**](#leadr.auth.dependencies.ClientAuthContext.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID from the device's game.
-- [**device**](./auth.md#leadr.auth.dependencies.ClientAuthContext.device) (<code>[Device](./auth.md#leadr.auth.domain.device.Device)</code>) – The authenticated device (guaranteed non-None).
+- [**account_id**](#leadr.auth.dependencies.ClientAuthContext.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID from the identity's game.
+- [**identity**](./auth.md#leadr.auth.dependencies.ClientAuthContext.identity) (<code>[Identity](./auth.md#leadr.auth.domain.identity.Identity)</code>) – The player identity (guaranteed non-None).
 - [**user**](./auth.md#leadr.auth.dependencies.ClientAuthContext.user) (<code>None</code>) – Always None for client auth.
 - [**api_key**](#leadr.auth.dependencies.ClientAuthContext.api_key) (<code>None</code>) – Always None for client auth.
 - [**test_mode**](#leadr.auth.dependencies.ClientAuthContext.test_mode) (<code>[bool](#bool)</code>) – Whether this session is in test mode.
@@ -2298,15 +2592,15 @@ Return the authentication type.
 
 **Returns:**
 
-- <code>[Literal](#typing.Literal)['admin', 'client']</code> – "admin" if authenticated via API key, "client" if via device token.
+- <code>[Literal](#typing.Literal)['admin', 'client']</code> – "admin" if authenticated via API key, "client" if via identity token.
 
-###### `leadr.auth.dependencies.ClientAuthContext.device`
+###### `leadr.auth.dependencies.ClientAuthContext.game_id`
 
 ```python
-device: Device
+game_id: GameID
 ```
 
-Get device (guaranteed non-None for client auth).
+Get game ID from identity (convenience property).
 
 ###### `leadr.auth.dependencies.ClientAuthContext.has_access_to_account`
 
@@ -2327,7 +2621,7 @@ Check if the authenticated context has access to a specific account.
 <details class="for-client-auth" open markdown="1">
 <summary>For client auth</summary>
 
-- Devices only have access to their game's account
+- Identities only have access to their game's account
 
 </details>
 
@@ -2338,6 +2632,14 @@ Check if the authenticated context has access to a specific account.
 **Returns:**
 
 - <code>[bool](#bool)</code> – True if context has access to the account, False otherwise.
+
+###### `leadr.auth.dependencies.ClientAuthContext.identity`
+
+```python
+identity: Identity
+```
+
+Get identity (guaranteed non-None for client auth).
 
 ###### `leadr.auth.dependencies.ClientAuthContext.is_superadmin`
 
@@ -2429,6 +2731,7 @@ require_superadmin_auth = AuthContextDependency(require_superadmin=True)
 
 - [**api_key**](#leadr.auth.domain.api_key) – API Key domain model.
 - [**device**](./auth.md#leadr.auth.domain.device) – Device domain models for client authentication.
+- [**identity**](./auth.md#leadr.auth.domain.identity) – Identity domain models for player identification.
 - [**nonce**](./auth.md#leadr.auth.domain.nonce) – Nonce domain entity for replay protection.
 
 ##### `leadr.auth.domain.api_key`
@@ -2691,7 +2994,6 @@ Device domain models for client authentication.
 **Classes:**
 
 - [**Device**](./auth.md#leadr.auth.domain.device.Device) – Device domain entity.
-- [**DeviceSession**](./auth.md#leadr.auth.domain.device.DeviceSession) – Device session domain entity.
 - [**DeviceStatus**](./auth.md#leadr.auth.domain.device.DeviceStatus) – Device status enumeration.
 
 ###### `leadr.auth.domain.device.Device`
@@ -2925,248 +3227,6 @@ Validate that client_fingerprint is a valid SHA256 hash.
 
 - <code>[ValueError](#ValueError)</code> – If the fingerprint is not a valid 64-character hex string.
 
-###### `leadr.auth.domain.device.DeviceSession`
-
-Bases: <code>[Entity](./common.md#leadr.common.domain.models.Entity)</code>
-
-Device session domain entity.
-
-Represents an active authentication session for a device.
-Sessions have an expiration time and can be revoked manually.
-Includes both access and refresh tokens with token rotation support.
-
-**Functions:**
-
-- [**is_expired**](#leadr.auth.domain.device.DeviceSession.is_expired) – Check if the access token has expired.
-- [**is_refresh_expired**](#leadr.auth.domain.device.DeviceSession.is_refresh_expired) – Check if the refresh token has expired.
-- [**is_revoked**](#leadr.auth.domain.device.DeviceSession.is_revoked) – Check if the session has been manually revoked.
-- [**is_valid**](#leadr.auth.domain.device.DeviceSession.is_valid) – Check if the session is valid for use.
-- [**restore**](./auth.md#leadr.auth.domain.device.DeviceSession.restore) – Restore a soft-deleted entity.
-- [**revoke**](./auth.md#leadr.auth.domain.device.DeviceSession.revoke) – Revoke the session, preventing further use.
-- [**rotate_tokens**](#leadr.auth.domain.device.DeviceSession.rotate_tokens) – Increment token version for token rotation.
-- [**soft_delete**](#leadr.auth.domain.device.DeviceSession.soft_delete) – Mark entity as soft-deleted.
-
-**Attributes:**
-
-- [**access_token_hash**](#leadr.auth.domain.device.DeviceSession.access_token_hash) (<code>[str](#str)</code>) –
-- [**created_at**](#leadr.auth.domain.device.DeviceSession.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**deleted_at**](#leadr.auth.domain.device.DeviceSession.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**device_id**](#leadr.auth.domain.device.DeviceSession.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
-- [**expires_at**](#leadr.auth.domain.device.DeviceSession.expires_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**id**](./auth.md#leadr.auth.domain.device.DeviceSession.id) (<code>[DeviceSessionID](./common.md#leadr.common.domain.ids.DeviceSessionID)</code>) –
-- [**ip_address**](#leadr.auth.domain.device.DeviceSession.ip_address) (<code>[str](#str) | None</code>) –
-- [**is_deleted**](#leadr.auth.domain.device.DeviceSession.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
-- [**model_config**](#leadr.auth.domain.device.DeviceSession.model_config) –
-- [**refresh_expires_at**](#leadr.auth.domain.device.DeviceSession.refresh_expires_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**refresh_token_hash**](#leadr.auth.domain.device.DeviceSession.refresh_token_hash) (<code>[str](#str)</code>) –
-- [**revoked_at**](#leadr.auth.domain.device.DeviceSession.revoked_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**token_version**](#leadr.auth.domain.device.DeviceSession.token_version) (<code>[int](#int)</code>) –
-- [**updated_at**](#leadr.auth.domain.device.DeviceSession.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**user_agent**](#leadr.auth.domain.device.DeviceSession.user_agent) (<code>[str](#str) | None</code>) –
-
-####### `leadr.auth.domain.device.DeviceSession.access_token_hash`
-
-```python
-access_token_hash: str
-```
-
-####### `leadr.auth.domain.device.DeviceSession.created_at`
-
-```python
-created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp when entity was created (UTC)')
-```
-
-####### `leadr.auth.domain.device.DeviceSession.deleted_at`
-
-```python
-deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
-```
-
-####### `leadr.auth.domain.device.DeviceSession.device_id`
-
-```python
-device_id: DeviceID
-```
-
-####### `leadr.auth.domain.device.DeviceSession.expires_at`
-
-```python
-expires_at: datetime
-```
-
-####### `leadr.auth.domain.device.DeviceSession.id`
-
-```python
-id: DeviceSessionID = Field(frozen=True, default_factory=DeviceSessionID, description='Unique device session identifier')
-```
-
-####### `leadr.auth.domain.device.DeviceSession.ip_address`
-
-```python
-ip_address: str | None = None
-```
-
-####### `leadr.auth.domain.device.DeviceSession.is_deleted`
-
-```python
-is_deleted: bool
-```
-
-Check if entity is soft-deleted.
-
-**Returns:**
-
-- <code>[bool](#bool)</code> – True if the entity has a deleted_at timestamp, False otherwise.
-
-####### `leadr.auth.domain.device.DeviceSession.is_expired`
-
-```python
-is_expired()
-```
-
-Check if the access token has expired.
-
-**Returns:**
-
-- <code>[bool](#bool)</code> – True if the current time is past the expiration time.
-
-####### `leadr.auth.domain.device.DeviceSession.is_refresh_expired`
-
-```python
-is_refresh_expired()
-```
-
-Check if the refresh token has expired.
-
-**Returns:**
-
-- <code>[bool](#bool)</code> – True if the current time is past the refresh expiration time.
-
-####### `leadr.auth.domain.device.DeviceSession.is_revoked`
-
-```python
-is_revoked()
-```
-
-Check if the session has been manually revoked.
-
-**Returns:**
-
-- <code>[bool](#bool)</code> – True if revoked_at is set.
-
-####### `leadr.auth.domain.device.DeviceSession.is_valid`
-
-```python
-is_valid()
-```
-
-Check if the session is valid for use.
-
-A session is valid if it's not expired and not revoked.
-
-**Returns:**
-
-- <code>[bool](#bool)</code> – True if the session can be used for authentication.
-
-####### `leadr.auth.domain.device.DeviceSession.model_config`
-
-```python
-model_config = ConfigDict(validate_assignment=True)
-```
-
-####### `leadr.auth.domain.device.DeviceSession.refresh_expires_at`
-
-```python
-refresh_expires_at: datetime
-```
-
-####### `leadr.auth.domain.device.DeviceSession.refresh_token_hash`
-
-```python
-refresh_token_hash: str
-```
-
-####### `leadr.auth.domain.device.DeviceSession.restore`
-
-```python
-restore()
-```
-
-Restore a soft-deleted entity.
-
-Clears the deleted_at timestamp, making the entity active again.
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > account.soft_delete()
-> > > account.restore()
-> > > assert account.is_deleted is False
-
-</details>
-
-####### `leadr.auth.domain.device.DeviceSession.revoke`
-
-```python
-revoke()
-```
-
-Revoke the session, preventing further use.
-
-####### `leadr.auth.domain.device.DeviceSession.revoked_at`
-
-```python
-revoked_at: datetime | None = None
-```
-
-####### `leadr.auth.domain.device.DeviceSession.rotate_tokens`
-
-```python
-rotate_tokens()
-```
-
-Increment token version for token rotation.
-
-Called when refreshing tokens to invalidate old refresh tokens.
-
-####### `leadr.auth.domain.device.DeviceSession.soft_delete`
-
-```python
-soft_delete()
-```
-
-Mark entity as soft-deleted.
-
-Sets the deleted_at timestamp to the current UTC time. Entities that are
-already deleted are not affected (deleted_at remains at original deletion time).
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > account = Account(name="Test", slug="test")
-> > > account.soft_delete()
-> > > assert account.is_deleted is True
-
-</details>
-
-####### `leadr.auth.domain.device.DeviceSession.token_version`
-
-```python
-token_version: int = 1
-```
-
-####### `leadr.auth.domain.device.DeviceSession.updated_at`
-
-```python
-updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp of last update (UTC)')
-```
-
-####### `leadr.auth.domain.device.DeviceSession.user_agent`
-
-```python
-user_agent: str | None = None
-```
-
 ###### `leadr.auth.domain.device.DeviceStatus`
 
 Bases: <code>[Enum](#enum.Enum)</code>
@@ -3195,6 +3255,432 @@ BANNED = 'banned'
 
 ```python
 SUSPENDED = 'suspended'
+```
+
+##### `leadr.auth.domain.identity`
+
+Identity domain models for player identification.
+
+**Classes:**
+
+- [**Identity**](./auth.md#leadr.auth.domain.identity.Identity) – Identity domain entity.
+- [**IdentityKind**](./auth.md#leadr.auth.domain.identity.IdentityKind) – Identity provider type enumeration.
+- [**IdentitySession**](./auth.md#leadr.auth.domain.identity.IdentitySession) – Identity session domain entity.
+
+###### `leadr.auth.domain.identity.Identity`
+
+Bases: <code>[Entity](./common.md#leadr.common.domain.models.Entity)</code>
+
+Identity domain entity.
+
+Represents a player identity within a game. Identities are the ranking key
+for leaderboards, decoupling player identity from specific authentication
+mechanisms (devices, Steam accounts, etc.).
+
+Each identity is scoped to an account and game, and is uniquely identified
+by the combination of kind and external_key.
+
+**Functions:**
+
+- [**restore**](./auth.md#leadr.auth.domain.identity.Identity.restore) – Restore a soft-deleted entity.
+- [**soft_delete**](#leadr.auth.domain.identity.Identity.soft_delete) – Mark entity as soft-deleted.
+- [**update_display_name**](#leadr.auth.domain.identity.Identity.update_display_name) – Update the display name.
+
+**Attributes:**
+
+- [**account_id**](#leadr.auth.domain.identity.Identity.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**created_at**](#leadr.auth.domain.identity.Identity.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**deleted_at**](#leadr.auth.domain.identity.Identity.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**display_name**](#leadr.auth.domain.identity.Identity.display_name) (<code>[str](#str) | None</code>) –
+- [**external_key**](#leadr.auth.domain.identity.Identity.external_key) (<code>[str](#str)</code>) –
+- [**game_id**](#leadr.auth.domain.identity.Identity.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
+- [**id**](./auth.md#leadr.auth.domain.identity.Identity.id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
+- [**is_deleted**](#leadr.auth.domain.identity.Identity.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
+- [**kind**](./auth.md#leadr.auth.domain.identity.Identity.kind) (<code>[IdentityKind](./auth.md#leadr.auth.domain.identity.IdentityKind)</code>) –
+- [**model_config**](#leadr.auth.domain.identity.Identity.model_config) –
+- [**updated_at**](#leadr.auth.domain.identity.Identity.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+
+####### `leadr.auth.domain.identity.Identity.account_id`
+
+```python
+account_id: AccountID = Field(frozen=True, description='Account this identity belongs to')
+```
+
+####### `leadr.auth.domain.identity.Identity.created_at`
+
+```python
+created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp when entity was created (UTC)')
+```
+
+####### `leadr.auth.domain.identity.Identity.deleted_at`
+
+```python
+deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
+```
+
+####### `leadr.auth.domain.identity.Identity.display_name`
+
+```python
+display_name: str | None = Field(default=None, description='Player display name')
+```
+
+####### `leadr.auth.domain.identity.Identity.external_key`
+
+```python
+external_key: str = Field(description='External identifier (e.g., device ID, Steam ID, custom user ID)')
+```
+
+####### `leadr.auth.domain.identity.Identity.game_id`
+
+```python
+game_id: GameID = Field(frozen=True, description='Game this identity belongs to')
+```
+
+####### `leadr.auth.domain.identity.Identity.id`
+
+```python
+id: IdentityID = Field(frozen=True, default_factory=IdentityID, description='Unique identity identifier')
+```
+
+####### `leadr.auth.domain.identity.Identity.is_deleted`
+
+```python
+is_deleted: bool
+```
+
+Check if entity is soft-deleted.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if the entity has a deleted_at timestamp, False otherwise.
+
+####### `leadr.auth.domain.identity.Identity.kind`
+
+```python
+kind: IdentityKind = Field(description='Type of identity provider')
+```
+
+####### `leadr.auth.domain.identity.Identity.model_config`
+
+```python
+model_config = ConfigDict(validate_assignment=True)
+```
+
+####### `leadr.auth.domain.identity.Identity.restore`
+
+```python
+restore()
+```
+
+Restore a soft-deleted entity.
+
+Clears the deleted_at timestamp, making the entity active again.
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > account.soft_delete()
+> > > account.restore()
+> > > assert account.is_deleted is False
+
+</details>
+
+####### `leadr.auth.domain.identity.Identity.soft_delete`
+
+```python
+soft_delete()
+```
+
+Mark entity as soft-deleted.
+
+Sets the deleted_at timestamp to the current UTC time. Entities that are
+already deleted are not affected (deleted_at remains at original deletion time).
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > account = Account(name="Test", slug="test")
+> > > account.soft_delete()
+> > > assert account.is_deleted is True
+
+</details>
+
+####### `leadr.auth.domain.identity.Identity.update_display_name`
+
+```python
+update_display_name(name)
+```
+
+Update the display name.
+
+**Parameters:**
+
+- **name** (<code>[str](#str) | None</code>) – New display name, or None to clear.
+
+####### `leadr.auth.domain.identity.Identity.updated_at`
+
+```python
+updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp of last update (UTC)')
+```
+
+###### `leadr.auth.domain.identity.IdentityKind`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Identity provider type enumeration.
+
+**Attributes:**
+
+- [**CUSTOM**](./auth.md#leadr.auth.domain.identity.IdentityKind.CUSTOM) –
+- [**DEVICE**](./auth.md#leadr.auth.domain.identity.IdentityKind.DEVICE) –
+- [**STEAM**](./auth.md#leadr.auth.domain.identity.IdentityKind.STEAM) –
+
+####### `leadr.auth.domain.identity.IdentityKind.CUSTOM`
+
+```python
+CUSTOM = 'CUSTOM'
+```
+
+####### `leadr.auth.domain.identity.IdentityKind.DEVICE`
+
+```python
+DEVICE = 'DEVICE'
+```
+
+####### `leadr.auth.domain.identity.IdentityKind.STEAM`
+
+```python
+STEAM = 'STEAM'
+```
+
+###### `leadr.auth.domain.identity.IdentitySession`
+
+Bases: <code>[Entity](./common.md#leadr.common.domain.models.Entity)</code>
+
+Identity session domain entity.
+
+Represents an active authentication session for an identity.
+Sessions have an expiration time and can be revoked manually.
+Includes both access and refresh tokens with token rotation support.
+
+Replaces DeviceSession with identity-based authentication.
+
+**Functions:**
+
+- [**is_expired**](#leadr.auth.domain.identity.IdentitySession.is_expired) – Check if the access token has expired.
+- [**is_refresh_expired**](#leadr.auth.domain.identity.IdentitySession.is_refresh_expired) – Check if the refresh token has expired.
+- [**is_revoked**](#leadr.auth.domain.identity.IdentitySession.is_revoked) – Check if the session has been manually revoked.
+- [**is_valid**](#leadr.auth.domain.identity.IdentitySession.is_valid) – Check if the session is valid for use.
+- [**restore**](./auth.md#leadr.auth.domain.identity.IdentitySession.restore) – Restore a soft-deleted entity.
+- [**revoke**](./auth.md#leadr.auth.domain.identity.IdentitySession.revoke) – Revoke the session, preventing further use.
+- [**rotate_tokens**](#leadr.auth.domain.identity.IdentitySession.rotate_tokens) – Increment token version for token rotation.
+- [**soft_delete**](#leadr.auth.domain.identity.IdentitySession.soft_delete) – Mark entity as soft-deleted.
+
+**Attributes:**
+
+- [**access_token_hash**](#leadr.auth.domain.identity.IdentitySession.access_token_hash) (<code>[str](#str)</code>) –
+- [**created_at**](#leadr.auth.domain.identity.IdentitySession.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**deleted_at**](#leadr.auth.domain.identity.IdentitySession.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**expires_at**](#leadr.auth.domain.identity.IdentitySession.expires_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**id**](./auth.md#leadr.auth.domain.identity.IdentitySession.id) (<code>[IdentitySessionID](./common.md#leadr.common.domain.ids.IdentitySessionID)</code>) –
+- [**identity_id**](#leadr.auth.domain.identity.IdentitySession.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
+- [**is_deleted**](#leadr.auth.domain.identity.IdentitySession.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
+- [**model_config**](#leadr.auth.domain.identity.IdentitySession.model_config) –
+- [**refresh_expires_at**](#leadr.auth.domain.identity.IdentitySession.refresh_expires_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**refresh_token_hash**](#leadr.auth.domain.identity.IdentitySession.refresh_token_hash) (<code>[str](#str)</code>) –
+- [**revoked_at**](#leadr.auth.domain.identity.IdentitySession.revoked_at) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**token_version**](#leadr.auth.domain.identity.IdentitySession.token_version) (<code>[int](#int)</code>) –
+- [**updated_at**](#leadr.auth.domain.identity.IdentitySession.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+
+####### `leadr.auth.domain.identity.IdentitySession.access_token_hash`
+
+```python
+access_token_hash: str
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.created_at`
+
+```python
+created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp when entity was created (UTC)')
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.deleted_at`
+
+```python
+deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.expires_at`
+
+```python
+expires_at: datetime
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.id`
+
+```python
+id: IdentitySessionID = Field(frozen=True, default_factory=IdentitySessionID, description='Unique identity session identifier')
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.identity_id`
+
+```python
+identity_id: IdentityID = Field(frozen=True, description='Identity this session belongs to')
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.is_deleted`
+
+```python
+is_deleted: bool
+```
+
+Check if entity is soft-deleted.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if the entity has a deleted_at timestamp, False otherwise.
+
+####### `leadr.auth.domain.identity.IdentitySession.is_expired`
+
+```python
+is_expired()
+```
+
+Check if the access token has expired.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if the current time is past the expiration time.
+
+####### `leadr.auth.domain.identity.IdentitySession.is_refresh_expired`
+
+```python
+is_refresh_expired()
+```
+
+Check if the refresh token has expired.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if the current time is past the refresh expiration time.
+
+####### `leadr.auth.domain.identity.IdentitySession.is_revoked`
+
+```python
+is_revoked()
+```
+
+Check if the session has been manually revoked.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if revoked_at is set.
+
+####### `leadr.auth.domain.identity.IdentitySession.is_valid`
+
+```python
+is_valid()
+```
+
+Check if the session is valid for use.
+
+A session is valid if it's not expired and not revoked.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if the session can be used for authentication.
+
+####### `leadr.auth.domain.identity.IdentitySession.model_config`
+
+```python
+model_config = ConfigDict(validate_assignment=True)
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.refresh_expires_at`
+
+```python
+refresh_expires_at: datetime
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.refresh_token_hash`
+
+```python
+refresh_token_hash: str
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.restore`
+
+```python
+restore()
+```
+
+Restore a soft-deleted entity.
+
+Clears the deleted_at timestamp, making the entity active again.
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > account.soft_delete()
+> > > account.restore()
+> > > assert account.is_deleted is False
+
+</details>
+
+####### `leadr.auth.domain.identity.IdentitySession.revoke`
+
+```python
+revoke()
+```
+
+Revoke the session, preventing further use.
+
+####### `leadr.auth.domain.identity.IdentitySession.revoked_at`
+
+```python
+revoked_at: datetime | None = None
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.rotate_tokens`
+
+```python
+rotate_tokens()
+```
+
+Increment token version for token rotation.
+
+Called when refreshing tokens to invalidate old refresh tokens.
+
+####### `leadr.auth.domain.identity.IdentitySession.soft_delete`
+
+```python
+soft_delete()
+```
+
+Mark entity as soft-deleted.
+
+Sets the deleted_at timestamp to the current UTC time. Entities that are
+already deleted are not affected (deleted_at remains at original deletion time).
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > account = Account(name="Test", slug="test")
+> > > account.soft_delete()
+> > > assert account.is_deleted is True
+
+</details>
+
+####### `leadr.auth.domain.identity.IdentitySession.token_version`
+
+```python
+token_version: int = 1
+```
+
+####### `leadr.auth.domain.identity.IdentitySession.updated_at`
+
+```python
+updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp of last update (UTC)')
 ```
 
 ##### `leadr.auth.domain.nonce`
@@ -3233,9 +3719,9 @@ is fresh and authorized by the server.
 
 - [**created_at**](#leadr.auth.domain.nonce.Nonce.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**deleted_at**](#leadr.auth.domain.nonce.Nonce.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**device_id**](#leadr.auth.domain.nonce.Nonce.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
 - [**expires_at**](#leadr.auth.domain.nonce.Nonce.expires_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**id**](./auth.md#leadr.auth.domain.nonce.Nonce.id) (<code>[NonceID](./common.md#leadr.common.domain.ids.NonceID)</code>) –
+- [**identity_id**](#leadr.auth.domain.nonce.Nonce.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
 - [**is_deleted**](#leadr.auth.domain.nonce.Nonce.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
 - [**model_config**](#leadr.auth.domain.nonce.Nonce.model_config) –
 - [**nonce_value**](#leadr.auth.domain.nonce.Nonce.nonce_value) (<code>[str](#str)</code>) –
@@ -3255,12 +3741,6 @@ created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), descri
 deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
 ```
 
-####### `leadr.auth.domain.nonce.Nonce.device_id`
-
-```python
-device_id: DeviceID = Field(description='Device that owns this nonce')
-```
-
 ####### `leadr.auth.domain.nonce.Nonce.expires_at`
 
 ```python
@@ -3271,6 +3751,12 @@ expires_at: datetime = Field(description='Nonce expiration timestamp')
 
 ```python
 id: NonceID = Field(frozen=True, default_factory=NonceID, description='Unique nonce identifier')
+```
+
+####### `leadr.auth.domain.nonce.Nonce.identity_id`
+
+```python
+identity_id: IdentityID = Field(description='Identity that owns this nonce')
 ```
 
 ####### `leadr.auth.domain.nonce.Nonce.is_deleted`
@@ -3454,9 +3940,10 @@ USED = 'used'
 - [**dependencies**](./auth.md#leadr.auth.services.dependencies) – Auth service dependency injection factories.
 - [**device_service**](#leadr.auth.services.device_service) – Device authentication service.
 - [**device_token_crypto**](#leadr.auth.services.device_token_crypto) – Cryptographic operations for device access and refresh tokens.
+- [**identity_service**](#leadr.auth.services.identity_service) – Identity service for player identity management.
 - [**nonce_service**](#leadr.auth.services.nonce_service) – Nonce service for managing request nonces.
 - [**nonce_tasks**](#leadr.auth.services.nonce_tasks) – Background tasks for nonce cleanup.
-- [**repositories**](./auth.md#leadr.auth.services.repositories) – API Key, Device, and Nonce repository services.
+- [**repositories**](./auth.md#leadr.auth.services.repositories) – API Key, Device, Identity, and Nonce repository services.
 
 ##### `leadr.auth.services.api_key_crypto`
 
@@ -3969,12 +4456,14 @@ Auth service dependency injection factories.
 
 - [**get_api_key_service**](#leadr.auth.services.dependencies.get_api_key_service) – Get APIKeyService dependency.
 - [**get_device_service**](#leadr.auth.services.dependencies.get_device_service) – Get DeviceService dependency.
+- [**get_identity_service**](#leadr.auth.services.dependencies.get_identity_service) – Get IdentityService dependency with DeviceService injected.
 - [**get_nonce_service**](#leadr.auth.services.dependencies.get_nonce_service) – Get NonceService dependency.
 
 **Attributes:**
 
 - [**APIKeyServiceDep**](./auth.md#leadr.auth.services.dependencies.APIKeyServiceDep) –
 - [**DeviceServiceDep**](./auth.md#leadr.auth.services.dependencies.DeviceServiceDep) –
+- [**IdentityServiceDep**](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep) –
 - [**NonceServiceDep**](./auth.md#leadr.auth.services.dependencies.NonceServiceDep) –
 
 ###### `leadr.auth.services.dependencies.APIKeyServiceDep`
@@ -3987,6 +4476,12 @@ APIKeyServiceDep = Annotated[APIKeyService, Depends(get_api_key_service)]
 
 ```python
 DeviceServiceDep = Annotated[DeviceService, Depends(get_device_service)]
+```
+
+###### `leadr.auth.services.dependencies.IdentityServiceDep`
+
+```python
+IdentityServiceDep = Annotated[IdentityService, Depends(get_identity_service)]
 ```
 
 ###### `leadr.auth.services.dependencies.NonceServiceDep`
@@ -4027,6 +4522,23 @@ Get DeviceService dependency.
 
 - <code>[DeviceService](#leadr.auth.services.device_service.DeviceService)</code> – DeviceService instance configured with the database session
 
+###### `leadr.auth.services.dependencies.get_identity_service`
+
+```python
+get_identity_service(db, device_service=Depends(get_device_service))
+```
+
+Get IdentityService dependency with DeviceService injected.
+
+**Parameters:**
+
+- **db** (<code>[DatabaseSession](./common.md#leadr.common.dependencies.DatabaseSession)</code>) – Database session injected via dependency injection
+- **device_service** (<code>[DeviceService](#leadr.auth.services.device_service.DeviceService)</code>) – DeviceService injected via dependency injection
+
+**Returns:**
+
+- <code>[IdentityService](#leadr.auth.services.identity_service.IdentityService)</code> – IdentityService instance configured with the database session and device service
+
 ###### `leadr.auth.services.dependencies.get_nonce_service`
 
 ```python
@@ -4049,7 +4561,7 @@ Device authentication service.
 
 **Classes:**
 
-- [**DeviceService**](#leadr.auth.services.device_service.DeviceService) – Service for device authentication and session management.
+- [**DeviceService**](#leadr.auth.services.device_service.DeviceService) – Service for device management.
 
 ###### `leadr.auth.services.device_service.DeviceService`
 
@@ -4059,7 +4571,10 @@ DeviceService(session)
 
 Bases: <code>[BaseService](./common.md#leadr.common.services.BaseService)\[[Device](./auth.md#leadr.auth.domain.device.Device), [DeviceRepository](./auth.md#leadr.auth.services.repositories.DeviceRepository)\]</code>
 
-Service for device authentication and session management.
+Service for device management.
+
+Devices are internal lookup tables that map client fingerprints to games/accounts.
+For session management, use IdentityService instead.
 
 **Functions:**
 
@@ -4069,23 +4584,16 @@ Service for device authentication and session management.
 - [**get_by_id**](#leadr.auth.services.device_service.DeviceService.get_by_id) – Get an entity by its ID.
 - [**get_by_id_or_raise**](#leadr.auth.services.device_service.DeviceService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**get_device**](#leadr.auth.services.device_service.DeviceService.get_device) – Get a device by its ID.
-- [**get_session**](#leadr.auth.services.device_service.DeviceService.get_session) – Get a device session by its ID.
-- [**get_session_or_raise**](#leadr.auth.services.device_service.DeviceService.get_session_or_raise) – Get a device session by its ID or raise EntityNotFoundError.
+- [**get_or_create_device**](#leadr.auth.services.device_service.DeviceService.get_or_create_device) – Get or create a device record.
 - [**list_all**](#leadr.auth.services.device_service.DeviceService.list_all) – List all non-deleted entities.
 - [**list_devices**](#leadr.auth.services.device_service.DeviceService.list_devices) – List devices for an account with optional filters and pagination.
-- [**list_sessions**](#leadr.auth.services.device_service.DeviceService.list_sessions) – List device sessions for an account with optional filters and pagination.
-- [**refresh_access_token**](#leadr.auth.services.device_service.DeviceService.refresh_access_token) – Refresh access token using a valid refresh token.
-- [**revoke_session**](#leadr.auth.services.device_service.DeviceService.revoke_session) – Revoke a device session.
 - [**soft_delete**](#leadr.auth.services.device_service.DeviceService.soft_delete) – Soft-delete an entity and return it before deletion.
-- [**start_session**](#leadr.auth.services.device_service.DeviceService.start_session) – Start a new device session.
 - [**suspend_device**](#leadr.auth.services.device_service.DeviceService.suspend_device) – Suspend a device temporarily.
-- [**validate_device_token**](#leadr.auth.services.device_service.DeviceService.validate_device_token) – Validate access token and return associated device.
 
 **Attributes:**
 
 - [**repository**](#leadr.auth.services.device_service.DeviceService.repository) –
 - [**session**](#leadr.auth.services.device_service.DeviceService.session) –
-- [**session_repo**](#leadr.auth.services.device_service.DeviceService.session_repo) –
 
 **Parameters:**
 
@@ -4221,55 +4729,31 @@ Get a device by its ID.
 
 </details>
 
-####### `leadr.auth.services.device_service.DeviceService.get_session`
+####### `leadr.auth.services.device_service.DeviceService.get_or_create_device`
 
 ```python
-get_session(session_id)
+get_or_create_device(game_id, client_fingerprint, platform=None, metadata=None)
 ```
 
-Get a device session by its ID.
+Get or create a device record.
+
+This is used as an internal lookup table to map fingerprints to games/accounts.
+Does NOT create sessions - use IdentityService.start_session() for that.
 
 **Parameters:**
 
-- **session_id** (<code>[UUID](#uuid.UUID)</code>) – The ID of the session to retrieve
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – Game UUID
+- **client_fingerprint** (<code>[str](#str)</code>) – Client-generated SHA256 device fingerprint
+- **platform** (<code>[str](#str) | None</code>) – Device platform (ios, android, etc.)
+- **metadata** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – Additional device metadata
 
 **Returns:**
 
-- <code>[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession) | None</code> – The session if found, None otherwise
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > session = await service.get_session(session_id)
-
-</details>
-
-####### `leadr.auth.services.device_service.DeviceService.get_session_or_raise`
-
-```python
-get_session_or_raise(session_id)
-```
-
-Get a device session by its ID or raise EntityNotFoundError.
-
-**Parameters:**
-
-- **session_id** (<code>[DeviceSessionID](./common.md#leadr.common.domain.ids.DeviceSessionID)</code>) – The ID of the session to retrieve
-
-**Returns:**
-
-- <code>[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)</code> – The session
+- **Device** (<code>[Device](./auth.md#leadr.auth.domain.device.Device)</code>) – The device record (new or existing)
 
 **Raises:**
 
-- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the session doesn't exist
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > session = await service.get_session_or_raise(session_id)
-
-</details>
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If game doesn't exist
 
 ####### `leadr.auth.services.device_service.DeviceService.list_all`
 
@@ -4314,109 +4798,16 @@ List devices for an account with optional filters and pagination.
 
 </details>
 
-####### `leadr.auth.services.device_service.DeviceService.list_sessions`
-
-```python
-list_sessions(account_id, *, device_id=None, pagination)
-```
-
-List device sessions for an account with optional filters and pagination.
-
-**Parameters:**
-
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all sessions
-  (superadmin use case).
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
-
-**Returns:**
-
-- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)\]</code> – PaginatedResult containing DeviceSession entities.
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > sessions = await service.list_sessions(
-> > > ... account_id=account.id,
-> > > ... device_id=device.id,
-> > > ... pagination=pagination,
-> > > ... )
-
-</details>
-
-####### `leadr.auth.services.device_service.DeviceService.refresh_access_token`
-
-```python
-refresh_access_token(refresh_token)
-```
-
-Refresh access token using a valid refresh token.
-
-Validates the refresh token, checks token version for replay attack detection,
-generates new access and refresh tokens with incremented version, and updates
-the session.
-
-**Parameters:**
-
-- **refresh_token** (<code>[str](#str)</code>) – JWT refresh token
-
-**Returns:**
-
-- <code>[tuple](#tuple)\[[str](#str), [str](#str), [int](#int)\] | None</code> – tuple\[str, str, int\]: (access_token_plain, refresh_token_plain, expires_in_seconds)
-- <code>[tuple](#tuple)\[[str](#str), [str](#str), [int](#int)\] | None</code> – or None if refresh token is invalid
-
-<details class="token-rotation-security" open markdown="1">
-<summary>Token Rotation Security</summary>
-
-- The token_version in the JWT must match the session's token_version
-- When tokens are refreshed, the version is incremented
-- Old refresh tokens with lower versions are rejected (prevents replay attacks)
-
-</details>
-
 ####### `leadr.auth.services.device_service.DeviceService.repository`
 
 ```python
 repository = self._create_repository(session)
 ```
 
-####### `leadr.auth.services.device_service.DeviceService.revoke_session`
-
-```python
-revoke_session(session_id)
-```
-
-Revoke a device session.
-
-**Parameters:**
-
-- **session_id** (<code>[DeviceSessionID](./common.md#leadr.common.domain.ids.DeviceSessionID)</code>) – The ID of the session to revoke
-
-**Returns:**
-
-- <code>[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)</code> – The updated session
-
-**Raises:**
-
-- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the session doesn't exist
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > session = await service.revoke_session(session_id)
-
-</details>
-
 ####### `leadr.auth.services.device_service.DeviceService.session`
 
 ```python
 session = session
-```
-
-####### `leadr.auth.services.device_service.DeviceService.session_repo`
-
-```python
-session_repo = DeviceSessionRepository(session)
 ```
 
 ####### `leadr.auth.services.device_service.DeviceService.soft_delete`
@@ -4440,37 +4831,6 @@ Useful for endpoints that need to return the deleted entity in the response.
 **Raises:**
 
 - <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the entity doesn't exist
-
-####### `leadr.auth.services.device_service.DeviceService.start_session`
-
-```python
-start_session(game_id, client_fingerprint, platform=None, ip_address=None, user_agent=None, metadata=None, test_mode=False)
-```
-
-Start a new device session.
-
-Creates or updates device, generates JWT access and refresh tokens,
-and creates session record. This is idempotent - calling multiple times
-updates last_seen_at.
-
-**Parameters:**
-
-- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – Game UUID
-- **client_fingerprint** (<code>[str](#str)</code>) – Client-generated SHA256 device fingerprint
-- **platform** (<code>[str](#str) | None</code>) – Device platform (ios, android, etc.)
-- **ip_address** (<code>[str](#str) | None</code>) – Client IP address
-- **user_agent** (<code>[str](#str) | None</code>) – Client user agent string
-- **metadata** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – Additional device metadata
-- **test_mode** (<code>[bool](#bool)</code>) – If True, session is in test mode and scores will be marked as test
-
-**Returns:**
-
-- <code>[tuple](#tuple)\[[Device](./auth.md#leadr.auth.domain.device.Device), [str](#str), [str](#str), [int](#int)\]</code> – tuple\[Device, str, str, int\]: (device, access_token_plain, refresh_token_plain,
-  expires_in_seconds)
-
-**Raises:**
-
-- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If game doesn't exist
 
 ####### `leadr.auth.services.device_service.DeviceService.suspend_device`
 
@@ -4499,25 +4859,6 @@ Suspend a device temporarily.
 
 </details>
 
-####### `leadr.auth.services.device_service.DeviceService.validate_device_token`
-
-```python
-validate_device_token(token)
-```
-
-Validate access token and return associated device.
-
-Validates JWT signature and expiration, checks session validity,
-and ensures device is active.
-
-**Parameters:**
-
-- **token** (<code>[str](#str)</code>) – JWT access token
-
-**Returns:**
-
-- <code>[Device](./auth.md#leadr.auth.domain.device.Device) | None</code> – Device if token is valid and device is active, None otherwise
-
 ##### `leadr.auth.services.device_token_crypto`
 
 Cryptographic operations for device access and refresh tokens.
@@ -4533,7 +4874,7 @@ Cryptographic operations for device access and refresh tokens.
 ###### `leadr.auth.services.device_token_crypto.generate_access_token`
 
 ```python
-generate_access_token(client_fingerprint, game_id, account_id, expires_delta, secret, test_mode=False)
+generate_access_token(client_fingerprint, game_id, account_id, expires_delta, secret, test_mode=False, identity_id=None)
 ```
 
 Generate JWT access token for device authentication.
@@ -4572,7 +4913,7 @@ and returns both the plain token and its SHA-256 hash for storage.
 ###### `leadr.auth.services.device_token_crypto.generate_refresh_token`
 
 ```python
-generate_refresh_token(client_fingerprint, game_id, account_id, token_version, expires_delta, secret, test_mode=False)
+generate_refresh_token(client_fingerprint, game_id, account_id, token_version, expires_delta, secret, test_mode=False, identity_id=None)
 ```
 
 Generate JWT refresh token for device authentication.
@@ -4704,6 +5045,398 @@ Verifies the token signature and expiration. Returns decoded claims if valid.
 
 </details>
 
+##### `leadr.auth.services.identity_service`
+
+Identity service for player identity management.
+
+**Classes:**
+
+- [**IdentityService**](#leadr.auth.services.identity_service.IdentityService) – Service for identity management and session handling.
+
+###### `leadr.auth.services.identity_service.IdentityService`
+
+```python
+IdentityService(session, device_service)
+```
+
+Bases: <code>[BaseService](./common.md#leadr.common.services.BaseService)\[[Identity](./auth.md#leadr.auth.domain.identity.Identity), [IdentityRepository](./auth.md#leadr.auth.services.repositories.IdentityRepository)\]</code>
+
+Service for identity management and session handling.
+
+**Functions:**
+
+- [**delete**](#leadr.auth.services.identity_service.IdentityService.delete) – Soft-delete an entity.
+- [**get_by_id**](#leadr.auth.services.identity_service.IdentityService.get_by_id) – Get an entity by its ID.
+- [**get_by_id_or_raise**](#leadr.auth.services.identity_service.IdentityService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
+- [**get_identity**](#leadr.auth.services.identity_service.IdentityService.get_identity) – Get an identity by its ID.
+- [**get_identity_or_raise**](#leadr.auth.services.identity_service.IdentityService.get_identity_or_raise) – Get an identity by its ID or raise EntityNotFoundError.
+- [**get_or_create_identity**](#leadr.auth.services.identity_service.IdentityService.get_or_create_identity) – Get an existing identity or create a new one.
+- [**get_session**](#leadr.auth.services.identity_service.IdentityService.get_session) – Get an identity session by its ID.
+- [**get_session_or_raise**](#leadr.auth.services.identity_service.IdentityService.get_session_or_raise) – Get an identity session by its ID or raise EntityNotFoundError.
+- [**list_all**](#leadr.auth.services.identity_service.IdentityService.list_all) – List all non-deleted entities.
+- [**list_identities**](#leadr.auth.services.identity_service.IdentityService.list_identities) – List identities for an account with optional filters and pagination.
+- [**list_sessions**](#leadr.auth.services.identity_service.IdentityService.list_sessions) – List identity sessions with optional filters and pagination.
+- [**refresh_access_token**](#leadr.auth.services.identity_service.IdentityService.refresh_access_token) – Refresh access token using a valid refresh token.
+- [**revoke_session**](#leadr.auth.services.identity_service.IdentityService.revoke_session) – Revoke an identity session.
+- [**soft_delete**](#leadr.auth.services.identity_service.IdentityService.soft_delete) – Soft-delete an entity and return it before deletion.
+- [**start_session**](#leadr.auth.services.identity_service.IdentityService.start_session) – Start a new identity session.
+- [**update_identity**](#leadr.auth.services.identity_service.IdentityService.update_identity) – Update an identity's mutable fields.
+- [**validate_identity_token**](#leadr.auth.services.identity_service.IdentityService.validate_identity_token) – Validate access token and return associated identity.
+
+**Attributes:**
+
+- [**repository**](#leadr.auth.services.identity_service.IdentityService.repository) –
+- [**session**](#leadr.auth.services.identity_service.IdentityService.session) –
+- [**session_repo**](#leadr.auth.services.identity_service.IdentityService.session_repo) –
+
+**Parameters:**
+
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session
+- **device_service** (<code>[DeviceService](#leadr.auth.services.device_service.DeviceService)</code>) – DeviceService for device lookup
+
+####### `leadr.auth.services.identity_service.IdentityService.delete`
+
+```python
+delete(entity_id)
+```
+
+Soft-delete an entity.
+
+**Parameters:**
+
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to delete
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the entity doesn't exist
+
+####### `leadr.auth.services.identity_service.IdentityService.get_by_id`
+
+```python
+get_by_id(entity_id)
+```
+
+Get an entity by its ID.
+
+**Parameters:**
+
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to retrieve
+
+**Returns:**
+
+- <code>[DomainEntityT](./common.md#leadr.common.services.DomainEntityT) | None</code> – The domain entity if found, None otherwise
+
+####### `leadr.auth.services.identity_service.IdentityService.get_by_id_or_raise`
+
+```python
+get_by_id_or_raise(entity_id)
+```
+
+Get an entity by its ID or raise EntityNotFoundError.
+
+**Parameters:**
+
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to retrieve
+
+**Returns:**
+
+- <code>[DomainEntityT](./common.md#leadr.common.services.DomainEntityT)</code> – The domain entity
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the entity is not found
+  (converted to HTTP 404 by global handler)
+
+####### `leadr.auth.services.identity_service.IdentityService.get_identity`
+
+```python
+get_identity(identity_id)
+```
+
+Get an identity by its ID.
+
+**Parameters:**
+
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | [UUID](#uuid.UUID)</code>) – The ID of the identity to retrieve
+
+**Returns:**
+
+- <code>[Identity](./auth.md#leadr.auth.domain.identity.Identity) | None</code> – The identity if found, None otherwise
+
+####### `leadr.auth.services.identity_service.IdentityService.get_identity_or_raise`
+
+```python
+get_identity_or_raise(identity_id)
+```
+
+Get an identity by its ID or raise EntityNotFoundError.
+
+**Parameters:**
+
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | [UUID](#uuid.UUID)</code>) – The ID of the identity to retrieve
+
+**Returns:**
+
+- <code>[Identity](./auth.md#leadr.auth.domain.identity.Identity)</code> – The identity
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the identity doesn't exist
+
+####### `leadr.auth.services.identity_service.IdentityService.get_or_create_identity`
+
+```python
+get_or_create_identity(account_id, game_id, kind, external_key, display_name=None)
+```
+
+Get an existing identity or create a new one.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – Account ID
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – Game ID
+- **kind** (<code>[IdentityKind](./auth.md#leadr.auth.domain.identity.IdentityKind)</code>) – Identity kind (DEVICE, STEAM, CUSTOM)
+- **external_key** (<code>[str](#str)</code>) – External identifier (e.g., device ID, Steam ID)
+- **display_name** (<code>[str](#str) | None</code>) – Optional display name
+
+**Returns:**
+
+- <code>[tuple](#tuple)\[[Identity](./auth.md#leadr.auth.domain.identity.Identity), [bool](#bool)\]</code> – tuple\[Identity, bool\]: (identity, created) where created is True if new
+
+####### `leadr.auth.services.identity_service.IdentityService.get_session`
+
+```python
+get_session(session_id)
+```
+
+Get an identity session by its ID.
+
+**Parameters:**
+
+- **session_id** (<code>[IdentitySessionID](./common.md#leadr.common.domain.ids.IdentitySessionID) | [UUID](#uuid.UUID)</code>) – The ID of the session to retrieve
+
+**Returns:**
+
+- <code>[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession) | None</code> – The session if found, None otherwise
+
+####### `leadr.auth.services.identity_service.IdentityService.get_session_or_raise`
+
+```python
+get_session_or_raise(session_id)
+```
+
+Get an identity session by its ID or raise EntityNotFoundError.
+
+**Parameters:**
+
+- **session_id** (<code>[IdentitySessionID](./common.md#leadr.common.domain.ids.IdentitySessionID)</code>) – The ID of the session to retrieve
+
+**Returns:**
+
+- <code>[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession)</code> – The session
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the session doesn't exist
+
+####### `leadr.auth.services.identity_service.IdentityService.list_all`
+
+```python
+list_all()
+```
+
+List all non-deleted entities.
+
+**Returns:**
+
+- <code>[list](#list)\[[DomainEntityT](./common.md#leadr.common.services.DomainEntityT)\]</code> – List of domain entities
+
+####### `leadr.auth.services.identity_service.IdentityService.list_identities`
+
+```python
+list_identities(account_id, *, game_id=None, kind=None, pagination)
+```
+
+List identities for an account with optional filters and pagination.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all identities
+  (superadmin use case).
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
+- **kind** (<code>[IdentityKind](./auth.md#leadr.auth.domain.identity.IdentityKind) | None</code>) – Optional identity kind to filter by
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
+
+**Returns:**
+
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Identity](./auth.md#leadr.auth.domain.identity.Identity)\]</code> – PaginatedResult containing Identity entities.
+
+####### `leadr.auth.services.identity_service.IdentityService.list_sessions`
+
+```python
+list_sessions(account_id, *, identity_id=None, pagination)
+```
+
+List identity sessions with optional filters and pagination.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all sessions
+  (superadmin use case).
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to filter by
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
+
+**Returns:**
+
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession)\]</code> – PaginatedResult containing IdentitySession entities.
+
+####### `leadr.auth.services.identity_service.IdentityService.refresh_access_token`
+
+```python
+refresh_access_token(refresh_token)
+```
+
+Refresh access token using a valid refresh token.
+
+**Parameters:**
+
+- **refresh_token** (<code>[str](#str)</code>) – JWT refresh token
+
+**Returns:**
+
+- <code>[tuple](#tuple)\[[str](#str), [str](#str), [int](#int)\] | None</code> – tuple\[str, str, int\]: (access_token_plain, refresh_token_plain, expires_in_seconds)
+- <code>[tuple](#tuple)\[[str](#str), [str](#str), [int](#int)\] | None</code> – or None if refresh token is invalid
+
+####### `leadr.auth.services.identity_service.IdentityService.repository`
+
+```python
+repository = self._create_repository(session)
+```
+
+####### `leadr.auth.services.identity_service.IdentityService.revoke_session`
+
+```python
+revoke_session(session_id)
+```
+
+Revoke an identity session.
+
+**Parameters:**
+
+- **session_id** (<code>[IdentitySessionID](./common.md#leadr.common.domain.ids.IdentitySessionID)</code>) – The ID of the session to revoke
+
+**Returns:**
+
+- <code>[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession)</code> – The updated session
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the session doesn't exist
+
+####### `leadr.auth.services.identity_service.IdentityService.session`
+
+```python
+session = session
+```
+
+####### `leadr.auth.services.identity_service.IdentityService.session_repo`
+
+```python
+session_repo = IdentitySessionRepository(session)
+```
+
+####### `leadr.auth.services.identity_service.IdentityService.soft_delete`
+
+```python
+soft_delete(entity_id)
+```
+
+Soft-delete an entity and return it before deletion.
+
+Useful for endpoints that need to return the deleted entity in the response.
+
+**Parameters:**
+
+- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to delete
+
+**Returns:**
+
+- <code>[DomainEntityT](./common.md#leadr.common.services.DomainEntityT)</code> – The entity before it was deleted
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the entity doesn't exist
+
+####### `leadr.auth.services.identity_service.IdentityService.start_session`
+
+```python
+start_session(game_id, client_fingerprint, platform=None, metadata=None, test_mode=False)
+```
+
+Start a new identity session.
+
+Internally:
+
+1. Get or create Device (via DeviceService)
+1. Get or create Identity
+1. Create IdentitySession with tokens
+
+**Parameters:**
+
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – Game UUID
+- **client_fingerprint** (<code>[str](#str)</code>) – Client-generated SHA256 device fingerprint
+- **platform** (<code>[str](#str) | None</code>) – Device platform (ios, android, etc.)
+- **metadata** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – Additional device metadata
+- **test_mode** (<code>[bool](#bool)</code>) – If True, session is in test mode
+
+**Returns:**
+
+- <code>[tuple](#tuple)\[[Identity](./auth.md#leadr.auth.domain.identity.Identity), [str](#str), [str](#str), [int](#int)\]</code> – tuple\[Identity, str, str, int\]: (identity, access_token, refresh_token, expires_in)
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If game doesn't exist
+
+####### `leadr.auth.services.identity_service.IdentityService.update_identity`
+
+```python
+update_identity(identity_id, display_name=None)
+```
+
+Update an identity's mutable fields.
+
+**Parameters:**
+
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – The ID of the identity to update
+- **display_name** (<code>[str](#str) | None</code>) – New display name (None to clear)
+
+**Returns:**
+
+- <code>[Identity](./auth.md#leadr.auth.domain.identity.Identity)</code> – The updated identity
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the identity doesn't exist
+
+####### `leadr.auth.services.identity_service.IdentityService.validate_identity_token`
+
+```python
+validate_identity_token(token)
+```
+
+Validate access token and return associated identity.
+
+Validates JWT signature and expiration, checks session validity,
+and returns the identity.
+
+**Parameters:**
+
+- **token** (<code>[str](#str)</code>) – JWT access token
+
+**Returns:**
+
+- <code>[Identity](./auth.md#leadr.auth.domain.identity.Identity) | None</code> – Identity if token is valid, None otherwise
+
 ##### `leadr.auth.services.nonce_service`
 
 Nonce service for managing request nonces.
@@ -4726,7 +5459,7 @@ request is fresh and authorized by the server.
 
 - [**cleanup_expired_nonces**](#leadr.auth.services.nonce_service.NonceService.cleanup_expired_nonces) – Clean up expired nonces older than specified hours.
 - [**delete**](#leadr.auth.services.nonce_service.NonceService.delete) – Soft-delete an entity.
-- [**generate_nonce**](#leadr.auth.services.nonce_service.NonceService.generate_nonce) – Generate a fresh nonce for a device.
+- [**generate_nonce**](#leadr.auth.services.nonce_service.NonceService.generate_nonce) – Generate a fresh nonce for an identity.
 - [**get_by_id**](#leadr.auth.services.nonce_service.NonceService.get_by_id) – Get an entity by its ID.
 - [**get_by_id_or_raise**](#leadr.auth.services.nonce_service.NonceService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
 - [**list_all**](#leadr.auth.services.nonce_service.NonceService.list_all) – List all non-deleted entities.
@@ -4785,14 +5518,14 @@ Soft-delete an entity.
 ####### `leadr.auth.services.nonce_service.NonceService.generate_nonce`
 
 ```python
-generate_nonce(device_id, ttl_seconds=60)
+generate_nonce(identity_id, ttl_seconds=60)
 ```
 
-Generate a fresh nonce for a device.
+Generate a fresh nonce for an identity.
 
 **Parameters:**
 
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – Device ID to associate nonce with
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – Identity ID to associate nonce with
 - **ttl_seconds** (<code>[int](#int)</code>) – Time-to-live in seconds (default 60)
 
 **Returns:**
@@ -4802,7 +5535,7 @@ Generate a fresh nonce for a device.
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
-> > > nonce_value, expires_at = await service.generate_nonce(device_id)
+> > > nonce_value, expires_at = await service.generate_nonce(identity_id)
 > > >
 > > > # Client includes nonce_value in leadr-client-nonce header
 
@@ -4888,7 +5621,7 @@ Useful for endpoints that need to return the deleted entity in the response.
 ####### `leadr.auth.services.nonce_service.NonceService.validate_and_consume_nonce`
 
 ```python
-validate_and_consume_nonce(nonce_value, device_id)
+validate_and_consume_nonce(nonce_value, identity_id)
 ```
 
 Validate nonce and mark as used (atomic operation).
@@ -4896,7 +5629,7 @@ Validate nonce and mark as used (atomic operation).
 **Parameters:**
 
 - **nonce_value** (<code>[str](#str)</code>) – The nonce value to validate
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – Expected device ID (must match nonce owner)
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – Expected identity ID (must match nonce owner)
 
 **Returns:**
 
@@ -4904,13 +5637,13 @@ Validate nonce and mark as used (atomic operation).
 
 **Raises:**
 
-- <code>[ValueError](#ValueError)</code> – If nonce is invalid (expired, already used, wrong device, or not found)
+- <code>[ValueError](#ValueError)</code> – If nonce is invalid (expired, already used, wrong identity, or not found)
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
 > > > try:
-> > > ... await service.validate_and_consume_nonce(nonce_value, device.id)
+> > > ... await service.validate_and_consume_nonce(nonce_value, identity.id)
 > > > ... except ValueError as e:
 > > > ... # Handle invalid nonce (return 412 error to client)
 > > > ... raise HTTPException(status_code=412, detail=str(e))
@@ -4958,13 +5691,14 @@ logger = logging.getLogger(__name__)
 
 ##### `leadr.auth.services.repositories`
 
-API Key, Device, and Nonce repository services.
+API Key, Device, Identity, and Nonce repository services.
 
 **Classes:**
 
 - [**APIKeyRepository**](./auth.md#leadr.auth.services.repositories.APIKeyRepository) – API Key repository for managing API key persistence.
 - [**DeviceRepository**](./auth.md#leadr.auth.services.repositories.DeviceRepository) – Device repository for managing device persistence.
-- [**DeviceSessionRepository**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository) – DeviceSession repository for managing device session persistence.
+- [**IdentityRepository**](./auth.md#leadr.auth.services.repositories.IdentityRepository) – Identity repository for managing identity persistence.
+- [**IdentitySessionRepository**](./auth.md#leadr.auth.services.repositories.IdentitySessionRepository) – IdentitySession repository for managing identity session persistence.
 - [**NonceRepository**](./auth.md#leadr.auth.services.repositories.NonceRepository) – Nonce repository for managing nonce persistence.
 
 ###### `leadr.auth.services.repositories.APIKeyRepository`
@@ -5263,34 +5997,33 @@ Update an existing entity in the database.
 
 - <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If entity is not found
 
-###### `leadr.auth.services.repositories.DeviceSessionRepository`
+###### `leadr.auth.services.repositories.IdentityRepository`
 
-Bases: <code>[BaseRepository](./common.md#leadr.common.repositories.BaseRepository)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession), [DeviceSessionORM](./auth.md#leadr.auth.adapters.orm.DeviceSessionORM)\]</code>
+Bases: <code>[BaseRepository](./common.md#leadr.common.repositories.BaseRepository)\[[Identity](./auth.md#leadr.auth.domain.identity.Identity), [IdentityORM](./auth.md#leadr.auth.adapters.orm.IdentityORM)\]</code>
 
-DeviceSession repository for managing device session persistence.
+Identity repository for managing identity persistence.
 
 **Functions:**
 
-- [**create**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.create) – Create a new entity in the database.
-- [**delete**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.filter) – Filter sessions by account and optional criteria with pagination.
-- [**get_by_id**](#leadr.auth.services.repositories.DeviceSessionRepository.get_by_id) – Get an entity by its ID.
-- [**get_by_refresh_token_hash**](#leadr.auth.services.repositories.DeviceSessionRepository.get_by_refresh_token_hash) – Get session by refresh token hash, returns None if not found or soft-deleted.
-- [**get_by_token_hash**](#leadr.auth.services.repositories.DeviceSessionRepository.get_by_token_hash) – Get session by access token hash, returns None if not found or soft-deleted.
-- [**update**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.update) – Update an existing entity in the database.
+- [**create**](./auth.md#leadr.auth.services.repositories.IdentityRepository.create) – Create a new entity in the database.
+- [**delete**](./auth.md#leadr.auth.services.repositories.IdentityRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
+- [**filter**](./auth.md#leadr.auth.services.repositories.IdentityRepository.filter) – Filter identities by account and optional criteria with pagination.
+- [**get_by_external_key**](#leadr.auth.services.repositories.IdentityRepository.get_by_external_key) – Get identity by unique key combination.
+- [**get_by_id**](#leadr.auth.services.repositories.IdentityRepository.get_by_id) – Get an entity by its ID.
+- [**update**](./auth.md#leadr.auth.services.repositories.IdentityRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
 
-- [**SORTABLE_FIELDS**](#leadr.auth.services.repositories.DeviceSessionRepository.SORTABLE_FIELDS) –
-- [**session**](./auth.md#leadr.auth.services.repositories.DeviceSessionRepository.session) –
+- [**SORTABLE_FIELDS**](#leadr.auth.services.repositories.IdentityRepository.SORTABLE_FIELDS) –
+- [**session**](./auth.md#leadr.auth.services.repositories.IdentityRepository.session) –
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.SORTABLE_FIELDS`
+####### `leadr.auth.services.repositories.IdentityRepository.SORTABLE_FIELDS`
 
 ```python
-SORTABLE_FIELDS = {'id', 'created_at', 'updated_at'}
+SORTABLE_FIELDS = {'id', 'display_name', 'kind', 'created_at', 'updated_at'}
 ```
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.create`
+####### `leadr.auth.services.repositories.IdentityRepository.create`
 
 ```python
 create(entity)
@@ -5306,7 +6039,7 @@ Create a new entity in the database.
 
 - <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.delete`
+####### `leadr.auth.services.repositories.IdentityRepository.delete`
 
 ```python
 delete(entity_id)
@@ -5322,34 +6055,52 @@ Soft delete an entity by setting its deleted_at timestamp.
 
 - <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If entity is not found
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.filter`
+####### `leadr.auth.services.repositories.IdentityRepository.filter`
 
 ```python
-filter(account_id=None, *, device_id=None, pagination, **kwargs)
+filter(account_id=None, *, game_id=None, kind=None, pagination, **kwargs)
 ```
 
-Filter sessions by account and optional criteria with pagination.
-
-Note: account_id is used for multi-tenant safety via JOIN with devices table.
+Filter identities by account and optional criteria with pagination.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all sessions
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all identities
   (superadmin use case). Regular users should always pass account_id.
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
+- **kind** (<code>[IdentityKind](./auth.md#leadr.auth.domain.identity.IdentityKind) | None</code>) – Optional identity kind to filter by
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
-- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession)\]</code> – PaginatedResult containing device sessions.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Identity](./auth.md#leadr.auth.domain.identity.Identity)\]</code> – PaginatedResult containing identities.
 
 **Raises:**
 
 - <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
 - <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.get_by_id`
+####### `leadr.auth.services.repositories.IdentityRepository.get_by_external_key`
+
+```python
+get_by_external_key(account_id, game_id, kind, external_key)
+```
+
+Get identity by unique key combination.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The game ID
+- **kind** (<code>[IdentityKind](./auth.md#leadr.auth.domain.identity.IdentityKind)</code>) – The identity kind (DEVICE, STEAM, CUSTOM)
+- **external_key** (<code>[str](#str)</code>) – The external identifier
+
+**Returns:**
+
+- <code>[Identity](./auth.md#leadr.auth.domain.identity.Identity) | None</code> – Identity if found and not deleted, None otherwise
+
+####### `leadr.auth.services.repositories.IdentityRepository.get_by_id`
 
 ```python
 get_by_id(entity_id, include_deleted=False)
@@ -5366,7 +6117,136 @@ Get an entity by its ID.
 
 - <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT) | None</code> – Domain entity if found, None otherwise
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.get_by_refresh_token_hash`
+####### `leadr.auth.services.repositories.IdentityRepository.session`
+
+```python
+session = session
+```
+
+####### `leadr.auth.services.repositories.IdentityRepository.update`
+
+```python
+update(entity)
+```
+
+Update an existing entity in the database.
+
+**Parameters:**
+
+- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity with updated data
+
+**Returns:**
+
+- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Updated domain entity with refreshed data
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If entity is not found
+
+###### `leadr.auth.services.repositories.IdentitySessionRepository`
+
+Bases: <code>[BaseRepository](./common.md#leadr.common.repositories.BaseRepository)\[[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession), [IdentitySessionORM](./auth.md#leadr.auth.adapters.orm.IdentitySessionORM)\]</code>
+
+IdentitySession repository for managing identity session persistence.
+
+**Functions:**
+
+- [**create**](./auth.md#leadr.auth.services.repositories.IdentitySessionRepository.create) – Create a new entity in the database.
+- [**delete**](./auth.md#leadr.auth.services.repositories.IdentitySessionRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
+- [**filter**](./auth.md#leadr.auth.services.repositories.IdentitySessionRepository.filter) – Filter sessions by account and optional criteria with pagination.
+- [**get_by_id**](#leadr.auth.services.repositories.IdentitySessionRepository.get_by_id) – Get an entity by its ID.
+- [**get_by_refresh_token_hash**](#leadr.auth.services.repositories.IdentitySessionRepository.get_by_refresh_token_hash) – Get session by refresh token hash, returns None if not found or soft-deleted.
+- [**get_by_token_hash**](#leadr.auth.services.repositories.IdentitySessionRepository.get_by_token_hash) – Get session by access token hash, returns None if not found or soft-deleted.
+- [**update**](./auth.md#leadr.auth.services.repositories.IdentitySessionRepository.update) – Update an existing entity in the database.
+
+**Attributes:**
+
+- [**SORTABLE_FIELDS**](#leadr.auth.services.repositories.IdentitySessionRepository.SORTABLE_FIELDS) –
+- [**session**](./auth.md#leadr.auth.services.repositories.IdentitySessionRepository.session) –
+
+####### `leadr.auth.services.repositories.IdentitySessionRepository.SORTABLE_FIELDS`
+
+```python
+SORTABLE_FIELDS = {'id', 'created_at', 'updated_at'}
+```
+
+####### `leadr.auth.services.repositories.IdentitySessionRepository.create`
+
+```python
+create(entity)
+```
+
+Create a new entity in the database.
+
+**Parameters:**
+
+- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity to create
+
+**Returns:**
+
+- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
+
+####### `leadr.auth.services.repositories.IdentitySessionRepository.delete`
+
+```python
+delete(entity_id)
+```
+
+Soft delete an entity by setting its deleted_at timestamp.
+
+**Parameters:**
+
+- **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – ID of entity to delete
+
+**Raises:**
+
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If entity is not found
+
+####### `leadr.auth.services.repositories.IdentitySessionRepository.filter`
+
+```python
+filter(account_id=None, *, identity_id=None, pagination, **kwargs)
+```
+
+Filter sessions by account and optional criteria with pagination.
+
+Note: account_id is used for multi-tenant safety via JOIN with identities table.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all sessions
+  (superadmin use case). Regular users should always pass account_id.
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to filter by
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
+- \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
+
+**Returns:**
+
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession)\]</code> – PaginatedResult containing identity sessions.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
+- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
+
+####### `leadr.auth.services.repositories.IdentitySessionRepository.get_by_id`
+
+```python
+get_by_id(entity_id, include_deleted=False)
+```
+
+Get an entity by its ID.
+
+**Parameters:**
+
+- **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – Entity ID to retrieve
+- **include_deleted** (<code>[bool](#bool)</code>) – If True, include soft-deleted entities. Defaults to False.
+
+**Returns:**
+
+- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT) | None</code> – Domain entity if found, None otherwise
+
+####### `leadr.auth.services.repositories.IdentitySessionRepository.get_by_refresh_token_hash`
 
 ```python
 get_by_refresh_token_hash(refresh_token_hash)
@@ -5380,9 +6260,9 @@ Get session by refresh token hash, returns None if not found or soft-deleted.
 
 **Returns:**
 
-- <code>[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession) | None</code> – DeviceSession if found and not deleted, None otherwise
+- <code>[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession) | None</code> – IdentitySession if found and not deleted, None otherwise
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.get_by_token_hash`
+####### `leadr.auth.services.repositories.IdentitySessionRepository.get_by_token_hash`
 
 ```python
 get_by_token_hash(token_hash)
@@ -5396,15 +6276,15 @@ Get session by access token hash, returns None if not found or soft-deleted.
 
 **Returns:**
 
-- <code>[DeviceSession](./auth.md#leadr.auth.domain.device.DeviceSession) | None</code> – DeviceSession if found and not deleted, None otherwise
+- <code>[IdentitySession](./auth.md#leadr.auth.domain.identity.IdentitySession) | None</code> – IdentitySession if found and not deleted, None otherwise
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.session`
+####### `leadr.auth.services.repositories.IdentitySessionRepository.session`
 
 ```python
 session = session
 ```
 
-####### `leadr.auth.services.repositories.DeviceSessionRepository.update`
+####### `leadr.auth.services.repositories.IdentitySessionRepository.update`
 
 ```python
 update(entity)
@@ -5498,17 +6378,17 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.auth.services.repositories.NonceRepository.filter`
 
 ```python
-filter(account_id=None, device_id=None, **kwargs)
+filter(account_id=None, identity_id=None, **kwargs)
 ```
 
 Filter nonces by account and optional criteria.
 
-Note: account_id is used for multi-tenant safety via JOIN with devices table.
+Note: account_id is used for multi-tenant safety via JOIN with identities table.
 
 **Parameters:**
 
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – REQUIRED - Account ID to filter by (multi-tenant safety)
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to filter by
 
 **Returns:**
 

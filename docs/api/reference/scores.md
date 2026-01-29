@@ -19,10 +19,141 @@ Score ORM models.
 
 **Classes:**
 
+- [**ScoreEventORM**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM) – Score event ORM model for append-only event sourcing.
 - [**ScoreFlagORM**](./scores.md#leadr.scores.adapters.orm.ScoreFlagORM) – Score flag ORM model for anti-cheat detections.
-- [**ScoreORM**](./scores.md#leadr.scores.adapters.orm.ScoreORM) – Score ORM model.
-- [**ScoreStatusEnum**](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum) – Score status enum for database.
 - [**ScoreSubmissionMetaORM**](./scores.md#leadr.scores.adapters.orm.ScoreSubmissionMetaORM) – Score submission metadata ORM model for anti-cheat tracking.
+
+###### `leadr.scores.adapters.orm.ScoreEventORM`
+
+Bases: <code>[ImmutableBase](./common.md#leadr.common.orm.ImmutableBase)</code>
+
+Score event ORM model for append-only event sourcing.
+
+Represents an immutable fact about a score submission in the database.
+ScoreEvents are never updated or deleted - they are append-only.
+Maps to the score_events table with foreign keys to accounts, games, boards, and identities.
+
+**Attributes:**
+
+- [**account**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.account) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[AccountORM](./accounts.md#leadr.accounts.adapters.orm.AccountORM)\]</code>) –
+- [**account_id**](#leadr.scores.adapters.orm.ScoreEventORM.account_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**board**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.board) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[BoardORM](./boards.md#leadr.boards.adapters.orm.BoardORM)\]</code>) –
+- [**board_id**](#leadr.scores.adapters.orm.ScoreEventORM.board_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**city**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.city) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
+- [**country**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.country) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
+- [**created_at**](#leadr.scores.adapters.orm.ScoreEventORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
+- [**event_payload**](#leadr.scores.adapters.orm.ScoreEventORM.event_payload) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[dict](#dict)\[[str](#str), [Any](#typing.Any)\]\]</code>) –
+- [**game**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.game) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[GameORM](./games.md#leadr.games.adapters.orm.GameORM)\]</code>) –
+- [**game_id**](#leadr.scores.adapters.orm.ScoreEventORM.game_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**id**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**identity**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.identity) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[IdentityORM](./auth.md#leadr.auth.adapters.orm.IdentityORM)\]</code>) –
+- [**identity_id**](#leadr.scores.adapters.orm.ScoreEventORM.identity_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**is_test**](#leadr.scores.adapters.orm.ScoreEventORM.is_test) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
+- [**metadata**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.metadata) –
+- [**registry**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.registry) –
+- [**timezone**](./scores.md#leadr.scores.adapters.orm.ScoreEventORM.timezone) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.account`
+
+```python
+account: Mapped[AccountORM] = relationship('AccountORM')
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.account_id`
+
+```python
+account_id: Mapped[UUID] = mapped_column(ForeignKey('accounts.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.board`
+
+```python
+board: Mapped[BoardORM] = relationship('BoardORM')
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.board_id`
+
+```python
+board_id: Mapped[UUID] = mapped_column(ForeignKey('boards.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.city`
+
+```python
+city: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.country`
+
+```python
+country: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.created_at`
+
+```python
+created_at: Mapped[timestamp]
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.event_payload`
+
+```python
+event_payload: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False, default=dict, server_default='{}')
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.game`
+
+```python
+game: Mapped[GameORM] = relationship('GameORM')
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.game_id`
+
+```python
+game_id: Mapped[UUID] = mapped_column(ForeignKey('games.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.id`
+
+```python
+id: Mapped[uuid_pk]
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.identity`
+
+```python
+identity: Mapped[IdentityORM] = relationship('IdentityORM')
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.identity_id`
+
+```python
+identity_id: Mapped[UUID] = mapped_column(ForeignKey('identities.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.is_test`
+
+```python
+is_test: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.metadata`
+
+```python
+metadata = Base.metadata
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.registry`
+
+```python
+registry = Base.registry
+```
+
+####### `leadr.scores.adapters.orm.ScoreEventORM.timezone`
+
+```python
+timezone: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
 
 ###### `leadr.scores.adapters.orm.ScoreFlagORM`
 
@@ -32,6 +163,8 @@ Score flag ORM model for anti-cheat detections.
 
 Records suspicious patterns detected by the anti-cheat system.
 Flags can be reviewed by admins to confirm or dismiss detections.
+Uses score_event_id instead of score_id, linking to the immutable
+ScoreEvent in the event-sourcing architecture.
 
 **Functions:**
 
@@ -49,7 +182,8 @@ Flags can be reviewed by admins to confirm or dismiss detections.
 - [**reviewed_at**](#leadr.scores.adapters.orm.ScoreFlagORM.reviewed_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime) | None\]</code>) –
 - [**reviewer_decision**](#leadr.scores.adapters.orm.ScoreFlagORM.reviewer_decision) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
 - [**reviewer_id**](#leadr.scores.adapters.orm.ScoreFlagORM.reviewer_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID) | None\]</code>) –
-- [**score_id**](#leadr.scores.adapters.orm.ScoreFlagORM.score_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**score_event**](#leadr.scores.adapters.orm.ScoreFlagORM.score_event) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[ScoreEventORM](./scores.md#leadr.scores.adapters.orm.ScoreEventORM)\]</code>) –
+- [**score_event_id**](#leadr.scores.adapters.orm.ScoreFlagORM.score_event_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
 - [**status**](./scores.md#leadr.scores.adapters.orm.ScoreFlagORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**updated_at**](#leadr.scores.adapters.orm.ScoreFlagORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 
@@ -115,10 +249,16 @@ reviewer_decision: Mapped[str | None] = mapped_column(String, nullable=True, def
 reviewer_id: Mapped[UUID | None] = mapped_column(nullable=True, default=None)
 ```
 
-####### `leadr.scores.adapters.orm.ScoreFlagORM.score_id`
+####### `leadr.scores.adapters.orm.ScoreFlagORM.score_event`
 
 ```python
-score_id: Mapped[UUID] = mapped_column(ForeignKey('scores.id', ondelete='CASCADE'), nullable=False, index=True)
+score_event: Mapped[ScoreEventORM] = relationship('ScoreEventORM')
+```
+
+####### `leadr.scores.adapters.orm.ScoreFlagORM.score_event_id`
+
+```python
+score_event_id: Mapped[UUID] = mapped_column(ForeignKey('score_events.id', ondelete='CASCADE'), nullable=False, index=True)
 ```
 
 ####### `leadr.scores.adapters.orm.ScoreFlagORM.status`
@@ -141,203 +281,16 @@ Convert ORM model to domain entity.
 updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
 ```
 
-###### `leadr.scores.adapters.orm.ScoreORM`
-
-Bases: <code>[Base](./common.md#leadr.common.orm.Base)</code>
-
-Score ORM model.
-
-Represents a player's score submission for a board in the database.
-Maps to the scores table with foreign keys to accounts, devices, games, and boards.
-
-**Attributes:**
-
-- [**account**](./scores.md#leadr.scores.adapters.orm.ScoreORM.account) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[AccountORM](./accounts.md#leadr.accounts.adapters.orm.AccountORM)\]</code>) –
-- [**account_id**](#leadr.scores.adapters.orm.ScoreORM.account_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
-- [**board**](./scores.md#leadr.scores.adapters.orm.ScoreORM.board) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[BoardORM](./boards.md#leadr.boards.adapters.orm.BoardORM)\]</code>) –
-- [**board_id**](#leadr.scores.adapters.orm.ScoreORM.board_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
-- [**created_at**](#leadr.scores.adapters.orm.ScoreORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
-- [**deleted_at**](#leadr.scores.adapters.orm.ScoreORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
-- [**device_id**](#leadr.scores.adapters.orm.ScoreORM.device_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
-- [**filter_city**](#leadr.scores.adapters.orm.ScoreORM.filter_city) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
-- [**filter_country**](#leadr.scores.adapters.orm.ScoreORM.filter_country) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
-- [**filter_timezone**](#leadr.scores.adapters.orm.ScoreORM.filter_timezone) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
-- [**game**](./scores.md#leadr.scores.adapters.orm.ScoreORM.game) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[GameORM](./games.md#leadr.games.adapters.orm.GameORM)\]</code>) –
-- [**game_id**](#leadr.scores.adapters.orm.ScoreORM.game_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
-- [**id**](./scores.md#leadr.scores.adapters.orm.ScoreORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
-- [**is_test**](#leadr.scores.adapters.orm.ScoreORM.is_test) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
-- [**player_name**](#leadr.scores.adapters.orm.ScoreORM.player_name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
-- [**score_metadata**](#leadr.scores.adapters.orm.ScoreORM.score_metadata) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[Any](#typing.Any) | None\]</code>) –
-- [**status**](./scores.md#leadr.scores.adapters.orm.ScoreORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[ScoreStatusEnum](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum)\]</code>) –
-- [**updated_at**](#leadr.scores.adapters.orm.ScoreORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
-- [**value**](./scores.md#leadr.scores.adapters.orm.ScoreORM.value) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[float](#float)\]</code>) –
-- [**value_display**](#leadr.scores.adapters.orm.ScoreORM.value_display) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
-
-####### `leadr.scores.adapters.orm.ScoreORM.account`
-
-```python
-account: Mapped[AccountORM] = relationship('AccountORM')
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.account_id`
-
-```python
-account_id: Mapped[UUID] = mapped_column(ForeignKey('accounts.id', ondelete='CASCADE'), nullable=False, index=True)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.board`
-
-```python
-board: Mapped[BoardORM] = relationship('BoardORM')
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.board_id`
-
-```python
-board_id: Mapped[UUID] = mapped_column(ForeignKey('boards.id', ondelete='CASCADE'), nullable=False, index=True)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.created_at`
-
-```python
-created_at: Mapped[timestamp]
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.deleted_at`
-
-```python
-deleted_at: Mapped[nullable_timestamp]
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.device_id`
-
-```python
-device_id: Mapped[UUID] = mapped_column(nullable=False, index=True)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.filter_city`
-
-```python
-filter_city: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.filter_country`
-
-```python
-filter_country: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.filter_timezone`
-
-```python
-filter_timezone: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.game`
-
-```python
-game: Mapped[GameORM] = relationship('GameORM')
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.game_id`
-
-```python
-game_id: Mapped[UUID] = mapped_column(ForeignKey('games.id', ondelete='CASCADE'), nullable=False, index=True)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.id`
-
-```python
-id: Mapped[uuid_pk]
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.is_test`
-
-```python
-is_test: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.player_name`
-
-```python
-player_name: Mapped[str] = mapped_column(String, nullable=False)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.score_metadata`
-
-```python
-score_metadata: Mapped[Any | None] = mapped_column('score_metadata', JSON, nullable=True, default=None)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.status`
-
-```python
-status: Mapped[ScoreStatusEnum] = mapped_column(Enum(ScoreStatusEnum, name='score_status', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, default=(ScoreStatusEnum.PROVISIONAL), server_default='provisional', index=True)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.updated_at`
-
-```python
-updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.value`
-
-```python
-value: Mapped[float] = mapped_column(Float, nullable=False)
-```
-
-####### `leadr.scores.adapters.orm.ScoreORM.value_display`
-
-```python
-value_display: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
-```
-
-###### `leadr.scores.adapters.orm.ScoreStatusEnum`
-
-Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
-
-Score status enum for database.
-
-**Attributes:**
-
-- [**ACTIVE**](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum.ACTIVE) –
-- [**PROVISIONAL**](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum.PROVISIONAL) –
-- [**REJECTED**](./scores.md#leadr.scores.adapters.orm.ScoreStatusEnum.REJECTED) –
-- [**UNDER_REVIEW**](#leadr.scores.adapters.orm.ScoreStatusEnum.UNDER_REVIEW) –
-
-####### `leadr.scores.adapters.orm.ScoreStatusEnum.ACTIVE`
-
-```python
-ACTIVE = 'active'
-```
-
-####### `leadr.scores.adapters.orm.ScoreStatusEnum.PROVISIONAL`
-
-```python
-PROVISIONAL = 'provisional'
-```
-
-####### `leadr.scores.adapters.orm.ScoreStatusEnum.REJECTED`
-
-```python
-REJECTED = 'rejected'
-```
-
-####### `leadr.scores.adapters.orm.ScoreStatusEnum.UNDER_REVIEW`
-
-```python
-UNDER_REVIEW = 'under_review'
-```
-
 ###### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM`
 
 Bases: <code>[Base](./common.md#leadr.common.orm.Base)</code>
 
 Score submission metadata ORM model for anti-cheat tracking.
 
-Tracks submission history per device/board combination to enable
+Tracks submission history per identity/board combination to enable
 detection of suspicious patterns like rapid-fire submissions.
+Uses identity_id as the tracking key instead of device_id, aligning with
+the event-sourcing architecture where identity is the ranking key.
 
 **Functions:**
 
@@ -346,21 +299,30 @@ detection of suspicious patterns like rapid-fire submissions.
 
 **Attributes:**
 
+- [**board**](./scores.md#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.board) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[BoardORM](./boards.md#leadr.boards.adapters.orm.BoardORM)\]</code>) –
 - [**board_id**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.board_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
 - [**created_at**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**deleted_at**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
-- [**device_id**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.device_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
 - [**id**](./scores.md#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**identity**](./scores.md#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.identity) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[IdentityORM](./auth.md#leadr.auth.adapters.orm.IdentityORM)\]</code>) –
+- [**identity_id**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.identity_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
 - [**last_score_value**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.last_score_value) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[float](#float) | None\]</code>) –
 - [**last_submission_at**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.last_submission_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime)\]</code>) –
-- [**score_id**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.score_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
+- [**score_event**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.score_event) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[ScoreEventORM](./scores.md#leadr.scores.adapters.orm.ScoreEventORM)\]</code>) –
+- [**score_event_id**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.score_event_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[UUID](#uuid.UUID)\]</code>) –
 - [**submission_count**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.submission_count) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[int](#int)\]</code>) –
 - [**updated_at**](#leadr.scores.adapters.orm.ScoreSubmissionMetaORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
+
+####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.board`
+
+```python
+board: Mapped[BoardORM] = relationship('BoardORM')
+```
 
 ####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.board_id`
 
 ```python
-board_id: Mapped[UUID] = mapped_column(nullable=False, index=True)
+board_id: Mapped[UUID] = mapped_column(ForeignKey('boards.id', ondelete='CASCADE'), nullable=False, index=True)
 ```
 
 ####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.created_at`
@@ -373,12 +335,6 @@ created_at: Mapped[timestamp]
 
 ```python
 deleted_at: Mapped[nullable_timestamp]
-```
-
-####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.device_id`
-
-```python
-device_id: Mapped[UUID] = mapped_column(nullable=False, index=True)
 ```
 
 ####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.from_domain`
@@ -395,6 +351,18 @@ Convert domain entity to ORM model.
 id: Mapped[uuid_pk]
 ```
 
+####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.identity`
+
+```python
+identity: Mapped[IdentityORM] = relationship('IdentityORM')
+```
+
+####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.identity_id`
+
+```python
+identity_id: Mapped[UUID] = mapped_column(ForeignKey('identities.id', ondelete='CASCADE'), nullable=False, index=True)
+```
+
 ####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.last_score_value`
 
 ```python
@@ -407,10 +375,16 @@ last_score_value: Mapped[float | None] = mapped_column(Float, nullable=True, def
 last_submission_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
 ```
 
-####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.score_id`
+####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.score_event`
 
 ```python
-score_id: Mapped[UUID] = mapped_column(ForeignKey('scores.id', ondelete='CASCADE'), nullable=False, index=True)
+score_event: Mapped[ScoreEventORM] = relationship('ScoreEventORM')
+```
+
+####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.score_event_id`
+
+```python
+score_event_id: Mapped[UUID] = mapped_column(ForeignKey('score_events.id', ondelete='CASCADE'), nullable=False, index=True)
 ```
 
 ####### `leadr.scores.adapters.orm.ScoreSubmissionMetaORM.submission_count`
@@ -437,12 +411,311 @@ updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
 
 **Modules:**
 
+- [**score_event_routes**](#leadr.scores.api.score_event_routes) – API routes for score event management (admin only).
+- [**score_event_schemas**](#leadr.scores.api.score_event_schemas) – API request and response models for score events.
 - [**score_flag_routes**](#leadr.scores.api.score_flag_routes) – API routes for score flag management.
 - [**score_flag_schemas**](#leadr.scores.api.score_flag_schemas) – API request and response models for score flags.
 - [**score_routes**](#leadr.scores.api.score_routes) – API routes for score management.
 - [**score_schemas**](#leadr.scores.api.score_schemas) – API request and response models for scores.
 - [**score_submission_meta_routes**](#leadr.scores.api.score_submission_meta_routes) – API routes for score submission metadata management.
 - [**score_submission_meta_schemas**](#leadr.scores.api.score_submission_meta_schemas) – API schemas for score submission metadata.
+
+##### `leadr.scores.api.score_event_routes`
+
+API routes for score event management (admin only).
+
+**Functions:**
+
+- [**create_score_event**](#leadr.scores.api.score_event_routes.create_score_event) – Create a score event (Admin API).
+- [**get_score_event**](#leadr.scores.api.score_event_routes.get_score_event) – Get a single score event by ID (Admin API).
+- [**list_score_events**](#leadr.scores.api.score_event_routes.list_score_events) – List score events (Admin API).
+
+**Attributes:**
+
+- [**router**](#leadr.scores.api.score_event_routes.router) –
+
+###### `leadr.scores.api.score_event_routes.create_score_event`
+
+```python
+create_score_event(request, auth, score_service, board_service, background_tasks)
+```
+
+Create a score event (Admin API).
+
+Creates a score event using the same processing as client submissions:
+
+- Runs anti-cheat checks
+- Updates rankings (BoardState/RunEntry)
+- Validates board type and payload
+
+This endpoint is for admin testing, data seeding, and demo purposes.
+
+**Parameters:**
+
+- **request** (<code>[ScoreEventCreateRequest](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest)</code>) – Score event creation request
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Admin authentication context
+- **score_service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Score service for submission
+- **board_service** (<code>[BoardServiceDep](./boards.md#leadr.boards.services.dependencies.BoardServiceDep)</code>) – Board service for validation
+
+**Returns:**
+
+- <code>[ScoreEventResponse](#leadr.scores.api.score_event_schemas.ScoreEventResponse)</code> – Created score event
+
+**Raises:**
+
+- <code>404</code> – Board not found
+- <code>403</code> – Non-superadmin accessing another account's board
+- <code>400</code> – Validation error (wrong board type, etc.)
+
+###### `leadr.scores.api.score_event_routes.get_score_event`
+
+```python
+get_score_event(event_id, auth, service)
+```
+
+Get a single score event by ID (Admin API).
+
+**Parameters:**
+
+- **event_id** (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) – Score event ID.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Admin authentication context.
+- **service** (<code>[ScoreEventServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreEventServiceDep)</code>) – Injected score event service dependency.
+
+**Returns:**
+
+- <code>[ScoreEventResponse](#leadr.scores.api.score_event_schemas.ScoreEventResponse)</code> – Score event details.
+
+**Raises:**
+
+- <code>404</code> – Score event not found.
+- <code>403</code> – Non-superadmin trying to access another account's event.
+
+###### `leadr.scores.api.score_event_routes.list_score_events`
+
+```python
+list_score_events(auth, service, pagination, account_id=None, board_id=None, identity_id=None, is_test=None)
+```
+
+List score events (Admin API).
+
+Returns a paginated list of score events. Score events are immutable
+facts about score submissions and cannot be updated or deleted.
+
+For regular admins: account_id defaults to their account.
+For superadmins: can view events across all accounts.
+
+**Parameters:**
+
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Admin authentication context.
+- **service** (<code>[ScoreEventServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreEventServiceDep)</code>) – Injected score event service dependency.
+- **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
+- **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Filter by account ID')\]</code>) – Optional filter by account ID.
+- **board_id** (<code>[Annotated](#typing.Annotated)\[[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None, [Query](#fastapi.Query)(description='Filter by board ID')\]</code>) – Optional filter by board ID.
+- **identity_id** (<code>[Annotated](#typing.Annotated)\[[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None, [Query](#fastapi.Query)(description='Filter by identity ID')\]</code>) – Optional filter by identity ID.
+- **is_test** (<code>[Annotated](#typing.Annotated)\[[bool](#bool) | None, [Query](#fastapi.Query)(description='Filter by test mode')\]</code>) – Optional filter for test events.
+
+**Returns:**
+
+- <code>[PaginatedResponse](./common.md#leadr.common.api.pagination.PaginatedResponse)\[[ScoreEventResponse](#leadr.scores.api.score_event_schemas.ScoreEventResponse)\]</code> – Paginated list of score events.
+
+**Raises:**
+
+- <code>400</code> – Invalid pagination cursor.
+
+###### `leadr.scores.api.score_event_routes.router`
+
+```python
+router = APIRouter()
+```
+
+##### `leadr.scores.api.score_event_schemas`
+
+API request and response models for score events.
+
+**Classes:**
+
+- [**ScoreEventCreateRequest**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest) – Request model for creating a score event (admin only).
+- [**ScoreEventResponse**](#leadr.scores.api.score_event_schemas.ScoreEventResponse) – Response model for a score event (admin only).
+
+###### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Request model for creating a score event (admin only).
+
+Creates a score event using the same processing as client submissions:
+
+- Runs anti-cheat checks
+- Updates rankings (BoardState/RunEntry)
+- Validates board type and payload
+
+**Attributes:**
+
+- [**board_id**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) –
+- [**city**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.city) (<code>[str](#str) | None</code>) –
+- [**country**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.country) (<code>[str](#str) | None</code>) –
+- [**identity_id**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
+- [**is_test**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.is_test) (<code>[bool](#bool)</code>) –
+- [**player_name**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.player_name) (<code>[str](#str) | None</code>) –
+- [**timezone**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.timezone) (<code>[str](#str) | None</code>) –
+- [**value**](#leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.value) (<code>[float](#float)</code>) –
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.board_id`
+
+```python
+board_id: BoardID = Field(description='Board to submit to')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.city`
+
+```python
+city: str | None = Field(default=None, description='Optional city name')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.country`
+
+```python
+country: str | None = Field(default=None, description='Optional country code')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.identity_id`
+
+```python
+identity_id: IdentityID = Field(description='Identity submitting the score')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.is_test`
+
+```python
+is_test: bool = Field(default=False, description='Whether this is a test event')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.player_name`
+
+```python
+player_name: str | None = Field(default=None, description='Optional display name')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.timezone`
+
+```python
+timezone: str | None = Field(default=None, description='Optional timezone')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventCreateRequest.value`
+
+```python
+value: float = Field(description='Score value (or delta for COUNTER boards)')
+```
+
+###### `leadr.scores.api.score_event_schemas.ScoreEventResponse`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Response model for a score event (admin only).
+
+Score events are immutable facts about score submissions.
+They are append-only and cannot be updated or deleted.
+
+**Functions:**
+
+- [**from_domain**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.from_domain) – Convert domain entity to response model.
+
+**Attributes:**
+
+- [**account_id**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**board_id**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) –
+- [**city**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.city) (<code>[str](#str) | None</code>) –
+- [**country**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.country) (<code>[str](#str) | None</code>) –
+- [**created_at**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**event_payload**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.event_payload) (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code>) –
+- [**game_id**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
+- [**id**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
+- [**identity_id**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
+- [**is_test**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.is_test) (<code>[bool](#bool)</code>) –
+- [**timezone**](#leadr.scores.api.score_event_schemas.ScoreEventResponse.timezone) (<code>[str](#str) | None</code>) –
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.account_id`
+
+```python
+account_id: AccountID = Field(description='ID of the account this event belongs to')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.board_id`
+
+```python
+board_id: BoardID = Field(description='ID of the board this event was submitted to')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.city`
+
+```python
+city: str | None = Field(default=None, description='City name from GeoIP lookup')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.country`
+
+```python
+country: str | None = Field(default=None, description='Country code from GeoIP lookup')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.created_at`
+
+```python
+created_at: datetime = Field(description='Timestamp when the event was created (UTC)')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.event_payload`
+
+```python
+event_payload: dict[str, Any] = Field(description='Board-type-specific payload (value for RUN boards, delta for COUNTER)')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.from_domain`
+
+```python
+from_domain(event)
+```
+
+Convert domain entity to response model.
+
+**Parameters:**
+
+- **event** (<code>[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent)</code>) – The domain ScoreEvent entity to convert.
+
+**Returns:**
+
+- <code>[ScoreEventResponse](#leadr.scores.api.score_event_schemas.ScoreEventResponse)</code> – ScoreEventResponse with all fields populated from the domain entity.
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.game_id`
+
+```python
+game_id: GameID = Field(description='ID of the game this event belongs to')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.id`
+
+```python
+id: ScoreEventID = Field(description='Unique identifier for the score event')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.identity_id`
+
+```python
+identity_id: IdentityID = Field(description='ID of the identity that submitted this score')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.is_test`
+
+```python
+is_test: bool = Field(description='True if this was a test submission')
+```
+
+####### `leadr.scores.api.score_event_schemas.ScoreEventResponse.timezone`
+
+```python
+timezone: str | None = Field(default=None, description='Timezone from GeoIP lookup')
+```
 
 ##### `leadr.scores.api.score_flag_routes`
 
@@ -579,7 +852,7 @@ Response model for a score flag.
 - [**reviewed_at**](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse.reviewed_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**reviewer_decision**](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse.reviewer_decision) (<code>[str](#str) | None</code>) –
 - [**reviewer_id**](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse.reviewer_id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID) | None</code>) –
-- [**score_id**](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse.score_id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**score_event_id**](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
 - [**status**](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse.status) (<code>[str](#str)</code>) –
 - [**updated_at**](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -647,10 +920,10 @@ reviewer_decision: str | None = Field(default=None, description="Admin's decisio
 reviewer_id: UserID | None = Field(default=None, description='ID of the user who reviewed this flag, or null')
 ```
 
-####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.score_id`
+####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.score_event_id`
 
 ```python
-score_id: ScoreID = Field(description='ID of the score that was flagged')
+score_event_id: ScoreEventID = Field(description='ID of the score event that was flagged')
 ```
 
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse.status`
@@ -701,14 +974,12 @@ API routes for score management.
 
 **Functions:**
 
-- [**create_score_admin**](#leadr.scores.api.score_routes.create_score_admin) – Create a new score (Admin API).
 - [**create_score_client**](#leadr.scores.api.score_routes.create_score_client) – Create a new score (Client API).
 - [**get_score**](#leadr.scores.api.score_routes.get_score) – Get a score by ID.
 - [**get_score_client**](#leadr.scores.api.score_routes.get_score_client) – Get a score by ID (Client API).
 - [**handle_list_scores**](#leadr.scores.api.score_routes.handle_list_scores) – Handle list scores logic for both admin and client endpoints.
 - [**list_scores_admin**](#leadr.scores.api.score_routes.list_scores_admin) – List scores for an account with optional filters and pagination.
 - [**list_scores_client**](#leadr.scores.api.score_routes.list_scores_client) – List scores for an account with optional filters and pagination.
-- [**update_score**](#leadr.scores.api.score_routes.update_score) – Update a score.
 
 **Attributes:**
 
@@ -721,60 +992,25 @@ API routes for score management.
 client_router = APIRouter()
 ```
 
-###### `leadr.scores.api.score_routes.create_score_admin`
-
-```python
-create_score_admin(score_request, request, service, background_tasks, auth)
-```
-
-Create a new score (Admin API).
-
-Creates a new score submission for a board. Performs three-level validation:
-board exists, board belongs to the specified account, and game matches
-the board's game.
-
-For regular admins: account_id is derived from auth, must provide game_id and device_id.
-For superadmins: can provide account_id to create scores for any account.
-
-**Parameters:**
-
-- **score_request** (<code>[ScoreCreateRequest](#leadr.scores.api.score_schemas.ScoreCreateRequest)</code>) – Score creation details including board_id, player_name, value,
-  and optionally account_id (superadmin only), game_id, device_id.
-- **request** (<code>[Request](#fastapi.Request)</code>) – FastAPI request object for accessing geo data.
-- **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
-- **background_tasks** (<code>[BackgroundTasks](#fastapi.BackgroundTasks)</code>) – FastAPI background tasks for async metadata updates.
-- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Admin authentication context.
-
-**Returns:**
-
-- <code>[ScoreResponse](#leadr.scores.api.score_schemas.ScoreResponse)</code> – ScoreResponse with the created score including auto-generated ID and timestamps.
-
-**Raises:**
-
-- <code>403</code> – Non-superadmin tries to specify account_id, or access denied.
-- <code>400</code> – Missing required fields (game_id or device_id).
-- <code>404</code> – Account, game, board, or device not found.
-- <code>400</code> – Validation failed (board doesn't belong to account, or game doesn't
-  match board's game).
-
 ###### `leadr.scores.api.score_routes.create_score_client`
 
 ```python
-create_score_client(score_request, request, service, background_tasks, auth, pre_create_hook, post_create_hook)
+create_score_client(score_request, request, service, board_service, background_tasks, auth, identity_service, pre_create_hook, post_create_hook)
 ```
 
 Create a new score (Client API).
 
-Creates a new score submission for a board. All IDs (account_id, game_id, device_id)
-are automatically derived from the authenticated device session.
+Creates a new score submission for a board. All IDs (account_id, game_id, identity_id)
+are automatically derived from the authenticated session.
 
 **Parameters:**
 
 - **score_request** (<code>[ScoreClientCreateRequest](#leadr.scores.api.score_schemas.ScoreClientCreateRequest)</code>) – Score creation details including board_id, player_name, and value.
 - **request** (<code>[Request](#fastapi.Request)</code>) – FastAPI request object for accessing geo data.
 - **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
+- **board_service** (<code>[BoardServiceDep](./boards.md#leadr.boards.services.dependencies.BoardServiceDep)</code>) – Injected board service for board lookup.
 - **background_tasks** (<code>[BackgroundTasks](#fastapi.BackgroundTasks)</code>) – FastAPI background tasks for async metadata updates.
-- **auth** (<code>[ClientAuthContextWithNonceDep](./auth.md#leadr.auth.dependencies.ClientAuthContextWithNonceDep)</code>) – Client authentication context with device info.
+- **auth** (<code>[ClientAuthContextWithNonceDep](./auth.md#leadr.auth.dependencies.ClientAuthContextWithNonceDep)</code>) – Client authentication context with device and identity info.
 - **pre_create_hook** (<code>[PreCreateScoreHookDep](./common.md#leadr.common.api.hooks.PreCreateScoreHookDep)</code>) – Hook called before score creation (for quota checks).
 - **post_create_hook** (<code>[PostCreateScoreHookDep](./common.md#leadr.common.api.hooks.PostCreateScoreHookDep)</code>) – Hook called after successful score creation.
 
@@ -787,6 +1023,7 @@ are automatically derived from the authenticated device session.
 - <code>404</code> – Board not found.
 - <code>400</code> – Validation failed (board doesn't belong to account, or game doesn't
   match board's game).
+- <code>403</code> – Score rejected by anti-cheat (rate limit exceeded).
 
 ###### `leadr.scores.api.score_routes.get_score`
 
@@ -846,7 +1083,7 @@ as their authenticated device.
 ###### `leadr.scores.api.score_routes.handle_list_scores`
 
 ```python
-handle_list_scores(auth, service, pagination, account_id, board_id, game_id, device_id, is_test=None, around_score_id=None, around_score_value=None)
+handle_list_scores(auth, service, board_service, pagination, account_id, board_id, game_id, identity_id, is_test=None, around_score_id=None, around_score_value=None)
 ```
 
 Handle list scores logic for both admin and client endpoints.
@@ -854,18 +1091,19 @@ Handle list scores logic for both admin and client endpoints.
 This shared handler implements the core list scores functionality and returns
 different response models based on the authentication type:
 
-- Admin auth: Returns ScoreResponse with device_id and geo fields
-- Client auth: Returns ScoreClientResponse without device_id and geo fields
+- Admin auth: Returns ScoreResponse with geo fields
+- Client auth: Returns ScoreClientResponse without geo fields
 
 **Parameters:**
 
 - **auth** (<code>[AuthContext](./auth.md#leadr.auth.dependencies.AuthContext)</code>) – Authentication context (admin or client).
 - **service** (<code>[ScoreService](#leadr.scores.services.score_service.ScoreService)</code>) – Score service for data access.
+- **board_service** – Board service for fetching board details.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (cursor, limit, sort).
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID filter.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID filter.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID filter.
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID filter.
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID filter.
 - **is_test** (<code>[bool](#bool) | None</code>) – Optional filter for test scores. True returns only test scores,
   False returns only production scores, None returns all scores.
 - **around_score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None</code>) – Optional score ID to center results around.
@@ -884,13 +1122,13 @@ different response models based on the authentication type:
 ###### `leadr.scores.api.score_routes.list_scores_admin`
 
 ```python
-list_scores_admin(auth, service, pagination, account_id=None, board_id=None, game_id=None, device_id=None, is_test=IsTestFilter.FALSE, around_score_id=None, around_score_value=None)
+list_scores_admin(auth, service, board_service, pagination, account_id=None, board_id=None, game_id=None, identity_id=None, is_test=IsTestFilter.FALSE, around_score_id=None, around_score_value=None)
 ```
 
 List scores for an account with optional filters and pagination.
 
 Returns paginated scores for the specified account, with optional
-filtering by board, game, or device. Supports cursor-based pagination
+filtering by board, game, or identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 For regular admin users, account_id is automatically derived from their API key.
@@ -900,8 +1138,7 @@ Pagination:
 
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=value:desc,created_at:asc
-- Valid sort fields: id, value, player_name, filter_timezone, filter_country,
-  filter_city, created_at, updated_at
+- Valid sort fields: id, value, player_name, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Around Score:
@@ -931,7 +1168,7 @@ GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 - **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to filter by.
 - **around_score_id** (<code>[Annotated](#typing.Annotated)\[[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None, [Query](#fastapi.Query)(description='Center results around this score ID')\]</code>) – Optional score ID to center results around.
 - **around_score_value** (<code>[Annotated](#typing.Annotated)\[[float](#float) | None, [Query](#fastapi.Query)(description='Center results around this score value (returns placeholder)')\]</code>) – Optional value to center results around (with placeholder).
 
@@ -949,21 +1186,20 @@ GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 ###### `leadr.scores.api.score_routes.list_scores_client`
 
 ```python
-list_scores_client(auth, service, pagination, board_id=None, device_id=None, around_score_id=None, around_score_value=None)
+list_scores_client(auth, service, board_service, pagination, board_id=None, identity_id=None, around_score_id=None, around_score_value=None)
 ```
 
 List scores for an account with optional filters and pagination.
 
 Returns paginated scores for the specified account, with optional
-filtering by board and/or device. Supports cursor-based pagination
+filtering by board and/or identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 Pagination:
 
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=value:desc,created_at:asc
-- Valid sort fields: id, value, player_name, filter_timezone, filter_country,
-  filter_city, created_at, updated_at
+- Valid sort fields: id, value, player_name, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Around Score:
@@ -991,7 +1227,7 @@ GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
 - **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by (e.g., to get "my scores").
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to filter by (e.g., to get "my scores").
 - **around_score_id** (<code>[Annotated](#typing.Annotated)\[[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None, [Query](#fastapi.Query)(description='Center results around this score ID')\]</code>) – Optional score ID to center results around.
 - **around_score_value** (<code>[Annotated](#typing.Annotated)\[[float](#float) | None, [Query](#fastapi.Query)(description='Center results around this score value (returns placeholder)')\]</code>) – Optional value to center results around (with placeholder).
 
@@ -1011,33 +1247,6 @@ GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
 router = APIRouter()
 ```
 
-###### `leadr.scores.api.score_routes.update_score`
-
-```python
-update_score(score_id, request, service, auth)
-```
-
-Update a score.
-
-Supports partial updates of score fields. Any field not provided will
-remain unchanged. Set deleted: true to soft delete the score.
-
-**Parameters:**
-
-- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – Score identifier to update.
-- **request** (<code>[ScoreUpdateRequest](#leadr.scores.api.score_schemas.ScoreUpdateRequest)</code>) – Score update details with optional fields to modify.
-- **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
-- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
-
-**Returns:**
-
-- <code>[ScoreResponse](#leadr.scores.api.score_schemas.ScoreResponse)</code> – ScoreResponse with the updated score details.
-
-**Raises:**
-
-- <code>403</code> – User does not have access to this score's account.
-- <code>404</code> – Score not found or already soft-deleted.
-
 ##### `leadr.scores.api.score_schemas`
 
 API request and response models for scores.
@@ -1046,11 +1255,9 @@ API request and response models for scores.
 
 - [**IsTestFilter**](#leadr.scores.api.score_schemas.IsTestFilter) – Filter options for is_test query parameter in admin score listing.
 - [**ScoreClientCreateRequest**](#leadr.scores.api.score_schemas.ScoreClientCreateRequest) – Request model for creating a score (Client API).
-- [**ScoreClientResponse**](#leadr.scores.api.score_schemas.ScoreClientResponse) – Response model for a score (client API - excludes device_id and geo fields).
-- [**ScoreCreateRequest**](#leadr.scores.api.score_schemas.ScoreCreateRequest) – Request model for creating a score (Admin API).
+- [**ScoreClientResponse**](#leadr.scores.api.score_schemas.ScoreClientResponse) – Response model for a score returned to clients.
 - [**ScoreCreateRequestBase**](#leadr.scores.api.score_schemas.ScoreCreateRequestBase) – Base request model for score creation with common fields.
 - [**ScoreResponse**](#leadr.scores.api.score_schemas.ScoreResponse) – Response model for a score.
-- [**ScoreUpdateRequest**](#leadr.scores.api.score_schemas.ScoreUpdateRequest) – Request model for updating a score.
 
 ###### `leadr.scores.api.score_schemas.IsTestFilter`
 
@@ -1110,11 +1317,15 @@ IP address via GeoIP middleware.
 
 Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
-Response model for a score (client API - excludes device_id and geo fields).
+Response model for a score returned to clients.
+
+Similar to ScoreResponse but excludes sensitive geo data (timezone, country, city)
+that clients should not see for other players' scores.
 
 **Functions:**
 
-- [**from_domain**](#leadr.scores.api.score_schemas.ScoreClientResponse.from_domain) – Convert domain entity to client response model (without device_id or geo fields).
+- [**from_board_state**](#leadr.scores.api.score_schemas.ScoreClientResponse.from_board_state) – Convert BoardState to ScoreClientResponse with masked ID.
+- [**from_run_entry**](#leadr.scores.api.score_schemas.ScoreClientResponse.from_run_entry) – Convert RunEntry to ScoreClientResponse with masked ID.
 
 **Attributes:**
 
@@ -1123,6 +1334,7 @@ Response model for a score (client API - excludes device_id and geo fields).
 - [**created_at**](#leadr.scores.api.score_schemas.ScoreClientResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**game_id**](#leadr.scores.api.score_schemas.ScoreClientResponse.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**id**](#leadr.scores.api.score_schemas.ScoreClientResponse.id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**identity_id**](#leadr.scores.api.score_schemas.ScoreClientResponse.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
 - [**is_placeholder**](#leadr.scores.api.score_schemas.ScoreClientResponse.is_placeholder) (<code>[bool](#bool)</code>) –
 - [**is_test**](#leadr.scores.api.score_schemas.ScoreClientResponse.is_test) (<code>[bool](#bool)</code>) –
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreClientResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
@@ -1151,21 +1363,47 @@ board_id: BoardID = Field(description='ID of the board this score belongs to')
 created_at: datetime = Field(description='Timestamp when the score was created (UTC)')
 ```
 
-####### `leadr.scores.api.score_schemas.ScoreClientResponse.from_domain`
+####### `leadr.scores.api.score_schemas.ScoreClientResponse.from_board_state`
 
 ```python
-from_domain(score)
+from_board_state(state, account_id, game_id, rank)
 ```
 
-Convert domain entity to client response model (without device_id or geo fields).
+Convert BoardState to ScoreClientResponse with masked ID.
+
+Uses denormalized fields from BoardState directly, no joins required.
 
 **Parameters:**
 
-- **score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score)</code>) – The domain Score entity to convert.
+- **state** (<code>[BoardState](#leadr.boards.domain.board_state.BoardState)</code>) – The BoardState entity representing materialized ranking.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID (from board lookup).
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The game ID (from board lookup).
+- **rank** (<code>[int](#int)</code>) – The computed rank position (1-indexed).
 
 **Returns:**
 
-- <code>[ScoreClientResponse](#leadr.scores.api.score_schemas.ScoreClientResponse)</code> – ScoreClientResponse with all fields except device_id, timezone, country, and city.
+- <code>[ScoreClientResponse](#leadr.scores.api.score_schemas.ScoreClientResponse)</code> – ScoreClientResponse with ID masked from bst\_ to scr\_ prefix.
+
+####### `leadr.scores.api.score_schemas.ScoreClientResponse.from_run_entry`
+
+```python
+from_run_entry(entry, account_id, game_id, rank)
+```
+
+Convert RunEntry to ScoreClientResponse with masked ID.
+
+Uses denormalized fields from RunEntry directly, no joins required.
+
+**Parameters:**
+
+- **entry** (<code>[RunEntry](#leadr.boards.domain.run_entry.RunEntry)</code>) – The RunEntry entity representing a single run.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID (from board lookup).
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The game ID (from board lookup).
+- **rank** (<code>[int](#int)</code>) – The computed rank position (1-indexed).
+
+**Returns:**
+
+- <code>[ScoreClientResponse](#leadr.scores.api.score_schemas.ScoreClientResponse)</code> – ScoreClientResponse with ID masked from run\_ to scr\_ prefix.
 
 ####### `leadr.scores.api.score_schemas.ScoreClientResponse.game_id`
 
@@ -1177,6 +1415,12 @@ game_id: GameID = Field(description='ID of the game this score belongs to')
 
 ```python
 id: ScoreID = Field(description='Unique identifier for the score')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreClientResponse.identity_id`
+
+```python
+identity_id: IdentityID = Field(description='ID of the identity that submitted this score')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreClientResponse.is_placeholder`
@@ -1231,111 +1475,6 @@ value: float = Field(description='Numeric value of the score')
 
 ```python
 value_display: str | None = Field(default=None, description='Formatted display string, or null')
-```
-
-###### `leadr.scores.api.score_schemas.ScoreCreateRequest`
-
-Bases: <code>[ScoreCreateRequestBase](#leadr.scores.api.score_schemas.ScoreCreateRequestBase)</code>
-
-Request model for creating a score (Admin API).
-
-Note: Timezone, country, and city are automatically populated from the client's
-IP address via GeoIP middleware but can be overriden by admins in the request body.
-
-For regular admins: account_id is derived from auth context, must provide game_id and
-device_id. For superadmins: can provide account_id to create scores for any account,
-must provide game_id and device_id.
-
-**Functions:**
-
-- [**validate_metadata_size**](#leadr.scores.api.score_schemas.ScoreCreateRequest.validate_metadata_size) – Validate that metadata does not exceed size limit.
-
-**Attributes:**
-
-- [**account_id**](#leadr.scores.api.score_schemas.ScoreCreateRequest.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) –
-- [**board_id**](#leadr.scores.api.score_schemas.ScoreCreateRequest.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) –
-- [**city**](#leadr.scores.api.score_schemas.ScoreCreateRequest.city) (<code>[str](#str) | None</code>) –
-- [**country**](#leadr.scores.api.score_schemas.ScoreCreateRequest.country) (<code>[str](#str) | None</code>) –
-- [**device_id**](#leadr.scores.api.score_schemas.ScoreCreateRequest.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
-- [**game_id**](#leadr.scores.api.score_schemas.ScoreCreateRequest.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
-- [**metadata**](#leadr.scores.api.score_schemas.ScoreCreateRequest.metadata) (<code>[Any](#typing.Any) | None</code>) –
-- [**player_name**](#leadr.scores.api.score_schemas.ScoreCreateRequest.player_name) (<code>[str](#str)</code>) –
-- [**timezone**](#leadr.scores.api.score_schemas.ScoreCreateRequest.timezone) (<code>[str](#str) | None</code>) –
-- [**value**](#leadr.scores.api.score_schemas.ScoreCreateRequest.value) (<code>[float](#float)</code>) –
-- [**value_display**](#leadr.scores.api.score_schemas.ScoreCreateRequest.value_display) (<code>[str](#str) | None</code>) –
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.account_id`
-
-```python
-account_id: AccountID | None = Field(default=None, description='ID of the account (only for superadmins, regular admins use their auth account)')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.board_id`
-
-```python
-board_id: BoardID = Field(description='ID of the board this score belongs to')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.city`
-
-```python
-city: str | None = Field(default=None, description='Optional override of GeoIP metadata')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.country`
-
-```python
-country: str | None = Field(default=None, description='Optional override of GeoIP metadata')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.device_id`
-
-```python
-device_id: DeviceID = Field(description='ID of the device that submitted this score (required for admin API)')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.game_id`
-
-```python
-game_id: GameID = Field(description='ID of the game this score belongs to (required for admin API)')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.metadata`
-
-```python
-metadata: Any | None = Field(default=None, description='Optional JSON metadata for game-specific data (max 1KB)')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.player_name`
-
-```python
-player_name: str = Field(description='Display name of the player')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.timezone`
-
-```python
-timezone: str | None = Field(default=None, description='Optional override of GeoIP metadata')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.validate_metadata_size`
-
-```python
-validate_metadata_size(v)
-```
-
-Validate that metadata does not exceed size limit.
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.value`
-
-```python
-value: float = Field(description='Numeric value of the score for sorting/comparison')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreCreateRequest.value_display`
-
-```python
-value_display: str | None = Field(default=None, description="Optional formatted display string (e.g., '1:23.45', '1,234 points')")
 ```
 
 ###### `leadr.scores.api.score_schemas.ScoreCreateRequestBase`
@@ -1400,9 +1539,13 @@ Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
 
 Response model for a score.
 
+This response model is built from BoardState or RunEntry data
+with denormalized fields for query efficiency.
+
 **Functions:**
 
-- [**from_domain**](#leadr.scores.api.score_schemas.ScoreResponse.from_domain) – Convert domain entity to response model.
+- [**from_board_state**](#leadr.scores.api.score_schemas.ScoreResponse.from_board_state) – Convert BoardState to ScoreResponse with masked ID.
+- [**from_run_entry**](#leadr.scores.api.score_schemas.ScoreResponse.from_run_entry) – Convert RunEntry to ScoreResponse with masked ID.
 
 **Attributes:**
 
@@ -1411,9 +1554,9 @@ Response model for a score.
 - [**city**](#leadr.scores.api.score_schemas.ScoreResponse.city) (<code>[str](#str) | None</code>) –
 - [**country**](#leadr.scores.api.score_schemas.ScoreResponse.country) (<code>[str](#str) | None</code>) –
 - [**created_at**](#leadr.scores.api.score_schemas.ScoreResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**device_id**](#leadr.scores.api.score_schemas.ScoreResponse.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
 - [**game_id**](#leadr.scores.api.score_schemas.ScoreResponse.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**id**](#leadr.scores.api.score_schemas.ScoreResponse.id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**identity_id**](#leadr.scores.api.score_schemas.ScoreResponse.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
 - [**is_placeholder**](#leadr.scores.api.score_schemas.ScoreResponse.is_placeholder) (<code>[bool](#bool)</code>) –
 - [**is_test**](#leadr.scores.api.score_schemas.ScoreResponse.is_test) (<code>[bool](#bool)</code>) –
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
@@ -1455,27 +1598,47 @@ country: str | None = Field(default=None, description='Country for categorizatio
 created_at: datetime = Field(description='Timestamp when the score was created (UTC)')
 ```
 
-####### `leadr.scores.api.score_schemas.ScoreResponse.device_id`
+####### `leadr.scores.api.score_schemas.ScoreResponse.from_board_state`
 
 ```python
-device_id: DeviceID = Field(description='ID of the device that submitted this score')
+from_board_state(state, account_id, game_id, rank)
 ```
 
-####### `leadr.scores.api.score_schemas.ScoreResponse.from_domain`
+Convert BoardState to ScoreResponse with masked ID.
 
-```python
-from_domain(score)
-```
-
-Convert domain entity to response model.
+Uses denormalized fields from BoardState directly, no joins required.
 
 **Parameters:**
 
-- **score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score)</code>) – The domain Score entity to convert.
+- **state** (<code>[BoardState](#leadr.boards.domain.board_state.BoardState)</code>) – The BoardState entity representing materialized ranking.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID (from board lookup).
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The game ID (from board lookup).
+- **rank** (<code>[int](#int)</code>) – The computed rank position (1-indexed).
 
 **Returns:**
 
-- <code>[ScoreResponse](#leadr.scores.api.score_schemas.ScoreResponse)</code> – ScoreResponse with all fields populated from the domain entity.
+- <code>[ScoreResponse](#leadr.scores.api.score_schemas.ScoreResponse)</code> – ScoreResponse with ID masked from bst\_ to scr\_ prefix.
+
+####### `leadr.scores.api.score_schemas.ScoreResponse.from_run_entry`
+
+```python
+from_run_entry(entry, account_id, game_id, rank)
+```
+
+Convert RunEntry to ScoreResponse with masked ID.
+
+Uses denormalized fields from RunEntry directly, no joins required.
+
+**Parameters:**
+
+- **entry** (<code>[RunEntry](#leadr.boards.domain.run_entry.RunEntry)</code>) – The RunEntry entity representing a single run.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account ID (from board lookup).
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The game ID (from board lookup).
+- **rank** (<code>[int](#int)</code>) – The computed rank position (1-indexed).
+
+**Returns:**
+
+- <code>[ScoreResponse](#leadr.scores.api.score_schemas.ScoreResponse)</code> – ScoreResponse with ID masked from run\_ to scr\_ prefix.
 
 ####### `leadr.scores.api.score_schemas.ScoreResponse.game_id`
 
@@ -1487,6 +1650,12 @@ game_id: GameID = Field(description='ID of the game this score belongs to')
 
 ```python
 id: ScoreID = Field(description='Unique identifier for the score')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreResponse.identity_id`
+
+```python
+identity_id: IdentityID = Field(description='ID of the identity that submitted this score')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreResponse.is_placeholder`
@@ -1549,90 +1718,6 @@ value: float = Field(description='Numeric value of the score')
 value_display: str | None = Field(default=None, description='Formatted display string, or null')
 ```
 
-###### `leadr.scores.api.score_schemas.ScoreUpdateRequest`
-
-Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
-
-Request model for updating a score.
-
-**Functions:**
-
-- [**validate_metadata_size**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.validate_metadata_size) – Validate that metadata does not exceed size limit.
-
-**Attributes:**
-
-- [**city**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.city) (<code>[str](#str) | None</code>) –
-- [**country**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.country) (<code>[str](#str) | None</code>) –
-- [**deleted**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
-- [**metadata**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.metadata) (<code>[Any](#typing.Any) | None</code>) –
-- [**player_name**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.player_name) (<code>[str](#str) | None</code>) –
-- [**status**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.status) (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus) | None</code>) –
-- [**timezone**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.timezone) (<code>[str](#str) | None</code>) –
-- [**value**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.value) (<code>[float](#float) | None</code>) –
-- [**value_display**](#leadr.scores.api.score_schemas.ScoreUpdateRequest.value_display) (<code>[str](#str) | None</code>) –
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.city`
-
-```python
-city: str | None = Field(default=None, description='Updated city')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.country`
-
-```python
-country: str | None = Field(default=None, description='Updated country')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.deleted`
-
-```python
-deleted: bool | None = Field(default=None, description='Set to true to soft delete the score')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.metadata`
-
-```python
-metadata: Any | None = Field(default=None, description='Updated metadata')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.player_name`
-
-```python
-player_name: str | None = Field(default=None, description='Updated player name')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.status`
-
-```python
-status: ScoreStatus | None = Field(default=None, description='Updated status (admin only: active, under_review, rejected)')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.timezone`
-
-```python
-timezone: str | None = Field(default=None, description='Updated timezone')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.validate_metadata_size`
-
-```python
-validate_metadata_size(v)
-```
-
-Validate that metadata does not exceed size limit.
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.value`
-
-```python
-value: float | None = Field(default=None, description='Updated score value')
-```
-
-####### `leadr.scores.api.score_schemas.ScoreUpdateRequest.value_display`
-
-```python
-value_display: str | None = Field(default=None, description='Updated display string')
-```
-
 ##### `leadr.scores.api.score_submission_meta_routes`
 
 API routes for score submission metadata management.
@@ -1672,13 +1757,13 @@ Get score submission metadata by ID.
 ###### `leadr.scores.api.score_submission_meta_routes.list_submission_meta`
 
 ```python
-list_submission_meta(auth, service, pagination, account_id=None, board_id=None, device_id=None)
+list_submission_meta(auth, service, pagination, account_id=None, board_id=None)
 ```
 
 List score submission metadata for an account with optional filters and pagination.
 
 Returns paginated submission metadata for the specified account, with optional
-filtering by board or device. Supports cursor-based pagination with bidirectional
+filtering by board. Supports cursor-based pagination with bidirectional
 navigation and custom sorting.
 
 For regular users, account_id is automatically derived from their API key.
@@ -1691,7 +1776,6 @@ For superadmins, account_id is optional - if omitted, returns metadata from all 
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
 - **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (superadmins can omit to see all).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
 
 **Returns:**
 
@@ -1730,11 +1814,11 @@ Response model for score submission metadata.
 
 - [**board_id**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) –
 - [**created_at**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**device_id**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
 - [**id**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.id) (<code>[ScoreSubmissionMetaID](./common.md#leadr.common.domain.ids.ScoreSubmissionMetaID)</code>) –
+- [**identity_id**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
 - [**last_score_value**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.last_score_value) (<code>[float](#float) | None</code>) –
 - [**last_submission_at**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.last_submission_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**score_id**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.score_id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**score_event_id**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
 - [**submission_count**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.submission_count) (<code>[int](#int)</code>) –
 - [**updated_at**](#leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -1748,12 +1832,6 @@ board_id: BoardID
 
 ```python
 created_at: datetime
-```
-
-####### `leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.device_id`
-
-```python
-device_id: DeviceID
 ```
 
 ####### `leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.from_domain`
@@ -1770,6 +1848,12 @@ Convert domain entity to API response.
 id: ScoreSubmissionMetaID
 ```
 
+####### `leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.identity_id`
+
+```python
+identity_id: IdentityID
+```
+
 ####### `leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.last_score_value`
 
 ```python
@@ -1782,10 +1866,10 @@ last_score_value: float | None
 last_submission_at: datetime
 ```
 
-####### `leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.score_id`
+####### `leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.score_event_id`
 
 ```python
-score_id: ScoreID
+score_event_id: ScoreEventID
 ```
 
 ####### `leadr.scores.api.score_submission_meta_schemas.ScoreSubmissionMetaResponse.submission_count`
@@ -1805,7 +1889,7 @@ updated_at: datetime
 **Modules:**
 
 - [**anti_cheat**](#leadr.scores.domain.anti_cheat) – Anti-cheat domain models and enums.
-- [**score**](./scores.md#leadr.scores.domain.score) – Score domain entity.
+- [**score_event**](#leadr.scores.domain.score_event) – ScoreEvent domain model for append-only score event sourcing.
 
 ##### `leadr.scores.domain.anti_cheat`
 
@@ -2054,6 +2138,9 @@ Record of an anti-cheat flag raised for a score submission.
 Represents a suspicious pattern detected by the anti-cheat system.
 Flags can be reviewed by admins to confirm or dismiss the detection.
 
+Uses score_event_id instead of score_id, linking to the immutable
+ScoreEvent in the event-sourcing architecture.
+
 **Functions:**
 
 - [**restore**](#leadr.scores.domain.anti_cheat.ScoreFlag.restore) – Restore a soft-deleted entity.
@@ -2072,7 +2159,7 @@ Flags can be reviewed by admins to confirm or dismiss the detection.
 - [**reviewed_at**](#leadr.scores.domain.anti_cheat.ScoreFlag.reviewed_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**reviewer_decision**](#leadr.scores.domain.anti_cheat.ScoreFlag.reviewer_decision) (<code>[str](#str) | None</code>) –
 - [**reviewer_id**](#leadr.scores.domain.anti_cheat.ScoreFlag.reviewer_id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID) | None</code>) –
-- [**score_id**](#leadr.scores.domain.anti_cheat.ScoreFlag.score_id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**score_event_id**](#leadr.scores.domain.anti_cheat.ScoreFlag.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
 - [**status**](#leadr.scores.domain.anti_cheat.ScoreFlag.status) (<code>[ScoreFlagStatus](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus)</code>) –
 - [**updated_at**](#leadr.scores.domain.anti_cheat.ScoreFlag.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -2167,10 +2254,10 @@ reviewer_decision: str | None = Field(default=None, description="Admin's decisio
 reviewer_id: UserID | None = Field(default=None, description='ID of the admin who reviewed the flag')
 ```
 
-####### `leadr.scores.domain.anti_cheat.ScoreFlag.score_id`
+####### `leadr.scores.domain.anti_cheat.ScoreFlag.score_event_id`
 
 ```python
-score_id: ScoreID = Field(description='ID of the flagged score')
+score_event_id: ScoreEventID = Field(description='ID of the flagged score event')
 ```
 
 ####### `leadr.scores.domain.anti_cheat.ScoreFlag.soft_delete`
@@ -2211,9 +2298,12 @@ Bases: <code>[Entity](./common.md#leadr.common.domain.models.Entity)</code>
 
 Metadata tracking submission history for anti-cheat analysis.
 
-Tracks the number and timing of score submissions per device/board combination
+Tracks the number and timing of score submissions per identity/board combination
 to enable detection of suspicious patterns like rapid-fire submissions or
 excessive submission rates.
+
+Uses identity_id as the tracking key instead of device_id, aligning with
+the event-sourcing architecture where identity is the ranking key.
 
 **Functions:**
 
@@ -2225,13 +2315,13 @@ excessive submission rates.
 - [**board_id**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) –
 - [**created_at**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**deleted_at**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**device_id**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
 - [**id**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.id) (<code>[ScoreSubmissionMetaID](./common.md#leadr.common.domain.ids.ScoreSubmissionMetaID)</code>) –
+- [**identity_id**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
 - [**is_deleted**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
 - [**last_score_value**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.last_score_value) (<code>[float](#float) | None</code>) –
 - [**last_submission_at**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.last_submission_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**model_config**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.model_config) –
-- [**score_id**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.score_id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**score_event_id**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
 - [**submission_count**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.submission_count) (<code>[int](#int)</code>) –
 - [**updated_at**](#leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -2253,16 +2343,16 @@ created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), descri
 deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
 ```
 
-####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.device_id`
-
-```python
-device_id: DeviceID = Field(description='ID of the device submitting scores')
-```
-
 ####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.id`
 
 ```python
 id: ScoreSubmissionMetaID = Field(frozen=True, default_factory=ScoreSubmissionMetaID, description='Unique submission metadata identifier')
+```
+
+####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.identity_id`
+
+```python
+identity_id: IdentityID = Field(description='ID of the identity submitting scores')
 ```
 
 ####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.is_deleted`
@@ -2314,10 +2404,10 @@ Clears the deleted_at timestamp, making the entity active again.
 
 </details>
 
-####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.score_id`
+####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.score_event_id`
 
 ```python
-score_id: ScoreID = Field(description='ID of the most recent score submission')
+score_event_id: ScoreEventID = Field(description='ID of the most recent score event submission')
 ```
 
 ####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.soft_delete`
@@ -2343,7 +2433,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 ####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.submission_count`
 
 ```python
-submission_count: int = Field(default=1, description='Total number of submissions by this device to this board')
+submission_count: int = Field(default=1, description='Total number of submissions by this identity to this board')
 ```
 
 ####### `leadr.scores.domain.anti_cheat.ScoreSubmissionMeta.updated_at`
@@ -2782,6 +2872,9 @@ Record of an anti-cheat flag raised for a score submission.
 Represents a suspicious pattern detected by the anti-cheat system.
 Flags can be reviewed by admins to confirm or dismiss the detection.
 
+Uses score_event_id instead of score_id, linking to the immutable
+ScoreEvent in the event-sourcing architecture.
+
 **Functions:**
 
 - [**restore**](#leadr.scores.domain.anti_cheat.models.ScoreFlag.restore) – Restore a soft-deleted entity.
@@ -2800,7 +2893,7 @@ Flags can be reviewed by admins to confirm or dismiss the detection.
 - [**reviewed_at**](#leadr.scores.domain.anti_cheat.models.ScoreFlag.reviewed_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**reviewer_decision**](#leadr.scores.domain.anti_cheat.models.ScoreFlag.reviewer_decision) (<code>[str](#str) | None</code>) –
 - [**reviewer_id**](#leadr.scores.domain.anti_cheat.models.ScoreFlag.reviewer_id) (<code>[UserID](./common.md#leadr.common.domain.ids.UserID) | None</code>) –
-- [**score_id**](#leadr.scores.domain.anti_cheat.models.ScoreFlag.score_id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**score_event_id**](#leadr.scores.domain.anti_cheat.models.ScoreFlag.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
 - [**status**](#leadr.scores.domain.anti_cheat.models.ScoreFlag.status) (<code>[ScoreFlagStatus](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus)</code>) –
 - [**updated_at**](#leadr.scores.domain.anti_cheat.models.ScoreFlag.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -2895,10 +2988,10 @@ reviewer_decision: str | None = Field(default=None, description="Admin's decisio
 reviewer_id: UserID | None = Field(default=None, description='ID of the admin who reviewed the flag')
 ```
 
-######## `leadr.scores.domain.anti_cheat.models.ScoreFlag.score_id`
+######## `leadr.scores.domain.anti_cheat.models.ScoreFlag.score_event_id`
 
 ```python
-score_id: ScoreID = Field(description='ID of the flagged score')
+score_event_id: ScoreEventID = Field(description='ID of the flagged score event')
 ```
 
 ######## `leadr.scores.domain.anti_cheat.models.ScoreFlag.soft_delete`
@@ -2939,9 +3032,12 @@ Bases: <code>[Entity](./common.md#leadr.common.domain.models.Entity)</code>
 
 Metadata tracking submission history for anti-cheat analysis.
 
-Tracks the number and timing of score submissions per device/board combination
+Tracks the number and timing of score submissions per identity/board combination
 to enable detection of suspicious patterns like rapid-fire submissions or
 excessive submission rates.
+
+Uses identity_id as the tracking key instead of device_id, aligning with
+the event-sourcing architecture where identity is the ranking key.
 
 **Functions:**
 
@@ -2953,13 +3049,13 @@ excessive submission rates.
 - [**board_id**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) –
 - [**created_at**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**deleted_at**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**device_id**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
 - [**id**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.id) (<code>[ScoreSubmissionMetaID](./common.md#leadr.common.domain.ids.ScoreSubmissionMetaID)</code>) –
+- [**identity_id**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) –
 - [**is_deleted**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
 - [**last_score_value**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.last_score_value) (<code>[float](#float) | None</code>) –
 - [**last_submission_at**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.last_submission_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**model_config**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.model_config) –
-- [**score_id**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.score_id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
+- [**score_event_id**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
 - [**submission_count**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.submission_count) (<code>[int](#int)</code>) –
 - [**updated_at**](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -2981,16 +3077,16 @@ created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), descri
 deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
 ```
 
-######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.device_id`
-
-```python
-device_id: DeviceID = Field(description='ID of the device submitting scores')
-```
-
 ######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.id`
 
 ```python
 id: ScoreSubmissionMetaID = Field(frozen=True, default_factory=ScoreSubmissionMetaID, description='Unique submission metadata identifier')
+```
+
+######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.identity_id`
+
+```python
+identity_id: IdentityID = Field(description='ID of the identity submitting scores')
 ```
 
 ######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.is_deleted`
@@ -3042,10 +3138,10 @@ Clears the deleted_at timestamp, making the entity active again.
 
 </details>
 
-######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.score_id`
+######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.score_event_id`
 
 ```python
-score_id: ScoreID = Field(description='ID of the most recent score submission')
+score_event_id: ScoreEventID = Field(description='ID of the most recent score event submission')
 ```
 
 ######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.soft_delete`
@@ -3071,7 +3167,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 ######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.submission_count`
 
 ```python
-submission_count: int = Field(default=1, description='Total number of submissions by this device to this board')
+submission_count: int = Field(default=1, description='Total number of submissions by this identity to this board')
 ```
 
 ######## `leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta.updated_at`
@@ -3080,306 +3176,117 @@ submission_count: int = Field(default=1, description='Total number of submission
 updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp of last update (UTC)')
 ```
 
-##### `leadr.scores.domain.score`
+##### `leadr.scores.domain.score_event`
 
-Score domain entity.
+ScoreEvent domain model for append-only score event sourcing.
 
 **Classes:**
 
-- [**Score**](./scores.md#leadr.scores.domain.score.Score) – Score represents a player's score submission for a board.
+- [**ScoreEvent**](#leadr.scores.domain.score_event.ScoreEvent) – Append-only score event entity.
 
-###### `leadr.scores.domain.score.Score`
+###### `leadr.scores.domain.score_event.ScoreEvent`
 
-Bases: <code>[Entity](./common.md#leadr.common.domain.models.Entity)</code>
+Bases: <code>[ImmutableEntity](./common.md#leadr.common.domain.models.ImmutableEntity)</code>
 
-Score represents a player's score submission for a board.
+Append-only score event entity.
 
-Scores are immutable in terms of their associations (account, game, board, device)
-but mutable in terms of their value and metadata for corrections/updates.
+ScoreEvent represents an immutable fact about a score submission.
+Unlike regular entities, ScoreEvents:
 
-**Functions:**
+- Have no updated_at (immutable after creation)
+- Have no deleted_at (append-only, never soft-deleted)
+- Are the source of truth for score history
 
-- [**activate**](./scores.md#leadr.scores.domain.score.Score.activate) – Mark score as active (passed anti-cheat).
-- [**flag_for_review**](#leadr.scores.domain.score.Score.flag_for_review) – Mark score as under review (flagged by anti-cheat).
-- [**reject**](./scores.md#leadr.scores.domain.score.Score.reject) – Mark score as rejected (confirmed cheating).
-- [**restore**](./scores.md#leadr.scores.domain.score.Score.restore) – Restore a soft-deleted entity.
-- [**soft_delete**](#leadr.scores.domain.score.Score.soft_delete) – Mark entity as soft-deleted.
-- [**strip_player_name**](#leadr.scores.domain.score.Score.strip_player_name) – Strip whitespace from player_name.
-- [**validate_metadata_size**](#leadr.scores.domain.score.Score.validate_metadata_size) – Validate that metadata does not exceed size limit.
-- [**validate_player_name_not_empty**](#leadr.scores.domain.score.Score.validate_player_name_not_empty) – Validate that player_name is not empty for non-placeholder scores.
+The event_payload contains board-type-specific data:
+
+- RUN_IDENTITY/RUN_RUNS: {"value": <numeric>}
+- COUNTER: {"delta": <numeric>}
+- RATIO: No direct events (derived from other boards)
 
 **Attributes:**
 
-- [**account_id**](#leadr.scores.domain.score.Score.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
-- [**board_id**](#leadr.scores.domain.score.Score.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) –
-- [**city**](./scores.md#leadr.scores.domain.score.Score.city) (<code>[str](#str) | None</code>) –
-- [**country**](./scores.md#leadr.scores.domain.score.Score.country) (<code>[str](#str) | None</code>) –
-- [**created_at**](#leadr.scores.domain.score.Score.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**deleted_at**](#leadr.scores.domain.score.Score.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
-- [**device_id**](#leadr.scores.domain.score.Score.device_id) (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) –
-- [**game_id**](#leadr.scores.domain.score.Score.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
-- [**id**](./scores.md#leadr.scores.domain.score.Score.id) (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) –
-- [**is_deleted**](#leadr.scores.domain.score.Score.is_deleted) (<code>[bool](#bool)</code>) – Check if entity is soft-deleted.
-- [**is_placeholder**](#leadr.scores.domain.score.Score.is_placeholder) (<code>[bool](#bool)</code>) –
-- [**is_test**](#leadr.scores.domain.score.Score.is_test) (<code>[bool](#bool)</code>) –
-- [**metadata**](./scores.md#leadr.scores.domain.score.Score.metadata) (<code>[Any](#typing.Any) | None</code>) –
-- [**model_config**](#leadr.scores.domain.score.Score.model_config) –
-- [**player_name**](#leadr.scores.domain.score.Score.player_name) (<code>[str](#str)</code>) –
-- [**rank**](./scores.md#leadr.scores.domain.score.Score.rank) (<code>[int](#int) | None</code>) –
-- [**status**](./scores.md#leadr.scores.domain.score.Score.status) (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus)</code>) –
-- [**timezone**](./scores.md#leadr.scores.domain.score.Score.timezone) (<code>[str](#str) | None</code>) –
-- [**updated_at**](#leadr.scores.domain.score.Score.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**value**](./scores.md#leadr.scores.domain.score.Score.value) (<code>[float](#float)</code>) –
-- [**value_display**](#leadr.scores.domain.score.Score.value_display) (<code>[str](#str) | None</code>) –
+- [**id**](#leadr.scores.domain.score_event.ScoreEvent.id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) – Unique identifier for this event.
+- [**account_id**](#leadr.scores.domain.score_event.ScoreEvent.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The account that owns this event.
+- [**game_id**](#leadr.scores.domain.score_event.ScoreEvent.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The game this event belongs to.
+- [**board_id**](#leadr.scores.domain.score_event.ScoreEvent.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – The board this event was submitted to.
+- [**identity_id**](#leadr.scores.domain.score_event.ScoreEvent.identity_id) (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – The identity that submitted this score.
+- [**event_payload**](#leadr.scores.domain.score_event.ScoreEvent.event_payload) (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code>) – Board-type-specific payload (value or delta).
+- [**is_test**](#leadr.scores.domain.score_event.ScoreEvent.is_test) (<code>[bool](#bool)</code>) – Whether this is a test submission (excluded from rankings).
+- [**timezone**](#leadr.scores.domain.score_event.ScoreEvent.timezone) (<code>[str](#str) | None</code>) – Timezone extracted from GeoIP lookup.
+- [**country**](#leadr.scores.domain.score_event.ScoreEvent.country) (<code>[str](#str) | None</code>) – Country code extracted from GeoIP lookup.
+- [**city**](#leadr.scores.domain.score_event.ScoreEvent.city) (<code>[str](#str) | None</code>) – City name extracted from GeoIP lookup.
+- [**created_at**](#leadr.scores.domain.score_event.ScoreEvent.created_at) (<code>[datetime](#datetime.datetime)</code>) – Timestamp when the event was created (UTC).
 
-####### `leadr.scores.domain.score.Score.account_id`
+####### `leadr.scores.domain.score_event.ScoreEvent.account_id`
 
 ```python
-account_id: AccountID = Field(frozen=True, description='ID of the account this score belongs to (immutable)')
+account_id: AccountID = Field(description='Account that owns this event')
 ```
 
-####### `leadr.scores.domain.score.Score.activate`
+####### `leadr.scores.domain.score_event.ScoreEvent.board_id`
 
 ```python
-activate()
+board_id: BoardID = Field(description='Board this event was submitted to')
 ```
 
-Mark score as active (passed anti-cheat).
-
-####### `leadr.scores.domain.score.Score.board_id`
+####### `leadr.scores.domain.score_event.ScoreEvent.city`
 
 ```python
-board_id: BoardID = Field(frozen=True, description='ID of the board this score belongs to (immutable)')
+city: str | None = Field(default=None, description='City name from GeoIP lookup')
 ```
 
-####### `leadr.scores.domain.score.Score.city`
+####### `leadr.scores.domain.score_event.ScoreEvent.country`
 
 ```python
-city: str | None = Field(default=None, description='Optional city filter for score categorization')
+country: str | None = Field(default=None, description='Country code from GeoIP lookup')
 ```
 
-####### `leadr.scores.domain.score.Score.country`
-
-```python
-country: str | None = Field(default=None, description='Optional country filter for score categorization')
-```
-
-####### `leadr.scores.domain.score.Score.created_at`
+####### `leadr.scores.domain.score_event.ScoreEvent.created_at`
 
 ```python
 created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp when entity was created (UTC)')
 ```
 
-####### `leadr.scores.domain.score.Score.deleted_at`
+####### `leadr.scores.domain.score_event.ScoreEvent.event_payload`
 
 ```python
-deleted_at: datetime | None = Field(default=None, description='Timestamp when entity was soft-deleted (UTC), or null if active')
+event_payload: dict[str, Any] = Field(description='Board-type-specific payload (value for RUN boards, delta for COUNTER)')
 ```
 
-####### `leadr.scores.domain.score.Score.device_id`
+####### `leadr.scores.domain.score_event.ScoreEvent.game_id`
 
 ```python
-device_id: DeviceID = Field(frozen=True, description='ID of the device that submitted this score (immutable)')
+game_id: GameID = Field(description='Game this event belongs to')
 ```
 
-####### `leadr.scores.domain.score.Score.flag_for_review`
+####### `leadr.scores.domain.score_event.ScoreEvent.id`
 
 ```python
-flag_for_review()
+id: ScoreEventID = Field(frozen=True, default_factory=ScoreEventID, description='Unique identifier for this event')
 ```
 
-Mark score as under review (flagged by anti-cheat).
-
-####### `leadr.scores.domain.score.Score.game_id`
+####### `leadr.scores.domain.score_event.ScoreEvent.identity_id`
 
 ```python
-game_id: GameID = Field(frozen=True, description='ID of the game this score belongs to (immutable)')
+identity_id: IdentityID = Field(description='Identity that submitted this score')
 ```
 
-####### `leadr.scores.domain.score.Score.id`
+####### `leadr.scores.domain.score_event.ScoreEvent.is_test`
 
 ```python
-id: ScoreID = Field(frozen=True, default_factory=ScoreID, description='Unique score identifier')
+is_test: bool = Field(default=False, description='Whether this is a test submission')
 ```
 
-####### `leadr.scores.domain.score.Score.is_deleted`
-
-```python
-is_deleted: bool
-```
-
-Check if entity is soft-deleted.
-
-**Returns:**
-
-- <code>[bool](#bool)</code> – True if the entity has a deleted_at timestamp, False otherwise.
-
-####### `leadr.scores.domain.score.Score.is_placeholder`
-
-```python
-is_placeholder: bool = Field(default=False, description='True if this is a synthetic placeholder score (from around_score_value query)')
-```
-
-####### `leadr.scores.domain.score.Score.is_test`
-
-```python
-is_test: bool = Field(default=False, description='True if score was submitted in test mode')
-```
-
-####### `leadr.scores.domain.score.Score.metadata`
-
-```python
-metadata: Any | None = Field(default=None, description='Optional JSON metadata for game-specific data (loadouts, seeds, etc.)')
-```
-
-####### `leadr.scores.domain.score.Score.model_config`
+####### `leadr.scores.domain.score_event.ScoreEvent.model_config`
 
 ```python
 model_config = ConfigDict(validate_assignment=True)
 ```
 
-####### `leadr.scores.domain.score.Score.player_name`
+####### `leadr.scores.domain.score_event.ScoreEvent.timezone`
 
 ```python
-player_name: str = Field(description='Display name of the player')
-```
-
-####### `leadr.scores.domain.score.Score.rank`
-
-```python
-rank: int | None = Field(default=None, description='Position in leaderboard (1 = first place). Populated when querying with board_id.')
-```
-
-####### `leadr.scores.domain.score.Score.reject`
-
-```python
-reject()
-```
-
-Mark score as rejected (confirmed cheating).
-
-####### `leadr.scores.domain.score.Score.restore`
-
-```python
-restore()
-```
-
-Restore a soft-deleted entity.
-
-Clears the deleted_at timestamp, making the entity active again.
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > account.soft_delete()
-> > > account.restore()
-> > > assert account.is_deleted is False
-
-</details>
-
-####### `leadr.scores.domain.score.Score.soft_delete`
-
-```python
-soft_delete()
-```
-
-Mark entity as soft-deleted.
-
-Sets the deleted_at timestamp to the current UTC time. Entities that are
-already deleted are not affected (deleted_at remains at original deletion time).
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > account = Account(name="Test", slug="test")
-> > > account.soft_delete()
-> > > assert account.is_deleted is True
-
-</details>
-
-####### `leadr.scores.domain.score.Score.status`
-
-```python
-status: ScoreStatus = Field(default=(ScoreStatus.PROVISIONAL), description='Lifecycle status (provisional, active, under_review, rejected)')
-```
-
-####### `leadr.scores.domain.score.Score.strip_player_name`
-
-```python
-strip_player_name(v)
-```
-
-Strip whitespace from player_name.
-
-**Parameters:**
-
-- **v** (<code>[str](#str)</code>) – The player_name to validate.
-
-**Returns:**
-
-- <code>[str](#str)</code> – The trimmed player_name.
-
-####### `leadr.scores.domain.score.Score.timezone`
-
-```python
-timezone: str | None = Field(default=None, description='Optional timezone filter for score categorization')
-```
-
-####### `leadr.scores.domain.score.Score.updated_at`
-
-```python
-updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp of last update (UTC)')
-```
-
-####### `leadr.scores.domain.score.Score.validate_metadata_size`
-
-```python
-validate_metadata_size(v)
-```
-
-Validate that metadata does not exceed size limit.
-
-**Parameters:**
-
-- **v** (<code>[Any](#typing.Any)</code>) – The metadata to validate.
-
-**Returns:**
-
-- <code>[Any](#typing.Any)</code> – The validated metadata.
-
-**Raises:**
-
-- <code>[ValueError](#ValueError)</code> – If metadata exceeds the configured size limit.
-
-####### `leadr.scores.domain.score.Score.validate_player_name_not_empty`
-
-```python
-validate_player_name_not_empty()
-```
-
-Validate that player_name is not empty for non-placeholder scores.
-
-Placeholder scores are allowed to have empty player_name since they
-are synthetic scores created for around_score_value queries.
-
-**Returns:**
-
-- <code>[Score](./scores.md#leadr.scores.domain.score.Score)</code> – The validated Score instance.
-
-**Raises:**
-
-- <code>[ValueError](#ValueError)</code> – If player_name is empty and this is not a placeholder.
-
-####### `leadr.scores.domain.score.Score.value`
-
-```python
-value: float = Field(description='Numeric value of the score for sorting/comparison')
-```
-
-####### `leadr.scores.domain.score.Score.value_display`
-
-```python
-value_display: str | None = Field(default=None, description="Optional formatted display string (e.g., '1:23.45', '1,234 points')")
+timezone: str | None = Field(default=None, description='Timezone from GeoIP lookup')
 ```
 
 #### `leadr.scores.services`
@@ -3390,6 +3297,7 @@ value_display: str | None = Field(default=None, description="Optional formatted 
 - [**anti_cheat_service**](#leadr.scores.services.anti_cheat_service) – Anti-cheat service for detecting suspicious score submissions.
 - [**dependencies**](./scores.md#leadr.scores.services.dependencies) – Score service dependencies for FastAPI dependency injection.
 - [**repositories**](./scores.md#leadr.scores.services.repositories) – Score repository services.
+- [**score_event_service**](#leadr.scores.services.score_event_service) – Score event service for managing immutable score events.
 - [**score_flag_service**](#leadr.scores.services.score_flag_service) – Score flag service for managing flag operations.
 - [**score_service**](#leadr.scores.services.score_service) – Score service for managing score operations.
 - [**score_submission_meta_service**](#leadr.scores.services.score_submission_meta_service) – Service for score submission metadata management.
@@ -3415,7 +3323,7 @@ Repository for managing score flag persistence.
 - [**delete**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
 - [**filter**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.filter) – Filter flags by account and optional criteria with pagination.
 - [**get_by_id**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_by_id) – Get an entity by its ID.
-- [**get_flags_by_score_id**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_flags_by_score_id) – Get all flags for a specific score.
+- [**get_flags_by_score_event_id**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_flags_by_score_event_id) – Get all flags for a specific score event.
 - [**get_pending_flags**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_pending_flags) – Get all pending (unreviewed) flags.
 - [**update**](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.update) – Update an existing entity in the database.
 
@@ -3427,7 +3335,7 @@ Repository for managing score flag persistence.
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.SORTABLE_FIELDS`
 
 ```python
-SORTABLE_FIELDS = {'id', 'score_id', 'flag_type', 'confidence', 'status', 'created_at', 'updated_at'}
+SORTABLE_FIELDS = {'id', 'score_event_id', 'flag_type', 'confidence', 'status', 'created_at', 'updated_at'}
 ```
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.create`
@@ -3470,7 +3378,7 @@ filter(account_id=None, board_id=None, game_id=None, status=None, flag_type=None
 
 Filter flags by account and optional criteria with pagination.
 
-Joins with scores table to filter by account_id since flags don't have
+Joins with score_events table to filter by account_id since flags don't have
 a direct account relation.
 
 **Parameters:**
@@ -3505,21 +3413,21 @@ Get an entity by its ID.
 
 - <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT) | None</code> – Domain entity if found, None otherwise
 
-####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_flags_by_score_id`
+####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_flags_by_score_event_id`
 
 ```python
-get_flags_by_score_id(score_id)
+get_flags_by_score_event_id(score_event_id)
 ```
 
-Get all flags for a specific score.
+Get all flags for a specific score event.
 
 **Parameters:**
 
-- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – ID of the score to get flags for
+- **score_event_id** (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) – ID of the score event to get flags for
 
 **Returns:**
 
-- <code>[list](#list)\[[ScoreFlag](#leadr.scores.domain.anti_cheat.models.ScoreFlag)\]</code> – List of flags for the score (excludes soft-deleted)
+- <code>[list](#list)\[[ScoreFlag](#leadr.scores.domain.anti_cheat.models.ScoreFlag)\]</code> – List of flags for the score event (excludes soft-deleted)
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.get_pending_flags`
 
@@ -3570,8 +3478,8 @@ Repository for managing score submission metadata persistence.
 - [**create**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.create) – Create a new entity in the database.
 - [**delete**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
 - [**filter**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.filter) – Filter submission metadata by account and optional criteria with pagination.
-- [**get_by_device_and_board**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_device_and_board) – Get submission metadata for a device/board combination.
 - [**get_by_id**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_id) – Get an entity by its ID.
+- [**get_by_identity_and_board**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_identity_and_board) – Get submission metadata for an identity/board combination.
 - [**update**](#leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
@@ -3582,7 +3490,7 @@ Repository for managing score submission metadata persistence.
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.SORTABLE_FIELDS`
 
 ```python
-SORTABLE_FIELDS = {'id', 'device_id', 'board_id', 'submission_count', 'last_submission_at', 'last_score_value', 'created_at', 'updated_at'}
+SORTABLE_FIELDS = {'id', 'identity_id', 'board_id', 'submission_count', 'last_submission_at', 'last_score_value', 'created_at', 'updated_at'}
 ```
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.create`
@@ -3620,12 +3528,12 @@ Soft delete an entity by setting its deleted_at timestamp.
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.filter`
 
 ```python
-filter(account_id=None, board_id=None, device_id=None, *, pagination, **kwargs)
+filter(account_id=None, board_id=None, identity_id=None, *, pagination, **kwargs)
 ```
 
 Filter submission metadata by account and optional criteria with pagination.
 
-Joins with scores table to filter by account_id since submission meta doesn't have
+Joins with score_events table to filter by account_id since submission meta doesn't have
 a direct account relation.
 
 **Parameters:**
@@ -3633,30 +3541,13 @@ a direct account relation.
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all metadata
   (superadmin use case). Regular users should always pass account_id.
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to filter by
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
 
 **Returns:**
 
 - <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ScoreSubmissionMeta](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta)\]</code> – PaginatedResult containing submission metadata matching the filter criteria
-
-####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_device_and_board`
-
-```python
-get_by_device_and_board(device_id, board_id)
-```
-
-Get submission metadata for a device/board combination.
-
-**Parameters:**
-
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – ID of the device submitting scores
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – ID of the board being submitted to
-
-**Returns:**
-
-- <code>[ScoreSubmissionMeta](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta) | None</code> – ScoreSubmissionMeta if found, None otherwise
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_id`
 
@@ -3674,6 +3565,23 @@ Get an entity by its ID.
 **Returns:**
 
 - <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT) | None</code> – Domain entity if found, None otherwise
+
+####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.get_by_identity_and_board`
+
+```python
+get_by_identity_and_board(identity_id, board_id)
+```
+
+Get submission metadata for an identity/board combination.
+
+**Parameters:**
+
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – ID of the identity submitting scores
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – ID of the board being submitted to
+
+**Returns:**
+
+- <code>[ScoreSubmissionMeta](#leadr.scores.domain.anti_cheat.models.ScoreSubmissionMeta) | None</code> – ScoreSubmissionMeta if found, None otherwise
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.session`
 
@@ -3719,15 +3627,18 @@ Service for anti-cheat detection and analysis.
 
 Implements various detection tactics to identify suspicious score submissions:
 
-- Rate limiting: Prevents excessive submissions per device/board
+- Rate limiting: Prevents excessive submissions per identity/board
 - Duplicate detection: Identifies repeated identical scores
 - Velocity detection: Detects rapid-fire submissions
 - Statistical outliers: Identifies anomalous scores
 - Pattern detection: Finds suspicious submission patterns
 
+Uses identity_id as the tracking key instead of device_id, aligning with
+the event-sourcing architecture where identity is the ranking key.
+
 **Functions:**
 
-- [**check_submission**](#leadr.scores.services.anti_cheat_service.AntiCheatService.check_submission) – Check a score submission for suspicious patterns.
+- [**check_submission_for_event**](#leadr.scores.services.anti_cheat_service.AntiCheatService.check_submission_for_event) – Check a score event submission for suspicious patterns.
 
 **Attributes:**
 
@@ -3738,19 +3649,19 @@ Implements various detection tactics to identify suspicious score submissions:
 
 - **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – Database session for querying metadata
 
-####### `leadr.scores.services.anti_cheat_service.AntiCheatService.check_submission`
+####### `leadr.scores.services.anti_cheat_service.AntiCheatService.check_submission_for_event`
 
 ```python
-check_submission(score, trust_tier, device_id, board_id)
+check_submission_for_event(score_event, trust_tier, identity_id, board_id)
 ```
 
-Check a score submission for suspicious patterns.
+Check a score event submission for suspicious patterns.
 
 **Parameters:**
 
-- **score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score)</code>) – Score being submitted
-- **trust_tier** (<code>[TrustTier](#leadr.scores.domain.anti_cheat.enums.TrustTier)</code>) – Trust tier of the device (A/B/C)
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – ID of the device submitting the score
+- **score_event** (<code>[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent)</code>) – ScoreEvent being submitted
+- **trust_tier** (<code>[TrustTier](#leadr.scores.domain.anti_cheat.enums.TrustTier)</code>) – Trust tier of the identity (A/B/C)
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – ID of the identity submitting the score
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – ID of the board being submitted to
 
 **Returns:**
@@ -3775,15 +3686,23 @@ Score service dependencies for FastAPI dependency injection.
 
 **Functions:**
 
+- [**get_score_event_service**](#leadr.scores.services.dependencies.get_score_event_service) – Get ScoreEventService dependency.
 - [**get_score_flag_service**](#leadr.scores.services.dependencies.get_score_flag_service) – Get ScoreFlagService dependency.
 - [**get_score_service**](#leadr.scores.services.dependencies.get_score_service) – Get ScoreService dependency.
 - [**get_score_submission_meta_service**](#leadr.scores.services.dependencies.get_score_submission_meta_service) – Get ScoreSubmissionMetaService dependency.
 
 **Attributes:**
 
+- [**ScoreEventServiceDep**](./scores.md#leadr.scores.services.dependencies.ScoreEventServiceDep) –
 - [**ScoreFlagServiceDep**](./scores.md#leadr.scores.services.dependencies.ScoreFlagServiceDep) –
 - [**ScoreServiceDep**](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep) –
 - [**ScoreSubmissionMetaServiceDep**](./scores.md#leadr.scores.services.dependencies.ScoreSubmissionMetaServiceDep) –
+
+###### `leadr.scores.services.dependencies.ScoreEventServiceDep`
+
+```python
+ScoreEventServiceDep = Annotated[ScoreEventService, Depends(get_score_event_service)]
+```
 
 ###### `leadr.scores.services.dependencies.ScoreFlagServiceDep`
 
@@ -3802,6 +3721,22 @@ ScoreServiceDep = Annotated[ScoreService, Depends(get_score_service)]
 ```python
 ScoreSubmissionMetaServiceDep = Annotated[ScoreSubmissionMetaService, Depends(get_score_submission_meta_service)]
 ```
+
+###### `leadr.scores.services.dependencies.get_score_event_service`
+
+```python
+get_score_event_service(db)
+```
+
+Get ScoreEventService dependency.
+
+**Parameters:**
+
+- **db** (<code>[DatabaseSession](./common.md#leadr.common.dependencies.DatabaseSession)</code>) – Database session from dependency injection
+
+**Returns:**
+
+- <code>[ScoreEventService](#leadr.scores.services.score_event_service.ScoreEventService)</code> – Initialized ScoreEventService instance
 
 ###### `leadr.scores.services.dependencies.get_score_flag_service`
 
@@ -3857,211 +3792,212 @@ Score repository services.
 
 **Classes:**
 
-- [**ScoreRepository**](./scores.md#leadr.scores.services.repositories.ScoreRepository) – Score repository for managing score persistence.
+- [**ScoreEventRepository**](./scores.md#leadr.scores.services.repositories.ScoreEventRepository) – Repository for managing score event persistence.
 
-**Attributes:**
+###### `leadr.scores.services.repositories.ScoreEventRepository`
 
-- [**NIL_UUID**](#leadr.scores.services.repositories.NIL_UUID) –
+Bases: <code>[ImmutableBaseRepository](./common.md#leadr.common.repositories.ImmutableBaseRepository)\[[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent), [ScoreEventORM](./scores.md#leadr.scores.adapters.orm.ScoreEventORM)\]</code>
 
-###### `leadr.scores.services.repositories.NIL_UUID`
+Repository for managing score event persistence.
 
-```python
-NIL_UUID = UUID('00000000-0000-0000-0000-000000000000')
-```
-
-###### `leadr.scores.services.repositories.ScoreRepository`
-
-Bases: <code>[BaseRepository](./common.md#leadr.common.repositories.BaseRepository)\[[Score](./scores.md#leadr.scores.domain.score.Score), [ScoreORM](./scores.md#leadr.scores.adapters.orm.ScoreORM)\]</code>
-
-Score repository for managing score persistence.
+Score events are immutable (append-only) so this repository
+does not support update or delete operations.
 
 **Functions:**
 
-- [**create**](./scores.md#leadr.scores.services.repositories.ScoreRepository.create) – Create a new entity in the database.
-- [**delete**](./scores.md#leadr.scores.services.repositories.ScoreRepository.delete) – Soft delete an entity by setting its deleted_at timestamp.
-- [**filter**](./scores.md#leadr.scores.services.repositories.ScoreRepository.filter) – Filter scores by account and optional criteria.
-- [**get_by_device_and_board**](#leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board) – Get the active score for a specific device on a board.
-- [**get_by_id**](#leadr.scores.services.repositories.ScoreRepository.get_by_id) – Get an entity by its ID.
-- [**get_score_rank**](#leadr.scores.services.repositories.ScoreRepository.get_score_rank) – Compute rank for a single score using COUNT approach.
-- [**update**](./scores.md#leadr.scores.services.repositories.ScoreRepository.update) – Update an existing entity in the database.
+- [**create**](./scores.md#leadr.scores.services.repositories.ScoreEventRepository.create) – Create a new immutable entity in the database.
+- [**filter**](./scores.md#leadr.scores.services.repositories.ScoreEventRepository.filter) – Filter score events based on criteria with pagination.
+- [**get_by_id**](#leadr.scores.services.repositories.ScoreEventRepository.get_by_id) – Get an immutable entity by its ID.
 
 **Attributes:**
 
-- [**EXCLUDED_STATUSES**](#leadr.scores.services.repositories.ScoreRepository.EXCLUDED_STATUSES) –
-- [**SORTABLE_FIELDS**](#leadr.scores.services.repositories.ScoreRepository.SORTABLE_FIELDS) –
-- [**session**](./scores.md#leadr.scores.services.repositories.ScoreRepository.session) –
+- [**session**](./scores.md#leadr.scores.services.repositories.ScoreEventRepository.session) –
 
-####### `leadr.scores.services.repositories.ScoreRepository.EXCLUDED_STATUSES`
-
-```python
-EXCLUDED_STATUSES = [ScoreStatus.REJECTED.value, ScoreStatus.PROVISIONAL.value]
-```
-
-####### `leadr.scores.services.repositories.ScoreRepository.SORTABLE_FIELDS`
-
-```python
-SORTABLE_FIELDS = {'id', 'value', 'player_name', 'filter_timezone', 'filter_country', 'filter_city', 'created_at', 'updated_at'}
-```
-
-####### `leadr.scores.services.repositories.ScoreRepository.create`
+####### `leadr.scores.services.repositories.ScoreEventRepository.create`
 
 ```python
 create(entity)
 ```
 
-Create a new entity in the database.
+Create a new immutable entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity to create
+- **entity** (<code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
+- <code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)</code> – Created domain entity with refreshed data
 
-####### `leadr.scores.services.repositories.ScoreRepository.delete`
+####### `leadr.scores.services.repositories.ScoreEventRepository.filter`
 
 ```python
-delete(entity_id)
+filter(account_id=None, board_id=None, identity_id=None, is_test=None, *, pagination, **kwargs)
 ```
 
-Soft delete an entity by setting its deleted_at timestamp.
+Filter score events based on criteria with pagination.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – ID of entity to delete
-
-**Raises:**
-
-- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If entity is not found
-
-####### `leadr.scores.services.repositories.ScoreRepository.filter`
-
-```python
-filter(account_id=None, board_id=None, game_id=None, device_id=None, is_test=None, status=None, include_all_statuses=False, *, pagination, around_score=None, around_score_value=None, around_value_board=None, **kwargs)
-```
-
-Filter scores by account and optional criteria.
-
-**Parameters:**
-
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by. If None, returns all scores
-  (superadmin use case). Regular users should always pass account_id.
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
-- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
-- **is_test** (<code>[bool](#bool) | None</code>) – Optional filter for test scores. True returns only test scores,
-  False returns only production scores, None returns all scores.
-- **status** (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus) | None</code>) – Optional filter for specific score status. If None, excludes
-  REJECTED and PROVISIONAL scores by default.
-- **include_all_statuses** (<code>[bool](#bool)</code>) – If True, includes all statuses (admin use case).
-  Overrides the default exclusion of REJECTED and PROVISIONAL.
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
-- **around_score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score) | None</code>) – Optional target score to center results around. When provided,
-  returns a window of scores centered on this score (mutually exclusive
-  with cursor pagination).
-- **around_score_value** (<code>[float](#float) | None</code>) – Optional value to center results around. Returns a
-  placeholder score with is_placeholder=True at the appropriate position.
-- **around_value_board** (<code>[Board](./boards.md#leadr.boards.domain.board.Board) | None</code>) – The board entity (required when around_score_value is set).
-- \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters (reserved for future use)
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID filter
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID filter
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID filter
+- **is_test** (<code>[bool](#bool) | None</code>) – Optional filter for test events
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Required pagination parameters
 
 **Returns:**
 
-- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Score](./scores.md#leadr.scores.domain.score.Score)\]</code> – PaginatedResult containing scores
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent)\]</code> – PaginatedResult containing score events
 
-**Raises:**
-
-- <code>[ValueError](#ValueError)</code> – If sort field is not in SORTABLE_FIELDS
-- <code>[CursorValidationError](#CursorValidationError)</code> – If cursor is invalid or state doesn't match
-
-####### `leadr.scores.services.repositories.ScoreRepository.get_by_device_and_board`
+####### `leadr.scores.services.repositories.ScoreEventRepository.get_by_id`
 
 ```python
-get_by_device_and_board(account_id, device_id, board_id, include_all_statuses=False)
+get_by_id(entity_id)
 ```
 
-Get the active score for a specific device on a board.
-
-This is an optimized single-record lookup for keep_strategy logic.
-
-**Parameters:**
-
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – Account ID to filter by (multi-tenant safety).
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – Device ID to search for.
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to search for.
-- **include_all_statuses** (<code>[bool](#bool)</code>) – If True, includes all statuses. Default excludes
-  REJECTED and PROVISIONAL scores.
-
-**Returns:**
-
-- <code>[Score](./scores.md#leadr.scores.domain.score.Score) | None</code> – The first matching Score or None if no score exists.
-
-####### `leadr.scores.services.repositories.ScoreRepository.get_by_id`
-
-```python
-get_by_id(entity_id, include_deleted=False)
-```
-
-Get an entity by its ID.
+Get an immutable entity by its ID.
 
 **Parameters:**
 
 - **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – Entity ID to retrieve
-- **include_deleted** (<code>[bool](#bool)</code>) – If True, include soft-deleted entities. Defaults to False.
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT) | None</code> – Domain entity if found, None otherwise
+- <code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT) | None</code> – Domain entity if found, None otherwise
 
-####### `leadr.scores.services.repositories.ScoreRepository.get_score_rank`
-
-```python
-get_score_rank(score, sort_fields)
-```
-
-Compute rank for a single score using COUNT approach.
-
-Counts how many scores rank better than the given score using the
-same multi-field comparison logic used for sorting.
-
-Note: Ranks are computed separately for test vs production scores.
-A test score's rank is within the test score pool only.
-Rejected and provisional scores are excluded from rank calculations.
-
-**Parameters:**
-
-- **score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score)</code>) – Score to compute rank for
-- **sort_fields** (<code>[list](#list)\[[SortField](./common.md#leadr.common.domain.pagination.SortField)\]</code>) – Sort fields defining the ranking order
-
-**Returns:**
-
-- <code>[int](#int)</code> – Rank (1-indexed, where 1 is the best)
-
-####### `leadr.scores.services.repositories.ScoreRepository.session`
+####### `leadr.scores.services.repositories.ScoreEventRepository.session`
 
 ```python
 session = session
 ```
 
-####### `leadr.scores.services.repositories.ScoreRepository.update`
+##### `leadr.scores.services.score_event_service`
+
+Score event service for managing immutable score events.
+
+**Classes:**
+
+- [**ScoreEventService**](#leadr.scores.services.score_event_service.ScoreEventService) – Service for managing score events.
+
+###### `leadr.scores.services.score_event_service.ScoreEventService`
 
 ```python
-update(entity)
+ScoreEventService(session)
 ```
 
-Update an existing entity in the database.
+Service for managing score events.
+
+Score events are immutable (append-only) facts about score submissions.
+This service only provides create, get, and list operations.
+No update or delete operations are available.
+
+**Functions:**
+
+- [**create_score_event**](#leadr.scores.services.score_event_service.ScoreEventService.create_score_event) – Create a new score event.
+- [**get_by_id_or_raise**](#leadr.scores.services.score_event_service.ScoreEventService.get_by_id_or_raise) – Get a score event by ID, raising if not found.
+- [**get_score_event**](#leadr.scores.services.score_event_service.ScoreEventService.get_score_event) – Get a score event by ID.
+- [**list_score_events**](#leadr.scores.services.score_event_service.ScoreEventService.list_score_events) – List score events with optional filters.
+
+**Attributes:**
+
+- [**repository**](#leadr.scores.services.score_event_service.ScoreEventService.repository) –
+- [**session**](#leadr.scores.services.score_event_service.ScoreEventService.session) –
 
 **Parameters:**
 
-- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity with updated data
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session
+
+####### `leadr.scores.services.score_event_service.ScoreEventService.create_score_event`
+
+```python
+create_score_event(account_id, game_id, board_id, identity_id, event_payload, is_test=False, timezone=None, country=None, city=None)
+```
+
+Create a new score event.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – Account that owns this event
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – Game this event belongs to
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board this event was submitted to
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – Identity that submitted this score
+- **event_payload** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code>) – Board-type-specific payload (value or delta)
+- **is_test** (<code>[bool](#bool)</code>) – Whether this is a test submission
+- **timezone** (<code>[str](#str) | None</code>) – Timezone from GeoIP lookup
+- **country** (<code>[str](#str) | None</code>) – Country code from GeoIP lookup
+- **city** (<code>[str](#str) | None</code>) – City name from GeoIP lookup
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Updated domain entity with refreshed data
+- <code>[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent)</code> – Created ScoreEvent entity
+
+####### `leadr.scores.services.score_event_service.ScoreEventService.get_by_id_or_raise`
+
+```python
+get_by_id_or_raise(event_id)
+```
+
+Get a score event by ID, raising if not found.
+
+**Parameters:**
+
+- **event_id** (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) – Score event ID
+
+**Returns:**
+
+- <code>[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent)</code> – ScoreEvent entity
 
 **Raises:**
 
-- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If entity is not found
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If event not found
+
+####### `leadr.scores.services.score_event_service.ScoreEventService.get_score_event`
+
+```python
+get_score_event(event_id)
+```
+
+Get a score event by ID.
+
+**Parameters:**
+
+- **event_id** (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) – Score event ID
+
+**Returns:**
+
+- <code>[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent) | None</code> – ScoreEvent if found, None otherwise
+
+####### `leadr.scores.services.score_event_service.ScoreEventService.list_score_events`
+
+```python
+list_score_events(account_id=None, board_id=None, identity_id=None, is_test=None, limit=50)
+```
+
+List score events with optional filters.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional filter by account
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional filter by board
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional filter by identity
+- **is_test** (<code>[bool](#bool) | None</code>) – Optional filter by test flag
+- **limit** (<code>[int](#int)</code>) – Maximum number of results
+
+**Returns:**
+
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent)\]</code> – Paginated list of score events
+
+####### `leadr.scores.services.score_event_service.ScoreEventService.repository`
+
+```python
+repository = ScoreEventRepository(session)
+```
+
+####### `leadr.scores.services.score_event_service.ScoreEventService.session`
+
+```python
+session = session
+```
 
 ##### `leadr.scores.services.score_flag_service`
 
@@ -4072,6 +4008,10 @@ Score flag service for managing flag operations.
 - [**ScoreFlagService**](#leadr.scores.services.score_flag_service.ScoreFlagService) – Service for managing score flag lifecycle and operations.
 
 ###### `leadr.scores.services.score_flag_service.ScoreFlagService`
+
+```python
+ScoreFlagService(session)
+```
 
 Bases: <code>[BaseService](./common.md#leadr.common.services.BaseService)\[[ScoreFlag](#leadr.scores.domain.anti_cheat.models.ScoreFlag), [ScoreFlagRepository](#leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository)\]</code>
 
@@ -4095,6 +4035,11 @@ by coordinating between the domain models and repository layer.
 **Attributes:**
 
 - [**repository**](#leadr.scores.services.score_flag_service.ScoreFlagService.repository) –
+- [**session**](#leadr.scores.services.score_flag_service.ScoreFlagService.session) –
+
+**Parameters:**
+
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session for database operations
 
 ####### `leadr.scores.services.score_flag_service.ScoreFlagService.delete`
 
@@ -4231,10 +4176,8 @@ review_flag(flag_id, status, reviewer_decision=None, reviewer_id=None)
 
 Review a flag and update its status.
 
-IMPORTANT: This also updates the associated Score's status:
-
-- CONFIRMED_CHEAT → Score.status = REJECTED
-- FALSE_POSITIVE or DISMISSED → Score.status = ACTIVE
+Note: Ranking updates for flag status changes are not yet implemented
+in the event-sourcing architecture.
 
 **Parameters:**
 
@@ -4261,6 +4204,12 @@ IMPORTANT: This also updates the associated Score's status:
 > > > ... )
 
 </details>
+
+####### `leadr.scores.services.score_flag_service.ScoreFlagService.session`
+
+```python
+session = session
+```
 
 ####### `leadr.scores.services.score_flag_service.ScoreFlagService.soft_delete`
 
@@ -4297,7 +4246,7 @@ explicitly provided will be updated, allowing null values to
 clear optional fields.
 
 Note: When status is updated, reviewed_at is automatically set
-to the current time, and the associated Score's status is synced.
+to the current time.
 
 **Parameters:**
 
@@ -4332,314 +4281,135 @@ Score service for managing score operations.
 
 ###### `leadr.scores.services.score_service.ScoreService`
 
-Bases: <code>[BaseService](./common.md#leadr.common.services.BaseService)\[[Score](./scores.md#leadr.scores.domain.score.Score), [ScoreRepository](./scores.md#leadr.scores.services.repositories.ScoreRepository)\]</code>
+```python
+ScoreService(session)
+```
 
 Service for managing score lifecycle and operations.
 
-This service orchestrates score creation, updates, and retrieval
-by coordinating between the domain models and repository layer.
-Ensures business rules like board/game validation are enforced.
+This service orchestrates score submission via event-sourcing, and provides
+query methods that delegate to BoardStateService and RunEntryService for
+reading materialized ranking data.
+
+The Score entity has been replaced by:
+
+- ScoreEvent: immutable event log
+- BoardState/RunEntry: materialized ranking views
+
+All GET queries return BoardState or RunEntry data with IDs masked to scr\_ prefix.
 
 **Functions:**
 
-- [**create_score**](#leadr.scores.services.score_service.ScoreService.create_score) – Create a new score.
-- [**delete**](#leadr.scores.services.score_service.ScoreService.delete) – Soft-delete an entity.
-- [**get_by_id**](#leadr.scores.services.score_service.ScoreService.get_by_id) – Get an entity by its ID.
-- [**get_by_id_or_raise**](#leadr.scores.services.score_service.ScoreService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
-- [**get_score**](#leadr.scores.services.score_service.ScoreService.get_score) – Get a score by its ID.
-- [**get_score_with_rank**](#leadr.scores.services.score_service.ScoreService.get_score_with_rank) – Get a score with its rank computed.
-- [**list_all**](#leadr.scores.services.score_service.ScoreService.list_all) – List all non-deleted entities.
-- [**list_scores**](#leadr.scores.services.score_service.ScoreService.list_scores) – List scores for an account with optional filters and pagination.
-- [**soft_delete**](#leadr.scores.services.score_service.ScoreService.soft_delete) – Soft-delete an entity and return it before deletion.
-- [**update_score**](#leadr.scores.services.score_service.ScoreService.update_score) – Update a score's mutable fields.
-- [**update_score_status**](#leadr.scores.services.score_service.ScoreService.update_score_status) – Update a score's status.
-- [**update_submission_metadata**](#leadr.scores.services.score_service.ScoreService.update_submission_metadata) – Update submission metadata and create flags if needed.
+- [**get_score_by_id**](#leadr.scores.services.score_service.ScoreService.get_score_by_id) – Get a score by its ID with computed rank.
+- [**list_scores**](#leadr.scores.services.score_service.ScoreService.list_scores) – List scores for a board with optional filters and pagination.
+- [**submit_score**](#leadr.scores.services.score_service.ScoreService.submit_score) – Submit a score using the event-sourcing architecture.
 
 **Attributes:**
 
-- [**repository**](#leadr.scores.services.score_service.ScoreService.repository) –
-
-####### `leadr.scores.services.score_service.ScoreService.create_score`
-
-```python
-create_score(account_id, game_id, board_id, device_id, player_name, value, value_display=None, timezone=None, country=None, city=None, metadata=None, is_test=False, trust_tier=TrustTier.B, background_tasks=None)
-```
-
-Create a new score.
+- [**session**](#leadr.scores.services.score_service.ScoreService.session) –
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) – The ID of the account this score belongs to.
-- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) – The ID of the game this score belongs to.
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – The ID of the board this score belongs to.
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – The ID of the device that submitted this score.
-- **player_name** (<code>[str](#str)</code>) – Display name of the player.
-- **value** (<code>[float](#float)</code>) – Numeric value of the score for sorting/comparison.
-- **value_display** (<code>[str](#str) | None</code>) – Optional formatted display string.
-- **timezone** (<code>[str](#str) | None</code>) – Optional timezone filter for categorization.
-- **country** (<code>[str](#str) | None</code>) – Optional country filter for categorization.
-- **city** (<code>[str](#str) | None</code>) – Optional city filter for categorization.
-- **metadata** (<code>[Any](#typing.Any) | None</code>) – Optional JSON metadata for game-specific data.
-- **is_test** (<code>[bool](#bool)</code>) – If True, marks this score as a test score.
-- **trust_tier** (<code>[TrustTier](#leadr.scores.domain.anti_cheat.enums.TrustTier)</code>) – Trust tier of the device (defaults to B/medium trust).
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session
+
+####### `leadr.scores.services.score_service.ScoreService.get_score_by_id`
+
+```python
+get_score_by_id(score_id, account_id=None, game_id=None)
+```
+
+Get a score by its ID with computed rank.
+
+The score_id uses scr\_ prefix but internally maps to BoardState (bst\_) or
+RunEntry (run\_) based on board type. This method tries both services.
+
+**Parameters:**
+
+- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – The score ID (scr\_ prefix).
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID for authorization check.
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID for authorization check.
 
 **Returns:**
 
-- <code>[tuple](#tuple)\[[Score](./scores.md#leadr.scores.domain.score.Score), [AntiCheatResult](#leadr.scores.domain.anti_cheat.models.AntiCheatResult) | None\]</code> – Tuple of (created Score domain entity, AntiCheatResult or None).
+- <code>[BoardState](#leadr.boards.domain.board_state.BoardState) | [RunEntry](#leadr.boards.domain.run_entry.RunEntry)</code> – Tuple of (BoardState or RunEntry, Board, rank) with the ranking data,
+- <code>[Board](./boards.md#leadr.boards.domain.board.Board)</code> – board, and computed rank (1-indexed).
 
 **Raises:**
 
-- <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the board doesn't exist.
-- <code>[ValueError](#ValueError)</code> – If validation fails (board doesn't belong to account,
-  game doesn't match board's game, or anti-cheat rejects submission).
-
-<details class="example" open markdown="1">
-<summary>Example</summary>
-
-> > > score = await service.create_score(
-> > > ... account_id=account.id,
-> > > ... game_id=game.id,
-> > > ... board_id=board.id,
-> > > ... device_id=device.id,
-> > > ... player_name="SpeedRunner99",
-> > > ... value=123.45,
-> > > ... )
-
-</details>
-
-####### `leadr.scores.services.score_service.ScoreService.delete`
-
-```python
-delete(entity_id)
-```
-
-Soft-delete an entity.
-
-**Parameters:**
-
-- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to delete
-
-**Raises:**
-
-- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the entity doesn't exist
-
-####### `leadr.scores.services.score_service.ScoreService.get_by_id`
-
-```python
-get_by_id(entity_id)
-```
-
-Get an entity by its ID.
-
-**Parameters:**
-
-- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to retrieve
-
-**Returns:**
-
-- <code>[DomainEntityT](./common.md#leadr.common.services.DomainEntityT) | None</code> – The domain entity if found, None otherwise
-
-####### `leadr.scores.services.score_service.ScoreService.get_by_id_or_raise`
-
-```python
-get_by_id_or_raise(entity_id)
-```
-
-Get an entity by its ID or raise EntityNotFoundError.
-
-**Parameters:**
-
-- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to retrieve
-
-**Returns:**
-
-- <code>[DomainEntityT](./common.md#leadr.common.services.DomainEntityT)</code> – The domain entity
-
-**Raises:**
-
-- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the entity is not found
-  (converted to HTTP 404 by global handler)
-
-####### `leadr.scores.services.score_service.ScoreService.get_score`
-
-```python
-get_score(score_id)
-```
-
-Get a score by its ID.
-
-**Parameters:**
-
-- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – The ID of the score to retrieve.
-
-**Returns:**
-
-- <code>[Score](./scores.md#leadr.scores.domain.score.Score) | None</code> – The Score domain entity if found, None otherwise.
-
-####### `leadr.scores.services.score_service.ScoreService.get_score_with_rank`
-
-```python
-get_score_with_rank(score_id)
-```
-
-Get a score with its rank computed.
-
-The rank is computed using the score's board's sort direction.
-This method is suitable for single score lookups where you need
-to know the score's position in the leaderboard.
-
-**Parameters:**
-
-- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – The ID of the score to retrieve.
-
-**Returns:**
-
-- <code>[Score](./scores.md#leadr.scores.domain.score.Score)</code> – The Score domain entity with rank populated.
-
-**Raises:**
-
-- <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the score doesn't exist.
-
-####### `leadr.scores.services.score_service.ScoreService.list_all`
-
-```python
-list_all()
-```
-
-List all non-deleted entities.
-
-**Returns:**
-
-- <code>[list](#list)\[[DomainEntityT](./common.md#leadr.common.services.DomainEntityT)\]</code> – List of domain entities
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If no matching BoardState or RunEntry is found.
 
 ####### `leadr.scores.services.score_service.ScoreService.list_scores`
 
 ```python
-list_scores(account_id, board_id=None, game_id=None, device_id=None, is_test=None, *, pagination, around_score_id=None, around_score_value=None)
+list_scores(account_id=None, board_id=None, game_id=None, identity_id=None, is_test=None, *, pagination, around_score_id=None, around_score_value=None)
 ```
 
-List scores for an account with optional filters and pagination.
+List scores for a board with optional filters and pagination.
+
+Delegates to BoardStateService or RunEntryService based on board type.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all scores
-  (superadmin use case).
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
-- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by.
-- **is_test** (<code>[bool](#bool) | None</code>) – Optional filter for test scores. True returns only test scores,
-  False returns only production scores, None returns all scores.
-- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required).
-- **around_score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None</code>) – Optional score ID to center results around. When provided,
-  returns a window of scores centered on this score. Mutually exclusive
-  with cursor pagination and around_score_value.
-- **around_score_value** (<code>[float](#float) | None</code>) – Optional value to center results around. Returns a
-  placeholder score with is_placeholder=True at the appropriate position.
-  Mutually exclusive with cursor pagination and around_score_id.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by (for authorization).
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Board ID to filter by (required for most use cases).
+- **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID filter.
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID filter.
+- **is_test** (<code>[bool](#bool) | None</code>) – Optional filter for test scores.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters.
+- **around_score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None</code>) – Optional score ID to center results around.
+- **around_score_value** (<code>[float](#float) | None</code>) – Optional value to center results around.
 
 **Returns:**
 
-- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[Score](./scores.md#leadr.scores.domain.score.Score)\]</code> – PaginatedResult containing scores.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[BoardState](#leadr.boards.domain.board_state.BoardState)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[RunEntry](#leadr.boards.domain.run_entry.RunEntry)\]</code> – PaginatedResult containing BoardState or RunEntry objects.
 
 **Raises:**
 
-- <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If around_score_id is provided but score doesn't exist.
-- <code>[ValueError](#ValueError)</code> – If around_score_id score doesn't belong to the specified board_id.
+- <code>[ValueError](#ValueError)</code> – If board_id is not provided (required for list queries).
 
-####### `leadr.scores.services.score_service.ScoreService.repository`
-
-```python
-repository = self._create_repository(session)
-```
-
-####### `leadr.scores.services.score_service.ScoreService.soft_delete`
+####### `leadr.scores.services.score_service.ScoreService.session`
 
 ```python
-soft_delete(entity_id)
+session = session
 ```
 
-Soft-delete an entity and return it before deletion.
+####### `leadr.scores.services.score_service.ScoreService.submit_score`
 
-Useful for endpoints that need to return the deleted entity in the response.
+```python
+submit_score(board_id, identity_id, value=None, delta=None, player_name=None, timezone=None, country=None, city=None, is_test=False, trust_tier=TrustTier.B, background_tasks=None)
+```
+
+Submit a score using the event-sourcing architecture.
+
+This method creates a ScoreEvent, runs anti-cheat checks, and then
+updates the appropriate materialized view (BoardState or RunEntry)
+based on the board type and anti-cheat result.
 
 **Parameters:**
 
-- **entity_id** (<code>[UUID](#uuid.UUID) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – The ID of the entity to delete
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – The board to submit to.
+- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – The identity submitting the score.
+- **value** (<code>[float](#float) | None</code>) – Score value for RUN_IDENTITY and RUN_RUNS boards.
+- **delta** (<code>[float](#float) | None</code>) – Delta value for COUNTER boards.
+- **player_name** (<code>[str](#str) | None</code>) – Optional display name for the player.
+- **timezone** (<code>[str](#str) | None</code>) – Optional timezone from GeoIP.
+- **country** (<code>[str](#str) | None</code>) – Optional country code from GeoIP.
+- **city** (<code>[str](#str) | None</code>) – Optional city name from GeoIP.
+- **is_test** (<code>[bool](#bool)</code>) – Whether this is a test submission.
+- **trust_tier** (<code>[TrustTier](#leadr.scores.domain.anti_cheat.enums.TrustTier)</code>) – Trust tier for anti-cheat thresholds (defaults to B).
+- **background_tasks** (<code>[BackgroundTasks](#starlette.background.BackgroundTasks) | None</code>) – Optional BackgroundTasks for async ratio updates.
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.services.DomainEntityT)</code> – The entity before it was deleted
+- <code>[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent)</code> – Tuple of (ScoreEvent, ranking_entry, anti_cheat_result).
+- <code>[BoardState](#leadr.boards.domain.board_state.BoardState) | [RunEntry](#leadr.boards.domain.run_entry.RunEntry) | None</code> – ranking_entry is BoardState for RUN_IDENTITY/COUNTER boards,
+- <code>[AntiCheatResult](#leadr.scores.domain.anti_cheat.models.AntiCheatResult) | None</code> – RunEntry for RUN_RUNS boards, or None if no ranking update
+- <code>[tuple](#tuple)\[[ScoreEvent](#leadr.scores.domain.score_event.ScoreEvent), [BoardState](#leadr.boards.domain.board_state.BoardState) | [RunEntry](#leadr.boards.domain.run_entry.RunEntry) | None, [AntiCheatResult](#leadr.scores.domain.anti_cheat.models.AntiCheatResult) | None\]</code> – (e.g., if anti-cheat REJECTs).
 
 **Raises:**
 
-- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the entity doesn't exist
-
-####### `leadr.scores.services.score_service.ScoreService.update_score`
-
-```python
-update_score(score_id, **updates)
-```
-
-Update a score's mutable fields.
-
-Accepts any fields to update as keyword arguments. Only fields
-explicitly provided will be updated, allowing null values to
-clear optional fields.
-
-**Parameters:**
-
-- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – The ID of the score to update.
-- \*\***updates** (<code>[Any](#typing.Any)</code>) – Field names and values to update
-
-**Returns:**
-
-- <code>[Score](./scores.md#leadr.scores.domain.score.Score)</code> – The updated Score entity.
-
-**Raises:**
-
-- <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the score doesn't exist.
-
-####### `leadr.scores.services.score_service.ScoreService.update_score_status`
-
-```python
-update_score_status(score_id, status)
-```
-
-Update a score's status.
-
-Used by ScoreFlagService when admin reviews a flag to sync the
-score's status with the flag decision.
-
-**Parameters:**
-
-- **score_id** (<code>[ScoreID](./common.md#leadr.common.domain.ids.ScoreID)</code>) – The ID of the score to update.
-- **status** (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus)</code>) – New status for the score.
-
-**Returns:**
-
-- <code>[Score](./scores.md#leadr.scores.domain.score.Score)</code> – The updated Score entity.
-
-**Raises:**
-
-- <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the score doesn't exist.
-
-####### `leadr.scores.services.score_service.ScoreService.update_submission_metadata`
-
-```python
-update_submission_metadata(saved_score, device_id, board_id, anti_cheat_result)
-```
-
-Update submission metadata and create flags if needed.
-
-This method is designed to be called as a background task after score creation
-to avoid blocking the HTTP response.
-
-**Parameters:**
-
-- **saved_score** (<code>[Score](./scores.md#leadr.scores.domain.score.Score)</code>) – The score that was created
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID)</code>) – ID of the device that submitted the score
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – ID of the board the score was submitted to
-- **anti_cheat_result** (<code>[AntiCheatResult](#leadr.scores.domain.anti_cheat.models.AntiCheatResult) | None</code>) – Result from anti-cheat check (or None)
+- <code>[ValueError](#ValueError)</code> – If validation fails (missing required fields, invalid board type).
+- <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If board or identity doesn't exist.
 
 ##### `leadr.scores.services.score_submission_meta_service`
 
@@ -4762,7 +4532,7 @@ List all non-deleted entities.
 ####### `leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.list_submission_meta`
 
 ```python
-list_submission_meta(account_id, board_id=None, device_id=None, *, pagination)
+list_submission_meta(account_id, board_id=None, *, pagination)
 ```
 
 List score submission metadata for an account with optional filters and pagination.
@@ -4772,7 +4542,6 @@ List score submission metadata for an account with optional filters and paginati
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by. If None, returns all metadata
   (superadmin use case).
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by
-- **device_id** (<code>[DeviceID](./common.md#leadr.common.domain.ids.DeviceID) | None</code>) – Optional device ID to filter by
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (required)
 
 **Returns:**

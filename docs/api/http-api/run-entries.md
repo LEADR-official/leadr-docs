@@ -1,6 +1,6 @@
-# Score Submission Metadata
+# Run Entries
 
-## List Submission Meta
+## List Run Entries
 
 === "Python"
 
@@ -13,7 +13,7 @@
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/score-submission-metadata', headers = headers)
+    r = requests.get('/v1/run-entries', headers = headers)
 
     print(r.json())
 
@@ -30,7 +30,7 @@
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/score-submission-metadata',
+    fetch('/v1/run-entries',
     {
       method: 'GET',
 
@@ -43,37 +43,33 @@
     });
 
     ```
-`GET /v1/score-submission-metadata`
+`GET /v1/run-entries`
 
-List score submission metadata for an account with optional filters and pagination.
+List run entries (Admin API).
 
-Returns paginated submission metadata for the specified account, with optional
-filtering by board. Supports cursor-based pagination with bidirectional
-navigation and custom sorting.
-
-For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id is optional - if omitted, returns metadata from all accounts.
+Returns a paginated list of run entries. Run entries are individual scored
+submissions for RUN_RUNS boards where every submission is ranked.
 
 Args:
-    auth: Authentication context with user info.
-    service: Injected submission metadata service dependency.
+    auth: Admin authentication context.
+    service: Injected run entry service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    account_id: Optional account_id query parameter (superadmins can omit to see all).
-    board_id: Optional board ID to filter by.
+    board_id: Optional filter by board ID.
+    identity_id: Optional filter by identity ID.
 
 Returns:
-    PaginatedResponse containing ScoreSubmissionMetaResponse objects matching the filter.
+    Paginated list of run entries.
 
 Raises:
-    400: Invalid cursor or sort field.
-    403: User does not have access to the specified account.
+    400: Invalid pagination cursor.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
+|board_id|query|any|false|Filter by board ID|
+|identity_id|query|any|false|Filter by identity ID|
 |account_id|query|any|false|none|
-|board_id|query|any|false|none|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
 |sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
@@ -106,13 +102,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_ScoreSubmissionMetaResponse_](./schemas.md#paginatedresponse_scoresubmissionmetaresponse_)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_RunEntryResponse_](./schemas.md#paginatedresponse_runentryresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Get Submission Meta
+## Get Run Entry
 
 === "Python"
 
@@ -125,7 +121,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/score-submission-metadata/{meta_id}', headers = headers)
+    r = requests.get('/v1/run-entries/{entry_id}', headers = headers)
 
     print(r.json())
 
@@ -142,7 +138,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/score-submission-metadata/{meta_id}',
+    fetch('/v1/run-entries/{entry_id}',
     {
       method: 'GET',
 
@@ -155,27 +151,26 @@ Raises:
     });
 
     ```
-`GET /v1/score-submission-metadata/{meta_id}`
+`GET /v1/run-entries/{entry_id}`
 
-Get score submission metadata by ID.
+Get a single run entry by ID (Admin API).
 
 Args:
-    meta_id: Submission metadata identifier to retrieve.
-    service: Injected submission metadata service dependency.
-    auth: Authentication context with user info.
+    entry_id: Run entry ID.
+    auth: Admin authentication context.
+    service: Injected run entry service dependency.
 
 Returns:
-    ScoreSubmissionMetaResponse with the submission metadata details.
+    Run entry details.
 
 Raises:
-    403: User does not have access to this metadata's account.
-    404: Submission metadata not found or soft-deleted.
+    404: Run entry not found.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|meta_id|path|string|true|none|
+|entry_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
@@ -188,12 +183,10 @@ Raises:
 ```json
 {
   "id": "string",
-  "score_event_id": "string",
-  "identity_id": "string",
   "board_id": "string",
-  "submission_count": 0,
-  "last_submission_at": "2019-08-24T14:15:22Z",
-  "last_score_value": 0,
+  "identity_id": "string",
+  "score_event_id": "string",
+  "primary_value": 0,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -203,7 +196,7 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[ScoreSubmissionMetaResponse](./schemas.md#scoresubmissionmetaresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[RunEntryResponse](./schemas.md#runentryresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success

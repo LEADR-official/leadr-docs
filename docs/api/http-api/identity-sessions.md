@@ -1,6 +1,6 @@
-# Device Sessions
+# Identity Sessions
 
-## List Sessions
+## List Identity Sessions
 
 === "Python"
 
@@ -13,7 +13,7 @@
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/device-sessions', headers = headers)
+    r = requests.get('/v1/identity-sessions', headers = headers)
 
     print(r.json())
 
@@ -30,7 +30,7 @@
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/device-sessions',
+    fetch('/v1/identity-sessions',
     {
       method: 'GET',
 
@@ -43,34 +43,33 @@
     });
 
     ```
-`GET /v1/device-sessions`
+`GET /v1/identity-sessions`
 
-List device sessions for an account with optional filters and pagination.
+List identity sessions with optional filters and pagination.
 
-Returns all non-deleted device sessions for the specified account, with optional
-filtering by device.
+Returns all non-deleted sessions, with optional filtering by account or identity.
 
 For regular users, account_id is automatically derived from their API key.
 For superadmins, account_id is optional - if omitted, returns sessions from all accounts.
 
 Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
-- Custom sort: Use ?sort=created_at:asc,id:desc
+- Custom sort: Use ?sort=created_at:desc
 - Valid sort fields: id, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Example:
-    GET /v1/device-sessions?account_id=acc_123&device_id=dev_456&limit=50
+    GET /v1/identity-sessions?account_id=acc_123&identity_id=ide_456&limit=50
 
 Args:
     auth: Authentication context with user info.
-    service: Injected device service dependency.
+    service: Injected identity service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
     account_id: Optional account_id query parameter (superadmins can omit to see all).
-    device_id: Optional device ID to filter by.
+    identity_id: Optional identity ID to filter by.
 
 Returns:
-    PaginatedResponse with device sessions and pagination metadata.
+    PaginatedResponse with sessions and pagination metadata.
 
 Raises:
     400: Invalid cursor, sort field, or cursor state mismatch.
@@ -81,7 +80,7 @@ Raises:
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |account_id|query|any|false|none|
-|device_id|query|any|false|Filter by device ID|
+|identity_id|query|any|false|Filter by identity ID|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
 |sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
@@ -114,13 +113,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_DeviceSessionResponse_](./schemas.md#paginatedresponse_devicesessionresponse_)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_IdentitySessionResponse_](./schemas.md#paginatedresponse_identitysessionresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Get Session
+## Get Identity Session
 
 === "Python"
 
@@ -133,7 +132,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/device-sessions/{session_id}', headers = headers)
+    r = requests.get('/v1/identity-sessions/{session_id}', headers = headers)
 
     print(r.json())
 
@@ -150,7 +149,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/device-sessions/{session_id}',
+    fetch('/v1/identity-sessions/{session_id}',
     {
       method: 'GET',
 
@@ -163,17 +162,17 @@ Raises:
     });
 
     ```
-`GET /v1/device-sessions/{session_id}`
+`GET /v1/identity-sessions/{session_id}`
 
-Get a device session by ID.
+Get an identity session by ID.
 
 Args:
     session_id: Session identifier to retrieve.
-    service: Injected device service dependency.
+    service: Injected identity service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    DeviceSessionResponse with the session details.
+    IdentitySessionResponse with the session details.
 
 Raises:
     403: User does not have access to this session's account.
@@ -196,11 +195,9 @@ Raises:
 ```json
 {
   "id": "string",
-  "device_id": "string",
+  "identity_id": "string",
   "expires_at": "2019-08-24T14:15:22Z",
   "refresh_expires_at": "2019-08-24T14:15:22Z",
-  "ip_address": "string",
-  "user_agent": "string",
   "revoked_at": "2019-08-24T14:15:22Z",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
@@ -211,27 +208,26 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[DeviceSessionResponse](./schemas.md#devicesessionresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[IdentitySessionResponse](./schemas.md#identitysessionresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Update Session
+## Revoke Identity Session
 
 === "Python"
 
     ```python
     import requests
     headers = {
-      'Content-Type': 'application/json',
       'Accept': 'application/json',
       'leadr-api-key': 'string',
       'authorization': 'string',
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.patch('/v1/device-sessions/{session_id}', headers = headers)
+    r = requests.patch('/v1/identity-sessions/{session_id}', headers = headers)
 
     print(r.json())
 
@@ -240,21 +236,18 @@ Raises:
 === "JavaScript"
 
     ```javascript
-    const inputBody = '{
-      "revoked": true
-    }';
+
     const headers = {
-      'Content-Type':'application/json',
       'Accept':'application/json',
       'leadr-api-key':'string',
       'authorization':'string',
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/device-sessions/{session_id}',
+    fetch('/v1/identity-sessions/{session_id}',
     {
       method: 'PATCH',
-      body: inputBody,
+
       headers: headers
     })
     .then(function(res) {
@@ -264,33 +257,23 @@ Raises:
     });
 
     ```
-`PATCH /v1/device-sessions/{session_id}`
+`PATCH /v1/identity-sessions/{session_id}`
 
-Update a device session (revoke).
+Revoke an identity session.
 
-Allows revoking a device session to invalidate authentication.
+Marks the session as revoked, preventing further use.
 
 Args:
-    session_id: Session identifier to update.
-    request: Update details (revoked status).
-    service: Injected device service dependency.
+    session_id: Session identifier to revoke.
+    service: Injected identity service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    DeviceSessionResponse with the updated session details.
+    IdentitySessionResponse with the revoked session details.
 
 Raises:
     403: User does not have access to this session's account.
     404: Session not found.
-    400: Invalid request or no revoked field provided.
-
-> Body parameter
-
-```json
-{
-  "revoked": true
-}
-```
 
 ### Parameters
 
@@ -301,7 +284,6 @@ Raises:
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
-|body|body|[DeviceSessionUpdateRequest](./schemas.md#devicesessionupdaterequest)|true|none|
 
 > Example responses
 
@@ -310,11 +292,9 @@ Raises:
 ```json
 {
   "id": "string",
-  "device_id": "string",
+  "identity_id": "string",
   "expires_at": "2019-08-24T14:15:22Z",
   "refresh_expires_at": "2019-08-24T14:15:22Z",
-  "ip_address": "string",
-  "user_agent": "string",
   "revoked_at": "2019-08-24T14:15:22Z",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
@@ -325,7 +305,7 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[DeviceSessionResponse](./schemas.md#devicesessionresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[IdentitySessionResponse](./schemas.md#identitysessionresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success

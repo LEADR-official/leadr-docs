@@ -1,6 +1,6 @@
-# Score Flags
+# Identities
 
-## List Score Flags
+## List Identities
 
 === "Python"
 
@@ -13,7 +13,7 @@
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/score-flags', headers = headers)
+    r = requests.get('/v1/identities', headers = headers)
 
     print(r.json())
 
@@ -30,7 +30,7 @@
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/score-flags',
+    fetch('/v1/identities',
     {
       method: 'GET',
 
@@ -43,32 +43,38 @@
     });
 
     ```
-`GET /v1/score-flags`
+`GET /v1/identities`
 
-List score flags for an account with optional filters and pagination.
+List identities for an account with optional filters and pagination.
 
-Returns paginated flags for the specified account, with optional
-filtering by board, game, status, or flag type. Supports cursor-based
-pagination with bidirectional navigation and custom sorting.
+Returns all non-deleted identities for the specified account, with optional
+filtering by game or kind.
 
 For regular users, account_id is automatically derived from their API key.
-For superadmins, account_id is optional - if omitted, returns flags from all accounts.
+For superadmins, account_id is optional - if omitted, returns identities from all accounts.
+
+Pagination:
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=display_name:asc,created_at:desc
+- Valid sort fields: id, display_name, kind, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response
+
+Example:
+    GET /v1/identities?account_id=acc_123&game_id=game_456&kind=DEVICE&limit=50
 
 Args:
     auth: Authentication context with user info.
-    service: Injected score flag service dependency.
+    service: Injected identity service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
     account_id: Optional account_id query parameter (superadmins can omit to see all).
-    board_id: Optional board ID to filter by.
     game_id: Optional game ID to filter by.
-    status: Optional status to filter by (pending, confirmed_cheat, etc.).
-    flag_type: Optional flag type to filter by (velocity, duplicate, etc.).
+    kind: Optional kind to filter by (DEVICE, STEAM, CUSTOM).
 
 Returns:
-    PaginatedResponse containing ScoreFlagResponse objects matching the filter criteria.
+    PaginatedResponse with identities and pagination metadata.
 
 Raises:
-    400: Invalid cursor or sort field.
+    400: Invalid cursor, sort field, kind, or cursor state mismatch.
     403: User does not have access to the specified account.
 
 ### Parameters
@@ -76,10 +82,8 @@ Raises:
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |account_id|query|any|false|none|
-|board_id|query|any|false|none|
-|game_id|query|any|false|none|
-|status|query|any|false|none|
-|flag_type|query|any|false|none|
+|game_id|query|any|false|Filter by game ID|
+|kind|query|any|false|Filter by identity kind|
 |cursor|query|any|false|Pagination cursor for navigating results|
 |limit|query|integer|false|Number of items per page (1-100)|
 |sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
@@ -112,13 +116,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_ScoreFlagResponse_](./schemas.md#paginatedresponse_scoreflagresponse_)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_IdentityResponse_](./schemas.md#paginatedresponse_identityresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Get Score Flag
+## Get Identity
 
 === "Python"
 
@@ -131,7 +135,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/score-flags/{flag_id}', headers = headers)
+    r = requests.get('/v1/identities/{identity_id}', headers = headers)
 
     print(r.json())
 
@@ -148,7 +152,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/score-flags/{flag_id}',
+    fetch('/v1/identities/{identity_id}',
     {
       method: 'GET',
 
@@ -161,27 +165,27 @@ Raises:
     });
 
     ```
-`GET /v1/score-flags/{flag_id}`
+`GET /v1/identities/{identity_id}`
 
-Get a score flag by ID.
+Get an identity by ID.
 
 Args:
-    flag_id: Flag identifier to retrieve.
-    service: Injected score flag service dependency.
+    identity_id: Identity identifier to retrieve.
+    service: Injected identity service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    ScoreFlagResponse with the flag details.
+    IdentityResponse with the identity details.
 
 Raises:
-    403: User does not have access to this flag's account.
-    404: Flag not found or soft-deleted.
+    403: User does not have access to this identity's account.
+    404: Identity not found or soft-deleted.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|flag_id|path|string|true|none|
+|identity_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
@@ -194,14 +198,11 @@ Raises:
 ```json
 {
   "id": "string",
-  "score_event_id": "string",
-  "flag_type": "string",
-  "confidence": "string",
-  "metadata": {},
-  "status": "string",
-  "reviewed_at": "2019-08-24T14:15:22Z",
-  "reviewer_id": "string",
-  "reviewer_decision": "string",
+  "account_id": "string",
+  "game_id": "string",
+  "kind": "string",
+  "external_key": "string",
+  "display_name": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -211,13 +212,13 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[ScoreFlagResponse](./schemas.md#scoreflagresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[IdentityResponse](./schemas.md#identityresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
     This operation does not require authentication
 
-## Update Score Flag
+## Update Identity
 
 === "Python"
 
@@ -231,7 +232,7 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.patch('/v1/score-flags/{flag_id}', headers = headers)
+    r = requests.patch('/v1/identities/{identity_id}', headers = headers)
 
     print(r.json())
 
@@ -241,8 +242,7 @@ Raises:
 
     ```javascript
     const inputBody = '{
-      "status": "string",
-      "reviewer_decision": "string",
+      "display_name": "string",
       "deleted": true
     }';
     const headers = {
@@ -253,7 +253,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/score-flags/{flag_id}',
+    fetch('/v1/identities/{identity_id}',
     {
       method: 'PATCH',
       body: inputBody,
@@ -266,33 +266,30 @@ Raises:
     });
 
     ```
-`PATCH /v1/score-flags/{flag_id}`
+`PATCH /v1/identities/{identity_id}`
 
-Update a score flag (review or soft-delete).
+Update an identity.
 
-Allows reviewing a flag (updating status and reviewer decision) or
-soft-deleting the flag.
+Allows updating display name or soft-deleting the identity.
 
 Args:
-    flag_id: Flag identifier to update.
-    request: Update details (status, reviewer_decision, or deleted flag).
-    service: Injected score flag service dependency.
+    identity_id: Identity identifier to update.
+    request: Update details (display_name, deleted).
+    service: Injected identity service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    ScoreFlagResponse with the updated flag details.
+    IdentityResponse with the updated identity details.
 
 Raises:
-    403: User does not have access to this flag's account.
-    404: Flag not found.
-    400: Invalid update request.
+    403: User does not have access to this identity's account.
+    404: Identity not found.
 
 > Body parameter
 
 ```json
 {
-  "status": "string",
-  "reviewer_decision": "string",
+  "display_name": "string",
   "deleted": true
 }
 ```
@@ -301,12 +298,12 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|flag_id|path|string|true|none|
+|identity_id|path|string|true|none|
 |account_id|query|any|false|none|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
-|body|body|[ScoreFlagUpdateRequest](./schemas.md#scoreflagupdaterequest)|true|none|
+|body|body|[IdentityUpdateRequest](./schemas.md#identityupdaterequest)|true|none|
 
 > Example responses
 
@@ -315,14 +312,11 @@ Raises:
 ```json
 {
   "id": "string",
-  "score_event_id": "string",
-  "flag_type": "string",
-  "confidence": "string",
-  "metadata": {},
-  "status": "string",
-  "reviewed_at": "2019-08-24T14:15:22Z",
-  "reviewer_id": "string",
-  "reviewer_decision": "string",
+  "account_id": "string",
+  "game_id": "string",
+  "kind": "string",
+  "external_key": "string",
+  "display_name": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -332,7 +326,7 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[ScoreFlagResponse](./schemas.md#scoreflagresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[IdentityResponse](./schemas.md#identityresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success

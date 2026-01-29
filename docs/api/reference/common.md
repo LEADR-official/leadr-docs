@@ -1225,15 +1225,21 @@ Prefixed ID types for entity identification.
 - [**APIKeyID**](./common.md#leadr.common.domain.ids.APIKeyID) – API key entity identifier.
 - [**AccountID**](./common.md#leadr.common.domain.ids.AccountID) – Account entity identifier.
 - [**BoardID**](./common.md#leadr.common.domain.ids.BoardID) – Board entity identifier.
+- [**BoardRatioConfigID**](./common.md#leadr.common.domain.ids.BoardRatioConfigID) – Board ratio config entity identifier.
+- [**BoardStateID**](./common.md#leadr.common.domain.ids.BoardStateID) – Board state entity identifier.
 - [**BoardTemplateID**](./common.md#leadr.common.domain.ids.BoardTemplateID) – Board template entity identifier.
 - [**DeviceID**](./common.md#leadr.common.domain.ids.DeviceID) – Device entity identifier.
 - [**DeviceSessionID**](./common.md#leadr.common.domain.ids.DeviceSessionID) – Device session entity identifier.
 - [**EmailID**](./common.md#leadr.common.domain.ids.EmailID) – Email entity identifier.
 - [**GameID**](./common.md#leadr.common.domain.ids.GameID) – Game entity identifier.
+- [**IdentityID**](./common.md#leadr.common.domain.ids.IdentityID) – Identity entity identifier.
+- [**IdentitySessionID**](./common.md#leadr.common.domain.ids.IdentitySessionID) – Identity session entity identifier.
 - [**JamCodeID**](./common.md#leadr.common.domain.ids.JamCodeID) – Jam Code entity identifier.
 - [**JamCodeRedemptionID**](./common.md#leadr.common.domain.ids.JamCodeRedemptionID) – Jam Code Redemption entity identifier.
 - [**NonceID**](./common.md#leadr.common.domain.ids.NonceID) – Nonce entity identifier.
 - [**PrefixedID**](./common.md#leadr.common.domain.ids.PrefixedID) – Base class for entity IDs with type prefixes.
+- [**RunEntryID**](./common.md#leadr.common.domain.ids.RunEntryID) – Run entry entity identifier.
+- [**ScoreEventID**](./common.md#leadr.common.domain.ids.ScoreEventID) – Score event entity identifier.
 - [**ScoreFlagID**](./common.md#leadr.common.domain.ids.ScoreFlagID) – Score flag entity identifier.
 - [**ScoreID**](./common.md#leadr.common.domain.ids.ScoreID) – Score entity identifier.
 - [**ScoreSubmissionMetaID**](./common.md#leadr.common.domain.ids.ScoreSubmissionMetaID) – Score submission metadata entity identifier.
@@ -1308,6 +1314,52 @@ prefix = 'brd'
 uuid = uuid4()
 ```
 
+###### `leadr.common.domain.ids.BoardRatioConfigID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Board ratio config entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.BoardRatioConfigID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.BoardRatioConfigID.uuid) –
+
+####### `leadr.common.domain.ids.BoardRatioConfigID.prefix`
+
+```python
+prefix = 'brc'
+```
+
+####### `leadr.common.domain.ids.BoardRatioConfigID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.BoardStateID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Board state entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.BoardStateID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.BoardStateID.uuid) –
+
+####### `leadr.common.domain.ids.BoardStateID.prefix`
+
+```python
+prefix = 'bst'
+```
+
+####### `leadr.common.domain.ids.BoardStateID.uuid`
+
+```python
+uuid = uuid4()
+```
+
 ###### `leadr.common.domain.ids.BoardTemplateID`
 
 Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
@@ -1359,6 +1411,8 @@ uuid = uuid4()
 Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
 
 Device session entity identifier.
+
+Deprecated: Use IdentitySessionID instead. Will be removed in cleanup phase.
 
 **Attributes:**
 
@@ -1418,6 +1472,55 @@ prefix = 'gam'
 ```
 
 ####### `leadr.common.domain.ids.GameID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.IdentityID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Identity entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.IdentityID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.IdentityID.uuid) –
+
+####### `leadr.common.domain.ids.IdentityID.prefix`
+
+```python
+prefix = 'ide'
+```
+
+####### `leadr.common.domain.ids.IdentityID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.IdentitySessionID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Identity session entity identifier.
+
+Note: Uses same prefix as DeviceSessionID since it replaces that entity.
+During transition, both exist but reference different tables.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.IdentitySessionID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.IdentitySessionID.uuid) –
+
+####### `leadr.common.domain.ids.IdentitySessionID.prefix`
+
+```python
+prefix = 'ses'
+```
+
+####### `leadr.common.domain.ids.IdentitySessionID.uuid`
 
 ```python
 uuid = uuid4()
@@ -1541,6 +1644,52 @@ prefix: str = ''
 uuid = uuid4()
 ```
 
+###### `leadr.common.domain.ids.RunEntryID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Run entry entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.RunEntryID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.RunEntryID.uuid) –
+
+####### `leadr.common.domain.ids.RunEntryID.prefix`
+
+```python
+prefix = 'run'
+```
+
+####### `leadr.common.domain.ids.RunEntryID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.common.domain.ids.ScoreEventID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Score event entity identifier.
+
+**Attributes:**
+
+- [**prefix**](./common.md#leadr.common.domain.ids.ScoreEventID.prefix) –
+- [**uuid**](./common.md#leadr.common.domain.ids.ScoreEventID.uuid) –
+
+####### `leadr.common.domain.ids.ScoreEventID.prefix`
+
+```python
+prefix = 'sev'
+```
+
+####### `leadr.common.domain.ids.ScoreEventID.uuid`
+
+```python
+uuid = uuid4()
+```
+
 ###### `leadr.common.domain.ids.ScoreFlagID`
 
 Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
@@ -1640,6 +1789,7 @@ Common domain models and value objects.
 **Classes:**
 
 - [**Entity**](./common.md#leadr.common.domain.models.Entity) – Base class for all domain entities with ID and timestamps.
+- [**ImmutableEntity**](./common.md#leadr.common.domain.models.ImmutableEntity) – Base class for immutable domain entities (append-only, no updates/deletes).
 
 ###### `leadr.common.domain.models.Entity`
 
@@ -1754,6 +1904,48 @@ already deleted are not affected (deleted_at remains at original deletion time).
 
 ```python
 updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp of last update (UTC)')
+```
+
+###### `leadr.common.domain.models.ImmutableEntity`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Base class for immutable domain entities (append-only, no updates/deletes).
+
+Provides common functionality for event-sourced entities including:
+
+- Auto-generated UUID primary key (or typed prefixed ID in subclasses)
+- Created timestamp (UTC)
+- Equality and hashing based on ID
+
+Used for entities that are never updated or deleted after creation,
+such as ScoreEvent in event-sourcing patterns.
+
+Subclasses can override the `id` field with a typed PrefixedID for better
+type safety and API clarity.
+
+**Attributes:**
+
+- [**created_at**](#leadr.common.domain.models.ImmutableEntity.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**id**](./common.md#leadr.common.domain.models.ImmutableEntity.id) (<code>[Any](#typing.Any)</code>) –
+- [**model_config**](#leadr.common.domain.models.ImmutableEntity.model_config) –
+
+####### `leadr.common.domain.models.ImmutableEntity.created_at`
+
+```python
+created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp when entity was created (UTC)')
+```
+
+####### `leadr.common.domain.models.ImmutableEntity.id`
+
+```python
+id: Any = Field(frozen=True, default_factory=uuid4, description='Unique identifier (auto-generated UUID or typed ID)')
+```
+
+####### `leadr.common.domain.models.ImmutableEntity.model_config`
+
+```python
+model_config = ConfigDict(validate_assignment=True)
 ```
 
 ##### `leadr.common.domain.pagination`
@@ -2135,6 +2327,7 @@ Common ORM base classes and utilities.
 **Classes:**
 
 - [**Base**](./common.md#leadr.common.orm.Base) – Base class for all database models with UUID primary key and timestamps.
+- [**ImmutableBase**](./common.md#leadr.common.orm.ImmutableBase) – Base class for immutable database models (append-only, no updates/deletes).
 
 **Attributes:**
 
@@ -2179,6 +2372,48 @@ id: Mapped[uuid_pk]
 updated_at: Mapped[timestamp] = mapped_column(onupdate=(func.now()))
 ```
 
+##### `leadr.common.orm.ImmutableBase`
+
+Bases: <code>[DeclarativeBase](#sqlalchemy.orm.DeclarativeBase)</code>
+
+Base class for immutable database models (append-only, no updates/deletes).
+
+Used for event-sourcing entities like ScoreEvent that:
+
+- Have no updated_at (immutable after creation)
+- Have no deleted_at (append-only, never soft-deleted)
+
+**Attributes:**
+
+- [**created_at**](#leadr.common.orm.ImmutableBase.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
+- [**id**](./common.md#leadr.common.orm.ImmutableBase.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**metadata**](./common.md#leadr.common.orm.ImmutableBase.metadata) –
+- [**registry**](./common.md#leadr.common.orm.ImmutableBase.registry) –
+
+###### `leadr.common.orm.ImmutableBase.created_at`
+
+```python
+created_at: Mapped[timestamp]
+```
+
+###### `leadr.common.orm.ImmutableBase.id`
+
+```python
+id: Mapped[uuid_pk]
+```
+
+###### `leadr.common.orm.ImmutableBase.metadata`
+
+```python
+metadata = Base.metadata
+```
+
+###### `leadr.common.orm.ImmutableBase.registry`
+
+```python
+registry = Base.registry
+```
+
 ##### `leadr.common.orm.nullable_timestamp`
 
 ```python
@@ -2204,10 +2439,13 @@ Base repository abstraction for common CRUD operations.
 **Classes:**
 
 - [**BaseRepository**](./common.md#leadr.common.repositories.BaseRepository) – Abstract base repository providing common CRUD operations.
+- [**ImmutableBaseRepository**](./common.md#leadr.common.repositories.ImmutableBaseRepository) – Abstract base repository for immutable (append-only) entities.
 
 **Attributes:**
 
 - [**DomainEntityT**](./common.md#leadr.common.repositories.DomainEntityT) –
+- [**ImmutableEntityT**](./common.md#leadr.common.repositories.ImmutableEntityT) –
+- [**ImmutableORMT**](./common.md#leadr.common.repositories.ImmutableORMT) –
 - [**ORMModelT**](./common.md#leadr.common.repositories.ORMModelT) –
 
 ##### `leadr.common.repositories.BaseRepository`
@@ -2346,6 +2584,101 @@ Update an existing entity in the database.
 
 ```python
 DomainEntityT = TypeVar('DomainEntityT', bound=Entity)
+```
+
+##### `leadr.common.repositories.ImmutableBaseRepository`
+
+```python
+ImmutableBaseRepository(session)
+```
+
+Bases: <code>[ABC](#abc.ABC)</code>, <code>[Generic](#typing.Generic)\[[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT), [ImmutableORMT](./common.md#leadr.common.repositories.ImmutableORMT)\]</code>
+
+Abstract base repository for immutable (append-only) entities.
+
+Used for event-sourced entities that are never updated or deleted.
+Provides only create, get, and filter operations.
+
+**Functions:**
+
+- [**create**](./common.md#leadr.common.repositories.ImmutableBaseRepository.create) – Create a new immutable entity in the database.
+- [**filter**](./common.md#leadr.common.repositories.ImmutableBaseRepository.filter) – Filter immutable entities based on criteria with pagination.
+- [**get_by_id**](#leadr.common.repositories.ImmutableBaseRepository.get_by_id) – Get an immutable entity by its ID.
+
+**Attributes:**
+
+- [**session**](./common.md#leadr.common.repositories.ImmutableBaseRepository.session) –
+
+**Parameters:**
+
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session
+
+###### `leadr.common.repositories.ImmutableBaseRepository.create`
+
+```python
+create(entity)
+```
+
+Create a new immutable entity in the database.
+
+**Parameters:**
+
+- **entity** (<code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)</code>) – Domain entity to create
+
+**Returns:**
+
+- <code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)</code> – Created domain entity with refreshed data
+
+###### `leadr.common.repositories.ImmutableBaseRepository.filter`
+
+```python
+filter(account_id=None, *, pagination, **kwargs)
+```
+
+Filter immutable entities based on criteria with pagination.
+
+**Parameters:**
+
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID for filtering.
+- **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Required pagination parameters (cursor, limit, sort).
+- \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters specific to the entity type.
+
+**Returns:**
+
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)\]</code> – PaginatedResult containing matching entities and pagination metadata.
+
+###### `leadr.common.repositories.ImmutableBaseRepository.get_by_id`
+
+```python
+get_by_id(entity_id)
+```
+
+Get an immutable entity by its ID.
+
+**Parameters:**
+
+- **entity_id** (<code>[UUID4](#pydantic.UUID4) | [PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>) – Entity ID to retrieve
+
+**Returns:**
+
+- <code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT) | None</code> – Domain entity if found, None otherwise
+
+###### `leadr.common.repositories.ImmutableBaseRepository.session`
+
+```python
+session = session
+```
+
+##### `leadr.common.repositories.ImmutableEntityT`
+
+```python
+ImmutableEntityT = TypeVar('ImmutableEntityT', bound=ImmutableEntity)
+```
+
+##### `leadr.common.repositories.ImmutableORMT`
+
+```python
+ImmutableORMT = TypeVar('ImmutableORMT', bound=ImmutableBase)
 ```
 
 ##### `leadr.common.repositories.ORMModelT`

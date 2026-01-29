@@ -37,7 +37,7 @@
       "icon": "fa-crown",
       "unit": "string",
       "sort_direction": "ASCENDING",
-      "keep_strategy": "FIRST_ONLY",
+      "keep_strategy": "FIRST",
       "starts_at": "2019-08-24T14:15:22Z",
       "ends_at": "2019-08-24T14:15:22Z",
       "tags": [
@@ -107,7 +107,7 @@ Raises:
   "icon": "fa-crown",
   "unit": "string",
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "keep_strategy": "FIRST",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
   "tags": [
@@ -143,7 +143,7 @@ Raises:
   "icon": "string",
   "unit": "string",
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "keep_strategy": "FIRST",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
   "tags": [
@@ -371,7 +371,7 @@ Raises:
   "icon": "string",
   "unit": "string",
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "keep_strategy": "FIRST",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
   "tags": [
@@ -428,7 +428,7 @@ Raises:
       "icon": "string",
       "unit": "string",
       "sort_direction": "ASCENDING",
-      "keep_strategy": "FIRST_ONLY",
+      "keep_strategy": "FIRST",
       "starts_at": "2019-08-24T14:15:22Z",
       "ends_at": "2019-08-24T14:15:22Z",
       "tags": [
@@ -493,7 +493,7 @@ Raises:
   "icon": "string",
   "unit": "string",
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "keep_strategy": "FIRST",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
   "tags": [
@@ -535,7 +535,7 @@ Raises:
   "icon": "string",
   "unit": "string",
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "keep_strategy": "FIRST",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
   "tags": [
