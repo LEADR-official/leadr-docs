@@ -1203,23 +1203,21 @@ GET /v1/boards?starts_after=2025-01-01T00:00:00Z&ends_before=2025-12-31T23:59:59
 ###### `leadr.boards.api.board_routes.list_boards_client`
 
 ```python
-list_boards_client(auth, service, game_service, pagination, game_id=None, code=None, game_slug=None, slug=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None)
+list_boards_client(auth, service, game_service, pagination, code=None, slug=None, is_published=None, starts_before=None, starts_after=None, ends_before=None, ends_after=None)
 ```
 
 List boards (Client API).
 
-Account ID is automatically derived from the authenticated device's account.
+Account ID and game ID are automatically derived from the authenticated client session.
 Clients can optionally filter by various criteria to find specific boards.
 
 Filtering:
 
-- Use ?game_id={id} or ?game_slug={slug} to filter boards by game
-- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game
+- Use ?slug={slug} to find a specific board within the authenticated game
 - Use ?code={code} to filter boards by short code
 - Use ?is_published=true/false to filter by published status
 - Use ?starts_before=<datetime>&starts_after=<datetime> for start date range
 - Use ?ends_before=<datetime>&ends_after=<datetime> for end date range
-- Note: board slug filter requires game_slug parameter
 
 Pagination:
 
@@ -1232,8 +1230,8 @@ Pagination:
 <summary>Example</summary>
 
 GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50
-GET /v1/client/boards?game_slug=my-game&is_published=true
-GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
+GET /v1/client/boards?slug=weekly-challenge
+GET /v1/client/boards?is_published=true
 GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 
 </details>
@@ -1244,10 +1242,8 @@ GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 - **service** (<code>[BoardServiceDep](./boards.md#leadr.boards.services.dependencies.BoardServiceDep)</code>) – Injected board service dependency.
 - **game_service** (<code>[GameServiceDep](./games.md#leadr.games.services.dependencies.GameServiceDep)</code>) – Injected game service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
-- **game_id** (<code>[Annotated](#typing.Annotated)\[[GameID](./common.md#leadr.common.domain.ids.GameID) | None, [Query](#fastapi.Query)(description='Filter by game ID')\]</code>) – Optional game ID to filter boards by.
 - **code** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by short code')\]</code>) – Optional short code to filter boards by.
-- **game_slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by game slug')\]</code>) – Optional game slug to filter boards by game (resolves to game_id).
-- **slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by board slug (requires game_slug)')\]</code>) – Optional board slug to filter by specific board (requires game_slug).
+- **slug** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Filter by board slug')\]</code>) – Optional board slug to filter by specific board.
 - **is_published** (<code>[Annotated](#typing.Annotated)\[[bool](#bool) | None, [Query](#fastapi.Query)(description='Filter by published status')\]</code>) – Optional filter for published status.
 - **starts_before** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards starting before this time (ISO 8601)')\]</code>) – Optional filter for boards starting before this time.
 - **starts_after** (<code>[Annotated](#typing.Annotated)\[[datetime](#datetime.datetime) | None, [Query](#fastapi.Query)(description='Filter boards starting after this time (ISO 8601)')\]</code>) – Optional filter for boards starting after this time.
@@ -1260,8 +1256,7 @@ GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 
 **Raises:**
 
-- <code>400</code> – Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.
-- <code>404</code> – Game or board not found when using slug filters.
+- <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
 
 ###### `leadr.boards.api.board_routes.logger`
 
