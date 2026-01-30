@@ -1015,7 +1015,7 @@ List all games for an account with pagination.
 ####### `leadr.games.services.game_service.GameService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.games.services.game_service.GameService.soft_delete`

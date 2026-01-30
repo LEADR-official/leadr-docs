@@ -4165,7 +4165,7 @@ List score flags for an account with optional filters and pagination.
 ####### `leadr.scores.services.score_flag_service.ScoreFlagService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.scores.services.score_flag_service.ScoreFlagService.review_flag`
@@ -4562,7 +4562,7 @@ List score submission metadata for an account with optional filters and paginati
 ####### `leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService.soft_delete`

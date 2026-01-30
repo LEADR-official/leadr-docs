@@ -4579,7 +4579,7 @@ List all non-deleted entities.
 ####### `leadr.boards.services.board_ratio_config_service.BoardRatioConfigService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.boards.services.board_ratio_config_service.BoardRatioConfigService.soft_delete`
@@ -4897,7 +4897,7 @@ List all boards for an account.
 ####### `leadr.boards.services.board_service.BoardService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.boards.services.board_service.BoardService.soft_delete`
@@ -5470,7 +5470,7 @@ List all board templates for a specific game with pagination.
 ####### `leadr.boards.services.board_template_service.BoardTemplateService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.boards.services.board_template_service.BoardTemplateService.soft_delete`
