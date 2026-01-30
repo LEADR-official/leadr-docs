@@ -58,7 +58,6 @@ field names (case-sensitive).
 - [**ACCESS_TOKEN_EXPIRY_HOURS**](#leadr.config.CommonSettings.ACCESS_TOKEN_EXPIRY_HOURS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_DUPLICATE_WINDOW_SECONDS**](#leadr.config.CommonSettings.ANTICHEAT_DUPLICATE_WINDOW_SECONDS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_ENABLED**](#leadr.config.CommonSettings.ANTICHEAT_ENABLED) (<code>[bool](#bool)</code>) –
-- [**ANTICHEAT_LOGGING_ONLY**](#leadr.config.CommonSettings.ANTICHEAT_LOGGING_ONLY) (<code>[bool](#bool)</code>) –
 - [**ANTICHEAT_MIN_SAMPLES_FOR_STATS**](#leadr.config.CommonSettings.ANTICHEAT_MIN_SAMPLES_FOR_STATS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_OUTLIER_THRESHOLD_TIER_A**](#leadr.config.CommonSettings.ANTICHEAT_OUTLIER_THRESHOLD_TIER_A) (<code>[float](#float)</code>) –
 - [**ANTICHEAT_OUTLIER_THRESHOLD_TIER_B**](#leadr.config.CommonSettings.ANTICHEAT_OUTLIER_THRESHOLD_TIER_B) (<code>[float](#float)</code>) –
@@ -91,6 +90,7 @@ field names (case-sensitive).
 - [**ENABLE_ADMIN_API**](#leadr.config.CommonSettings.ENABLE_ADMIN_API) (<code>[bool](#bool)</code>) –
 - [**ENABLE_CLIENT_API**](#leadr.config.CommonSettings.ENABLE_CLIENT_API) (<code>[bool](#bool)</code>) –
 - [**ENV**](./config.md#leadr.config.CommonSettings.ENV) (<code>[str](#str)</code>) –
+- [**FROM_EMAIL**](#leadr.config.CommonSettings.FROM_EMAIL) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.CommonSettings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.CommonSettings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.CommonSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
@@ -121,6 +121,7 @@ field names (case-sensitive).
 - [**TESTING_EMAIL**](#leadr.config.CommonSettings.TESTING_EMAIL) (<code>[str](#str)</code>) –
 - [**VERIFICATION_CODE_EXPIRY_SECONDS**](#leadr.config.CommonSettings.VERIFICATION_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**VERIFICATION_TOKEN_EXPIRY_SECONDS**](#leadr.config.CommonSettings.VERIFICATION_TOKEN_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
+- [**default_from_email**](#leadr.config.CommonSettings.default_from_email) (<code>[str](#str)</code>) – Get the full default from email address ({FROM_EMAIL}@{MAILGUN_DOMAIN}).
 - [**model_config**](#leadr.config.CommonSettings.model_config) –
 
 ##### `leadr.config.CommonSettings.ACCESS_TOKEN_EXPIRY_HOURS`
@@ -139,12 +140,6 @@ ANTICHEAT_DUPLICATE_WINDOW_SECONDS: int = Field(default=300, description='Time w
 
 ```python
 ANTICHEAT_ENABLED: bool = Field(default=False, description='Enable anti-cheat checks on score submissions')
-```
-
-##### `leadr.config.CommonSettings.ANTICHEAT_LOGGING_ONLY`
-
-```python
-ANTICHEAT_LOGGING_ONLY: bool = Field(default=True, description="Log anti-cheat detections but don't reject/flag submissions (dry-run mode)")
 ```
 
 ##### `leadr.config.CommonSettings.ANTICHEAT_MIN_SAMPLES_FOR_STATS`
@@ -339,6 +334,12 @@ ENABLE_CLIENT_API: bool = Field(default=False, description='Enable client API en
 ENV: str = Field(default=..., description="Environment name (e.g., 'DEV', 'PROD', 'TEST'). Required.")
 ```
 
+##### `leadr.config.CommonSettings.FROM_EMAIL`
+
+```python
+FROM_EMAIL: str = Field(default='noreply', description='Local part of sender email address (before @). Combined with MAILGUN_DOMAIN to form full address (see `default_from_email`).')
+```
+
 ##### `leadr.config.CommonSettings.GEOIP_DATABASE_PATH`
 
 ```python
@@ -519,6 +520,14 @@ VERIFICATION_CODE_EXPIRY_SECONDS: int = Field(default=600, description='Expiry t
 VERIFICATION_TOKEN_EXPIRY_SECONDS: int = Field(default=600, description='Expiry time for verification JWT tokens in seconds (default: 10 minutes)')
 ```
 
+##### `leadr.config.CommonSettings.default_from_email`
+
+```python
+default_from_email: str
+```
+
+Get the full default from email address ({FROM_EMAIL}@{MAILGUN_DOMAIN}).
+
 ##### `leadr.config.CommonSettings.model_config`
 
 ```python
@@ -559,7 +568,6 @@ This is the default settings class used when ENV != 'TEST'.
 - [**ACCESS_TOKEN_EXPIRY_HOURS**](#leadr.config.Settings.ACCESS_TOKEN_EXPIRY_HOURS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_DUPLICATE_WINDOW_SECONDS**](#leadr.config.Settings.ANTICHEAT_DUPLICATE_WINDOW_SECONDS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_ENABLED**](#leadr.config.Settings.ANTICHEAT_ENABLED) (<code>[bool](#bool)</code>) –
-- [**ANTICHEAT_LOGGING_ONLY**](#leadr.config.Settings.ANTICHEAT_LOGGING_ONLY) (<code>[bool](#bool)</code>) –
 - [**ANTICHEAT_MIN_SAMPLES_FOR_STATS**](#leadr.config.Settings.ANTICHEAT_MIN_SAMPLES_FOR_STATS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_OUTLIER_THRESHOLD_TIER_A**](#leadr.config.Settings.ANTICHEAT_OUTLIER_THRESHOLD_TIER_A) (<code>[float](#float)</code>) –
 - [**ANTICHEAT_OUTLIER_THRESHOLD_TIER_B**](#leadr.config.Settings.ANTICHEAT_OUTLIER_THRESHOLD_TIER_B) (<code>[float](#float)</code>) –
@@ -592,6 +600,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**ENABLE_ADMIN_API**](#leadr.config.Settings.ENABLE_ADMIN_API) (<code>[bool](#bool)</code>) –
 - [**ENABLE_CLIENT_API**](#leadr.config.Settings.ENABLE_CLIENT_API) (<code>[bool](#bool)</code>) –
 - [**ENV**](#leadr.config.Settings.ENV) (<code>[str](#str)</code>) –
+- [**FROM_EMAIL**](#leadr.config.Settings.FROM_EMAIL) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.Settings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.Settings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.Settings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
@@ -622,6 +631,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**TESTING_EMAIL**](#leadr.config.Settings.TESTING_EMAIL) (<code>[str](#str)</code>) –
 - [**VERIFICATION_CODE_EXPIRY_SECONDS**](#leadr.config.Settings.VERIFICATION_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**VERIFICATION_TOKEN_EXPIRY_SECONDS**](#leadr.config.Settings.VERIFICATION_TOKEN_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
+- [**default_from_email**](#leadr.config.Settings.default_from_email) (<code>[str](#str)</code>) – Get the full default from email address ({FROM_EMAIL}@{MAILGUN_DOMAIN}).
 - [**model_config**](#leadr.config.Settings.model_config) –
 
 #### `leadr.config.TestSettings`
@@ -645,7 +655,6 @@ Test-specific overrides can be added here.
 - [**ACCESS_TOKEN_EXPIRY_HOURS**](#leadr.config.TestSettings.ACCESS_TOKEN_EXPIRY_HOURS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_DUPLICATE_WINDOW_SECONDS**](#leadr.config.TestSettings.ANTICHEAT_DUPLICATE_WINDOW_SECONDS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_ENABLED**](#leadr.config.TestSettings.ANTICHEAT_ENABLED) (<code>[bool](#bool)</code>) –
-- [**ANTICHEAT_LOGGING_ONLY**](#leadr.config.TestSettings.ANTICHEAT_LOGGING_ONLY) (<code>[bool](#bool)</code>) –
 - [**ANTICHEAT_MIN_SAMPLES_FOR_STATS**](#leadr.config.TestSettings.ANTICHEAT_MIN_SAMPLES_FOR_STATS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_OUTLIER_THRESHOLD_TIER_A**](#leadr.config.TestSettings.ANTICHEAT_OUTLIER_THRESHOLD_TIER_A) (<code>[float](#float)</code>) –
 - [**ANTICHEAT_OUTLIER_THRESHOLD_TIER_B**](#leadr.config.TestSettings.ANTICHEAT_OUTLIER_THRESHOLD_TIER_B) (<code>[float](#float)</code>) –
@@ -678,6 +687,7 @@ Test-specific overrides can be added here.
 - [**ENABLE_ADMIN_API**](#leadr.config.TestSettings.ENABLE_ADMIN_API) (<code>[bool](#bool)</code>) –
 - [**ENABLE_CLIENT_API**](#leadr.config.TestSettings.ENABLE_CLIENT_API) (<code>[bool](#bool)</code>) –
 - [**ENV**](./config.md#leadr.config.TestSettings.ENV) (<code>[str](#str)</code>) –
+- [**FROM_EMAIL**](#leadr.config.TestSettings.FROM_EMAIL) (<code>[str](#str)</code>) –
 - [**GEOIP_DATABASE_PATH**](#leadr.config.TestSettings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.TestSettings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.TestSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
@@ -708,6 +718,7 @@ Test-specific overrides can be added here.
 - [**TESTING_EMAIL**](#leadr.config.TestSettings.TESTING_EMAIL) (<code>[str](#str)</code>) –
 - [**VERIFICATION_CODE_EXPIRY_SECONDS**](#leadr.config.TestSettings.VERIFICATION_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**VERIFICATION_TOKEN_EXPIRY_SECONDS**](#leadr.config.TestSettings.VERIFICATION_TOKEN_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
+- [**default_from_email**](#leadr.config.TestSettings.default_from_email) (<code>[str](#str)</code>) – Get the full default from email address ({FROM_EMAIL}@{MAILGUN_DOMAIN}).
 - [**model_config**](#leadr.config.TestSettings.model_config) –
 
 ##### `leadr.config.TestSettings.ACCESS_TOKEN_EXPIRY_HOURS`
@@ -726,12 +737,6 @@ ANTICHEAT_DUPLICATE_WINDOW_SECONDS: int = Field(default=300, description='Time w
 
 ```python
 ANTICHEAT_ENABLED: bool = Field(default=False, description='Enable anti-cheat checks on score submissions')
-```
-
-##### `leadr.config.TestSettings.ANTICHEAT_LOGGING_ONLY`
-
-```python
-ANTICHEAT_LOGGING_ONLY: bool = Field(default=True, description="Log anti-cheat detections but don't reject/flag submissions (dry-run mode)")
 ```
 
 ##### `leadr.config.TestSettings.ANTICHEAT_MIN_SAMPLES_FOR_STATS`
@@ -926,6 +931,12 @@ ENABLE_CLIENT_API: bool = Field(default=False, description='Enable client API en
 ENV: str = Field(default=..., description="Environment name (e.g., 'DEV', 'PROD', 'TEST'). Required.")
 ```
 
+##### `leadr.config.TestSettings.FROM_EMAIL`
+
+```python
+FROM_EMAIL: str = Field(default='noreply', description='Local part of sender email address (before @). Combined with MAILGUN_DOMAIN to form full address (see `default_from_email`).')
+```
+
 ##### `leadr.config.TestSettings.GEOIP_DATABASE_PATH`
 
 ```python
@@ -1105,6 +1116,14 @@ VERIFICATION_CODE_EXPIRY_SECONDS: int = Field(default=600, description='Expiry t
 ```python
 VERIFICATION_TOKEN_EXPIRY_SECONDS: int = Field(default=600, description='Expiry time for verification JWT tokens in seconds (default: 10 minutes)')
 ```
+
+##### `leadr.config.TestSettings.default_from_email`
+
+```python
+default_from_email: str
+```
+
+Get the full default from email address ({FROM_EMAIL}@{MAILGUN_DOMAIN}).
 
 ##### `leadr.config.TestSettings.model_config`
 

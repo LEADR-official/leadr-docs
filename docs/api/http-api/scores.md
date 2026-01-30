@@ -1,308 +1,5 @@
 # Scores
 
-## Create Score Admin
-
-=== "Python"
-
-    ```python
-    import requests
-    headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'leadr-api-key': 'string',
-      'authorization': 'string',
-      'leadr-client-nonce': 'string'
-    }
-
-    r = requests.post('/v1/scores', headers = headers)
-
-    print(r.json())
-
-    ```
-
-=== "JavaScript"
-
-    ```javascript
-    const inputBody = '{
-      "board_id": "string",
-      "player_name": "string",
-      "value": 0,
-      "value_display": "string",
-      "metadata": {},
-      "account_id": "string",
-      "game_id": "string",
-      "device_id": "string",
-      "timezone": "string",
-      "country": "string",
-      "city": "string"
-    }';
-    const headers = {
-      'Content-Type':'application/json',
-      'Accept':'application/json',
-      'leadr-api-key':'string',
-      'authorization':'string',
-      'leadr-client-nonce':'string'
-    };
-
-    fetch('/v1/scores',
-    {
-      method: 'POST',
-      body: inputBody,
-      headers: headers
-    })
-    .then(function(res) {
-        return res.json();
-    }).then(function(body) {
-        console.log(body);
-    });
-
-    ```
-`POST /v1/scores`
-
-Create a new score (Admin API).
-
-Creates a new score submission for a board. Performs three-level validation:
-board exists, board belongs to the specified account, and game matches
-the board's game.
-
-For regular admins: account_id is derived from auth, must provide game_id and device_id.
-For superadmins: can provide account_id to create scores for any account.
-
-Args:
-    score_request: Score creation details including board_id, player_name, value,
-                  and optionally account_id (superadmin only), game_id, device_id.
-    request: FastAPI request object for accessing geo data.
-    service: Injected score service dependency.
-    background_tasks: FastAPI background tasks for async metadata updates.
-    auth: Admin authentication context.
-
-Returns:
-    ScoreResponse with the created score including auto-generated ID and timestamps.
-
-Raises:
-    403: Non-superadmin tries to specify account_id, or access denied.
-    400: Missing required fields (game_id or device_id).
-    404: Account, game, board, or device not found.
-    400: Validation failed (board doesn't belong to account, or game doesn't
-        match board's game).
-
-> Body parameter
-
-```json
-{
-  "board_id": "string",
-  "player_name": "string",
-  "value": 0,
-  "value_display": "string",
-  "metadata": {},
-  "account_id": "string",
-  "game_id": "string",
-  "device_id": "string",
-  "timezone": "string",
-  "country": "string",
-  "city": "string"
-}
-```
-
-### Parameters
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|account_id|query|any|false|none|
-|leadr-api-key|header|any|false|none|
-|authorization|header|any|false|none|
-|leadr-client-nonce|header|any|false|none|
-|body|body|[ScoreCreateRequest](./schemas.md#scorecreaterequest)|true|none|
-
-> Example responses
-
-> 201 Response
-
-```json
-{
-  "id": "string",
-  "account_id": "string",
-  "game_id": "string",
-  "board_id": "string",
-  "device_id": "string",
-  "player_name": "string",
-  "value": 0,
-  "value_display": "string",
-  "timezone": "string",
-  "country": "string",
-  "city": "string",
-  "metadata": {},
-  "rank": 0,
-  "is_placeholder": false,
-  "is_test": false,
-  "status": "provisional",
-  "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
-}
-```
-
-### Responses
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[ScoreResponse](./schemas.md#scoreresponse)|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-!!! success
-    This operation does not require authentication
-
-## List Scores Admin
-
-=== "Python"
-
-    ```python
-    import requests
-    headers = {
-      'Accept': 'application/json',
-      'leadr-api-key': 'string',
-      'authorization': 'string',
-      'leadr-client-nonce': 'string'
-    }
-
-    r = requests.get('/v1/scores', headers = headers)
-
-    print(r.json())
-
-    ```
-
-=== "JavaScript"
-
-    ```javascript
-
-    const headers = {
-      'Accept':'application/json',
-      'leadr-api-key':'string',
-      'authorization':'string',
-      'leadr-client-nonce':'string'
-    };
-
-    fetch('/v1/scores',
-    {
-      method: 'GET',
-
-      headers: headers
-    })
-    .then(function(res) {
-        return res.json();
-    }).then(function(body) {
-        console.log(body);
-    });
-
-    ```
-`GET /v1/scores`
-
-List scores for an account with optional filters and pagination.
-
-Returns paginated scores for the specified account, with optional
-filtering by board, game, or device. Supports cursor-based pagination
-with bidirectional navigation and custom sorting.
-
-For regular admin users, account_id is automatically derived from their API key.
-For superadmins, account_id must be explicitly provided as a query parameter.
-
-Pagination:
-- Default: 20 items per page, sorted by created_at:desc,id:asc
-- Custom sort: Use ?sort=value:desc,created_at:asc
-- Valid sort fields: id, value, player_name, filter_timezone, filter_country,
-  filter_city, created_at, updated_at
-- Navigation: Use next_cursor/prev_cursor from response
-
-Around Score:
-- Use around_score_id to get scores centered around a specific score
-- Use around_score_value to get scores centered around a hypothetical value
-  (returns a placeholder score with is_placeholder=True)
-- Both require board_id to be specified
-- Mutually exclusive with cursor pagination and each other
-- Returns a window of scores with the target in the middle
-- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
-
-Example:
-    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
-    GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
-    GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
-
-Args:
-    auth: Authentication context with user info.
-    service: Injected score service dependency.
-    pagination: Pagination parameters (cursor, limit, sort).
-    account_id: Optional account_id query parameter (required for superadmins).
-    board_id: Optional board ID to filter by.
-    game_id: Optional game ID to filter by.
-    device_id: Optional device ID to filter by.
-    around_score_id: Optional score ID to center results around.
-    around_score_value: Optional value to center results around (with placeholder).
-
-Returns:
-    PaginatedResponse with scores and pagination metadata.
-
-Raises:
-    400: Invalid cursor, sort field, cursor state mismatch, or around validation.
-    400: Superadmin did not provide account_id.
-    403: User does not have access to the specified account.
-    404: around_score_id score not found.
-
-### Parameters
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|account_id|query|any|false|none|
-|board_id|query|any|false|none|
-|game_id|query|any|false|none|
-|device_id|query|any|false|none|
-|is_test|query|[IsTestFilter](./schemas.md#istestfilter)|false|Filter for test scores. 'false' (default) returns production only, 'true' returns test only, 'all' returns both test and production|
-|around_score_id|query|any|false|Center results around this score ID|
-|around_score_value|query|any|false|Center results around this score value (returns placeholder)|
-|cursor|query|any|false|Pagination cursor for navigating results|
-|limit|query|integer|false|Number of items per page (1-100)|
-|sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
-|leadr-api-key|header|any|false|none|
-|authorization|header|any|false|none|
-|leadr-client-nonce|header|any|false|none|
-
-#### Enumerated Values
-
-|Parameter|Value|
-|---|---|
-|is_test|true|
-|is_test|false|
-|is_test|all|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "data": [
-    {
-      "id": "scr_123",
-      "value": 1000
-    }
-  ],
-  "pagination": {
-    "count": 20,
-    "has_next": true,
-    "has_prev": false,
-    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
-  }
-}
-```
-
-### Responses
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_ScoreResponse_](./schemas.md#paginatedresponse_scoreresponse_)|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-!!! success
-    This operation does not require authentication
-
 ## Get Score
 
 === "Python"
@@ -385,7 +82,7 @@ Raises:
   "account_id": "string",
   "game_id": "string",
   "board_id": "string",
-  "device_id": "string",
+  "identity_id": "string",
   "player_name": "string",
   "value": 0,
   "value_display": "string",
@@ -412,21 +109,20 @@ Raises:
 !!! success
     This operation does not require authentication
 
-## Update Score
+## List Scores Admin
 
 === "Python"
 
     ```python
     import requests
     headers = {
-      'Content-Type': 'application/json',
       'Accept': 'application/json',
       'leadr-api-key': 'string',
       'authorization': 'string',
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.patch('/v1/scores/{score_id}', headers = headers)
+    r = requests.get('/v1/scores', headers = headers)
 
     print(r.json())
 
@@ -435,29 +131,18 @@ Raises:
 === "JavaScript"
 
     ```javascript
-    const inputBody = '{
-      "player_name": "string",
-      "value": 0,
-      "value_display": "string",
-      "timezone": "string",
-      "country": "string",
-      "city": "string",
-      "metadata": {},
-      "status": "provisional",
-      "deleted": true
-    }';
+
     const headers = {
-      'Content-Type':'application/json',
       'Accept':'application/json',
       'leadr-api-key':'string',
       'authorization':'string',
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/scores/{score_id}',
+    fetch('/v1/scores',
     {
-      method: 'PATCH',
-      body: inputBody,
+      method: 'GET',
+
       headers: headers
     })
     .then(function(res) {
@@ -467,52 +152,82 @@ Raises:
     });
 
     ```
-`PATCH /v1/scores/{score_id}`
+`GET /v1/scores`
 
-Update a score.
+List scores for an account with optional filters and pagination.
 
-Supports partial updates of score fields. Any field not provided will
-remain unchanged. Set deleted: true to soft delete the score.
+Returns paginated scores for the specified account, with optional
+filtering by board, game, or identity. Supports cursor-based pagination
+with bidirectional navigation and custom sorting.
+
+For regular admin users, account_id is automatically derived from their API key.
+For superadmins, account_id must be explicitly provided as a query parameter.
+
+Pagination:
+- Default: 20 items per page, sorted by created_at:desc,id:asc
+- Custom sort: Use ?sort=value:desc,created_at:asc
+- Valid sort fields: id, value, player_name, created_at, updated_at
+- Navigation: Use next_cursor/prev_cursor from response
+
+Around Score:
+- Use around_score_id to get scores centered around a specific score
+- Use around_score_value to get scores centered around a hypothetical value
+  (returns a placeholder score with is_placeholder=True)
+- Both require board_id to be specified
+- Mutually exclusive with cursor pagination and each other
+- Returns a window of scores with the target in the middle
+- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
+
+Example:
+    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
+    GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11
+    GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 
 Args:
-    score_id: Score identifier to update.
-    request: Score update details with optional fields to modify.
-    service: Injected score service dependency.
     auth: Authentication context with user info.
+    service: Injected score service dependency.
+    pagination: Pagination parameters (cursor, limit, sort).
+    account_id: Optional account_id query parameter (required for superadmins).
+    board_id: Optional board ID to filter by.
+    game_id: Optional game ID to filter by.
+    identity_id: Optional identity ID to filter by.
+    around_score_id: Optional score ID to center results around.
+    around_score_value: Optional value to center results around (with placeholder).
 
 Returns:
-    ScoreResponse with the updated score details.
+    PaginatedResponse with scores and pagination metadata.
 
 Raises:
-    403: User does not have access to this score's account.
-    404: Score not found or already soft-deleted.
-
-> Body parameter
-
-```json
-{
-  "player_name": "string",
-  "value": 0,
-  "value_display": "string",
-  "timezone": "string",
-  "country": "string",
-  "city": "string",
-  "metadata": {},
-  "status": "provisional",
-  "deleted": true
-}
-```
+    400: Invalid cursor, sort field, cursor state mismatch, or around validation.
+    400: Superadmin did not provide account_id.
+    403: User does not have access to the specified account.
+    404: around_score_id score not found.
 
 ### Parameters
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|score_id|path|string|true|none|
 |account_id|query|any|false|none|
+|board_id|query|any|false|none|
+|game_id|query|any|false|none|
+|identity_id|query|any|false|none|
+|is_test|query|[IsTestFilter](./schemas.md#istestfilter)|false|Filter for test scores. 'false' (default) returns production only, 'true' returns test only, 'all' returns both test and production|
+|around_score_id|query|any|false|Center results around this score ID|
+|around_score_value|query|any|false|Center results around this score value (returns placeholder)|
+|cursor|query|any|false|Pagination cursor for navigating results|
+|limit|query|integer|false|Number of items per page (1-100)|
+|sort|query|any|false|Sort specification (e.g., 'value:desc,created_at:asc')|
 |leadr-api-key|header|any|false|none|
 |authorization|header|any|false|none|
 |leadr-client-nonce|header|any|false|none|
-|body|body|[ScoreUpdateRequest](./schemas.md#scoreupdaterequest)|true|none|
+
+#### Enumerated Values
+
+|Parameter|Value|
+|---|---|
+|is_test|true|
+|is_test|false|
+|is_test|all|
 
 > Example responses
 
@@ -520,24 +235,18 @@ Raises:
 
 ```json
 {
-  "id": "string",
-  "account_id": "string",
-  "game_id": "string",
-  "board_id": "string",
-  "device_id": "string",
-  "player_name": "string",
-  "value": 0,
-  "value_display": "string",
-  "timezone": "string",
-  "country": "string",
-  "city": "string",
-  "metadata": {},
-  "rank": 0,
-  "is_placeholder": false,
-  "is_test": false,
-  "status": "provisional",
-  "created_at": "2019-08-24T14:15:22Z",
-  "updated_at": "2019-08-24T14:15:22Z"
+  "data": [
+    {
+      "id": "scr_123",
+      "value": 1000
+    }
+  ],
+  "pagination": {
+    "count": 20,
+    "has_next": true,
+    "has_prev": false,
+    "next_cursor": "eyJwdiI6WzEwMDAsMTIzXX0="
+  }
 }
 ```
 
@@ -545,7 +254,7 @@ Raises:
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[ScoreResponse](./schemas.md#scoreresponse)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PaginatedResponse_ScoreResponse_](./schemas.md#paginatedresponse_scoreresponse_)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success
@@ -751,15 +460,16 @@ Raises:
 
 Create a new score (Client API).
 
-Creates a new score submission for a board. All IDs (account_id, game_id, device_id)
-are automatically derived from the authenticated device session.
+Creates a new score submission for a board. All IDs (account_id, game_id, identity_id)
+are automatically derived from the authenticated session.
 
 Args:
     score_request: Score creation details including board_id, player_name, and value.
     request: FastAPI request object for accessing geo data.
     service: Injected score service dependency.
+    board_service: Injected board service for board lookup.
     background_tasks: FastAPI background tasks for async metadata updates.
-    auth: Client authentication context with device info.
+    auth: Client authentication context with device and identity info.
     pre_create_hook: Hook called before score creation (for quota checks).
     post_create_hook: Hook called after successful score creation.
 
@@ -770,6 +480,7 @@ Raises:
     404: Board not found.
     400: Validation failed (board doesn't belong to account, or game doesn't
         match board's game).
+    403: Score rejected by anti-cheat (rate limit exceeded).
 
 > Body parameter
 
@@ -803,6 +514,7 @@ Raises:
   "account_id": "string",
   "game_id": "string",
   "board_id": "string",
+  "identity_id": "string",
   "player_name": "string",
   "value": 0,
   "value_display": "string",
@@ -874,14 +586,13 @@ Raises:
 List scores for an account with optional filters and pagination.
 
 Returns paginated scores for the specified account, with optional
-filtering by board and/or device. Supports cursor-based pagination
+filtering by board and/or identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=value:desc,created_at:asc
-- Valid sort fields: id, value, player_name, filter_timezone, filter_country,
-  filter_city, created_at, updated_at
+- Valid sort fields: id, value, player_name, created_at, updated_at
 - Navigation: Use next_cursor/prev_cursor from response
 
 Around Score:
@@ -903,7 +614,7 @@ Args:
     service: Injected score service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
     board_id: Optional board ID to filter by.
-    device_id: Optional device ID to filter by (e.g., to get "my scores").
+    identity_id: Optional identity ID to filter by (e.g., to get "my scores").
     around_score_id: Optional score ID to center results around.
     around_score_value: Optional value to center results around (with placeholder).
 
@@ -920,7 +631,7 @@ Raises:
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |board_id|query|any|false|none|
-|device_id|query|any|false|none|
+|identity_id|query|any|false|none|
 |around_score_id|query|any|false|Center results around this score ID|
 |around_score_value|query|any|false|Center results around this score value (returns placeholder)|
 |account_id|query|any|false|none|
@@ -1047,6 +758,7 @@ Raises:
   "account_id": "string",
   "game_id": "string",
   "board_id": "string",
+  "identity_id": "string",
   "player_name": "string",
   "value": 0,
   "value_display": "string",

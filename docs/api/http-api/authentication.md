@@ -1,104 +1,5 @@
 # Authentication
 
-## Refresh Session
-
-=== "Python"
-
-    ```python
-    import requests
-    headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }
-
-    r = requests.post('/v1/client/sessions/refresh', headers = headers)
-
-    print(r.json())
-
-    ```
-
-=== "JavaScript"
-
-    ```javascript
-    const inputBody = '{
-      "refresh_token": "string"
-    }';
-    const headers = {
-      'Content-Type':'application/json',
-      'Accept':'application/json'
-    };
-
-    fetch('/v1/client/sessions/refresh',
-    {
-      method: 'POST',
-      body: inputBody,
-      headers: headers
-    })
-    .then(function(res) {
-        return res.json();
-    }).then(function(body) {
-        console.log(body);
-    });
-
-    ```
-`POST /v1/client/sessions/refresh`
-
-Refresh an expired access token using a valid refresh token.
-
-This endpoint implements token rotation for security:
-- Returns new access and refresh tokens
-- Increments the token version
-- Invalidates the old refresh token (prevents replay attacks)
-
-No authentication is required (the refresh token itself is the credential).
-
-Args:
-    request: Refresh token request
-    service: DeviceService dependency
-
-Returns:
-    RefreshTokenResponse with new tokens
-
-Raises:
-    401: Invalid or expired refresh token
-    422: Invalid request (missing refresh_token)
-
-> Body parameter
-
-```json
-{
-  "refresh_token": "string"
-}
-```
-
-### Parameters
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[RefreshTokenRequest](./schemas.md#refreshtokenrequest)|true|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "access_token": "string",
-  "refresh_token": "string",
-  "expires_in": 0
-}
-```
-
-### Responses
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[RefreshTokenResponse](./schemas.md#refreshtokenresponse)|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
-
-!!! success
-    This operation does not require authentication
-
 ## Generate Nonce
 
 === "Python"
@@ -150,17 +51,17 @@ Nonces are single-use tokens with short TTL (60 seconds) that clients must
 obtain before making mutating requests (POST, PATCH, DELETE). This prevents
 replay attacks by ensuring each request is fresh and authorized.
 
-Requires device authentication via access token.
+Requires identity authentication via access token.
 
 Args:
-    auth: Authenticated client auth context (device guaranteed non-None)
+    auth: Authenticated client auth context (identity guaranteed non-None)
     service: NonceService dependency
 
 Returns:
     NonceResponse with nonce_value and expires_at
 
 Raises:
-    401: Invalid or missing device token
+    401: Invalid or missing access token
 
 Example:
     1. Client calls GET /client/nonce with Authorization header
@@ -245,20 +146,20 @@ Example:
     ```
 `POST /v1/client/sessions`
 
-Start a new device session for a game client.
+Start a new identity session for a game client.
 
 This endpoint authenticates game clients and provides JWT access tokens.
-It is idempotent - calling multiple times for the same device updates last_seen_at
-and generates a new access token.
+It is idempotent - calling multiple times for the same fingerprint updates
+the device record and creates a new identity session.
 
 No authentication is required to call this endpoint (it IS the authentication).
 
 Args:
-    request: Session start request with game_id and device_id
-    service: DeviceService dependency
+    session_request: Session start request with game_id and fingerprint
+    identity_service: IdentityService dependency (handles device and identity creation)
 
 Returns:
-    StartSessionResponse with device info and access token
+    StartSessionResponse with identity info and access tokens
 
 Raises:
     404: Game not found
@@ -288,18 +189,14 @@ Raises:
 
 ```json
 {
-  "id": "string",
+  "identity_id": "string",
   "game_id": "string",
-  "client_fingerprint": "string",
   "account_id": "string",
-  "platform": "string",
-  "status": "active",
-  "metadata": {},
+  "kind": "DEVICE",
+  "display_name": "string",
   "access_token": "string",
   "refresh_token": "string",
   "expires_in": 0,
-  "first_seen_at": "2019-08-24T14:15:22Z",
-  "last_seen_at": "2019-08-24T14:15:22Z",
   "test_mode": true
 }
 ```
@@ -309,6 +206,105 @@ Raises:
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[StartSessionResponse](./schemas.md#startsessionresponse)|
+|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
+
+!!! success
+    This operation does not require authentication
+
+## Refresh Session
+
+=== "Python"
+
+    ```python
+    import requests
+    headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+
+    r = requests.post('/v1/client/sessions/refresh', headers = headers)
+
+    print(r.json())
+
+    ```
+
+=== "JavaScript"
+
+    ```javascript
+    const inputBody = '{
+      "refresh_token": "string"
+    }';
+    const headers = {
+      'Content-Type':'application/json',
+      'Accept':'application/json'
+    };
+
+    fetch('/v1/client/sessions/refresh',
+    {
+      method: 'POST',
+      body: inputBody,
+      headers: headers
+    })
+    .then(function(res) {
+        return res.json();
+    }).then(function(body) {
+        console.log(body);
+    });
+
+    ```
+`POST /v1/client/sessions/refresh`
+
+Refresh an expired access token using a valid refresh token.
+
+This endpoint implements token rotation for security:
+- Returns new access and refresh tokens
+- Increments the token version
+- Invalidates the old refresh token (prevents replay attacks)
+
+No authentication is required (the refresh token itself is the credential).
+
+Args:
+    request: Refresh token request
+    identity_service: IdentityService dependency
+
+Returns:
+    RefreshTokenResponse with new tokens
+
+Raises:
+    401: Invalid or expired refresh token
+    422: Invalid request (missing refresh_token)
+
+> Body parameter
+
+```json
+{
+  "refresh_token": "string"
+}
+```
+
+### Parameters
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[RefreshTokenRequest](./schemas.md#refreshtokenrequest)|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "access_token": "string",
+  "refresh_token": "string",
+  "expires_in": 0
+}
+```
+
+### Responses
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[RefreshTokenResponse](./schemas.md#refreshtokenresponse)|
 |422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
 
 !!! success

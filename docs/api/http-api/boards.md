@@ -34,7 +34,8 @@
       "is_active": true,
       "is_published": true,
       "sort_direction": "ASCENDING",
-      "keep_strategy": "FIRST_ONLY",
+      "board_type": "RUN_IDENTITY",
+      "keep_strategy": "FIRST",
       "created_from_template_id": "string",
       "template_name": "string",
       "starts_at": "2019-08-24T14:15:22Z",
@@ -42,7 +43,18 @@
       "tags": [
         "string"
       ],
-      "description": "string"
+      "description": "string",
+      "ratio_config": {
+        "numerator_board_id": "string",
+        "denominator_board_id": "string",
+        "zero_denominator_policy": "NULL",
+        "min_denominator": 0,
+        "min_numerator": 0,
+        "scale": 1000000,
+        "display": "RAW",
+        "decimals": 2,
+        "tie_breaker": "NUMERATOR_DESC_DENOMINATOR_ASC"
+      }
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -75,9 +87,13 @@ The game must belong to the specified account.
 For regular users, account_id must match their API key's account.
 For superadmins, any account_id is accepted.
 
+For RATIO boards, ratio_config is required and specifies the numerator and
+denominator boards used to calculate the ratio.
+
 Args:
     request: Board creation details including account_id, game_id, name, and settings.
     service: Injected board service dependency.
+    ratio_config_service: Injected ratio config service dependency.
     auth: Authentication context with user info.
     pre_create_hook: Hook called before board creation (for quota checks).
     post_create_hook: Hook called after successful board creation.
@@ -88,7 +104,7 @@ Returns:
 Raises:
     403: User does not have access to the specified account.
     404: Game or account not found.
-    400: Game doesn't belong to the specified account.
+    400: Game doesn't belong to the specified account, or RATIO board missing config.
 
 > Body parameter
 
@@ -104,7 +120,8 @@ Raises:
   "is_active": true,
   "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "board_type": "RUN_IDENTITY",
+  "keep_strategy": "FIRST",
   "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
@@ -112,7 +129,18 @@ Raises:
   "tags": [
     "string"
   ],
-  "description": "string"
+  "description": "string",
+  "ratio_config": {
+    "numerator_board_id": "string",
+    "denominator_board_id": "string",
+    "zero_denominator_policy": "NULL",
+    "min_denominator": 0,
+    "min_numerator": 0,
+    "scale": 1000000,
+    "display": "RAW",
+    "decimals": 2,
+    "tie_breaker": "NUMERATOR_DESC_DENOMINATOR_ASC"
+  }
 }
 ```
 
@@ -143,7 +171,8 @@ Raises:
   "is_active": true,
   "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "board_type": "RUN_IDENTITY",
+  "keep_strategy": "FIRST",
   "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
@@ -152,6 +181,20 @@ Raises:
     "string"
   ],
   "description": "string",
+  "ratio_config": {
+    "id": "string",
+    "numerator_board_id": "string",
+    "denominator_board_id": "string",
+    "zero_denominator_policy": "NULL",
+    "min_denominator": 0,
+    "min_numerator": 0,
+    "scale": 0,
+    "display": "RAW",
+    "decimals": 0,
+    "tie_breaker": "NUMERATOR_DESC_DENOMINATOR_ASC",
+    "created_at": "2019-08-24T14:15:22Z",
+    "updated_at": "2019-08-24T14:15:22Z"
+  },
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z",
   "url_short": "string"
@@ -369,10 +412,11 @@ Get a board by ID.
 Args:
     board_id: Unique identifier for the board.
     service: Injected board service dependency.
+    ratio_config_service: Injected ratio config service dependency.
     auth: Authentication context with user info.
 
 Returns:
-    BoardResponse with full board details.
+    BoardResponse with full board details (including ratio_config for RATIO boards).
 
 Raises:
     403: User does not have access to this board's account.
@@ -405,7 +449,8 @@ Raises:
   "is_active": true,
   "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "board_type": "RUN_IDENTITY",
+  "keep_strategy": "FIRST",
   "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
@@ -414,6 +459,20 @@ Raises:
     "string"
   ],
   "description": "string",
+  "ratio_config": {
+    "id": "string",
+    "numerator_board_id": "string",
+    "denominator_board_id": "string",
+    "zero_denominator_policy": "NULL",
+    "min_denominator": 0,
+    "min_numerator": 0,
+    "scale": 0,
+    "display": "RAW",
+    "decimals": 0,
+    "tie_breaker": "NUMERATOR_DESC_DENOMINATOR_ASC",
+    "created_at": "2019-08-24T14:15:22Z",
+    "updated_at": "2019-08-24T14:15:22Z"
+  },
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z",
   "url_short": "string"
@@ -461,7 +520,8 @@ Raises:
       "is_active": true,
       "is_published": true,
       "sort_direction": "ASCENDING",
-      "keep_strategy": "FIRST_ONLY",
+      "board_type": "RUN_IDENTITY",
+      "keep_strategy": "FIRST",
       "created_from_template_id": "string",
       "template_name": "string",
       "starts_at": "2019-08-24T14:15:22Z",
@@ -470,7 +530,18 @@ Raises:
         "string"
       ],
       "description": "string",
-      "deleted": true
+      "deleted": true,
+      "ratio_config": {
+        "numerator_board_id": "string",
+        "denominator_board_id": "string",
+        "zero_denominator_policy": "NULL",
+        "min_denominator": 0,
+        "min_numerator": 0,
+        "scale": 1000000,
+        "display": "RAW",
+        "decimals": 2,
+        "tie_breaker": "NUMERATOR_DESC_DENOMINATOR_ASC"
+      }
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -498,11 +569,13 @@ Raises:
 Update a board.
 
 Supports updating any board field or soft-deleting the board.
+For RATIO boards, ratio_config can be updated to change calculation settings.
 
 Args:
     board_id: Unique identifier for the board.
     request: Board update details (all fields optional).
     service: Injected board service dependency.
+    ratio_config_service: Injected ratio config service dependency.
     auth: Authentication context with user info.
 
 Returns:
@@ -523,7 +596,8 @@ Raises:
   "is_active": true,
   "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "board_type": "RUN_IDENTITY",
+  "keep_strategy": "FIRST",
   "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
@@ -532,7 +606,18 @@ Raises:
     "string"
   ],
   "description": "string",
-  "deleted": true
+  "deleted": true,
+  "ratio_config": {
+    "numerator_board_id": "string",
+    "denominator_board_id": "string",
+    "zero_denominator_policy": "NULL",
+    "min_denominator": 0,
+    "min_numerator": 0,
+    "scale": 1000000,
+    "display": "RAW",
+    "decimals": 2,
+    "tie_breaker": "NUMERATOR_DESC_DENOMINATOR_ASC"
+  }
 }
 ```
 
@@ -564,7 +649,8 @@ Raises:
   "is_active": true,
   "is_published": true,
   "sort_direction": "ASCENDING",
-  "keep_strategy": "FIRST_ONLY",
+  "board_type": "RUN_IDENTITY",
+  "keep_strategy": "FIRST",
   "created_from_template_id": "string",
   "template_name": "string",
   "starts_at": "2019-08-24T14:15:22Z",
@@ -573,6 +659,20 @@ Raises:
     "string"
   ],
   "description": "string",
+  "ratio_config": {
+    "id": "string",
+    "numerator_board_id": "string",
+    "denominator_board_id": "string",
+    "zero_denominator_policy": "NULL",
+    "min_denominator": 0,
+    "min_numerator": 0,
+    "scale": 0,
+    "display": "RAW",
+    "decimals": 0,
+    "tie_breaker": "NUMERATOR_DESC_DENOMINATOR_ASC",
+    "created_at": "2019-08-24T14:15:22Z",
+    "updated_at": "2019-08-24T14:15:22Z"
+  },
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z",
   "url_short": "string"
