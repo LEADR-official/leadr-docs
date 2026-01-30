@@ -2236,16 +2236,14 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
 </div>
 <p><code>GET /v1/client/boards</code></p>
 <p>List boards (Client API).</p>
-<p>Account ID is automatically derived from the authenticated device's account.
+<p>Account ID and game ID are automatically derived from the authenticated client session.
 Clients can optionally filter by various criteria to find specific boards.</p>
 <p>Filtering:
-- Use ?game_id={id} or ?game_slug={slug} to filter boards by game
-- Use ?game_slug={game_slug}&amp;slug={slug} to find a specific board within a game
+- Use ?slug={slug} to find a specific board within the authenticated game
 - Use ?code={code} to filter boards by short code
 - Use ?is_published=true/false to filter by published status
 - Use ?starts_before=<datetime>&amp;starts_after=<datetime> for start date range
-- Use ?ends_before=<datetime>&amp;ends_after=<datetime> for end date range
-- Note: board slug filter requires game_slug parameter</p>
+- Use ?ends_before=<datetime>&amp;ends_after=<datetime> for end date range</p>
 <p>Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
 - Custom sort: Use ?sort=name:asc,created_at:desc
@@ -2253,18 +2251,16 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 - Navigation: Use next_cursor/prev_cursor from response</p>
 <p>Example:
     GET /v1/client/boards?code=WEEKLY-CHALLENGE&amp;limit=50
-    GET /v1/client/boards?game_slug=my-game&amp;is_published=true
-    GET /v1/client/boards?game_slug=my-game&amp;slug=weekly-challenge
+    GET /v1/client/boards?slug=weekly-challenge
+    GET /v1/client/boards?is_published=true
     GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z</p>
 <p>Args:
     auth: Client authentication context with device info.
     service: Injected board service dependency.
     game_service: Injected game service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    game_id: Optional game ID to filter boards by.
     code: Optional short code to filter boards by.
-    game_slug: Optional game slug to filter boards by game (resolves to game_id).
-    slug: Optional board slug to filter by specific board (requires game_slug).
+    slug: Optional board slug to filter by specific board.
     is_published: Optional filter for published status.
     starts_before: Optional filter for boards starting before this time.
     starts_after: Optional filter for boards starting after this time.
@@ -2273,8 +2269,7 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 <p>Returns:
     PaginatedResponse with boards and pagination metadata.</p>
 <p>Raises:
-    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.
-    404: Game or board not found when using slug filters.</p>
+    400: Invalid cursor, sort field, or cursor state mismatch.</p>
 <h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2288,13 +2283,6 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 </thead>
 <tbody>
 <tr>
-<td>game_id</td>
-<td>query</td>
-<td>any</td>
-<td>false</td>
-<td>Filter by game ID</td>
-</tr>
-<tr>
 <td>code</td>
 <td>query</td>
 <td>any</td>
@@ -2302,18 +2290,11 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 <td>Filter by short code</td>
 </tr>
 <tr>
-<td>game_slug</td>
-<td>query</td>
-<td>any</td>
-<td>false</td>
-<td>Filter by game slug</td>
-</tr>
-<tr>
 <td>slug</td>
 <td>query</td>
 <td>any</td>
 <td>false</td>
-<td>Filter by board slug (requires game_slug)</td>
+<td>Filter by board slug</td>
 </tr>
 <tr>
 <td>is_published</td>

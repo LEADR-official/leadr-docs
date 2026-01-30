@@ -8108,20 +8108,18 @@ GET /v1/boards?starts_after=2025-01-01T00:00:00Z&ends_before=2025-12-31T23:59:59
 <li><code>404</code> – Game or board not found when using slug filters.</li>
 </ul>
 <h6 id="leadrboardsapiboard_routeslist_boards_client"><code>leadr.boards.api.board_routes.list_boards_client</code><a class="headerlink" href="#leadrboardsapiboard_routeslist_boards_client" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_boards_client</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">game_service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_after</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_boards_client</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">game_service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">starts_after</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_before</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_after</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>List boards (Client API).</p>
-<p>Account ID is automatically derived from the authenticated device's account.
+<p>Account ID and game ID are automatically derived from the authenticated client session.
 Clients can optionally filter by various criteria to find specific boards.</p>
 <p>Filtering:</p>
 <ul>
-<li>Use ?game_id={id} or ?game_slug={slug} to filter boards by game</li>
-<li>Use ?game_slug={game_slug}&amp;slug={slug} to find a specific board within a game</li>
+<li>Use ?slug={slug} to find a specific board within the authenticated game</li>
 <li>Use ?code={code} to filter boards by short code</li>
 <li>Use ?is_published=true/false to filter by published status</li>
 <li>Use ?starts_before=<datetime>&amp;starts_after=<datetime> for start date range</li>
 <li>Use ?ends_before=<datetime>&amp;ends_after=<datetime> for end date range</li>
-<li>Note: board slug filter requires game_slug parameter</li>
 </ul>
 <p>Pagination:</p>
 <ul>
@@ -8134,8 +8132,8 @@ Clients can optionally filter by various criteria to find specific boards.</p>
 <summary>Example</summary>
 
 GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50
-GET /v1/client/boards?game_slug=my-game&is_published=true
-GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge
+GET /v1/client/boards?slug=weekly-challenge
+GET /v1/client/boards?is_published=true
 GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 
 </details>
@@ -8146,10 +8144,8 @@ GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 <li><strong>service</strong> (<code><a href="./#leadr.boards.services.dependencies.BoardServiceDep">BoardServiceDep</a></code>) – Injected board service dependency.</li>
 <li><strong>game_service</strong> (<code><a href="../games/#leadr.games.services.dependencies.GameServiceDep">GameServiceDep</a></code>) – Injected game service dependency.</li>
 <li><strong>pagination</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a>, <a href="#fastapi.Depends">Depends</a>()]</code>) – Pagination parameters (cursor, limit, sort).</li>
-<li><strong>game_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by game ID')]</code>) – Optional game ID to filter boards by.</li>
 <li><strong>code</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#str">str</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by short code')]</code>) – Optional short code to filter boards by.</li>
-<li><strong>game_slug</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#str">str</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by game slug')]</code>) – Optional game slug to filter boards by game (resolves to game_id).</li>
-<li><strong>slug</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#str">str</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by board slug (requires game_slug)')]</code>) – Optional board slug to filter by specific board (requires game_slug).</li>
+<li><strong>slug</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#str">str</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by board slug')]</code>) – Optional board slug to filter by specific board.</li>
 <li><strong>is_published</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#bool">bool</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter by published status')]</code>) – Optional filter for published status.</li>
 <li><strong>starts_before</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#datetime.datetime">datetime</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter boards starting before this time (ISO 8601)')]</code>) – Optional filter for boards starting before this time.</li>
 <li><strong>starts_after</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#datetime.datetime">datetime</a> | None, <a href="#fastapi.Query">Query</a>(description='Filter boards starting after this time (ISO 8601)')]</code>) – Optional filter for boards starting after this time.</li>
@@ -8162,8 +8158,7 @@ GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
-<li><code>400</code> – Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.</li>
-<li><code>404</code> – Game or board not found when using slug filters.</li>
+<li><code>400</code> – Invalid cursor, sort field, or cursor state mismatch.</li>
 </ul>
 <h6 id="leadrboardsapiboard_routeslogger"><code>leadr.boards.api.board_routes.logger</code><a class="headerlink" href="#leadrboardsapiboard_routeslogger" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>

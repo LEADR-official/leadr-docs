@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.0"
+    "version": "0.8.1"
   },
   "paths": {
     "/v1/accounts": {
@@ -7050,27 +7050,9 @@
           "Scores"
         ],
         "summary": "List Boards Client",
-        "description": "List boards (Client API).\n\nAccount ID is automatically derived from the authenticated device's account.\nClients can optionally filter by various criteria to find specific boards.\n\nFiltering:\n- Use ?game_id={id} or ?game_slug={slug} to filter boards by game\n- Use ?game_slug={game_slug}&slug={slug} to find a specific board within a game\n- Use ?code={code} to filter boards by short code\n- Use ?is_published=true/false to filter by published status\n- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range\n- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range\n- Note: board slug filter requires game_slug parameter\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50\n    GET /v1/client/boards?game_slug=my-game&is_published=true\n    GET /v1/client/boards?game_slug=my-game&slug=weekly-challenge\n    GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z\n\nArgs:\n    auth: Client authentication context with device info.\n    service: Injected board service dependency.\n    game_service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    game_id: Optional game ID to filter boards by.\n    code: Optional short code to filter boards by.\n    game_slug: Optional game slug to filter boards by game (resolves to game_id).\n    slug: Optional board slug to filter by specific board (requires game_slug).\n    is_published: Optional filter for published status.\n    starts_before: Optional filter for boards starting before this time.\n    starts_after: Optional filter for boards starting after this time.\n    ends_before: Optional filter for boards ending before this time.\n    ends_after: Optional filter for boards ending after this time.\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or slug without game_slug.\n    404: Game or board not found when using slug filters.",
+        "description": "List boards (Client API).\n\nAccount ID and game ID are automatically derived from the authenticated client session.\nClients can optionally filter by various criteria to find specific boards.\n\nFiltering:\n- Use ?slug={slug} to find a specific board within the authenticated game\n- Use ?code={code} to filter boards by short code\n- Use ?is_published=true/false to filter by published status\n- Use ?starts_before=<datetime>&starts_after=<datetime> for start date range\n- Use ?ends_before=<datetime>&ends_after=<datetime> for end date range\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=name:asc,created_at:desc\n- Valid sort fields: id, name, slug, short_code, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nExample:\n    GET /v1/client/boards?code=WEEKLY-CHALLENGE&limit=50\n    GET /v1/client/boards?slug=weekly-challenge\n    GET /v1/client/boards?is_published=true\n    GET /v1/client/boards?starts_after=2025-01-01T00:00:00Z\n\nArgs:\n    auth: Client authentication context with device info.\n    service: Injected board service dependency.\n    game_service: Injected game service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    code: Optional short code to filter boards by.\n    slug: Optional board slug to filter by specific board.\n    is_published: Optional filter for published status.\n    starts_before: Optional filter for boards starting before this time.\n    starts_after: Optional filter for boards starting after this time.\n    ends_before: Optional filter for boards ending before this time.\n    ends_after: Optional filter for boards ending after this time.\n\nReturns:\n    PaginatedResponse with boards and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, or cursor state mismatch.",
         "operationId": "list_boards_client_v1_client_boards_get",
         "parameters": [
-          {
-            "name": "game_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "Filter by game ID",
-              "title": "Game Id"
-            },
-            "description": "Filter by game ID"
-          },
           {
             "name": "code",
             "in": "query",
@@ -7090,24 +7072,6 @@
             "description": "Filter by short code"
           },
           {
-            "name": "game_slug",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "Filter by game slug",
-              "title": "Game Slug"
-            },
-            "description": "Filter by game slug"
-          },
-          {
             "name": "slug",
             "in": "query",
             "required": false,
@@ -7120,10 +7084,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Filter by board slug (requires game_slug)",
+              "description": "Filter by board slug",
               "title": "Slug"
             },
-            "description": "Filter by board slug (requires game_slug)"
+            "description": "Filter by board slug"
           },
           {
             "name": "is_published",
