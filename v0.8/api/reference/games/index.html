@@ -3331,7 +3331,7 @@ by coordinating between the domain models and repository layer.</p>
 <li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.games.domain.game.Game">Game</a>]</code> – PaginatedResult containing Game entities matching the filter criteria.</li>
 </ul>
 <h6 id="leadrgamesservicesgame_servicegameservicerepository"># <code>leadr.games.services.game_service.GameService.repository</code><a class="headerlink" href="#leadrgamesservicesgame_servicegameservicerepository" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span> <span class="k">if</span> <span class="n">repository</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrgamesservicesgame_servicegameservicesoft_delete"># <code>leadr.games.services.game_service.GameService.soft_delete</code><a class="headerlink" href="#leadrgamesservicesgame_servicegameservicesoft_delete" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">soft_delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>

@@ -9451,7 +9451,7 @@ also be called explicitly if needed.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the key doesn't exist.</li>
 </ul>
 <h6 id="leadrauthservicesapi_key_serviceapikeyservicerepository"># <code>leadr.auth.services.api_key_service.APIKeyService.repository</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicerepository" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span> <span class="k">if</span> <span class="n">repository</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrauthservicesapi_key_serviceapikeyservicerevoke_api_key"># <code>leadr.auth.services.api_key_service.APIKeyService.revoke_api_key</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicerevoke_api_key" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">revoke_api_key</span><span class="p">(</span><span class="n">key_id</span><span class="p">)</span>
@@ -9811,7 +9811,7 @@ Does NOT create sessions - use IdentityService.start_session() for that.</p>
 </details>
 
 <h6 id="leadrauthservicesdevice_servicedeviceservicerepository"># <code>leadr.auth.services.device_service.DeviceService.repository</code><a class="headerlink" href="#leadrauthservicesdevice_servicedeviceservicerepository" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span> <span class="k">if</span> <span class="n">repository</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrauthservicesdevice_servicedeviceservicesession"># <code>leadr.auth.services.device_service.DeviceService.session</code><a class="headerlink" href="#leadrauthservicesdevice_servicedeviceservicesession" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">session</span> <span class="o">=</span> <span class="n">session</span>
@@ -10222,7 +10222,7 @@ database compromise alone isn't enough to use tokens.</p>
 <li><code><a href="#tuple">tuple</a>[<a href="#str">str</a>, <a href="#str">str</a>, <a href="#int">int</a>] | None</code> – or None if refresh token is invalid</li>
 </ul>
 <h6 id="leadrauthservicesidentity_serviceidentityservicerepository"># <code>leadr.auth.services.identity_service.IdentityService.repository</code><a class="headerlink" href="#leadrauthservicesidentity_serviceidentityservicerepository" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span> <span class="k">if</span> <span class="n">repository</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrauthservicesidentity_serviceidentityservicerevoke_session"># <code>leadr.auth.services.identity_service.IdentityService.revoke_session</code><a class="headerlink" href="#leadrauthservicesidentity_serviceidentityservicerevoke_session" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">revoke_session</span><span class="p">(</span><span class="n">session_id</span><span class="p">)</span>
@@ -10443,7 +10443,7 @@ for audit/debugging purposes.</p>
 <li><code><a href="#list">list</a>[<a href="../common/#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrauthservicesnonce_servicenonceservicerepository"># <code>leadr.auth.services.nonce_service.NonceService.repository</code><a class="headerlink" href="#leadrauthservicesnonce_servicenonceservicerepository" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span> <span class="k">if</span> <span class="n">repository</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrauthservicesnonce_servicenonceservicesoft_delete"># <code>leadr.auth.services.nonce_service.NonceService.soft_delete</code><a class="headerlink" href="#leadrauthservicesnonce_servicenonceservicesoft_delete" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">soft_delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>

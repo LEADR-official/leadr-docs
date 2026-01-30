@@ -6112,7 +6112,7 @@ Provides only create, get, and filter operations.</p>
 <li><a href="./#leadr.common.services.RepositoryT"><strong>RepositoryT</strong></a> –</li>
 </ul>
 <h5 id="leadrcommonservicesbaseservice"><code>leadr.common.services.BaseService</code><a class="headerlink" href="#leadrcommonservicesbaseservice" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="n">BaseService</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">BaseService</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">repository</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Bases: <code><a href="#abc.ABC">ABC</a></code>, <code><a href="#typing.Generic">Generic</a>[<a href="./#leadr.common.services.DomainEntityT">DomainEntityT</a>, <a href="./#leadr.common.services.RepositoryT">RepositoryT</a>]</code></p>
 <p>Abstract base service providing common business logic patterns.</p>
@@ -6144,6 +6144,8 @@ Provides only create, get, and filter operations.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>session</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – SQLAlchemy async session for database operations</li>
+<li><strong>repository</strong> (<code><a href="./#leadr.common.services.RepositoryT">RepositoryT</a> | None</code>) – Optional pre-built repository instance. If provided, skips
+  _create_repository(). Useful for injecting mock repositories in tests.</li>
 </ul>
 <h6 id="leadrcommonservicesbaseservicedelete"><code>leadr.common.services.BaseService.delete</code><a class="headerlink" href="#leadrcommonservicesbaseservicedelete" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
@@ -6195,7 +6197,7 @@ Provides only create, get, and filter operations.</p>
 <li><code><a href="#list">list</a>[<a href="./#leadr.common.services.DomainEntityT">DomainEntityT</a>]</code> – List of domain entities</li>
 </ul>
 <h6 id="leadrcommonservicesbaseservicerepository"><code>leadr.common.services.BaseService.repository</code><a class="headerlink" href="#leadrcommonservicesbaseservicerepository" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span> <span class="k">if</span> <span class="n">repository</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrcommonservicesbaseservicesoft_delete"><code>leadr.common.services.BaseService.soft_delete</code><a class="headerlink" href="#leadrcommonservicesbaseservicesoft_delete" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">soft_delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
