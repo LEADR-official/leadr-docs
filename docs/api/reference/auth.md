@@ -4346,7 +4346,7 @@ also be called explicitly if needed.
 ####### `leadr.auth.services.api_key_service.APIKeyService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.auth.services.api_key_service.APIKeyService.revoke_api_key`
@@ -4801,7 +4801,7 @@ List devices for an account with optional filters and pagination.
 ####### `leadr.auth.services.device_service.DeviceService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.auth.services.device_service.DeviceService.session`
@@ -5310,7 +5310,7 @@ Refresh access token using a valid refresh token.
 ####### `leadr.auth.services.identity_service.IdentityService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.auth.services.identity_service.IdentityService.revoke_session`
@@ -5593,7 +5593,7 @@ List all non-deleted entities.
 ####### `leadr.auth.services.nonce_service.NonceService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ####### `leadr.auth.services.nonce_service.NonceService.soft_delete`

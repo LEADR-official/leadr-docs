@@ -2703,7 +2703,7 @@ Base service abstraction for common business logic patterns.
 ##### `leadr.common.services.BaseService`
 
 ```python
-BaseService(session)
+BaseService(session, repository=None)
 ```
 
 Bases: <code>[ABC](#abc.ABC)</code>, <code>[Generic](#typing.Generic)\[[DomainEntityT](./common.md#leadr.common.services.DomainEntityT), [RepositoryT](./common.md#leadr.common.services.RepositoryT)\]</code>
@@ -2738,6 +2738,8 @@ The service layer sits between API routes and repositories, providing:
 **Parameters:**
 
 - **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session for database operations
+- **repository** (<code>[RepositoryT](./common.md#leadr.common.services.RepositoryT) | None</code>) – Optional pre-built repository instance. If provided, skips
+  \_create_repository(). Useful for injecting mock repositories in tests.
 
 ###### `leadr.common.services.BaseService.delete`
 
@@ -2807,7 +2809,7 @@ List all non-deleted entities.
 ###### `leadr.common.services.BaseService.repository`
 
 ```python
-repository = self._create_repository(session)
+repository = repository if repository is not None else self._create_repository(session)
 ```
 
 ###### `leadr.common.services.BaseService.soft_delete`
