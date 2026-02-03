@@ -4634,6 +4634,10 @@ Board service for managing board operations.
 
 - [**BoardService**](#leadr.boards.services.board_service.BoardService) – Service for managing board lifecycle and operations.
 
+**Attributes:**
+
+- [**logger**](#leadr.boards.services.board_service.logger) –
+
 ###### `leadr.boards.services.board_service.BoardService`
 
 Bases: <code>[BaseService](./common.md#leadr.common.services.BaseService)\[[Board](./boards.md#leadr.boards.domain.board.Board), [BoardRepository](./boards.md#leadr.boards.services.repositories.BoardRepository)\]</code>
@@ -4942,6 +4946,12 @@ clear optional fields.
 
 - <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the board doesn't exist
 
+###### `leadr.boards.services.board_service.logger`
+
+```python
+logger = get_logger(__name__)
+```
+
 ##### `leadr.boards.services.board_state_service`
 
 Board state service for managing materialized ranking state.
@@ -5237,6 +5247,10 @@ BoardTemplate service for managing board template operations.
 
 - [**BoardTemplateService**](#leadr.boards.services.board_template_service.BoardTemplateService) – Service for managing board template lifecycle and operations.
 
+**Attributes:**
+
+- [**logger**](#leadr.boards.services.board_template_service.logger) –
+
 ###### `leadr.boards.services.board_template_service.BoardTemplateService`
 
 Bases: <code>[BaseService](./common.md#leadr.common.services.BaseService)\[[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate), [BoardTemplateRepository](./boards.md#leadr.boards.services.repositories.BoardTemplateRepository)\]</code>
@@ -5515,6 +5529,12 @@ clear optional fields.
 
 - <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the template doesn't exist.
 - <code>[ValueError](#ValueError)</code> – If name_template contains invalid placeholders.
+
+###### `leadr.boards.services.board_template_service.logger`
+
+```python
+logger = get_logger(__name__)
+```
 
 ##### `leadr.boards.services.dependencies`
 
