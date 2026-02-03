@@ -3724,6 +3724,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#leadrregistrationservicesjam_code_servicelogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.registration.services.jam_code_service.logger
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3815,6 +3824,15 @@
   <a href="#leadrregistrationservicesregistration_serviceregistrationserviceverification_service" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.registration.services.registration_service.RegistrationService.verification_service
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrregistrationservicesregistration_servicelogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.registration.services.registration_service.logger
     </span>
   </a>
   
@@ -4196,6 +4214,15 @@
   <a href="#leadrregistrationservicesverification_serviceverificationserviceverify_code" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.registration.services.verification_service.VerificationService.verify_code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrregistrationservicesverification_servicelogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.registration.services.verification_service.logger
     </span>
   </a>
   
@@ -5675,13 +5702,17 @@ resends the invite (invalidates old code, creates new one).</p>
 <div class="highlight"><pre><span></span><code><span class="n">verification_service</span> <span class="o">=</span> <span class="n">verification_service</span>
 </code></pre></div>
 <h6 id="leadrregistrationservicesinvite_servicelogger"><code>leadr.registration.services.invite_service.logger</code><a class="headerlink" href="#leadrregistrationservicesinvite_servicelogger" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrregistrationservicesjam_code_service"><code>leadr.registration.services.jam_code_service</code><a class="headerlink" href="#leadrregistrationservicesjam_code_service" title="Permanent link">&para;</a></h5>
 <p>Jam code service for managing promotional codes.</p>
 <p><strong>Classes:</strong></p>
 <ul>
 <li><a href="#leadr.registration.services.jam_code_service.JamCodeService"><strong>JamCodeService</strong></a> – Service for managing jam codes and redemptions.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.registration.services.jam_code_service.logger"><strong>logger</strong></a> –</li>
 </ul>
 <h6 id="leadrregistrationservicesjam_code_servicejamcodeservice"><code>leadr.registration.services.jam_code_service.JamCodeService</code><a class="headerlink" href="#leadrregistrationservicesjam_code_servicejamcodeservice" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">JamCodeService</span><span class="p">(</span><span class="n">db</span><span class="p">)</span>
@@ -5810,11 +5841,18 @@ resends the invite (invalidates old code, creates new one).</p>
 <ul>
 <li><code><a href="#leadr.registration.domain.jam_code.JamCode">JamCode</a> | None</code> – The jam code if valid, None if invalid or not found.</li>
 </ul>
+<h6 id="leadrregistrationservicesjam_code_servicelogger"><code>leadr.registration.services.jam_code_service.logger</code><a class="headerlink" href="#leadrregistrationservicesjam_code_servicelogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
 <h5 id="leadrregistrationservicesregistration_service"><code>leadr.registration.services.registration_service</code><a class="headerlink" href="#leadrregistrationservicesregistration_service" title="Permanent link">&para;</a></h5>
 <p>Registration service for orchestrating account creation and invite completion flows.</p>
 <p><strong>Classes:</strong></p>
 <ul>
 <li><a href="#leadr.registration.services.registration_service.RegistrationService"><strong>RegistrationService</strong></a> – Service for orchestrating registration and invite completion flows.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.registration.services.registration_service.logger"><strong>logger</strong></a> –</li>
 </ul>
 <h6 id="leadrregistrationservicesregistration_serviceregistrationservice"><code>leadr.registration.services.registration_service.RegistrationService</code><a class="headerlink" href="#leadrregistrationservicesregistration_serviceregistrationservice" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">RegistrationService</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">account_service</span><span class="p">,</span> <span class="n">user_service</span><span class="p">,</span> <span class="n">api_key_service</span><span class="p">,</span> <span class="n">verification_service</span><span class="p">,</span> <span class="n">jam_code_service</span><span class="p">,</span> <span class="n">email_service</span><span class="p">)</span>
@@ -5894,6 +5932,9 @@ is created. Account creation is skipped.</p>
 </code></pre></div>
 <h6 id="leadrregistrationservicesregistration_serviceregistrationserviceverification_service"># <code>leadr.registration.services.registration_service.RegistrationService.verification_service</code><a class="headerlink" href="#leadrregistrationservicesregistration_serviceregistrationserviceverification_service" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">verification_service</span> <span class="o">=</span> <span class="n">verification_service</span>
+</code></pre></div>
+<h6 id="leadrregistrationservicesregistration_servicelogger"><code>leadr.registration.services.registration_service.logger</code><a class="headerlink" href="#leadrregistrationservicesregistration_servicelogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrregistrationservicesrepositories"><code>leadr.registration.services.repositories</code><a class="headerlink" href="#leadrregistrationservicesrepositories" title="Permanent link">&para;</a></h5>
 <p>Registration repository services for verification codes and jam codes.</p>
@@ -6269,6 +6310,10 @@ is created. Account creation is skipped.</p>
 <ul>
 <li><a href="#leadr.registration.services.verification_service.VerificationService"><strong>VerificationService</strong></a> – Service for managing email verification codes.</li>
 </ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.registration.services.verification_service.logger"><strong>logger</strong></a> –</li>
+</ul>
 <h6 id="leadrregistrationservicesverification_serviceverificationservice"><code>leadr.registration.services.verification_service.VerificationService</code><a class="headerlink" href="#leadrregistrationservicesverification_serviceverificationservice" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">VerificationService</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">email_service</span><span class="p">)</span>
 </code></pre></div>
@@ -6374,6 +6419,9 @@ is created. Account creation is skipped.</p>
 <ul>
 <li><code><a href="#ValueError">ValueError</a></code> – If the code is invalid, expired, or already used.</li>
 </ul>
+<h6 id="leadrregistrationservicesverification_servicelogger"><code>leadr.registration.services.verification_service.logger</code><a class="headerlink" href="#leadrregistrationservicesverification_servicelogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
 
 
 

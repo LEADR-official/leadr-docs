@@ -6274,6 +6274,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#leadrboardsservicesboard_servicelogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.boards.services.board_service.logger
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6566,6 +6575,15 @@
   <a href="#leadrboardsservicesboard_template_serviceboardtemplateserviceupdate_board_template" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.services.board_template_service.BoardTemplateService.update_board_template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrboardsservicesboard_template_servicelogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.boards.services.board_template_service.logger
     </span>
   </a>
   
@@ -10403,6 +10421,10 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <ul>
 <li><a href="#leadr.boards.services.board_service.BoardService"><strong>BoardService</strong></a> – Service for managing board lifecycle and operations.</li>
 </ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.boards.services.board_service.logger"><strong>logger</strong></a> –</li>
+</ul>
 <h6 id="leadrboardsservicesboard_serviceboardservice"><code>leadr.boards.services.board_service.BoardService</code><a class="headerlink" href="#leadrboardsservicesboard_serviceboardservice" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="../common/#leadr.common.services.BaseService">BaseService</a>[<a href="./#leadr.boards.domain.board.Board">Board</a>, <a href="./#leadr.boards.services.repositories.BoardRepository">BoardRepository</a>]</code></p>
 <p>Service for managing board lifecycle and operations.</p>
@@ -10653,6 +10675,9 @@ clear optional fields.</p>
 <ul>
 <li><code><a href="#EntityNotFoundError">EntityNotFoundError</a></code> – If the board doesn't exist</li>
 </ul>
+<h6 id="leadrboardsservicesboard_servicelogger"><code>leadr.boards.services.board_service.logger</code><a class="headerlink" href="#leadrboardsservicesboard_servicelogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
 <h5 id="leadrboardsservicesboard_state_service"><code>leadr.boards.services.board_state_service</code><a class="headerlink" href="#leadrboardsservicesboard_state_service" title="Permanent link">&para;</a></h5>
 <p>Board state service for managing materialized ranking state.</p>
 <p><strong>Classes:</strong></p>
@@ -10877,6 +10902,10 @@ from each template, and updates the template's next_run_at.</p>
 <p><strong>Classes:</strong></p>
 <ul>
 <li><a href="#leadr.boards.services.board_template_service.BoardTemplateService"><strong>BoardTemplateService</strong></a> – Service for managing board template lifecycle and operations.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.boards.services.board_template_service.logger"><strong>logger</strong></a> –</li>
 </ul>
 <h6 id="leadrboardsservicesboard_template_serviceboardtemplateservice"><code>leadr.boards.services.board_template_service.BoardTemplateService</code><a class="headerlink" href="#leadrboardsservicesboard_template_serviceboardtemplateservice" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="../common/#leadr.common.services.BaseService">BaseService</a>[<a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a>, <a href="./#leadr.boards.services.repositories.BoardTemplateRepository">BoardTemplateRepository</a>]</code></p>
@@ -11103,6 +11132,9 @@ clear optional fields.</p>
 <li><code><a href="#EntityNotFoundError">EntityNotFoundError</a></code> – If the template doesn't exist.</li>
 <li><code><a href="#ValueError">ValueError</a></code> – If name_template contains invalid placeholders.</li>
 </ul>
+<h6 id="leadrboardsservicesboard_template_servicelogger"><code>leadr.boards.services.board_template_service.logger</code><a class="headerlink" href="#leadrboardsservicesboard_template_servicelogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
 <h5 id="leadrboardsservicesdependencies"><code>leadr.boards.services.dependencies</code><a class="headerlink" href="#leadrboardsservicesdependencies" title="Permanent link">&para;</a></h5>
 <p>Board service dependency injection.</p>
 <p><strong>Functions:</strong></p>

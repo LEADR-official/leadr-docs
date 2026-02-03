@@ -2491,6 +2491,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#leadrgamesservicesgame_servicelogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.games.services.game_service.logger
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3186,6 +3195,10 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <ul>
 <li><a href="#leadr.games.services.game_service.GameService"><strong>GameService</strong></a> – Service for managing game lifecycle and operations.</li>
 </ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.games.services.game_service.logger"><strong>logger</strong></a> –</li>
+</ul>
 <h6 id="leadrgamesservicesgame_servicegameservice"><code>leadr.games.services.game_service.GameService</code><a class="headerlink" href="#leadrgamesservicesgame_servicegameservice" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="../common/#leadr.common.services.BaseService">BaseService</a>[<a href="./#leadr.games.domain.game.Game">Game</a>, <a href="./#leadr.games.services.repositories.GameRepository">GameRepository</a>]</code></p>
 <p>Service for managing game lifecycle and operations.</p>
@@ -3370,6 +3383,9 @@ clear optional fields.</p>
 <ul>
 <li><code><a href="#EntityNotFoundError">EntityNotFoundError</a></code> – If the game doesn't exist</li>
 </ul>
+<h6 id="leadrgamesservicesgame_servicelogger"><code>leadr.games.services.game_service.logger</code><a class="headerlink" href="#leadrgamesservicesgame_servicelogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
 <h5 id="leadrgamesservicesrepositories"><code>leadr.games.services.repositories</code><a class="headerlink" href="#leadrgamesservicesrepositories" title="Permanent link">&para;</a></h5>
 <p>Game repository services.</p>
 <p><strong>Classes:</strong></p>
