@@ -832,6 +832,10 @@ Game service for managing game operations.
 
 - [**GameService**](#leadr.games.services.game_service.GameService) – Service for managing game lifecycle and operations.
 
+**Attributes:**
+
+- [**logger**](#leadr.games.services.game_service.logger) –
+
 ###### `leadr.games.services.game_service.GameService`
 
 Bases: <code>[BaseService](./common.md#leadr.common.services.BaseService)\[[Game](./games.md#leadr.games.domain.game.Game), [GameRepository](./games.md#leadr.games.services.repositories.GameRepository)\]</code>
@@ -1064,6 +1068,12 @@ clear optional fields.
 **Raises:**
 
 - <code>[EntityNotFoundError](#EntityNotFoundError)</code> – If the game doesn't exist
+
+###### `leadr.games.services.game_service.logger`
+
+```python
+logger = get_logger(__name__)
+```
 
 ##### `leadr.games.services.repositories`
 

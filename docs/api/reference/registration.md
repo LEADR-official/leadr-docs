@@ -2177,7 +2177,7 @@ verification_service = verification_service
 ###### `leadr.registration.services.invite_service.logger`
 
 ```python
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 ```
 
 ##### `leadr.registration.services.jam_code_service`
@@ -2187,6 +2187,10 @@ Jam code service for managing promotional codes.
 **Classes:**
 
 - [**JamCodeService**](#leadr.registration.services.jam_code_service.JamCodeService) – Service for managing jam codes and redemptions.
+
+**Attributes:**
+
+- [**logger**](#leadr.registration.services.jam_code_service.logger) –
 
 ###### `leadr.registration.services.jam_code_service.JamCodeService`
 
@@ -2352,6 +2356,12 @@ Validate a jam code and return it if valid.
 
 - <code>[JamCode](#leadr.registration.domain.jam_code.JamCode) | None</code> – The jam code if valid, None if invalid or not found.
 
+###### `leadr.registration.services.jam_code_service.logger`
+
+```python
+logger = get_logger(__name__)
+```
+
 ##### `leadr.registration.services.registration_service`
 
 Registration service for orchestrating account creation and invite completion flows.
@@ -2359,6 +2369,10 @@ Registration service for orchestrating account creation and invite completion fl
 **Classes:**
 
 - [**RegistrationService**](#leadr.registration.services.registration_service.RegistrationService) – Service for orchestrating registration and invite completion flows.
+
+**Attributes:**
+
+- [**logger**](#leadr.registration.services.registration_service.logger) –
 
 ###### `leadr.registration.services.registration_service.RegistrationService`
 
@@ -2468,6 +2482,12 @@ user_service = user_service
 
 ```python
 verification_service = verification_service
+```
+
+###### `leadr.registration.services.registration_service.logger`
+
+```python
+logger = get_logger(__name__)
 ```
 
 ##### `leadr.registration.services.repositories`
@@ -2960,6 +2980,10 @@ Verification service for generating and validating email verification codes.
 
 - [**VerificationService**](#leadr.registration.services.verification_service.VerificationService) – Service for managing email verification codes.
 
+**Attributes:**
+
+- [**logger**](#leadr.registration.services.verification_service.logger) –
+
 ###### `leadr.registration.services.verification_service.VerificationService`
 
 ```python
@@ -3099,3 +3123,9 @@ Verify a code and return a short-lived verification token with its type.
 **Raises:**
 
 - <code>[ValueError](#ValueError)</code> – If the code is invalid, expired, or already used.
+
+###### `leadr.registration.services.verification_service.logger`
+
+```python
+logger = get_logger(__name__)
+```
