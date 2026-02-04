@@ -153,6 +153,7 @@ Game API routes.
 
 **Attributes:**
 
+- [**logger**](#leadr.games.api.game_routes.logger) –
 - [**router**](#leadr.games.api.game_routes.router) –
 
 ###### `leadr.games.api.game_routes.create_game`
@@ -259,6 +260,12 @@ GET /v1/games?account_id=acc_123&limit=50&sort=name:asc
 - <code>400</code> – Invalid cursor, sort field, or cursor state mismatch.
 - <code>403</code> – User does not have access to the specified account.
 - <code>404</code> – Game not found when filtering by slug.
+
+###### `leadr.games.api.game_routes.logger`
+
+```python
+logger = get_logger(__name__)
+```
 
 ###### `leadr.games.api.game_routes.router`
 
@@ -1185,7 +1192,7 @@ Get an entity by its ID.
 ####### `leadr.games.services.repositories.GameRepository.get_by_slug`
 
 ```python
-get_by_slug(slug)
+get_by_slug(slug, include_deleted=False)
 ```
 
 Get game by slug (globally unique lookup).
@@ -1193,6 +1200,8 @@ Get game by slug (globally unique lookup).
 **Parameters:**
 
 - **slug** (<code>[str](#str)</code>) – The game slug to search for.
+- **include_deleted** (<code>[bool](#bool)</code>) – If True, include soft-deleted games. Use this for
+  uniqueness checks since the slug constraint is global.
 
 **Returns:**
 

@@ -2,8 +2,8 @@
 
 A practical guide for integrating directly with the LEADR REST API. For in-depth concepts see:
 
-- [Client Authentication Guide](/api/client-auth).
-- [API Reference](/api/reference).
+- [Client Authentication Guide](api/client_auth.md).
+- [API Reference](api/reference/index.md).
 
 ## Base URL
 
