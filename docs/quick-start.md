@@ -1,59 +1,128 @@
 # Quick Start
 
-Get a LEADR account and create your first leaderboard in under 5 minutes. By the end of this guide, you'll have a working leaderboard ready for your game.
+Get your first leaderboard up and running in under 5 minutes. This guide walks you through each step, from installing the LEADR app to adding leaderboards to your game.
 
-## Download the LEADR App
+!!! tip "Need help along the way?"
 
-Install the LEADR terminal UI tool:
+    Each step below links to a detailed guide if you want to go deeper.
 
-#### Quick Install (macOS/Windows)
+    If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
 
-```bash
-curl -sSL https://leadr.gg/download/install.sh | bash
-```
+**The journey:**
 
-#### Windows / Manual Download
+1. [Install the LEADR App](#step-1-install-the-leadr-app)
+2. [Register an account](#step-2-register-an-account)
+3. [Create a game](#step-3-create-a-game)
+4. [Create a board](#step-4-create-a-board)
+5. [Add LEADR to your game](#step-5-add-leadr-to-your-game)
 
-1. Download binaries from the [Releases page](https://github.com/LEADR-official/leadr-releases/releases).
-2. Save the .exe file to your folder of choice
-3. Double click the .exe
+---
 
-## Register a New Account
+## Step 1: Install the LEADR App
 
-...
+The LEADR App is a terminal UI application that lets you manage your account, games, boards and more from your desktop.
 
-This interactive command prompts you for your email, display name, and studio or team name. Your API key is automatically saved to your local configuration.
+=== "Windows"
 
-!!! warning "Keep Your API Key Secret"
+    Download the latest version from [https://leadr.gg/download/windows](https://leadr.gg/download/windows) and double-click the `.exe` to install.
 
-    Your API key is for your personally to access LEADR admin features for your account.
+=== "macOS / Linux"
 
-    NEVER put any API key directly in your code - use the CLI, environment variables, or other secure methods.
+    ```bash
+    curl -sSL https://leadr.gg/download/install.sh | bash
+    ```
 
-    We'll never ask you for it, and you shouldn't give it to strangers on the internet.
+=== "Manual Install"
 
-    Keep it secret. Keep it (your game) safe.
+    Download binaries directly from the [Releases page](https://github.com/LEADR-official/leadr-releases/releases).
 
+For troubleshooting and system requirements, see the [full install guide](guides/install.md).
 
-## Create a Game
+## Step 2: Register an Account
 
-...
+Open the LEADR App and select **Register** from the main menu (or use the "r" keyboard shortcut).
 
-## Create a Board
+First you'll input your email which we'll verify by sending you an email with a code.
 
-...
+Then input your display name and studio or team name.
 
-## Add LEADR to Your Game
+![Registering a LEADR account](assets/images/register.gif)
 
-Native SDKs for **Godot**, **Unity**, **C#** and more game engines are in development. These will provide APIs that feel natural in your development environment.
+Your API key is automatically generated and saved to your local configuration.
 
-Check the [SDKs page](sdks/index.md) for the latest availability, or [join the waitlist](https://docs.google.com/forms/d/e/1FAIpQLSeXN6UtTCgyoO7n07ANeQ0XBsgkz1rB9i7ZBGjXgSN_Er7Ebg/viewform?usp=sharing&ouid=101801924018683932467) for early access.
+!!! warning "Keep your API key secret"
 
-Need to integrate now? The [HTTP API](api/client-api.md) is available for direct integration from any platform.
+    Your API key grants admin access to your LEADR account. Never put it in your game code -- game clients and SDKs use a separate API and a different authentication method.
+
+    We'll never ask you for it, and you should never share it online or give it to anyone, even teammates.
+
+    Keep it secret, keep it (your game) safe.
+
+For more details, see the [registration guide](guides/register.md).
+
+## Step 3: Create a Game
+
+A game in LEADR groups all your boards, scores, and settings together. Create one for each game you ship.
+
+In the LEADR App, navigate to **Games** ("g" keyboard shortcut), and then press "n" to add a new game.
+
+You'll be prompted for a name and other optional information.
+
+![Creating a game](assets/images/create-game.gif)
+
+See the [create a game guide](guides/create-game.md) for advanced options.
+
+## Step 4: Create a Board
+
+Boards are the individual leaderboards your game can use. You can have as many boards as you like per game.
+
+In the LEADR App, navigate to **Games > [your game] > Boards**, and then press "n" to add a new board.
+
+Your board will need a name, a board type, sort direction (is higher or lower better?), and other configuration options.
+
+![Creating a board](assets/images/create-board.gif)
+
+!!! info "Boards can do a lot more"
+
+     Fixed start & end dates, seasonal resets, counter boards, win-lose percentages, specific units, custom icons and more -- see the [Advanced Boards](guides/advanced-boards.md) and [Board Templates](guides/board-templates.md) guides to explore what's possible.
+
+For a full walkthrough, see the [create a board guide](guides/create-board.md).
+
+## Step 5: Add LEADR to Your Game
+
+Now your LEADR account is ready, you just need to connect your game.
+
+Pick your engine or platform below to get started.
+
+=== "Godot"
+
+    Install the LEADR Godot SDK to submit scores and query boards using our native GDScript plugin asset. No raw HTTP needed.
+
+    [Get started with the Godot SDK](sdks/godot/index.md){ .md-button }
+
+=== "Unity"
+
+    Import the LEADR Unity SDK to submit scores and query boards using our C# package. No raw HTTP needed.
+
+    [Get started with the Unity SDK](sdks/unity/index.md){ .md-button }
+
+=== "Other / REST API"
+
+    Using a different engine, language, or custom setup? The REST API works from anything that speaks HTTP.
+
+    [Client API Reference](api/client-api.md){ .md-button }
+
+Looking for another engine? For a full list of available and planned SDKs, see the [SDKs overview](sdks/index.md).
 
 ## Next Steps
 
-- **[Invite Teammates](guides/invites.md)** - Detailed CLI walkthrough with all options
-- **[Features](features.md)** - Explore what LEADR can do
-- **[SDKs](sdks/index.md)** - Game engine integrations
-- **[Discord](https://discord.gg/RMUukcAxSZ)** - Get help from the community
+You've got a working leaderboard. Here's where to go from here:
+
+- **[Invite Teammates](guides/invites.md):** Add collaborators to your LEADR account
+- **[Go-Live Checklist](guides/go-live-checklist.md):** Everything to check before your game ships
+- **[Features](features.md):** Anti-cheat, web views, seasonal boards, and more
+- **[SDKs](sdks/index.md):** All available game engine integrations
+
+!!! info "Join the community"
+
+    Got questions, feedback, or just want to chat about game dev? Join the [LEADR Discord](https://discord.gg/RMUukcAxSZ). We'd love to hear what you're building.
