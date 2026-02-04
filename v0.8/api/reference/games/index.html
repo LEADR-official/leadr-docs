@@ -1772,6 +1772,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrgamesapigame_routeslogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.games.api.game_routes.logger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrgamesapigame_routesrouter" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.games.api.game_routes.router
@@ -2731,6 +2740,7 @@ within the same account.</p>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
+<li><a href="#leadr.games.api.game_routes.logger"><strong>logger</strong></a> –</li>
 <li><a href="#leadr.games.api.game_routes.router"><strong>router</strong></a> –</li>
 </ul>
 <h6 id="leadrgamesapigame_routescreate_game"><code>leadr.games.api.game_routes.create_game</code><a class="headerlink" href="#leadrgamesapigame_routescreate_game" title="Permanent link">&para;</a></h6>
@@ -2822,6 +2832,9 @@ GET /v1/games?account_id=acc_123&limit=50&sort=name:asc
 <li><code>403</code> – User does not have access to the specified account.</li>
 <li><code>404</code> – Game not found when filtering by slug.</li>
 </ul>
+<h6 id="leadrgamesapigame_routeslogger"><code>leadr.games.api.game_routes.logger</code><a class="headerlink" href="#leadrgamesapigame_routeslogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
 <h6 id="leadrgamesapigame_routesrouter"><code>leadr.games.api.game_routes.router</code><a class="headerlink" href="#leadrgamesapigame_routesrouter" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
 </code></pre></div>
@@ -3470,12 +3483,14 @@ clear optional fields.</p>
 <li><code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a> | None</code> – Domain entity if found, None otherwise</li>
 </ul>
 <h6 id="leadrgamesservicesrepositoriesgamerepositoryget_by_slug"># <code>leadr.games.services.repositories.GameRepository.get_by_slug</code><a class="headerlink" href="#leadrgamesservicesrepositoriesgamerepositoryget_by_slug" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">get_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">get_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p>Get game by slug (globally unique lookup).</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>slug</strong> (<code><a href="#str">str</a></code>) – The game slug to search for.</li>
+<li><strong>include_deleted</strong> (<code><a href="#bool">bool</a></code>) – If True, include soft-deleted games. Use this for
+  uniqueness checks since the slug constraint is global.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
