@@ -4143,22 +4143,23 @@ Utilities for parsing PostgreSQL interval syntax.
 
 **Functions:**
 
-- [**parse_interval_to_timedelta**](#leadr.boards.domain.interval_parser.parse_interval_to_timedelta) – Parse PostgreSQL interval syntax to Python timedelta.
+- [**parse_interval**](#leadr.boards.domain.interval_parser.parse_interval) – Parse PostgreSQL interval syntax to Python relativedelta.
 
-###### `leadr.boards.domain.interval_parser.parse_interval_to_timedelta`
+###### `leadr.boards.domain.interval_parser.parse_interval`
 
 ```python
-parse_interval_to_timedelta(interval_string)
+parse_interval(interval_string)
 ```
 
-Parse PostgreSQL interval syntax to Python timedelta.
+Parse PostgreSQL interval syntax to Python relativedelta.
 
 Supports formats like:
 
 - "7 days"
 - "1 week"
+- "1 month"
+- "1 year"
 - "2 hours"
-- "30 minutes"
 
 **Parameters:**
 
@@ -4166,7 +4167,7 @@ Supports formats like:
 
 **Returns:**
 
-- <code>[timedelta](#datetime.timedelta)</code> – Equivalent Python timedelta.
+- <code>[relativedelta](#dateutil.relativedelta.relativedelta)</code> – Equivalent Python relativedelta.
 
 **Raises:**
 
@@ -4175,10 +4176,10 @@ Supports formats like:
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
-> > > parse_interval_to_timedelta("7 days")
-> > > timedelta(days=7)
-> > > parse_interval_to_timedelta("1 week")
-> > > timedelta(weeks=1)
+> > > parse_interval("7 days")
+> > > relativedelta(days=7)
+> > > parse_interval("1 month")
+> > > relativedelta(months=1)
 
 </details>
 
