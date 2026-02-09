@@ -5765,9 +5765,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#leadrboardsdomaininterval_parserparse_interval_to_timedelta" class="md-nav__link">
+  <a href="#leadrboardsdomaininterval_parserparse_interval" class="md-nav__link">
     <span class="md-ellipsis">
-      leadr.boards.domain.interval_parser.parse_interval_to_timedelta
+      leadr.boards.domain.interval_parser.parse_interval
     </span>
   </a>
   
@@ -10063,18 +10063,19 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <p>Utilities for parsing PostgreSQL interval syntax.</p>
 <p><strong>Functions:</strong></p>
 <ul>
-<li><a href="#leadr.boards.domain.interval_parser.parse_interval_to_timedelta"><strong>parse_interval_to_timedelta</strong></a> – Parse PostgreSQL interval syntax to Python timedelta.</li>
+<li><a href="#leadr.boards.domain.interval_parser.parse_interval"><strong>parse_interval</strong></a> – Parse PostgreSQL interval syntax to Python relativedelta.</li>
 </ul>
-<h6 id="leadrboardsdomaininterval_parserparse_interval_to_timedelta"><code>leadr.boards.domain.interval_parser.parse_interval_to_timedelta</code><a class="headerlink" href="#leadrboardsdomaininterval_parserparse_interval_to_timedelta" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">parse_interval_to_timedelta</span><span class="p">(</span><span class="n">interval_string</span><span class="p">)</span>
+<h6 id="leadrboardsdomaininterval_parserparse_interval"><code>leadr.boards.domain.interval_parser.parse_interval</code><a class="headerlink" href="#leadrboardsdomaininterval_parserparse_interval" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">parse_interval</span><span class="p">(</span><span class="n">interval_string</span><span class="p">)</span>
 </code></pre></div>
-<p>Parse PostgreSQL interval syntax to Python timedelta.</p>
+<p>Parse PostgreSQL interval syntax to Python relativedelta.</p>
 <p>Supports formats like:</p>
 <ul>
 <li>"7 days"</li>
 <li>"1 week"</li>
+<li>"1 month"</li>
+<li>"1 year"</li>
 <li>"2 hours"</li>
-<li>"30 minutes"</li>
 </ul>
 <p><strong>Parameters:</strong></p>
 <ul>
@@ -10082,7 +10083,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#datetime.timedelta">timedelta</a></code> – Equivalent Python timedelta.</li>
+<li><code><a href="#dateutil.relativedelta.relativedelta">relativedelta</a></code> – Equivalent Python relativedelta.</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
@@ -10091,10 +10092,10 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
-> > > parse_interval_to_timedelta("7 days")
-> > > timedelta(days=7)
-> > > parse_interval_to_timedelta("1 week")
-> > > timedelta(weeks=1)
+> > > parse_interval("7 days")
+> > > relativedelta(days=7)
+> > > parse_interval("1 month")
+> > > relativedelta(months=1)
 
 </details>
 
