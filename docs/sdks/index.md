@@ -10,11 +10,11 @@ LEADR's SDKs help you quickly and easily get leaderboards in your game using too
 
 - **[Quick Start Guide](../quick-start.md)** - Integration walkthrough
 
-## SDKs
+## Supported Game Engines
 
 - **[Godot](https://github.com/LEADR-official/leadr-sdk-godot)** - GDScript SDK for Godot Engine
 - **[Unity](https://github.com/LEADR-official/leadr-sdk-unity/)** - C# SDK for Unity Engine
-- **[C#](c-sharp/)** - Standalone .NET library (Coming Soon)
+- **[C#](c-sharp/index.md)** - Standalone .NET library (Coming Soon)
 
 ## Planned SDKs
 
@@ -31,4 +31,4 @@ Want to see an SDK for your platform? Let us know on [Discord](https://discord.g
 
 ## Advanced
 
-- **[Client Authentication](../api/client-auth)** - A deep dive on how LEADR's secure client authentication works
+- **[Client Authentication](../api/client-auth.md)** - A deep dive on how LEADR's secure client authentication works

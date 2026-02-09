@@ -14,14 +14,16 @@ This repository aggregates documentation from multiple upstream repositories (AP
 
 ```
 docs/
-├── api/                           # API documentation
-│   ├── .api-version               # Version trigger file (e.g., "v1.2.3")
+├── guides/                        # Curated onboarding guides
+├── reference/                     # Curated key reference docs
+├── api/                           # Mostly generated API documentation
+│   ├── .api-version               # Docs version trigger file (e.g., "v1.2.3")
 │   ├── openapi.json               # OpenAPI specification
 │   ├── http-api/                  # HTTP API guides
 │   └── reference/                 # Generated API reference
 ├── sdks/                          # SDK documentation
 │   ├── sdk-versions.json          # SDK-API compatibility matrix
-│   └── {language}/                # Per-language SDK docs
+│   └── {engine}/                  # Per-language SDK docs
 │       ├── sdk.meta.json          # SDK metadata (version, commit, generator)
 │       ├── {version}/             # Versioned SDK documentation
 │       │   ├── index.md

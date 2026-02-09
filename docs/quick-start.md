@@ -84,7 +84,7 @@ Your board will need a name, a board type, sort direction (is higher or lower be
 
 !!! info "Boards can do a lot more"
 
-     Fixed start & end dates, seasonal resets, counter boards, win-lose percentages, specific units, custom icons and more -- see the [Advanced Boards](guides/advanced-boards.md) and [Board Templates](guides/board-templates.md) guides to explore what's possible.
+     Fixed start & end dates, seasonal resets, counter boards, win-lose percentages, specific units, custom icons and more -- see the [Advanced Boards](guides/advanced-boards.md) and [Board Templates](./reference/board-templates.md) guides to explore what's possible.
 
 For a full walkthrough, see the [create a board guide](guides/create-board.md).
 
@@ -118,10 +118,10 @@ Looking for another engine? For a full list of available and planned SDKs, see t
 
 You've got a working leaderboard. Here's where to go from here:
 
-- **[Invite Teammates](guides/invites.md):** Add collaborators to your LEADR account
-- **[Go-Live Checklist](guides/go-live-checklist.md):** Everything to check before your game ships
-- **[Features](features.md):** Anti-cheat, web views, seasonal boards, and more
-- **[SDKs](sdks/index.md):** All available game engine integrations
+- **[Invite Teammates](guides/invites.md)** - Add collaborators to your LEADR account
+- **[Advanced Boards](guides/advanced-boards.md)** - Learn how to create boards for seasons, tournaments, win-lose percentages, play time, speedruns and more
+- **[See All Features](features.md)** - Review scores, anti-cheat system, web views, and more
+- **[Go-Live Checklist](guides/go-live-checklist.md)** - Everything to check before your game ships
 
 !!! info "Join the community"
 

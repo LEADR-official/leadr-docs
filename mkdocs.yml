@@ -57,24 +57,21 @@ nav:
       - Guides: 
           - Install the Admin App: guides/install.md
           - Register an Account: guides/register.md
-          - Get the SDK: guides/get-sdk.md
           - Create Your First Game: guides/create-game.md
           - Create Your First Board: guides/create-board.md
           - Advanced Boards: guides/advanced-boards.md
-          - Board Templates: guides/board-templates.md
           - Inviting Teammates: guides/invites.md 
-          - Use LEADR in Your Game: guides/use-leadr-sdk.md
+          - Join a Team: guides/join.md 
+          - Get the SDK: guides/get-sdk.md
+          - Use LEADR in Your Game: guides/use-sdk.md
           - Go Live Checklist: guides/go-live-checklist.md
           - View Your Boards Online: guides/board-pages.md
-          - Anti-Cheat System: guides/anti-cheat.md
           - Review Flagged Scores: guides/review-score-flags.md
       - Reference:
           - Games: reference/games.md
           - Boards: reference/boards.md
-          - Board Temaplates: reference/board-templates.md
-          - Scores: reference/scores.md
-          - Score Flags: reference/score-flags.md
-          - Invites: reference/invites.md
+          - Board Templates: reference/board-templates.md
+          - Anti-Cheat System: reference/anti-cheat.md
   - SDKs:
       - Overview: sdks/index.md
       - Unity: sdks/unity/index.md

@@ -1,23 +1,22 @@
 # Roadmap
 
-LEADR is actively evolving based on feedback from the indie game development community and adding great new features as fast as we can. Here's what we're working on next.
+LEADR is actively evolving based on feedback from the indie game development community and adding great new features as fast as we can. All features get added to [LEADR's open-source core](https://github.com/LEADR-official/leadr-oss). Here's some of the features we're working on next.
 
 ## Coming Soon
 
 ### Data Export
-
 If you're needs change, or you just want to do some offline analysis, you can export your full LEADR data at any time.
 
 ### Ghosts & Replays
-
 Store and share gameplay recordings directly through LEADR. Players can download ghosts to race against top performers, study high-level strategies, or share their own achievements. Perfect for speedrunning communities, competitive multiplayer, or any game where "show, don't tell" matters. Store replay metadata alongside scores and retrieve them when needed.
 
-### Invite-Only Leaderboards
+### Advanced Anti-Cheat
+Added levels of sophisticated cheat detection to further improve LEADR's ability to keep your leaderboards clean and your game fun.
 
+### Invite-Only Leaderboards
 Create private boards for closed beta testing, streamer subscriber competitions, or exclusive community events. Control exactly who can submit scores while keeping the competitive experience intact. Perfect for pre-launch testing or building VIP experiences for your most dedicated players.
 
 ### Score Analytics
-
 Understand how players interact with your game through score distribution analytics. See where players struggle, identify difficulty spikes, and make data-driven decisions about balancing and progression. Analytics help you tune difficulty curves, adjust scoring systems, and build better player experiences based on real gameplay data.
 
 ### Platform Sync
@@ -26,8 +25,14 @@ Import and synchronize with existing Steam Leaderboards and Unity Gaming Service
 ### User-Generated Content Galleries
 Let players share and discover community creations. Upload custom levels, character designs, mods, or any user-generated content alongside leaderboard scores. Build browsable galleries with ratings, comments, and featured content. Turn your game into a creative community, not just a competitive one.
 
-### Board Bounties
-Trigger automated prizes and rewards when players achieve specific milestones. Top the global leaderboard, beat a developer ghost time, or reach a target score - and automatically award Steam keys, Discord roles, in-game items, or custom webhooks. Perfect for community events, launch promotions, and keeping competition exciting.
+### Web Page Theming and Customisation
+Show off your leaderboards with your game's style and branding. Remove the LEADR branding, change fonts and colours, and even use your own custom domain.
+
+
+## More SDKs
+
+In parallel to core LEADR functionality, we will continue to improve the existing SDKs and develop new SDKs for other game engines. Check out which game engines there are [current or planned SDKs](sdks/index.md#supported-game-engines) for.
+
 
 ---
 

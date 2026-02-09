@@ -1,4 +1,4 @@
-# Create a Board
+# Use the LEADR SDK
 
 {One/two sentence description introducing the feature, purpose of guide and steps that will be followed}
 
@@ -9,15 +9,15 @@
   - [Register](./register.md)
   - [Join a team](./join.md)
 - [Create a game](./create-game.md)
+- [Create a board](./create-board.md)
+- [Get the SDK for your game engine](./get-sdk.md)
 
-{Guide content - including docs/assets/create-board.gif}
-
-See the [Board docs](../reference/boards.md) for the full reference...
+{Guide content}
 
 ## What's Next
 
-- **[Get your SDK](./get-sdk.md)** - Get and configure the LEADR SDK for your game engine
 - **[Advanced Boards](./advanced-boards.md)** - Learn how to create boards for seasons, tournaments, win-lose percentages, play time, speedruns and more
+- **[Go live checklist](./go-live-checklist.md)** - Make sure your game is ready to ship
 
 ## Need Help?
 
