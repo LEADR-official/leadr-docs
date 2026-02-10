@@ -13,13 +13,13 @@
         <meta name="author" content="LEADR">
       
       
-        <link rel="canonical" href="https://docs.leadr.gg/v0.8/guides/anti-cheat/">
+        <link rel="canonical" href="https://docs.leadr.gg/v0.8/reference/anti-cheat/">
       
       
-        <link rel="prev" href="../board-pages/">
+        <link rel="prev" href="../board-templates/">
       
       
-        <link rel="next" href="../review-score-flags/">
+        <link rel="next" href="../../sdks/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -31,7 +31,7 @@
 <meta property="og:site_name" content="LEADR Docs">
 <meta property="og:title" content="Anti-Cheat System | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
-<meta property="og:url" content="https://docs.leadr.gg/v0.8/guides/anti-cheat/">
+<meta property="og:url" content="https://docs.leadr.gg/v0.8/reference/anti-cheat/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.8/assets/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -132,7 +132,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#anti-cheat" class="md-skip">
+        <a href="#anti-cheat-system" class="md-skip">
           Skip to content
         </a>
       
@@ -411,8 +411,6 @@
                 
   
   
-    
-  
   
   
     
@@ -422,11 +420,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
         
           
           <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
@@ -442,7 +440,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -456,7 +454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../install/" class="md-nav__link">
+      <a href="../../guides/install/" class="md-nav__link">
         
   
   
@@ -479,7 +477,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../register/" class="md-nav__link">
+      <a href="../../guides/register/" class="md-nav__link">
         
   
   
@@ -502,30 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../get-sdk/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Get the SDK
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../create-game/" class="md-nav__link">
+      <a href="../../guides/create-game/" class="md-nav__link">
         
   
   
@@ -548,7 +523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../create-board/" class="md-nav__link">
+      <a href="../../guides/create-board/" class="md-nav__link">
         
   
   
@@ -571,12 +546,269 @@
   
   
     <li class="md-nav__item">
-      <a href="../advanced-boards/" class="md-nav__link">
+      <a href="../../guides/advanced-boards/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     Advanced Boards
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/invites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inviting Teammates
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/join/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Join a Team
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/get-sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Get the SDK
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/use-sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use LEADR in Your Game
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/go-live-checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Go Live Checklist
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/board-pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    View Your Boards Online
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/review-score-flags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Review Flagged Scores
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../games/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Games
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../boards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Boards
     
   </span>
   
@@ -614,98 +846,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../invites/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Inviting Teammates
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../use-leadr-sdk/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Use LEADR in Your Game
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../go-live-checklist/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Go Live Checklist
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../board-pages/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    View Your Boards Online
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -717,6 +857,19 @@
       
         
       
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Anti-Cheat System
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -730,215 +883,139 @@
 
       </a>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../review-score-flags/" class="md-nav__link">
         
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-  <span class="md-ellipsis">
-    Review Flagged Scores
+  
     
-  </span>
   
-
-      </a>
-    </li>
   
-
-              
-            
-          </ul>
-        </nav>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
-    </li>
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
   
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
+</li>
       
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
+        <li class="md-nav__item">
+  <a href="#detection-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detection Types
+    </span>
+  </a>
+  
+</li>
       
+        <li class="md-nav__item">
+  <a href="#confidence-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Confidence Levels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flag Status
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reviewing-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reviewing Flags
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
         
+          <li class="md-nav__item">
+  <a href="#set-realistic-expectations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Realistic Expectations
+    </span>
+  </a>
+  
+</li>
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+          <li class="md-nav__item">
+  <a href="#review-regularly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Review Regularly
+    </span>
+  </a>
+  
+</li>
         
-          
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
-            
+          <li class="md-nav__item">
+  <a href="#monitor-new-players" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor New Players
+    </span>
+  </a>
   
-  
-  <span class="md-ellipsis">
-    Reference
-    
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+</li>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_3">
-            <span class="md-nav__icon md-icon"></span>
-            Reference
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
+          <li class="md-nav__item">
+  <a href="#use-test-mode-during-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Test Mode During Development
+    </span>
+  </a>
   
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/games/" class="md-nav__link">
+</li>
         
+      </ul>
+    </nav>
   
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Improvements
+    </span>
+  </a>
   
-  <span class="md-ellipsis">
-    Games
-    
-  </span>
+</li>
+      
+    </ul>
   
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/boards/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Boards
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/board-templates/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Board Temaplates
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/scores/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Scores
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/score-flags/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Score Flags
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/invites/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Invites
-    
-  </span>
-  
-
-      </a>
+</nav>
+      
     </li>
   
 
@@ -1268,7 +1345,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/leadr-open-source.md" class="md-nav__link">
+      <a href="../../api/leadr-open-source/" class="md-nav__link">
         
   
   
@@ -1563,6 +1640,128 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detection-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detection Types
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#confidence-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Confidence Levels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Flag Status
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limits
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reviewing-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reviewing Flags
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-realistic-expectations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Realistic Expectations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review-regularly" class="md-nav__link">
+    <span class="md-ellipsis">
+      Review Regularly
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-new-players" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monitor New Players
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-test-mode-during-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Test Mode During Development
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Improvements
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1577,8 +1776,124 @@
 
 
 
-<h1 id="anti-cheat">Anti-Cheat<a class="headerlink" href="#anti-cheat" title="Permanent link">&para;</a></h1>
-<p>Coming soon... Join our <a href="https://discord.gg/RMUukcAxSZ">Discord</a> to let us know what you'd like to see here!</p>
+<h1 id="anti-cheat-system">Anti-Cheat System<a class="headerlink" href="#anti-cheat-system" title="Permanent link">&para;</a></h1>
+<p>LEADR's anti-cheat system automatically detects and flags suspicious score submissions. When enabled on a game, every score submission is analyzed before being accepted.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The anti-cheat system works in three stages:</p>
+<ol>
+<li><strong>Detection</strong>: Each score submission is checked against multiple detection rules</li>
+<li><strong>Action</strong>: Based on the check results, the score is accepted, flagged, or rejected</li>
+<li><strong>Review</strong>: Flagged scores appear in the LEADR app for manual review</li>
+</ol>
+<p>Anti-cheat is <strong>enabled by default</strong> for new games. You can toggle it in the game settings.</p>
+<h2 id="detection-types">Detection Types<a class="headerlink" href="#detection-types" title="Permanent link">&para;</a></h2>
+<p>LEADR checks for the following suspicious behaviors:</p>
+<table>
+<thead>
+<tr>
+<th>Flag Type</th>
+<th>Description</th>
+<th>Default Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Rate Limit</strong></td>
+<td>Player exceeds submission rate limit for the hour</td>
+<td>Reject</td>
+</tr>
+<tr>
+<td><strong>Duplicate</strong></td>
+<td>Exact same score value submitted within detection window</td>
+<td>Flag</td>
+</tr>
+<tr>
+<td><strong>Velocity</strong></td>
+<td>Submissions less than 2 seconds apart</td>
+<td>Flag</td>
+</tr>
+</tbody>
+</table>
+<h2 id="confidence-levels">Confidence Levels<a class="headerlink" href="#confidence-levels" title="Permanent link">&para;</a></h2>
+<p>Each detection has a confidence level that determines the action taken:</p>
+<table>
+<thead>
+<tr>
+<th>Confidence</th>
+<th>Action</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Low</strong></td>
+<td>Accept</td>
+<td>Score is logged but accepted without flagging</td>
+</tr>
+<tr>
+<td><strong>Medium</strong></td>
+<td>Flag</td>
+<td>Score is accepted but flagged for manual review</td>
+</tr>
+<tr>
+<td><strong>High</strong></td>
+<td>Reject</td>
+<td>Score submission is rejected immediately</td>
+</tr>
+</tbody>
+</table>
+<h2 id="flag-status">Flag Status<a class="headerlink" href="#flag-status" title="Permanent link">&para;</a></h2>
+<p>Flagged scores have one of these statuses:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pending</strong></td>
+<td>Flag has not been reviewed yet, score is visible in board &amp; rankings</td>
+</tr>
+<tr>
+<td><strong>Confirmed Cheat</strong></td>
+<td>Admin confirmed the score is cheating, and score is removed from board &amp; rankings</td>
+</tr>
+<tr>
+<td><strong>False Positive</strong></td>
+<td>Admin confirmed the score is legitimate, and score remains in board &amp; rankings</td>
+</tr>
+<tr>
+<td><strong>Dismissed</strong></td>
+<td>Admin reviewed but made no determination, and score remains in board &amp; rankings</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rate-limits">Rate Limits<a class="headerlink" href="#rate-limits" title="Permanent link">&para;</a></h2>
+<p>Rate limits are per-player, per-board, within a sliding 1-hour window. The exact limits depend on the player's trust tier and can be configured.</p>
+<p>When a player exceeds the rate limit, their submission is <strong>rejected</strong> (not flagged). This prevents spam attacks from flooding your leaderboards.</p>
+<h2 id="reviewing-flags">Reviewing Flags<a class="headerlink" href="#reviewing-flags" title="Permanent link">&para;</a></h2>
+<p>Flagged scores appear in the LEADR app under <strong>Games</strong> &gt; your game &gt; <strong>Flags</strong>. From there you can:</p>
+<ol>
+<li>View flag details (type, confidence, score data)</li>
+<li>Mark as <strong>Confirmed Cheat</strong> to remove the score</li>
+<li>Mark as <strong>False Positive</strong> to clear the flag</li>
+<li><strong>Dismiss</strong> to acknowledge without action</li>
+</ol>
+<p>See <a href="../../guides/review-score-flags/">Review Score Flags</a> for a step-by-step guide.</p>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="set-realistic-expectations">Set Realistic Expectations<a class="headerlink" href="#set-realistic-expectations" title="Permanent link">&para;</a></h3>
+<p>Think about what scores are realistically achievable in your game. This helps you identify obvious cheats and train LEADR's detection over time.</p>
+<h3 id="review-regularly">Review Regularly<a class="headerlink" href="#review-regularly" title="Permanent link">&para;</a></h3>
+<p>Check flagged scores regularly, especially after launch. Early cheaters can discourage legitimate players from competing.</p>
+<h3 id="monitor-new-players">Monitor New Players<a class="headerlink" href="#monitor-new-players" title="Permanent link">&para;</a></h3>
+<p>Pay attention to flags from players with very few scores. A new player immediately topping the leaderboard can be suspicious.</p>
+<h3 id="use-test-mode-during-development">Use Test Mode During Development<a class="headerlink" href="#use-test-mode-during-development" title="Permanent link">&para;</a></h3>
+<p>Enable <strong>test mode</strong> in your SDK config during development so test submissions don't affect your anti-cheat baseline.</p>
+<h2 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">&para;</a></h2>
+<p>The LEADR anti-cheat system is something we are excited to keep improving and for this your feedback is very helpful. We have lots of planned improvements that will make the anti-cheat system even better but your input helps us to prioritise and have new ideas.</p>
+<p>If there's something you don't like, something more you need, something that doesn't work as expected, or you just have an idea you'd like to share, please message us on <a href="https://discord.gg/RMUukcAxSZ" target="_blank">Discord</a> or <a href="mailto:hello@leadr.gg">drop us an email</a>.</p>
 
 
 

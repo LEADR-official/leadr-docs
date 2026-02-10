@@ -19,7 +19,7 @@
         <link rel="prev" href="../boards/">
       
       
-        <link rel="next" href="../scores/">
+        <link rel="next" href="../anti-cheat/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -29,7 +29,7 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LEADR Docs">
-<meta property="og:title" content="Board Temaplates | LEADR Docs">
+<meta property="og:title" content="Board Templates | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
 <meta property="og:url" content="https://docs.leadr.gg/v0.8/reference/board-templates/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.8/assets/images/og-image.png">
@@ -78,7 +78,7 @@
 
     
       
-        <title>Board Temaplates - LEADR Docs</title>
+        <title>Board Templates - LEADR Docs</title>
       
     
     
@@ -131,6 +131,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#board-templates" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -176,7 +181,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Board Temaplates
+              Board Templates
             
           </span>
         </div>
@@ -495,29 +500,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/get-sdk/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Get the SDK
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../guides/create-game/" class="md-nav__link">
         
   
@@ -587,29 +569,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/board-templates/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Board Templates
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../guides/invites/" class="md-nav__link">
         
   
@@ -633,7 +592,53 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/use-leadr-sdk/" class="md-nav__link">
+      <a href="../../guides/join/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Join a Team
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/get-sdk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Get the SDK
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/use-sdk/" class="md-nav__link">
         
   
   
@@ -685,29 +690,6 @@
   
   <span class="md-ellipsis">
     View Your Boards Online
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../guides/anti-cheat/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Anti-Cheat System
     
   </span>
   
@@ -850,18 +832,157 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Board Templates
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
-    Board Temaplates
+    Board Templates
     
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#template-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template ID
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fields
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repeat-interval-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repeat Interval Format
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#name-template-placeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Name Template Placeholders
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sequential-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequential Series
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monthly-high-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monthly High Scores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numbered-monthly-tournament" class="md-nav__link">
+    <span class="md-ellipsis">
+      Numbered Monthly Tournament
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weekly-challenge" class="md-nav__link">
+    <span class="md-ellipsis">
+      Weekly Challenge
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quarterly-seasons" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quarterly Seasons
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pause-a-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pause a Template
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -875,58 +996,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../scores/" class="md-nav__link">
+      <a href="../anti-cheat/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Scores
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../score-flags/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Score Flags
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../invites/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Invites
+    Anti-Cheat System
     
   </span>
   
@@ -1261,7 +1336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api/leadr-open-source.md" class="md-nav__link">
+      <a href="../../api/leadr-open-source/" class="md-nav__link">
         
   
   
@@ -1553,6 +1628,121 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#template-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template ID
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fields
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repeat-interval-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repeat Interval Format
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#name-template-placeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Name Template Placeholders
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sequential-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequential Series
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monthly-high-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Monthly High Scores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#numbered-monthly-tournament" class="md-nav__link">
+    <span class="md-ellipsis">
+      Numbered Monthly Tournament
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#weekly-challenge" class="md-nav__link">
+    <span class="md-ellipsis">
+      Weekly Challenge
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quarterly-seasons" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quarterly Seasons
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pause-a-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pause a Template
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1568,9 +1758,276 @@
 
 
 
-  <h1>Board Temaplates</h1>
-
-
+<h1 id="board-templates">Board Templates<a class="headerlink" href="#board-templates" title="Permanent link">&para;</a></h1>
+<p>Board templates let you automatically create recurring leaderboards on a schedule. Perfect for weekly challenges, monthly tournaments, or seasonal competitions.</p>
+<p>When a template is active, LEADR automatically creates new boards at each interval. Previous boards are archived but remain viewable, preserving historical rankings.</p>
+<h2 id="template-id">Template ID<a class="headerlink" href="#template-id" title="Permanent link">&para;</a></h2>
+<p>Each template has a unique identifier in the format <code>tpl_&lt;uuid&gt;</code>, for example: <code>tpl_a1b2c3d4-e5f6-7890-abcd-ef1234567890</code>.</p>
+<h2 id="fields">Fields<a class="headerlink" href="#fields" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Required</th>
+<th>Example</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Name</strong></td>
+<td>Yes</td>
+<td><code>Monthly Challenge Boards</code></td>
+<td>-</td>
+<td>Template name (used as fallback for board names)</td>
+</tr>
+<tr>
+<td><strong>Name Template</strong></td>
+<td>No</td>
+<td><code>{month_short} Challenge</code></td>
+<td>None</td>
+<td>Template string with placeholders for dynamic board names</td>
+</tr>
+<tr>
+<td><strong>Slug</strong></td>
+<td>No</td>
+<td><code>monthly-challenge</code></td>
+<td>None</td>
+<td>URL-friendly identifier for boards created from this template</td>
+</tr>
+<tr>
+<td><strong>Series</strong></td>
+<td>No</td>
+<td><code>monthly-challenge</code></td>
+<td>None</td>
+<td>Identifier for sequential numbering (e.g., "weekly", "season")</td>
+</tr>
+<tr>
+<td><strong>Repeat Interval</strong></td>
+<td>Yes</td>
+<td><code>1 month</code></td>
+<td>-</td>
+<td>How often to create boards (see format below)</td>
+</tr>
+<tr>
+<td><strong>Board Type</strong></td>
+<td>No</td>
+<td>-</td>
+<td>Per Player</td>
+<td>Type of boards to create</td>
+</tr>
+<tr>
+<td><strong>Sort Direction</strong></td>
+<td>No</td>
+<td>-</td>
+<td>Descending</td>
+<td>Sort direction for boards</td>
+</tr>
+<tr>
+<td><strong>Keep Strategy</strong></td>
+<td>No</td>
+<td>-</td>
+<td>Best</td>
+<td>Keep strategy for Per Player boards</td>
+</tr>
+<tr>
+<td><strong>Icon</strong></td>
+<td>No</td>
+<td><code>fa-trophy</code></td>
+<td>fa-crown</td>
+<td>FontAwesome icon for boards</td>
+</tr>
+<tr>
+<td><strong>Unit</strong></td>
+<td>No</td>
+<td><code>points</code></td>
+<td>None</td>
+<td>Score unit label</td>
+</tr>
+<tr>
+<td><strong>Starts At</strong></td>
+<td>No</td>
+<td><code>2026-01-01T00:00:00Z</code></td>
+<td>None</td>
+<td>Start time for created boards</td>
+</tr>
+<tr>
+<td><strong>Ends At</strong></td>
+<td>No</td>
+<td><code>2026-01-07T23:59:59Z</code></td>
+<td>None</td>
+<td>End time for created boards</td>
+</tr>
+<tr>
+<td><strong>Tags</strong></td>
+<td>No</td>
+<td><code>monthly, challenge</code></td>
+<td>None</td>
+<td>Tags for created boards</td>
+</tr>
+<tr>
+<td><strong>Active</strong></td>
+<td>Yes</td>
+<td>-</td>
+<td>-</td>
+<td>Whether the template is currently active</td>
+</tr>
+<tr>
+<td><strong>Published</strong></td>
+<td>No</td>
+<td>-</td>
+<td>Yes</td>
+<td>Whether created boards should be published</td>
+</tr>
+</tbody>
+</table>
+<h2 id="repeat-interval-format">Repeat Interval Format<a class="headerlink" href="#repeat-interval-format" title="Permanent link">&para;</a></h2>
+<p>The repeat interval uses PostgreSQL interval syntax. Valid formats:</p>
+<table>
+<thead>
+<tr>
+<th>Interval</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Days</td>
+<td><code>7 days</code>, <code>14 days</code></td>
+</tr>
+<tr>
+<td>Weeks</td>
+<td><code>1 week</code>, <code>2 weeks</code></td>
+</tr>
+<tr>
+<td>Months</td>
+<td><code>1 month</code>, <code>3 months</code></td>
+</tr>
+<tr>
+<td>Years</td>
+<td><code>1 year</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Common intervals:</strong></p>
+<ul>
+<li>Weekly: <code>7 days</code> or <code>1 week</code></li>
+<li>Bi-weekly: <code>14 days</code> or <code>2 weeks</code></li>
+<li>Monthly: <code>1 month</code></li>
+<li>Quarterly: <code>3 months</code></li>
+<li>Yearly: <code>1 year</code></li>
+</ul>
+<h2 id="name-template-placeholders">Name Template Placeholders<a class="headerlink" href="#name-template-placeholders" title="Permanent link">&para;</a></h2>
+<p>Use placeholders in the <strong>Name Template</strong> field to generate dynamic board names:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Output</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{year}</code></td>
+<td>Four-digit year</td>
+<td><code>2026</code></td>
+</tr>
+<tr>
+<td><code>{month}</code></td>
+<td>Full month name</td>
+<td><code>January</code></td>
+</tr>
+<tr>
+<td><code>{month_short}</code></td>
+<td>Abbreviated month</td>
+<td><code>Jan</code></td>
+</tr>
+<tr>
+<td><code>{week}</code></td>
+<td>ISO week number</td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><code>{quarter}</code></td>
+<td>Quarter of year</td>
+<td><code>Q1</code></td>
+</tr>
+<tr>
+<td><code>{date}</code></td>
+<td>ISO date format</td>
+<td><code>2026-01-15</code></td>
+</tr>
+<tr>
+<td><code>{series}</code></td>
+<td>Sequential number</td>
+<td><code>1</code>, <code>2</code>, <code>3</code>...</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sequential-series">Sequential Series<a class="headerlink" href="#sequential-series" title="Permanent link">&para;</a></h2>
+<p>The <strong>Series</strong> field enables sequential numbering for boards created from the same template:</p>
+<ul>
+<li><strong>Calculated dynamically</strong>: Series values are generated from existing board count + 1</li>
+<li><strong>Reuses numbers</strong>: If boards are deleted, their numbers become available again</li>
+</ul>
+<p>To use series:</p>
+<ol>
+<li>Set a <strong>Repeat Interval</strong> value</li>
+<li>Set the <strong>Series</strong> field to an identifier (e.g., <code>"weekly"</code>, <code>"season"</code>, <code>"pro_series"</code>)</li>
+<li>Include <code>{series}</code> in your <strong>Name Template</strong></li>
+</ol>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="monthly-high-scores">Monthly High Scores<a class="headerlink" href="#monthly-high-scores" title="Permanent link">&para;</a></h3>
+<p>Creates a new board at the start of each month:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Monthly High Scores&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{month} High Scores&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;repeat_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1 month&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Generated boards:</strong> "January High Scores", "February High Scores", ...</p>
+<h3 id="numbered-monthly-tournament">Numbered Monthly Tournament<a class="headerlink" href="#numbered-monthly-tournament" title="Permanent link">&para;</a></h3>
+<p>Creates numbered monthly tournaments:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Monthly Tournament&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Monthly Tournament #{series} - {month_short}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;repeat_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1 month&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;series&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;monthly&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Generated boards:</strong> "Monthly Tournament #1 - Jan", "Monthly Tournament #2 - Feb", ...</p>
+<h3 id="weekly-challenge">Weekly Challenge<a class="headerlink" href="#weekly-challenge" title="Permanent link">&para;</a></h3>
+<p>Creates weekly challenges numbered by ISO week:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Weekly Challenge&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Week {week} Challenge - {year}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;repeat_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7 days&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Generated boards:</strong> "Week 1 Challenge - 2026", ..., "Week 52 Challenge - 2026", "Week 1 Challenge - 2027", ...</p>
+<h3 id="quarterly-seasons">Quarterly Seasons<a class="headerlink" href="#quarterly-seasons" title="Permanent link">&para;</a></h3>
+<p>Creates seasonal boards each quarter:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Seasonal Board&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{year} {quarter} Season&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;repeat_interval&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3 months&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Generated boards:</strong> "2026 Q1 Season", "2026 Q2 Season", "2026 Q3 Season", "2026 Q4 Season", ...</p>
+<h2 id="pause-a-template">Pause a Template<a class="headerlink" href="#pause-a-template" title="Permanent link">&para;</a></h2>
+<p>To pause or disable a template and stop it from generating new boards:</p>
+<ol>
+<li>Open the LEADR app and navigate to <strong>Games</strong></li>
+<li>Select your game and press <code>t</code> to open <strong>Templates</strong></li>
+<li>Select the template you want to pause</li>
+<li>Press <code>e</code> to edit the template</li>
+<li>Set <strong>Active</strong> to <code>No</code></li>
+<li>Save the template</li>
+</ol>
+<p>The template will stop creating new boards until you set <strong>Active</strong> back to <code>Yes</code>. Existing boards created by the template are not affected.</p>
+<p>See the <a href="../../guides/advanced-boards/">Advanced Boards guide</a> for more information on using board templates.</p>
 
 
 
