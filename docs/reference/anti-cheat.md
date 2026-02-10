@@ -83,3 +83,7 @@ Enable **test mode** in your SDK config during development so test submissions d
 The LEADR anti-cheat system is something we are excited to keep improving and for this your feedback is very helpful. We have lots of planned improvements that will make the anti-cheat system even better but your input helps us to prioritise and have new ideas.
 
 If there's something you don't like, something more you need, something that doesn't work as expected, or you just have an idea you'd like to share, please message us on [Discord](https://discord.gg/RMUukcAxSZ){:target="_blank"} or [drop us an email](mailto:hello@leadr.gg).
+
+---
+
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

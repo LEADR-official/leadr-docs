@@ -94,3 +94,7 @@ Controls what happens when a player submits multiple scores to a **Per Player** 
     - **Per Run**: All submissions are kept and ranked
     - **Counter**: Submissions are deltas that accumulate
     - **Ratio**: No direct submissions (calculated from Counter boards)
+
+---
+
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

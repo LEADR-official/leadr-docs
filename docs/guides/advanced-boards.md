@@ -106,6 +106,6 @@ You can also use the `value_display` field when submitting scores via the SDK to
 
 - **[Get your SDK](./get-sdk.md)** - Get and configure the LEADR SDK for your game engine
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

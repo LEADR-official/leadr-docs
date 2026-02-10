@@ -64,6 +64,6 @@ For the full list of available and planned SDKs, see the [SDKs overview](../sdks
 
 - **[Use LEADR in your game](./use-sdk.md)** - Integrate the LEADR SDK into your game code and scenes
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

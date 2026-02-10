@@ -49,3 +49,7 @@ Anti-cheat is enabled by default for new games. When enabled, LEADR automaticall
 See the [Anti-Cheat reference](./anti-cheat.md) for details on how the system detects suspicious scores.
 
 See [Review Score Flags](../guides/review-score-flags.md) to learn how to review and remove flagged scores in the LEADR app.
+
+---
+
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

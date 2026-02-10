@@ -70,6 +70,6 @@ If you encounter any issues:
 - **[Share your boards online](./board-pages.md)** - See &amp; share the live-updating web pages for your game's boards
 - **[Review Scores](./review-score-flags.md)** - Review &amp; resolve scores flagged by the anti-cheat system
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

@@ -74,8 +74,12 @@ nav:
           - Anti-Cheat System: reference/anti-cheat.md
   - SDKs:
       - Overview: sdks/index.md
-      - Unity: sdks/unity/index.md
-      - Godot: sdks/godot/index.md
+      - Unity:
+          - Overview: sdks/unity/index.md
+          - Reference: sdks/unity/reference.md
+      - Godot:
+          - Overview: sdks/godot/index.md
+          - Reference: sdks/godot/reference.md
       - "C#": sdks/c-sharp/index.md
       - Unreal: sdks/unreal/index.md
       - REST API:

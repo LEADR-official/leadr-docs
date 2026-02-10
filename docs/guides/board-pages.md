@@ -105,6 +105,6 @@ Share the board URL with tournament participants so they can track standings in 
 - **[Review Scores](./review-score-flags.md)** - Review &amp; resolve scores flagged by the anti-cheat system
 - **[Go live checklist](./go-live-checklist.md)** - Make sure your game is ready to ship
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

@@ -147,3 +147,7 @@ To pause or disable a template and stop it from generating new boards:
 The template will stop creating new boards until you set **Active** back to `Yes`. Existing boards created by the template are not affected.
 
 See the [Advanced Boards guide](../guides/advanced-boards.md) for more information on using board templates.
+
+---
+
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

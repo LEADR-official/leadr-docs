@@ -35,6 +35,6 @@ See the [Boards reference](../reference/boards.md) for more details on board con
 - **[Get your SDK](./get-sdk.md)** - Get and configure the LEADR SDK for your game engine
 - **[Advanced Boards](./advanced-boards.md)** - Learn how to create boards for seasons, tournaments, win-lose percentages, play time, speedruns and more
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

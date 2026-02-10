@@ -39,6 +39,6 @@ Your **Game ID** is a UUID shown in the game details. You'll need this when conf
 
 - **[Create a Board](./create-board.md)** - Create your first board with the LEADR app
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

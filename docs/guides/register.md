@@ -71,7 +71,7 @@ Your API key is automatically generated and saved to your local config file:
 - **[Create a Game](./create-game.md)** - Set your game up in the LEADR app
 - **[Invite teammates](./invites.md)** - Send invites so teammates can join your LEADR account
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_
 

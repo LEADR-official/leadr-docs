@@ -171,6 +171,6 @@ To remove the LEADR app:
 - **[Register](../guides/register.md)** - Create your LEADR account
 - **[Join a team](../guides/join.md)** -  Join your teammates on an existing LEADR account
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_

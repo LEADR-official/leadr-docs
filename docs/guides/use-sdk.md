@@ -149,6 +149,6 @@ For detailed examples and engine-specific code, see your SDK's documentation:
 - **[Advanced Boards](./advanced-boards.md)** - Learn how to create boards for seasons, tournaments, win-lose percentages, play time, speedruns and more
 - **[Go live checklist](./go-live-checklist.md)** - Make sure your game is ready to ship
 
-## Need Help?
+---
 
-If you get stuck at any point, the LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ).
+_Need Help? The LEADR team and community is always happy to help on the [LEADR Discord](https://discord.gg/RMUukcAxSZ)_
