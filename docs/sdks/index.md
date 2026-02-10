@@ -4,7 +4,9 @@ LEADR's SDKs help you quickly and easily get leaderboards in your game using too
 
 !!! info "What's an SDK?" 
 
-    Software Development Kits (SDKs) are native libraries for your game engine or programming language that make integrating LEADR straightforward. Instead of making raw HTTP requests, SDKs provide friendly functions that feel natural in your development environment. If you're using plugins, libraries or code assets that someone else made inside your game engine, you already know how to use a LEADR SDK.
+    Software Development Kits (SDKs) are native libraries for your game engine or programming language that make integrating LEADR straightforward. Instead of making raw HTTP requests, SDKs provide friendly functions that feel natural in your development environment.
+
+    If you're using plugins, libraries or code assets that someone else made inside your game engine, you already know how to use a LEADR SDK.
 
 ## Getting Started
 

@@ -52,7 +52,7 @@ Your API key is automatically generated and saved to your local configuration.
 
 !!! warning "Keep your API key secret"
 
-    Your API key grants admin access to your LEADR account. Never put it in your game code -- game clients and SDKs use a separate API and a different authentication method.
+    Your API key grants admin access to your LEADR account. Never put it in your game code - game clients and SDKs use a separate API and a different authentication method.
 
     We'll never ask you for it, and you should never share it online or give it to anyone, even teammates.
 

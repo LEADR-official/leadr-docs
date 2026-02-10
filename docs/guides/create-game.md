@@ -1,6 +1,6 @@
 # Create a Game
 
-{One/two sentence description introducing the feature, purpose of guide and steps that will be followed}
+Games in LEADR group all your boards, scores, and settings together. Create one game for each game you ship.
 
 ## Prerequisites
 
@@ -9,9 +9,31 @@
   - [Register](./register.md)
   - [Join a team](./join.md)
 
-{Guide content - including docs/assets/create-game.gif}
+## Create Your First Game
 
-See the [Game docs](../reference/games.md) for the full reference...
+![Creating a game](../assets/images/create-game.gif)
+
+### Step 1: Open the Games Screen
+
+In the LEADR app, press `g` or select **Games** from the main menu.
+
+### Step 2: Create a New Game
+
+Press `n` to create a new game. You'll see a form to fill in the details of your game.
+
+Use `Tab` or `↓` to move to the next field, `Shift+Tab` or `↑` to go back. Press `Enter` on the Save button to create your game.
+
+See the [Games reference](../reference/games.md) for more details on game settings.
+
+### Step 3: Find Your Game ID
+
+After creating your game, you'll see it listed in the Games screen. Select your game to view its details.
+
+Your **Game ID** is a UUID shown in the game details. You'll need this when configuring the LEADR SDK in your game code.
+
+!!! tip "Copying IDs"
+
+    Press `y` while viewing a game to copy its ID to your clipboard.
 
 ## What's Next
 
