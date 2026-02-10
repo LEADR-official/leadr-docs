@@ -16,10 +16,10 @@
         <link rel="canonical" href="https://docs.leadr.gg/v0.8/sdks/godot/">
       
       
-        <link rel="prev" href="../unity/">
+        <link rel="prev" href="../unity/reference/">
       
       
-        <link rel="next" href="../c-sharp/">
+        <link rel="next" href="reference/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -29,7 +29,7 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LEADR Docs">
-<meta property="og:title" content="Godot | LEADR Docs">
+<meta property="og:title" content="Overview | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
 <meta property="og:url" content="https://docs.leadr.gg/v0.8/sdks/godot/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.8/assets/images/og-image.png">
@@ -78,7 +78,7 @@
 
     
       
-        <title>Godot - LEADR Docs</title>
+        <title>Overview - LEADR Docs</title>
       
     
     
@@ -181,7 +181,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Godot
+              Overview
             
           </span>
         </div>
@@ -950,13 +950,53 @@
   
   
   
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Unity
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            Unity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../unity/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Unity
+    Overview
     
   </span>
   
@@ -966,6 +1006,79 @@
   
 
               
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity/reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Godot
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Godot
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -988,7 +1101,7 @@
   
   
   <span class="md-ellipsis">
-    Godot
+    Overview
     
   </span>
   
@@ -1001,7 +1114,7 @@
   
   
   <span class="md-ellipsis">
-    Godot
+    Overview
     
   </span>
   
@@ -1024,9 +1137,228 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-started" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Get Started
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-settings-resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the Settings Resource
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settings-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings Properties
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debug Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-the-autoload" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enabling the Autoload
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-api-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First API Call
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First API Call">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verifying-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verifying Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#submitting-a-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      Submitting a Score
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-leaderboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working with Leaderboards
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Leaderboards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fetching-boards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Boards
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fetching-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Scores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pagination
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-error-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Error Codes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-ui-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using UI Components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
     </span>
   </a>
   
@@ -1035,6 +1367,37 @@
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -1540,9 +1903,228 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#get-started" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Get Started
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-the-settings-resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating the Settings Resource
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#settings-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings Properties
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debug Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-the-autoload" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enabling the Autoload
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-api-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First API Call
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First API Call">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verifying-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verifying Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#submitting-a-score" class="md-nav__link">
+    <span class="md-ellipsis">
+      Submitting a Score
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-leaderboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working with Leaderboards
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Leaderboards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fetching-boards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Boards
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fetching-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Scores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pagination
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error Handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-error-codes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Error Codes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-ui-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using UI Components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#faq" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
     </span>
   </a>
   
@@ -1565,9 +2147,373 @@
 
 
 <h1 id="godot-sdk">Godot SDK<a class="headerlink" href="#godot-sdk" title="Permanent link">&para;</a></h1>
-<p>The LEADR Godot SDK is a native GDScript plugin that lets you integrate LEADR leaderboards directly into your Godot Engine game. Install the plugin, configure your API key, and submit scores with a few lines of GDScript — no raw HTTP requests needed. Check out the <a href="https://github.com/LEADR-official/leadr-sdk-godot">GitHub repository</a> for source code and releases.</p>
-<h2 id="get-started">Get Started<a class="headerlink" href="#get-started" title="Permanent link">&para;</a></h2>
-<p>Coming soon... Join our <a href="https://discord.gg/RMUukcAxSZ">Discord</a> to let us know you're interested!</p>
+<p>The LEADR Godot SDK is a native GDScript plugin that lets you integrate LEADR leaderboards directly into your Godot Engine game. Install the plugin, configure your Game ID, and submit scores with a few lines of GDScript.</p>
+<p><a _="," class="md-button" href="https://github.com/LEADR-official/leadr-sdk-godot" target="_blank">View on GitHub</a></p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../guides/install/">Download and install the LEADR app</a></li>
+<li>A LEADR account:<ul>
+<li><a href="../../guides/register/">Register</a></li>
+<li><a href="../../guides/join/">Join a team</a></li>
+</ul>
+</li>
+<li><a href="../../guides/create-game/">Create a game</a></li>
+<li><a href="../../guides/create-board/">Create a board</a></li>
+<li>Godot Engine 4.x installed</li>
+</ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Go to the <a href="https://github.com/LEADR-official/leadr-sdk-godot/releases" target="_blank">LEADR Godot SDK releases page</a></li>
+<li>Download the latest <code>.zip</code> file and extract it to a temporary location</li>
+<li>Copy the <code>leadr</code> folder from the extracted <code>addons</code> directory into your Godot project's <code>addons</code> directory</li>
+<li>Open your Godot project</li>
+<li>Go to <strong>Project &gt; Project Settings &gt; Plugins</strong></li>
+<li>Find "LEADR" in the list and ensure "Enabled" is set to "☑️ On"</li>
+</ol>
+<p><img alt="The &quot;Installed Plugins&quot; dialog in the Godot editor" src="../../assets/images/godot_enable_plugin.png" title="The &quot;Installed Plugins&quot; dialog in the Godot editor" /></p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h3 id="creating-the-settings-resource">Creating the Settings Resource<a class="headerlink" href="#creating-the-settings-resource" title="Permanent link">&para;</a></h3>
+<ol>
+<li>In the <strong>FileSystem</strong> dock, right-click on <code>res://addons/leadr/</code></li>
+<li>Select "+ Create New" and then "Resource..." to open the "Create New Resource" dialog</li>
+<li>In the dialog, search for "LeadrSettings"</li>
+<li>Select <strong>LeadrSettings</strong> and click <strong>Create</strong></li>
+<li>Save the file as <code>leadr_settings.tres</code></li>
+</ol>
+<p><img alt="The Create New Resource menu" src="../../assets/images/godot_create_settings_1.png" title="The Create New Resource menu" />
+<img alt="The Create New Resource dialog" src="../../assets/images/godot_create_settings_2.png" title="The Create New Resource dialog" /></p>
+<h3 id="settings-properties">Settings Properties<a class="headerlink" href="#settings-properties" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>game_id</code></td>
+<td>Yes</td>
+<td>—</td>
+<td>Your game's UUID from the LEADR app (e.g., <code>gam_a1b2c3d4-...</code>)</td>
+</tr>
+<tr>
+<td><code>base_url</code></td>
+<td>No</td>
+<td><code>https://api.leadrcloud.com</code></td>
+<td>API endpoint. Change only for self-hosted LEADR instances</td>
+</tr>
+<tr>
+<td><code>debug_logging</code></td>
+<td>No</td>
+<td><code>false</code></td>
+<td>Log all API requests and responses to the console</td>
+</tr>
+<tr>
+<td><code>test_mode</code></td>
+<td>No</td>
+<td><code>false</code></td>
+<td>Mark all score submissions as test data</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="LeadrSettings in the Inspector panel" src="../../assets/images/godot_configure_settings.png" title="LeadrSettings in the Inspector panel" /></p>
+<h3 id="test-mode">Test Mode<a class="headerlink" href="#test-mode" title="Permanent link">&para;</a></h3>
+<p>During development, enable test mode to keep your development scores separate from real player data.</p>
+<p>To enable test mode, select your <code>leadr_settings.tres</code> resource and check the <strong>Test Mode</strong> box:</p>
+<p>When test mode is enabled:</p>
+<ul>
+<li>All submitted scores are marked with <code>is_test = true</code></li>
+<li>Test scores appear on a separate "Mode: Test" view for that board in the LEADR app</li>
+<li>Test scores don't affect your live leaderboards</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Disable before shipping</p>
+<p>Remember to disable test mode before exporting your game for release. Test scores won't appear on your public leaderboards.</p>
+</div>
+<h3 id="debug-logging">Debug Logging<a class="headerlink" href="#debug-logging" title="Permanent link">&para;</a></h3>
+<p>Enable debug logging to see detailed API request/response information in the Godot output panel.</p>
+<p>To enable, select your <code>leadr_settings.tres</code> resource and check the <strong>Debug Logging</strong> box.</p>
+<p>Example output:</p>
+<div class="highlight"><pre><span></span><code>[LEADR] -&gt; POST https://api.leadrcloud.com/v1/client/scores
+[LEADR]    Headers: {Authorization: Bearer [REDACTED], Content-Type: application/json}
+[LEADR]    Body: {&quot;board_id&quot;: &quot;brd_...&quot;, &quot;value&quot;: 5000, &quot;player_name&quot;: &quot;Alex&quot;}
+[LEADR] &lt;- 201 (145ms)
+[LEADR]    Body: {&quot;id&quot;: &quot;scr_...&quot;, &quot;rank&quot;: 42, ...}
+</code></pre></div>
+<p>Sensitive data like access tokens and device fingerprints are automatically redacted in logs.</p>
+<div class="admonition warning">
+<p class="admonition-title">Disable before shipping</p>
+<p>Debug logging can expose sensitive information and impact performance. Disable it before exporting your game for release.</p>
+</div>
+<h3 id="enabling-the-autoload">Enabling the Autoload<a class="headerlink" href="#enabling-the-autoload" title="Permanent link">&para;</a></h3>
+<p>The plugin automatically registers <code>Leadr</code> as an autoload singleton when you enable the plugin. You can access it from any script:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check if the SDK is ready</span>
+<span class="k">if</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+<span class="w">    </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LEADR is ready!&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>If the autoload isn't appearing, verify the autoload is correctly configured in <strong>Project Settings</strong> &gt; <strong>Globals</strong>:</p>
+<p><img alt="The Autoload tab in the Project Settings dialog" src="../../assets/images/godot_autoload.png" title="The Autoload tab in the Project Settings dialog" /></p>
+<p>Also check:</p>
+<ol>
+<li>The plugin is enabled in <strong>Project &gt; Project Settings &gt; Plugins</strong></li>
+<li>Your <code>leadr_settings.tres</code> file exists in <code>res://addons/leadr/</code></li>
+<li>The <code>game_id</code> field is set in your settings resource</li>
+</ol>
+<h2 id="your-first-api-call">Your First API Call<a class="headerlink" href="#your-first-api-call" title="Permanent link">&para;</a></h2>
+<h3 id="verifying-setup">Verifying Setup<a class="headerlink" href="#verifying-setup" title="Permanent link">&para;</a></h3>
+<p>Create a simple test script to verify everything is connected:</p>
+<div class="highlight"><pre><span></span><code><span class="k">extends</span><span class="w"> </span><span class="n">Node</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">_ready</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Check the SDK initialized correctly</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+<span class="w">        </span><span class="n">push_error</span><span class="p">(</span><span class="s2">&quot;LEADR SDK not initialized - check your settings&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+
+<span class="w">    </span><span class="c1"># Fetch your game&#39;s boards to verify the connection</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_boards</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Connected to LEADR! Found </span><span class="si">%d</span><span class="s2"> boards:&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">board</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+<span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  - </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">board</span><span class="o">.</span><span class="n">slug</span><span class="p">])</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span>
+<span class="w">        </span><span class="n">push_error</span><span class="p">(</span><span class="s2">&quot;Failed to connect: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+</code></pre></div>
+<p>Run your scene. If you see your boards listed in the output, you're ready to submit scores.</p>
+<h3 id="submitting-a-score">Submitting a Score<a class="headerlink" href="#submitting-a-score" title="Permanent link">&para;</a></h3>
+<p>Here's how to submit a score when a player finishes a level:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">_on_level_complete</span><span class="p">(</span><span class="n">final_score</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">int</span><span class="p">,</span><span class="w"> </span><span class="n">player_name</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">board_id</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;brd_your-board-id-here&quot;</span>
+
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">submit_score</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="n">final_score</span><span class="p">,</span><span class="w"> </span><span class="n">player_name</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="k">var</span><span class="w"> </span><span class="n">score</span><span class="p">:</span><span class="w"> </span><span class="n">LeadrScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span>
+<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Score submitted! You ranked #</span><span class="si">%d</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span>
+<span class="w">    </span><span class="k">else</span><span class="p">:</span>
+<span class="w">        </span><span class="n">push_error</span><span class="p">(</span><span class="s2">&quot;Failed to submit score: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+</code></pre></div>
+<p>For scores that need custom display formatting (e.g. speedrun times), use the <code>value_display</code> parameter when submitting the score:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Submit a speedrun time (stored as milliseconds, displayed as mm:ss.mmm)</span>
+<span class="k">func</span><span class="w"> </span><span class="n">_on_run_complete</span><span class="p">(</span><span class="n">elapsed_ms</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">int</span><span class="p">,</span><span class="w"> </span><span class="n">player_name</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">format_time</span><span class="p">(</span><span class="n">elapsed_ms</span><span class="p">)</span><span class="w">  </span><span class="c1"># e.g., &quot;1:23.456&quot;</span>
+
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">submit_score</span><span class="p">(</span>
+<span class="w">        </span><span class="n">board_id</span><span class="p">,</span>
+<span class="w">        </span><span class="n">elapsed_ms</span><span class="p">,</span>
+<span class="w">        </span><span class="n">player_name</span><span class="p">,</span>
+<span class="w">        </span><span class="n">display</span><span class="w">  </span><span class="c1"># Shows &quot;1:23.456&quot; on the leaderboard instead of &quot;83456&quot;</span>
+<span class="w">    </span><span class="p">)</span>
+</code></pre></div>
+<p>You can also attach custom metadata to track additional context:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Include metadata about the run</span>
+<span class="k">var</span><span class="w"> </span><span class="n">metadata</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;forest_temple&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;difficulty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hard&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;character&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;knight&quot;</span>
+<span class="p">}</span>
+
+<span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">submit_score</span><span class="p">(</span>
+<span class="w">    </span><span class="n">board_id</span><span class="p">,</span>
+<span class="w">    </span><span class="n">final_score</span><span class="p">,</span>
+<span class="w">    </span><span class="n">player_name</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1"># No custom display</span>
+<span class="w">    </span><span class="n">metadata</span>
+<span class="p">)</span>
+</code></pre></div>
+<h2 id="working-with-leaderboards">Working with Leaderboards<a class="headerlink" href="#working-with-leaderboards" title="Permanent link">&para;</a></h2>
+<h3 id="fetching-boards">Fetching Boards<a class="headerlink" href="#fetching-boards" title="Permanent link">&para;</a></h3>
+<p>Retrieve all boards for your game to display a board selection menu:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">load_board_list</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_boards</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w">  </span><span class="c1"># Get up to 50 boards</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">board</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+<span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">board</span><span class="o">.</span><span class="n">slug</span><span class="p">])</span>
+</code></pre></div>
+<p>Or fetch a specific board by its slug to get its ID and configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">get_weekly_board</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">LeadrBoard</span><span class="p">:</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_board</span><span class="p">(</span><span class="s2">&quot;weekly-high-scores&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb nb-Type">null</span>
+</code></pre></div>
+<h3 id="fetching-scores">Fetching Scores<a class="headerlink" href="#fetching-scores" title="Permanent link">&para;</a></h3>
+<p><strong>Get the top scores</strong> to display a leaderboard:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">show_top_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+<span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#</span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">player_name</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">value_display</span><span class="p">])</span>
+</code></pre></div>
+<p><strong>Show where a player would rank</strong> before they submit. This is useful for immediiately showing "You placed be #47!" on a game over screen:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">show_potential_rank</span><span class="p">(</span><span class="n">board_id</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">,</span><span class="w"> </span><span class="n">player_score</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">int</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Fetch scores around the player&#39;s value</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb nb-Type">float</span><span class="p">(</span><span class="n">player_score</span><span class="p">))</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Scores around your result:&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+<span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#</span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%d</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">player_name</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">value</span><span class="p">])</span>
+</code></pre></div>
+<p><strong>Show context around a submitted score</strong> so players can see who they beat:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">show_score_context</span><span class="p">(</span><span class="n">board_id</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">,</span><span class="w"> </span><span class="n">submitted_score</span><span class="p">:</span><span class="w"> </span><span class="n">LeadrScore</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Fetch scores around the player&#39;s submitted score</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">submitted_score</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+<span class="w">            </span><span class="k">var</span><span class="w"> </span><span class="n">marker</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s2">&quot; &lt;-- YOU&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">submitted_score</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#</span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%d%s</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">player_name</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="p">])</span>
+</code></pre></div>
+<h3 id="pagination">Pagination<a class="headerlink" href="#pagination" title="Permanent link">&para;</a></h3>
+<p>For leaderboards with many entries, use the <code>next_page()</code> &amp; <code>prev_page()</code> pagination helper functions to load scores in chunks:</p>
+<div class="highlight"><pre><span></span><code><span class="k">var</span><span class="w"> </span><span class="n">current_page</span><span class="p">:</span><span class="w"> </span><span class="n">LeadrPagedResult</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">load_first_page</span><span class="p">(</span><span class="n">board_id</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="n">current_page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span>
+<span class="w">        </span><span class="n">display_scores</span><span class="p">(</span><span class="n">current_page</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+<span class="w">        </span><span class="n">update_nav_buttons</span><span class="p">()</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">_on_next_pressed</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">current_page</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">current_page</span><span class="o">.</span><span class="n">has_next</span><span class="p">:</span>
+<span class="w">        </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">current_page</span><span class="o">.</span><span class="n">next_page</span><span class="p">()</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">            </span><span class="n">current_page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span>
+<span class="w">            </span><span class="n">display_scores</span><span class="p">(</span><span class="n">current_page</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+<span class="w">            </span><span class="n">update_nav_buttons</span><span class="p">()</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">_on_prev_pressed</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">current_page</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">current_page</span><span class="o">.</span><span class="n">has_prev</span><span class="p">:</span>
+<span class="w">        </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">current_page</span><span class="o">.</span><span class="n">prev_page</span><span class="p">()</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">            </span><span class="n">current_page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span>
+<span class="w">            </span><span class="n">display_scores</span><span class="p">(</span><span class="n">current_page</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+<span class="w">            </span><span class="n">update_nav_buttons</span><span class="p">()</span>
+
+<span class="k">func</span><span class="w"> </span><span class="n">update_nav_buttons</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="o">$</span><span class="n">PrevButton</span><span class="o">.</span><span class="n">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">current_page</span><span class="o">.</span><span class="n">has_prev</span>
+<span class="w">    </span><span class="o">$</span><span class="n">NextButton</span><span class="o">.</span><span class="n">disabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">current_page</span><span class="o">.</span><span class="n">has_next</span>
+</code></pre></div>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<p>All SDK methods return a <code>LeadrResult</code> object instead of throwing exceptions. Always check <code>is_success</code> before accessing the data:</p>
+<div class="highlight"><pre><span></span><code><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">submit_score</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
+
+<span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Safe to access result.data</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">score</span><span class="p">:</span><span class="w"> </span><span class="n">LeadrScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span>
+<span class="w">    </span><span class="n">show_success_screen</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Access error details via result.error</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">error</span><span class="p">:</span><span class="w"> </span><span class="n">LeadrError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">error</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">error</span><span class="o">.</span><span class="n">status_code</span><span class="p">:</span>
+<span class="w">        </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">            </span><span class="n">show_error</span><span class="p">(</span><span class="s2">&quot;No internet connection&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="mi">429</span><span class="p">:</span>
+<span class="w">            </span><span class="n">show_error</span><span class="p">(</span><span class="s2">&quot;Too many requests - please wait&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="n">_</span><span class="p">:</span>
+<span class="w">            </span><span class="n">show_error</span><span class="p">(</span><span class="s2">&quot;Error: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">error</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="common-error-codes">Common Error Codes<a class="headerlink" href="#common-error-codes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>network_error</code></td>
+<td>No internet connection or request timed out</td>
+</tr>
+<tr>
+<td>400</td>
+<td><code>bad_request</code></td>
+<td>Invalid parameters (check board_id format, player_name length)</td>
+</tr>
+<tr>
+<td>401</td>
+<td><code>unauthorized</code></td>
+<td>Authentication failed (SDK usually retries automatically)</td>
+</tr>
+<tr>
+<td>404</td>
+<td><code>not_found</code></td>
+<td>Board or score doesn't exist (check IDs)</td>
+</tr>
+<tr>
+<td>429</td>
+<td><code>rate_limited</code></td>
+<td>Too many requests - implement retry with backoff</td>
+</tr>
+</tbody>
+</table>
+<h2 id="using-ui-components">Using UI Components<a class="headerlink" href="#using-ui-components" title="Permanent link">&para;</a></h2>
+<p>The SDK includes pre-built UI components for common leaderboard interactions. Use them to prototype quickly or as a starting point for custom UI.</p>
+<p>See <a href="./reference#ui-components">UI components reference</a> for more information.</p>
+<div class="admonition info">
+<p class="admonition-title">When to use built-in components</p>
+<p>The built-in components are great for quick integration and testing. For production games with custom art styles, you'll likely want to build your own UI that calls the SDK API directly.</p>
+</div>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Game ID not found"</td>
+<td>Verify your <code>game_id</code> in settings matches the ID shown in the LEADR app. The format should be <code>gam_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code></td>
+</tr>
+<tr>
+<td>"Network error"</td>
+<td>Check your internet connection. Check the "Base URL" value in <code>leadr_settings.tres</code> is <code>https://api.leadrcloud.com</code>. If using a firewall, ensure <code>api.leadrcloud.com</code> is allowed</td>
+</tr>
+<tr>
+<td>Scores not appearing</td>
+<td>Check if test mode is enabled - test scores appear on a separate board. Also verify you're using the correct board <code>id</code> and/or <code>slug</code></td>
+</tr>
+<tr>
+<td>Plugin not loading</td>
+<td>Ensure the addon is in <code>res://addons/leadr/</code> and enabled in Project Settings &gt; Plugins</td>
+</tr>
+<tr>
+<td>"Autoload not found"</td>
+<td>Restart Godot after enabling the plugin. The <code>Leadr</code> autoload should appear in Project Settings &gt; Autoload</td>
+</tr>
+</tbody>
+</table>
+<h3 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h3>
+<p><strong>How do I reset the device identity?</strong></p>
+<p>Delete the credentials file at <code>user://leadr_credentials.cfg</code>. The SDK will create a new device identity on the next request.</p>
+<p><strong>Can I use custom player IDs instead of device fingerprinting?</strong></p>
+<p>Not yet. Custom identity providers (Steam, Epic, custom auth) are on <a href="../../roadmap/">the roadmap</a>. For now, the SDK uses device fingerprinting to identify returning players.</p>
+<p><strong>How do I handle offline play?</strong></p>
+<p>Built-in offline support is coming soon but isn't included in the SDK yet. For games that need it, queue scores locally (e.g., in a JSON file) and submit them when connectivity is restored.</p>
+<p><strong>What Godot versions are supported?</strong></p>
+<p>The SDK requires Godot 4.x. It's tested with Godot 4.2 and later.</p>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><a href="reference/">Godot SDK Reference</a></strong> - Complete documentation for all classes and methods</li>
+<li><strong><a href="https://github.com/LEADR-official/leadr-sdk-godot" target="_blank">GitHub Repository</a></strong> - Source code, issues, and releases</li>
+<li><strong><a href="../../guides/advanced-boards/">Advanced Boards Guide</a></strong> - Get the most out of LEADR's board functionality with counters, ratio boards, seasons and more</li>
+</ul>
+<hr />
+<p><em>Need Help? The LEADR team and community is always happy to help on the <a href="https://discord.gg/RMUukcAxSZ">LEADR Discord</a></em></p>
 
 
 
