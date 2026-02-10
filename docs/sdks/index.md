@@ -1,8 +1,8 @@
 # SDKs
 
-LEADR's SDKs help you quickly and easily get leaderboards in your game using tools and code your familiar with. They're the best way to integrate all the features of LEADR. Whether you're working in C# for Unity or GDScript for Godot, we've got you covered, with more SDKs for other engines and languages on the way.
+LEADR's SDKs help you quickly and easily get leaderboards in your game using tools and code you're familiar with. They're the best way to integrate all the features of LEADR. Whether you're working in C# for Unity or GDScript for Godot, we've got you covered, with more SDKs for other engines and languages on the way.
 
-!!! info "What's an SDK?" 
+!!! info "What's an SDK?"
 
     Software Development Kits (SDKs) are native libraries for your game engine or programming language that make integrating LEADR straightforward. Instead of making raw HTTP requests, SDKs provide friendly functions that feel natural in your development environment.
 
@@ -14,16 +14,37 @@ LEADR's SDKs help you quickly and easily get leaderboards in your game using too
 
 ## Supported Game Engines
 
-- **[Godot](https://github.com/LEADR-official/leadr-sdk-godot)** - GDScript SDK for Godot Engine
-- **[Unity](https://github.com/LEADR-official/leadr-sdk-unity/)** - C# SDK for Unity Engine
-- **[C#](c-sharp/index.md)** - Standalone .NET library (Coming Soon)
+### Godot
+
+Native GDScript plugin for Godot Engine. Install the plugin, configure your game ID, and submit scores with a few lines of GDScript.
+
+[Get Started with Godot](godot/index.md){ .md-button .md-button--primary }
+[View Source](https://github.com/LEADR-official/leadr-sdk-godot){ .md-button }
+
+### Unity
+
+Native C# package for Unity Engine. Import the package, configure your game ID, and submit scores with a few lines of C#.
+
+[Get Started with Unity](unity/index.md){ .md-button .md-button--primary }
+[View Source](https://github.com/LEADR-official/leadr-sdk-unity/){ .md-button }
+
+### C# (.NET)
+
+Standalone .NET library for custom C# projects. Coming soon.
+
+### REST API
+
+Using a different engine, language, or custom setup? The REST API works from anything that speaks HTTP. Authenticate your game client, submit scores, and query leaderboards directly.
+
+[API Quick Reference](../api/client-api.md){ .md-button .md-button--primary }
+[Authentication Guide](../api/client-auth.md){ .md-button }
 
 ## Planned SDKs
 
 We're building native SDKs for the most popular game engines and platforms. SDKs are being developed in priority order based on indie game developer usage:
 
-- **[Unreal Engine](https://www.unrealengine.com)** - C++ SDK for Unreal Engine
-- **[GameMaker](https://gamemaker.io)** - GML SDK for GameMaker
+- **Unreal Engine** - C++ SDK for Unreal Engine
+- **GameMaker** - GML SDK for GameMaker
 - **Lua/Defold/LOVE2D** - For games written in Lua or Lua-based game engines like Defold or LOVE2D
 - **JavaScript/TypeScript** - For web games and Node.js backends
 - **Python** - For game servers and tools
