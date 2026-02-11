@@ -30,10 +30,12 @@ The LEADR Godot SDK is a native GDScript plugin that lets you integrate LEADR le
 ### Creating the Settings Resource
 
 1. In the **FileSystem** dock, right-click on `res://addons/leadr/`
-2. Select "+ Create New" and then "Resource..." to open the "Create New Resource" dialog
+1. Select **+ Create New > Resource...** to open the "Create New Resource" dialog
 3. In the dialog, search for "LeadrSettings"
 4. Select **LeadrSettings** and click **Create**
 5. Save the file as `leadr_settings.tres`
+
+You can then update the `leadr_settings.tres` file with your `game_id` (get this from the LEADR app).
 
 ![The Create New Resource menu](../../assets/images/godot_create_settings_1.png 'The Create New Resource menu')
 ![The Create New Resource dialog](../../assets/images/godot_create_settings_2.png 'The Create New Resource dialog')

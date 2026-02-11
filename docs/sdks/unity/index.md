@@ -35,6 +35,8 @@ The LEADR Unity SDK is a native C# package that lets you integrate LEADR leaderb
 3. Name the asset `LeadrSettings` (or any name you prefer)
 4. Select the asset to configure it in the Inspector
 
+You can then update the `LeadrSettings` asset with your `GameId` (get this from the LEADR app).
+
 ![The "Create > LEADR > Settings" menu](../../assets/images/unity_create_settings_1.png 'The "Create > LEADR > Settings" menu')
 ![The LeadrSettings asset in the inspector panel](../../assets/images/unity_create_settings_2.png 'The LeadrSettings asset in the inspector panel')
 

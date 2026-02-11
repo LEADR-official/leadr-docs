@@ -55,7 +55,7 @@ nav:
   - LEADR:
       - Features: features.md
       - Guides: 
-          - Install the Admin App: guides/install.md
+          - Install the LEADR App: guides/install.md
           - Register an Account: guides/register.md
           - Create Your First Game: guides/create-game.md
           - Create Your First Board: guides/create-board.md
