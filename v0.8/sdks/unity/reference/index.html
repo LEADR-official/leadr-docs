@@ -2901,7 +2901,7 @@
 </code></pre></div>
 <hr />
 <h2 id="ui-components">UI Components<a class="headerlink" href="#ui-components" title="Permanent link">&para;</a></h2>
-<p>UI Toolkit (UIElements) components for common leaderboard interactions.</p>
+<p>The SDK includes pre-built UI Toolkit (UIElements) components for common leaderboard interactions. Use them to prototype quickly or as a starting point for custom UI.</p>
 <h3 id="leadrboardview">LeadrBoardView<a class="headerlink" href="#leadrboardview" title="Permanent link">&para;</a></h3>
 <p>Pre-built leaderboard display component with pagination support.</p>
 <p>Add the component to your UI Document hierarchy. Configure it via code or the UI Builder inspector. The component handles loading states, error display, and pagination automatically.</p>
@@ -3034,6 +3034,34 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Responding to events:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">LeaderboardController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">MonoBehaviour</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="na">[SerializeField]</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="n">LeadrBoardView</span><span class="w"> </span><span class="n">boardView</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">void</span><span class="w"> </span><span class="nf">OnEnable</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">boardView</span><span class="p">.</span><span class="n">ScoreSelected</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">OnScoreSelected</span><span class="p">;</span>
+<span class="w">        </span><span class="n">boardView</span><span class="p">.</span><span class="n">ErrorOccurred</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">OnError</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">void</span><span class="w"> </span><span class="nf">OnDisable</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">boardView</span><span class="p">.</span><span class="n">ScoreSelected</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">OnScoreSelected</span><span class="p">;</span>
+<span class="w">        </span><span class="n">boardView</span><span class="p">.</span><span class="n">ErrorOccurred</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">OnError</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnScoreSelected</span><span class="p">(</span><span class="n">Score</span><span class="w"> </span><span class="n">score</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Player selected: {score.PlayerName}&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnError</span><span class="p">(</span><span class="n">LeadrError</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ShowErrorDialog</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">Message</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="leadrscoreentry">LeadrScoreEntry<a class="headerlink" href="#leadrscoreentry" title="Permanent link">&para;</a></h3>
 <p>Individual score row component. Used internally by LeadrBoardView, but can be used standalone for custom layouts.</p>
 <h4 id="properties_2">Properties<a class="headerlink" href="#properties_2" title="Permanent link">&para;</a></h4>
@@ -3219,6 +3247,42 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Setting the score programmatically</strong> (the typical workflow):</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">GameOverController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">MonoBehaviour</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="na">[SerializeField]</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="n">LeadrScoreSubmitter</span><span class="w"> </span><span class="n">submitter</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">void</span><span class="w"> </span><span class="nf">OnEnable</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">submitter</span><span class="p">.</span><span class="n">ScoreSubmitted</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">OnScoreSubmitted</span><span class="p">;</span>
+<span class="w">        </span><span class="n">submitter</span><span class="p">.</span><span class="n">SubmissionFailed</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">OnSubmissionFailed</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">void</span><span class="w"> </span><span class="nf">OnDisable</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">submitter</span><span class="p">.</span><span class="n">ScoreSubmitted</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">OnScoreSubmitted</span><span class="p">;</span>
+<span class="w">        </span><span class="n">submitter</span><span class="p">.</span><span class="n">SubmissionFailed</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">OnSubmissionFailed</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Call this when the player finishes the level</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">ShowGameOver</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">finalScore</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">submitter</span><span class="p">.</span><span class="n">SetScore</span><span class="p">(</span><span class="n">finalScore</span><span class="p">,</span><span class="w"> </span><span class="n">FormatScore</span><span class="p">(</span><span class="n">finalScore</span><span class="p">));</span>
+<span class="w">        </span><span class="n">gameOverPanel</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnScoreSubmitted</span><span class="p">(</span><span class="n">Score</span><span class="w"> </span><span class="n">score</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Submitted! Rank: #{score.Rank}&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ShowLeaderboardWithHighlight</span><span class="p">(</span><span class="n">score</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnSubmissionFailed</span><span class="p">(</span><span class="n">LeadrError</span><span class="w"> </span><span class="n">error</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ShowErrorDialog</span><span class="p">(</span><span class="s">$&quot;Could not submit score: {error.Message}&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <hr />
 <p><em>Need Help? The LEADR team and community is always happy to help on the <a href="https://discord.gg/RMUukcAxSZ">LEADR Discord</a></em></p>
 

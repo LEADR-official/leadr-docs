@@ -1200,17 +1200,17 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#enabling-the-autoload" class="md-nav__link">
     <span class="md-ellipsis">
       Enabling the Autoload
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1966,17 +1966,17 @@
   
 </li>
         
-          <li class="md-nav__item">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#enabling-the-autoload" class="md-nav__link">
     <span class="md-ellipsis">
       Enabling the Autoload
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2248,7 +2248,7 @@
 <p class="admonition-title">Disable before shipping</p>
 <p>Debug logging can expose sensitive information and impact performance. Disable it before exporting your game for release.</p>
 </div>
-<h3 id="enabling-the-autoload">Enabling the Autoload<a class="headerlink" href="#enabling-the-autoload" title="Permanent link">&para;</a></h3>
+<h2 id="enabling-the-autoload">Enabling the Autoload<a class="headerlink" href="#enabling-the-autoload" title="Permanent link">&para;</a></h2>
 <p>The plugin automatically registers <code>Leadr</code> as an autoload singleton when you enable the plugin. You can access it from any script:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Check if the SDK is ready</span>
 <span class="k">if</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
@@ -2351,7 +2351,7 @@
 <span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
 <span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#</span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">player_name</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">value_display</span><span class="p">])</span>
 </code></pre></div>
-<p><strong>Show where a player would rank</strong> before they submit. This is useful for immediiately showing "You placed be #47!" on a game over screen:</p>
+<p><strong>Show where a player would rank</strong> before or while a score is submitted. This is useful for immediately showing "You placed be #47!" on a game over screen:</p>
 <div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">show_potential_rank</span><span class="p">(</span><span class="n">board_id</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">,</span><span class="w"> </span><span class="n">player_score</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">int</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># Fetch scores around the player&#39;s value</span>
 <span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb nb-Type">float</span><span class="p">(</span><span class="n">player_score</span><span class="p">))</span>
@@ -2361,7 +2361,7 @@
 <span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
 <span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#</span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%d</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">player_name</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">value</span><span class="p">])</span>
 </code></pre></div>
-<p><strong>Show context around a submitted score</strong> so players can see who they beat:</p>
+<p><strong>Show context around a submitted score</strong> so players can see other scores around theirs:</p>
 <div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">show_score_context</span><span class="p">(</span><span class="n">board_id</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">,</span><span class="w"> </span><span class="n">submitted_score</span><span class="p">:</span><span class="w"> </span><span class="n">LeadrScore</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># Fetch scores around the player&#39;s submitted score</span>
 <span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">submitted_score</span><span class="o">.</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">)</span>
