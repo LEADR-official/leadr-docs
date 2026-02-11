@@ -85,7 +85,7 @@ Sensitive data like access tokens and device fingerprints are automatically reda
 !!! warning "Disable before shipping"
     Debug logging can expose sensitive information and impact performance. Disable it before exporting your game for release.
 
-### Enabling the Autoload
+## Enabling the Autoload
 
 The plugin automatically registers `Leadr` as an autoload singleton when you enable the plugin. You can access it from any script:
 
@@ -222,7 +222,7 @@ func show_top_scores(board_id: String) -> void:
             print("#%d %s - %s" % [score.rank, score.player_name, score.value_display])
 ```
 
-**Show where a player would rank** before they submit. This is useful for immediiately showing "You placed be #47!" on a game over screen:
+**Show where a player would rank** before or while a score is submitted. This is useful for immediately showing "You placed be #47!" on a game over screen:
 
 ```gdscript
 func show_potential_rank(board_id: String, player_score: int) -> void:
@@ -235,7 +235,7 @@ func show_potential_rank(board_id: String, player_score: int) -> void:
             print("#%d %s - %d" % [score.rank, score.player_name, score.value])
 ```
 
-**Show context around a submitted score** so players can see who they beat:
+**Show context around a submitted score** so players can see other scores around theirs:
 
 ```gdscript
 func show_score_context(board_id: String, submitted_score: LeadrScore) -> void:

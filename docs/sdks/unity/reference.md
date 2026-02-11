@@ -222,7 +222,7 @@ if (result.IsSuccess)
 
 ## UI Components
 
-UI Toolkit (UIElements) components for common leaderboard interactions.
+The SDK includes pre-built UI Toolkit (UIElements) components for common leaderboard interactions. Use them to prototype quickly or as a starting point for custom UI.
 
 ### LeadrBoardView
 
@@ -261,6 +261,37 @@ Add the component to your UI Document hierarchy. Configure it via code or the UI
 | `StateChanged` | `Action<BoardViewState>` | Fired when the component state changes |
 | `ErrorOccurred` | `Action<LeadrError>` | Fired when an API error occurs |
 | `PageLoaded` | `Action<PagedResult<Score>>` | Fired when a page of scores is successfully loaded |
+
+**Responding to events:**
+
+```csharp
+public class LeaderboardController : MonoBehaviour
+{
+    [SerializeField] private LeadrBoardView boardView;
+
+    void OnEnable()
+    {
+        boardView.ScoreSelected += OnScoreSelected;
+        boardView.ErrorOccurred += OnError;
+    }
+
+    void OnDisable()
+    {
+        boardView.ScoreSelected -= OnScoreSelected;
+        boardView.ErrorOccurred -= OnError;
+    }
+
+    private void OnScoreSelected(Score score)
+    {
+        Debug.Log($"Player selected: {score.PlayerName}");
+    }
+
+    private void OnError(LeadrError error)
+    {
+        ShowErrorDialog(error.Message);
+    }
+}
+```
 
 ### LeadrScoreEntry
 
@@ -314,6 +345,45 @@ Add the component to your game over screen's UI Document. Set the score programm
 | `SubmissionFailed` | `Action<LeadrError>` | Fired when submission fails |
 | `StateChanged` | `Action<SubmitterState>` | Fired when the form state changes |
 | `ValidationChanged` | `Action<bool>` | Fired when form validity changes (e.g., name meets length requirements) |
+
+**Setting the score programmatically** (the typical workflow):
+
+```csharp
+public class GameOverController : MonoBehaviour
+{
+    [SerializeField] private LeadrScoreSubmitter submitter;
+
+    void OnEnable()
+    {
+        submitter.ScoreSubmitted += OnScoreSubmitted;
+        submitter.SubmissionFailed += OnSubmissionFailed;
+    }
+
+    void OnDisable()
+    {
+        submitter.ScoreSubmitted -= OnScoreSubmitted;
+        submitter.SubmissionFailed -= OnSubmissionFailed;
+    }
+
+    // Call this when the player finishes the level
+    public void ShowGameOver(long finalScore)
+    {
+        submitter.SetScore(finalScore, FormatScore(finalScore));
+        gameOverPanel.SetActive(true);
+    }
+
+    private void OnScoreSubmitted(Score score)
+    {
+        Debug.Log($"Submitted! Rank: #{score.Rank}");
+        ShowLeaderboardWithHighlight(score.Id);
+    }
+
+    private void OnSubmissionFailed(LeadrError error)
+    {
+        ShowErrorDialog($"Could not submit score: {error.Message}");
+    }
+}
+```
 
 ---
 

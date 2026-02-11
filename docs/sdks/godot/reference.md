@@ -216,7 +216,7 @@ if result.is_success:
 
 ### LeadrBoardView
 
-Pre-built leaderboard display component with pagination support.
+The SDK includes pre-built UI components with pagination support for common leaderboard interactions. Use them to prototype quickly or as a starting point for custom UI.
 
 Add the `LeadrBoardView` scene to your UI tree and configure it via the Inspector or code. The component handles loading states, error display, and pagination automatically.
 

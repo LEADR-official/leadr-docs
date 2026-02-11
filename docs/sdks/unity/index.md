@@ -18,11 +18,13 @@ The LEADR Unity SDK is a native C# package that lets you integrate LEADR leaderb
 
 1. In Unity, open **Window > Package Manager**
 2. Click the **+** button in the top-left corner
-3. Select **Add package from git URL...**
+3. Select **Install package from git URL...**
 4. Enter: `https://github.com/LEADR-Official/leadr-sdk-unity.git?path=Packages/com.leadr.sdk`
 5. Click **Add** and wait for the import to complete
 
-![assets/images/placeholder.png](../../assets/images/placeholder.png)
+![The Package Manager menu](../../assets/images/unity_package_manager.png 'The Package Manager menu')
+![The Package Manager dialog showing "Install package from git URL..." option](../../assets/images/unity_install_git.png 'The Package Manager dialog showing "Install package from git URL..." option')
+![The Package Manager dialog showing the LEADR SDK installed](../../assets/images/unity_package_installed.png 'The Package Manager dialog showing the LEADR SDK installed')
 
 ## Configuration
 
@@ -33,7 +35,8 @@ The LEADR Unity SDK is a native C# package that lets you integrate LEADR leaderb
 3. Name the asset `LeadrSettings` (or any name you prefer)
 4. Select the asset to configure it in the Inspector
 
-![assets/images/placeholder.png](../../assets/images/placeholder.png)
+![The "Create > LEADR > Settings" menu](../../assets/images/unity_create_settings_1.png 'The "Create > LEADR > Settings" menu')
+![The LeadrSettings asset in the inspector panel](../../assets/images/unity_create_settings_2.png 'The LeadrSettings asset in the inspector panel')
 
 ### Settings Properties
 
@@ -44,7 +47,43 @@ The LEADR Unity SDK is a native C# package that lets you integrate LEADR leaderb
 | `DebugLogging` | No | `false` | Log all API requests and responses to the Console |
 | `TestMode` | No | `false` | Mark all score submissions as test data |
 
-### Initializing the Client
+### Test Mode
+
+During development, enable test mode to keep your development scores separate from real player data.
+
+To enable test mode, select your LeadrSettings asset and check the **Test Mode** box in the Inspector:
+
+When test mode is enabled:
+
+- All submitted scores are marked with `IsTest = true`
+- Test scores appear on a separate "Test" leaderboard in the LEADR app
+- Test scores don't affect your live leaderboards
+
+!!! warning "Disable before shipping"
+    Remember to disable test mode before building your game for release. Test scores won't appear on your public leaderboards.
+
+### Debug Logging
+
+Enable debug logging to see detailed API request/response information in the Unity Console.
+
+To enable, select your LeadrSettings asset and check the **Debug Logging** box in the Inspector.
+
+Example output:
+
+```
+[LEADR] -> POST https://api.leadrcloud.com/v1/client/scores
+[LEADR]    Headers: {Authorization: Bearer [REDACTED], Content-Type: application/json}
+[LEADR]    Body: {"board_id": "brd_...", "value": 5000, "player_name": "Alex"}
+[LEADR] <- 201 (145ms)
+[LEADR]    Body: {"id": "scr_...", "rank": 42, ...}
+```
+
+Sensitive data like access tokens and device fingerprints are automatically redacted in logs.
+
+!!! warning "Disable before shipping"
+    Debug logging can expose sensitive information and impact performance. Disable it before building your game for release.
+
+## Initializing the Client
 
 The SDK uses a singleton pattern. Initialize it once, typically in your game's startup script:
 
@@ -222,7 +261,7 @@ public async void ShowTopScores(string boardId)
 }
 ```
 
-**Show where a player would rank** before they submit. This is useful for showing "You would be #47!" on a game over screen:
+**Show where a player would rank** before or while a score is submitted. This is useful for immediately showing "You placed be #47!" on a game over screen:
 
 ```csharp
 public async void ShowPotentialRank(string boardId, long playerScore)
@@ -245,7 +284,7 @@ public async void ShowPotentialRank(string boardId, long playerScore)
 }
 ```
 
-**Show context around a submitted score** so players can see who they beat:
+**Show context around a submitted score** so players can see other scores around theirs:
 
 ```csharp
 public async void ShowScoreContext(string boardId, Score submittedScore)
@@ -323,114 +362,6 @@ private void UpdateNavButtons()
     nextButton.interactable = currentPage.HasNext;
 }
 ```
-
-## Using UI Components
-
-The SDK includes pre-built UI Toolkit (UIElements) components for common leaderboard interactions. Use them to prototype quickly or as a starting point for custom UI.
-
-!!! info "UI Toolkit vs uGUI"
-    The built-in components use Unity's UI Toolkit system. If your game uses the legacy uGUI (Canvas-based) system, you can still use the SDK API directly to build your own UI, or check the samples for a Canvas-based example.
-
-### LeadrBoardView
-
-A complete leaderboard display with pagination. Add it to your UI Document.
-
-![assets/images/placeholder.png](../../assets/images/placeholder.png)
-
-**Key properties:**
-
-| Property | Description |
-|----------|-------------|
-| `Board` | The board slug to display (e.g., "weekly-high-scores") |
-| `ScoresPerPage` | Number of scores per page (default: 10) |
-| `AutoLoad` | Automatically load scores when enabled |
-| `ShowPagination` | Show Previous/Next navigation buttons |
-
-**Responding to events:**
-
-```csharp
-public class LeaderboardController : MonoBehaviour
-{
-    [SerializeField] private LeadrBoardView boardView;
-
-    void OnEnable()
-    {
-        boardView.ScoreSelected += OnScoreSelected;
-        boardView.ErrorOccurred += OnError;
-    }
-
-    void OnDisable()
-    {
-        boardView.ScoreSelected -= OnScoreSelected;
-        boardView.ErrorOccurred -= OnError;
-    }
-
-    private void OnScoreSelected(Score score)
-    {
-        Debug.Log($"Player selected: {score.PlayerName}");
-    }
-
-    private void OnError(LeadrError error)
-    {
-        ShowErrorDialog(error.Message);
-    }
-}
-```
-
-### LeadrScoreSubmitter
-
-A form for players to enter their name and submit a score. Typically shown on a game over screen.
-
-![assets/images/placeholder.png](../../assets/images/placeholder.png)
-
-**Key properties:**
-
-| Property | Description |
-|----------|-------------|
-| `Board` | The board slug to submit to |
-| `MinNameLength` | Minimum player name length (default: 1) |
-| `MaxNameLength` | Maximum player name length (default: 20) |
-| `ClearOnSuccess` | Reset the form after successful submission |
-
-**Setting the score programmatically** (the typical workflow):
-
-```csharp
-public class GameOverController : MonoBehaviour
-{
-    [SerializeField] private LeadrScoreSubmitter submitter;
-
-    void OnEnable()
-    {
-        submitter.ScoreSubmitted += OnScoreSubmitted;
-        submitter.SubmissionFailed += OnSubmissionFailed;
-    }
-
-    void OnDisable()
-    {
-        submitter.ScoreSubmitted -= OnScoreSubmitted;
-        submitter.SubmissionFailed -= OnSubmissionFailed;
-    }
-
-    // Call this when the player finishes the level
-    public void ShowGameOver(long finalScore)
-    {
-        submitter.SetScore(finalScore, FormatScore(finalScore));
-        gameOverPanel.SetActive(true);
-    }
-
-    private void OnScoreSubmitted(Score score)
-    {
-        Debug.Log($"Submitted! Rank: #{score.Rank}");
-        ShowLeaderboardWithHighlight(score.Id);
-    }
-
-    private void OnSubmissionFailed(LeadrError error)
-    {
-        ShowErrorDialog($"Could not submit score: {error.Message}");
-    }
-}
-```
-
 ## Error Handling
 
 All SDK methods return a `LeadrResult<T>` object instead of throwing exceptions. Always check `IsSuccess` before accessing the data:
@@ -474,43 +405,14 @@ else
 | 404 | `not_found` | Board or score doesn't exist (check IDs) |
 | 429 | `rate_limited` | Too many requests - implement retry with backoff |
 
-## Test Mode
+## Using UI Components
 
-During development, enable test mode to keep your development scores separate from real player data.
+The SDK includes pre-built UI Toolkit (UIElements) components for common leaderboard interactions. Use them to prototype quickly or as a starting point for custom UI.
 
-To enable test mode, select your LeadrSettings asset and check the **Test Mode** box in the Inspector:
+!!! info "UI Toolkit vs uGUI"
+    The built-in components use Unity's UI Toolkit system. If your game uses the legacy uGUI (Canvas-based) system, you can still use the SDK API directly to build your own UI, or check the samples for a Canvas-based example.
 
-![assets/images/placeholder.png](../../assets/images/placeholder.png)
-
-When test mode is enabled:
-
-- All submitted scores are marked with `IsTest = true`
-- Test scores appear on a separate "Test" leaderboard in the LEADR app
-- Test scores don't affect your live leaderboards
-
-!!! warning "Disable before shipping"
-    Remember to disable test mode before building your game for release. Test scores won't appear on your public leaderboards.
-
-## Debug Logging
-
-Enable debug logging to see detailed API request/response information in the Unity Console.
-
-To enable, select your LeadrSettings asset and check the **Debug Logging** box in the Inspector.
-
-Example output:
-
-```
-[LEADR] -> POST https://api.leadrcloud.com/v1/client/scores
-[LEADR]    Headers: {Authorization: Bearer [REDACTED], Content-Type: application/json}
-[LEADR]    Body: {"board_id": "brd_...", "value": 5000, "player_name": "Alex"}
-[LEADR] <- 201 (145ms)
-[LEADR]    Body: {"id": "scr_...", "rank": 42, ...}
-```
-
-Sensitive data like access tokens and device fingerprints are automatically redacted in logs.
-
-!!! warning "Disable before shipping"
-    Debug logging can expose sensitive information and impact performance. Disable it before building your game for release.
+See [UI components reference](./reference#ui-components) for more information.
 
 ## Troubleshooting
 
@@ -519,8 +421,8 @@ Sensitive data like access tokens and device fingerprints are automatically reda
 | Issue | Solution |
 |-------|----------|
 | "Game ID not found" | Verify your `GameId` in the settings asset matches the ID shown in the LEADR app. The format should be `gam_xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
-| "Network error" | Check your internet connection. If using a firewall, ensure `api.leadrcloud.com` is allowed |
-| Scores not appearing | Check if test mode is enabled - test scores appear on a separate board. Also verify you're using the correct `boardId` |
+| "Network error" | Check your internet connection. Check the "Base URL" value in the `LeadrSettings` asset is `https://api.leadrcloud.com`. If using a firewall, ensure `api.leadrcloud.com` is allowed |
+| Scores not appearing | Check if test mode is enabled - test scores appear on a separate board. Also verify you're using the correct board `id` and/or `slug` |
 | Package not importing | Verify the git URL is correct and your Unity version is 2020.3 or later. Check the Console for import errors |
 | NullReferenceException on LeadrClient.Instance | Make sure you call `Initialize()` with a valid settings asset before making API calls |
 
@@ -532,7 +434,7 @@ Call `PlayerPrefs.DeleteAll()` or delete the LEADR-specific keys from PlayerPref
 
 **Can I use custom player IDs instead of device fingerprinting?**
 
-Not yet. Custom identity providers (Steam, Epic, custom auth) are on the roadmap. For now, the SDK uses device fingerprinting to identify returning players.
+Not yet. Custom identity providers (Steam, Epic, custom auth) are on [the roadmap](./../../roadmap.md). For now, the SDK uses device fingerprinting to identify returning players.
 
 **How do I handle offline play?**
 
