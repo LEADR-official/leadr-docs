@@ -122,7 +122,9 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/scores', headers = headers)
+    r = requests.get('/v1/scores', params={
+      'board_id': 'string'
+    }, headers = headers)
 
     print(r.json())
 
@@ -139,7 +141,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/scores',
+    fetch('/v1/scores?board_id=string',
     {
       method: 'GET',
 
@@ -154,10 +156,10 @@ Raises:
     ```
 `GET /v1/scores`
 
-List scores for an account with optional filters and pagination.
+List scores for a board with optional filters and pagination.
 
-Returns paginated scores for the specified account, with optional
-filtering by board, game, or identity. Supports cursor-based pagination
+Returns paginated scores for the specified board, with optional
+filtering by game or identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 For regular admin users, account_id is automatically derived from their API key.
@@ -173,7 +175,6 @@ Around Score:
 - Use around_score_id to get scores centered around a specific score
 - Use around_score_value to get scores centered around a hypothetical value
   (returns a placeholder score with is_placeholder=True)
-- Both require board_id to be specified
 - Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
@@ -187,8 +188,8 @@ Args:
     auth: Authentication context with user info.
     service: Injected score service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
+    board_id: Board ID to list scores for.
     account_id: Optional account_id query parameter (required for superadmins).
-    board_id: Optional board ID to filter by.
     game_id: Optional game ID to filter by.
     identity_id: Optional identity ID to filter by.
     around_score_id: Optional score ID to center results around.
@@ -207,8 +208,8 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
+|board_id|query|string|true|none|
 |account_id|query|any|false|none|
-|board_id|query|any|false|none|
 |game_id|query|any|false|none|
 |identity_id|query|any|false|none|
 |is_test|query|[IsTestFilter](./schemas.md#istestfilter)|false|Filter for test scores. 'false' (default) returns production only, 'true' returns test only, 'all' returns both test and production|
@@ -544,7 +545,9 @@ Raises:
       'leadr-client-nonce': 'string'
     }
 
-    r = requests.get('/v1/client/scores', headers = headers)
+    r = requests.get('/v1/client/scores', params={
+      'board_id': 'string'
+    }, headers = headers)
 
     print(r.json())
 
@@ -561,7 +564,7 @@ Raises:
       'leadr-client-nonce':'string'
     };
 
-    fetch('/v1/client/scores',
+    fetch('/v1/client/scores?board_id=string',
     {
       method: 'GET',
 
@@ -576,10 +579,10 @@ Raises:
     ```
 `GET /v1/client/scores`
 
-List scores for an account with optional filters and pagination.
+List scores for a board with optional filters and pagination.
 
-Returns paginated scores for the specified account, with optional
-filtering by board and/or identity. Supports cursor-based pagination
+Returns paginated scores for the specified board, with optional
+filtering by identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 Pagination:
@@ -592,7 +595,6 @@ Around Score:
 - Use around_score_id to get scores centered around a specific score
 - Use around_score_value to get scores centered around a hypothetical value
   (returns a placeholder score with is_placeholder=True)
-- Both require board_id to be specified
 - Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
@@ -601,13 +603,14 @@ Example:
     GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
     GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
     GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
+    GET /client/scores?board_id=brd_123&identity_id=me (filter to current identity)
 
 Args:
     auth: Authentication context with user info.
     service: Injected score service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    board_id: Optional board ID to filter by.
-    identity_id: Optional identity ID to filter by (e.g., to get "my scores").
+    board_id: Board ID to list scores for.
+    identity_id: Optional identity ID to filter by, or "me" for current identity.
     around_score_id: Optional score ID to center results around.
     around_score_value: Optional value to center results around (with placeholder).
 
@@ -623,8 +626,8 @@ Raises:
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|board_id|query|any|false|none|
-|identity_id|query|any|false|none|
+|board_id|query|string|true|none|
+|identity_id|query|any|false|Identity ID to filter by, or 'me' for current identity|
 |around_score_id|query|any|false|Center results around this score ID|
 |around_score_value|query|any|false|Center results around this score value (returns placeholder)|
 |account_id|query|any|false|none|

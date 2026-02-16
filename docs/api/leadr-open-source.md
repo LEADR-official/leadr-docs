@@ -1,3 +1,0 @@
-# LEADR Open Source
-
-...

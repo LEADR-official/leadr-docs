@@ -2,8 +2,8 @@
 
 A practical guide for integrating directly with the LEADR REST API. For in-depth concepts see:
 
-- [Client Authentication Guide](./client-auth.md).
-- [API Reference](./reference/index.md).
+- [Client Authentication Guide](api/client_auth.md).
+- [API Reference](api/reference/index.md).
 
 ## Base URL
 
@@ -334,5 +334,5 @@ ______________________________________________________________________
 
 ## Further Reading
 
-- [Client Authentication Guide](./client-auth.md) - Deep dive into auth concepts, token rotation, and security
-- [Pagination Guide](./pagination.md) - Detailed pagination patterns
+- [Client Authentication Guide](client_auth.md) - Deep dive into auth concepts, token rotation, and security
+- [Pagination Guide](pagination.md) - Detailed pagination patterns

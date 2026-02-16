@@ -978,8 +978,8 @@ API routes for score management.
 - [**get_score**](#leadr.scores.api.score_routes.get_score) – Get a score by ID.
 - [**get_score_client**](#leadr.scores.api.score_routes.get_score_client) – Get a score by ID (Client API).
 - [**handle_list_scores**](#leadr.scores.api.score_routes.handle_list_scores) – Handle list scores logic for both admin and client endpoints.
-- [**list_scores_admin**](#leadr.scores.api.score_routes.list_scores_admin) – List scores for an account with optional filters and pagination.
-- [**list_scores_client**](#leadr.scores.api.score_routes.list_scores_client) – List scores for an account with optional filters and pagination.
+- [**list_scores_admin**](#leadr.scores.api.score_routes.list_scores_admin) – List scores for a board with optional filters and pagination.
+- [**list_scores_client**](#leadr.scores.api.score_routes.list_scores_client) – List scores for a board with optional filters and pagination.
 
 **Attributes:**
 
@@ -1101,7 +1101,7 @@ different response models based on the authentication type:
 - **board_service** – Board service for fetching board details.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Pagination parameters (cursor, limit, sort).
 - **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID filter.
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID filter.
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to list scores for.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID filter.
 - **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID filter.
 - **is_test** (<code>[bool](#bool) | None</code>) – Optional filter for test scores. True returns only test scores,
@@ -1122,13 +1122,13 @@ different response models based on the authentication type:
 ###### `leadr.scores.api.score_routes.list_scores_admin`
 
 ```python
-list_scores_admin(auth, service, board_service, pagination, account_id=None, board_id=None, game_id=None, identity_id=None, is_test=IsTestFilter.FALSE, around_score_id=None, around_score_value=None)
+list_scores_admin(auth, service, board_service, pagination, board_id, account_id=None, game_id=None, identity_id=None, is_test=IsTestFilter.FALSE, around_score_id=None, around_score_value=None)
 ```
 
-List scores for an account with optional filters and pagination.
+List scores for a board with optional filters and pagination.
 
-Returns paginated scores for the specified account, with optional
-filtering by board, game, or identity. Supports cursor-based pagination
+Returns paginated scores for the specified board, with optional
+filtering by game or identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 For regular admin users, account_id is automatically derived from their API key.
@@ -1146,7 +1146,6 @@ Around Score:
 - Use around_score_id to get scores centered around a specific score
 - Use around_score_value to get scores centered around a hypothetical value
   (returns a placeholder score with is_placeholder=True)
-- Both require board_id to be specified
 - Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
@@ -1165,8 +1164,8 @@ GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 - **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to list scores for.
 - **account_id** (<code>[Annotated](#typing.Annotated)\[[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None, [Query](#fastapi.Query)(description='Account ID filter')\]</code>) – Optional account_id query parameter (required for superadmins).
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID to filter by.
 - **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to filter by.
 - **around_score_id** (<code>[Annotated](#typing.Annotated)\[[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None, [Query](#fastapi.Query)(description='Center results around this score ID')\]</code>) – Optional score ID to center results around.
@@ -1186,13 +1185,13 @@ GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 ###### `leadr.scores.api.score_routes.list_scores_client`
 
 ```python
-list_scores_client(auth, service, board_service, pagination, board_id=None, identity_id=None, around_score_id=None, around_score_value=None)
+list_scores_client(auth, service, board_service, pagination, board_id, identity_id=None, around_score_id=None, around_score_value=None)
 ```
 
-List scores for an account with optional filters and pagination.
+List scores for a board with optional filters and pagination.
 
-Returns paginated scores for the specified account, with optional
-filtering by board and/or identity. Supports cursor-based pagination
+Returns paginated scores for the specified board, with optional
+filtering by identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.
 
 Pagination:
@@ -1207,7 +1206,6 @@ Around Score:
 - Use around_score_id to get scores centered around a specific score
 - Use around_score_value to get scores centered around a hypothetical value
   (returns a placeholder score with is_placeholder=True)
-- Both require board_id to be specified
 - Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)
@@ -1218,6 +1216,7 @@ Around Score:
 GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
+GET /client/scores?board_id=brd_123&identity_id=me (filter to current identity)
 
 </details>
 
@@ -1226,8 +1225,8 @@ GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
 - **auth** (<code>[ClientAuthContextDep](./auth.md#leadr.auth.dependencies.ClientAuthContextDep)</code>) – Authentication context with user info.
 - **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
 - **pagination** (<code>[Annotated](#typing.Annotated)\[[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams), [Depends](#fastapi.Depends)()\]</code>) – Pagination parameters (cursor, limit, sort).
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Optional board ID to filter by.
-- **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to filter by (e.g., to get "my scores").
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to list scores for.
+- **identity_id** (<code>[Annotated](#typing.Annotated)\[[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | [Literal](#typing.Literal)['me'] | None, [Query](#fastapi.Query)(description="Identity ID to filter by, or 'me' for current identity")\]</code>) – Optional identity ID to filter by, or "me" for current identity.
 - **around_score_id** (<code>[Annotated](#typing.Annotated)\[[ScoreID](./common.md#leadr.common.domain.ids.ScoreID) | None, [Query](#fastapi.Query)(description='Center results around this score ID')\]</code>) – Optional score ID to center results around.
 - **around_score_value** (<code>[Annotated](#typing.Annotated)\[[float](#float) | None, [Query](#fastapi.Query)(description='Center results around this score value (returns placeholder)')\]</code>) – Optional value to center results around (with placeholder).
 
@@ -4341,7 +4340,7 @@ RunEntry (run\_) based on board type. This method tries both services.
 ####### `leadr.scores.services.score_service.ScoreService.list_scores`
 
 ```python
-list_scores(account_id=None, board_id=None, game_id=None, identity_id=None, is_test=None, *, pagination, around_score_id=None, around_score_value=None)
+list_scores(board_id, account_id=None, game_id=None, identity_id=None, is_test=None, *, pagination, around_score_id=None, around_score_value=None)
 ```
 
 List scores for a board with optional filters and pagination.
@@ -4350,8 +4349,8 @@ Delegates to BoardStateService or RunEntryService based on board type.
 
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Account ID to filter by (for authorization).
-- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID) | None</code>) – Board ID to filter by (required for most use cases).
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to list scores for.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID to filter by (for authorization).
 - **game_id** (<code>[GameID](./common.md#leadr.common.domain.ids.GameID) | None</code>) – Optional game ID filter.
 - **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID filter.
 - **is_test** (<code>[bool](#bool) | None</code>) – Optional filter for test scores.
@@ -4362,10 +4361,6 @@ Delegates to BoardStateService or RunEntryService based on board type.
 **Returns:**
 
 - <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[BoardState](#leadr.boards.domain.board_state.BoardState)\] | [PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[RunEntry](#leadr.boards.domain.run_entry.RunEntry)\]</code> – PaginatedResult containing BoardState or RunEntry objects.
-
-**Raises:**
-
-- <code>[ValueError](#ValueError)</code> – If board_id is not provided (required for list queries).
 
 ####### `leadr.scores.services.score_service.ScoreService.session`
 
