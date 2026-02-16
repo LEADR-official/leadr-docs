@@ -309,6 +309,30 @@ public async void ShowScoreContext(string boardId, Score submittedScore)
 }
 ```
 
+### Fetching Your Scores
+
+**Get the current player's score(s)** from a board:
+
+```csharp
+public async void ShowMyScores(string boardId)
+{
+    var result = await LeadrClient.Instance.GetMyScoresAsync(boardId, limit: 10);
+
+    if (result.IsSuccess)
+    {
+        foreach (var score in result.Data.Items)
+        {
+            Debug.Log($"#{score.Rank} - {score.ValueDisplay} ({score.CreatedAt})");
+        }
+    }
+}
+```
+
+The number of scores returned depends on the board's configuration:
+
+- **RunRuns boards**: Returns all the player's attempts (e.g., speedrun boards where every run is kept)
+- **Boards with a keep strategy** (Best/First/Latest): Returns only the player's single kept score
+
 ### Pagination
 
 For leaderboards with many entries, use pagination to load scores in chunks:

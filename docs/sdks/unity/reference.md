@@ -32,6 +32,7 @@ var result = await LeadrClient.Instance.GetBoardsAsync();
 | Method | Description | Returns |
 |--------|-------------|---------|
 | `GetScoresAsync(string boardId, int limit = 20, string sort = null, string aroundScoreId = null, long? aroundScoreValue = null)` | Fetch scores from a board. Use `aroundScoreId` to center results around a specific score, or `aroundScoreValue` to center around a value | `Task<LeadrResult<PagedResult<Score>>>` |
+| `GetMyScoresAsync(string boardId, int limit = 20, string sort = null)` | Fetch the current player's scores from a board. Returns multiple scores on RunRuns boards, or a single score on boards with a keep strategy | `Task<LeadrResult<PagedResult<Score>>>` |
 | `GetScoreAsync(string scoreId)` | Fetch a single score by its ID | `Task<LeadrResult<Score>>` |
 | `SubmitScoreAsync(string boardId, long score, string playerName, string valueDisplay = null, Dictionary<string, object> metadata = null)` | Submit a new score. Returns the created score with its rank | `Task<LeadrResult<Score>>` |
 

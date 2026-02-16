@@ -250,6 +250,24 @@ func show_score_context(board_id: String, submitted_score: LeadrScore) -> void:
             print("#%d %s - %d%s" % [score.rank, score.player_name, score.value, marker])
 ```
 
+### Fetching Your Scores
+
+**Get the current player's score(s)** from a board:
+
+```gdscript
+func show_my_scores(board_id: String) -> void:
+    var result := await Leadr.get_my_scores(board_id, 10)
+
+    if result.is_success:
+        for score in result.data.items:
+            print("#%d - %s (%s)" % [score.rank, score.value_display, score.get_relative_time()])
+```
+
+The number of scores returned depends on the board's configuration:
+
+- **RUN_RUNS boards**: Returns all the player's attempts (e.g., speedrun boards where every run is kept)
+- **Boards with a keep strategy** (best/first/latest): Returns only the player's single kept score
+
 ### Pagination
 
 For leaderboards with many entries, use the `next_page()` & `prev_page()` pagination helper functions to load scores in chunks:

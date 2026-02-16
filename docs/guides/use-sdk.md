@@ -78,6 +78,7 @@ All LEADR SDKs provide a standard pattern for interacting with the LEADR API and
 | `await GetScores(board_id: brd_..., limit: n)` | Fetch the top scores for the board with ID `brd_...`. The simplest way to list scores |
 | `await GetScores(board_id: brd_..., around_value: x)` | Fetch the scores around value `x` for the board with ID `brd_...`. Useful for showing where a player would rank before their score is even submitted |
 | `await GetScores(board_id: brd_..., around_score: scr_...)` | Fetch the scores around score `scr_...` for the board with ID `brd_...`. Useful for showing where a player would rank after their score is submitted |
+| `await GetMyScores(board_id: brd_..., limit: n)` | Fetch the current player's score(s) for the board with ID `brd_...`. Returns multiple scores on RUN_RUNS boards, or a single score on boards with a keep strategy |
 | `await GetScore(score_id: scr_...)` | Fetch fetch a single score with ID `scr_...` |
 | `await SubmitScore(board_id: brd_..., value: x, player_name: name)` | Submit a new score to the board with ID `brd_...` |
 

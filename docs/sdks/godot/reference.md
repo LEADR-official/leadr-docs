@@ -33,6 +33,7 @@ var result := await Leadr.get_boards()
 | Method | Description | Returns |
 |--------|-------------|---------|
 | `get_scores(board_id: String, limit: int = 20, sort: String = "", around_score_id: String = "", around_score_value: float = 0.0)` | Fetch scores from a board. Use `around_score_id` to center results around a specific score, or `around_score_value` to center around a value | `LeadrResult` with `LeadrPagedResult` containing `LeadrScore` items |
+| `get_my_scores(board_id: String, limit: int = 20, sort: String = "")` | Fetch the current player's scores from a board. Returns multiple scores on RUN_RUNS boards, or a single score on boards with a keep strategy | `LeadrResult` with `LeadrPagedResult` containing `LeadrScore` items |
 | `get_score(score_id: String)` | Fetch a single score by its ID | `LeadrResult` with `LeadrScore` |
 | `submit_score(board_id: String, value: int, player_name: String, value_display: String = "", metadata: Dictionary = {})` | Submit a new score. Returns the created score with its rank | `LeadrResult` with `LeadrScore` |
 
