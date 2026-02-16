@@ -2424,6 +2424,11 @@
 <td><code>Task&lt;LeadrResult&lt;PagedResult&lt;Score&gt;&gt;&gt;</code></td>
 </tr>
 <tr>
+<td><code>GetMyScoresAsync(string boardId, int limit = 20, string sort = null)</code></td>
+<td>Fetch the current player's scores from a board. Returns multiple scores on RunRuns boards, or a single score on boards with a keep strategy</td>
+<td><code>Task&lt;LeadrResult&lt;PagedResult&lt;Score&gt;&gt;&gt;</code></td>
+</tr>
+<tr>
 <td><code>GetScoreAsync(string scoreId)</code></td>
 <td>Fetch a single score by its ID</td>
 <td><code>Task&lt;LeadrResult&lt;Score&gt;&gt;</code></td>

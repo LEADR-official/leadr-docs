@@ -2025,6 +2025,10 @@
 <td>Fetch the scores around score <code>scr_...</code> for the board with ID <code>brd_...</code>. Useful for showing where a player would rank after their score is submitted</td>
 </tr>
 <tr>
+<td><code>await GetMyScores(board_id: brd_..., limit: n)</code></td>
+<td>Fetch the current player's score(s) for the board with ID <code>brd_...</code>. Returns multiple scores on RUN_RUNS boards, or a single score on boards with a keep strategy</td>
+</tr>
+<tr>
 <td><code>await GetScore(score_id: scr_...)</code></td>
 <td>Fetch fetch a single score with ID <code>scr_...</code></td>
 </tr>

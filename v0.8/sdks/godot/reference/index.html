@@ -2441,6 +2441,11 @@
 <td><code>LeadrResult</code> with <code>LeadrPagedResult</code> containing <code>LeadrScore</code> items</td>
 </tr>
 <tr>
+<td><code>get_my_scores(board_id: String, limit: int = 20, sort: String = "")</code></td>
+<td>Fetch the current player's scores from a board. Returns multiple scores on RUN_RUNS boards, or a single score on boards with a keep strategy</td>
+<td><code>LeadrResult</code> with <code>LeadrPagedResult</code> containing <code>LeadrScore</code> items</td>
+</tr>
+<tr>
 <td><code>get_score(score_id: String)</code></td>
 <td>Fetch a single score by its ID</td>
 <td><code>LeadrResult</code> with <code>LeadrScore</code></td>

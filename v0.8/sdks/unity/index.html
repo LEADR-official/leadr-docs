@@ -1182,6 +1182,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#fetching-your-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Your Scores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pagination" class="md-nav__link">
     <span class="md-ellipsis">
       Pagination
@@ -2042,6 +2051,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#fetching-your-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Your Scores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pagination" class="md-nav__link">
     <span class="md-ellipsis">
       Pagination
@@ -2433,6 +2451,26 @@
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h3 id="fetching-your-scores">Fetching Your Scores<a class="headerlink" href="#fetching-your-scores" title="Permanent link">&para;</a></h3>
+<p><strong>Get the current player's score(s)</strong> from a board:</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">ShowMyScores</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">boardId</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="n">LeadrClient</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetMyScoresAsync</span><span class="p">(</span><span class="n">boardId</span><span class="p">,</span><span class="w"> </span><span class="n">limit</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">IsSuccess</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">Data</span><span class="p">.</span><span class="n">Items</span><span class="p">)</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;#{score.Rank} - {score.ValueDisplay} ({score.CreatedAt})&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The number of scores returned depends on the board's configuration:</p>
+<ul>
+<li><strong>RunRuns boards</strong>: Returns all the player's attempts (e.g., speedrun boards where every run is kept)</li>
+<li><strong>Boards with a keep strategy</strong> (Best/First/Latest): Returns only the player's single kept score</li>
+</ul>
 <h3 id="pagination">Pagination<a class="headerlink" href="#pagination" title="Permanent link">&para;</a></h3>
 <p>For leaderboards with many entries, use pagination to load scores in chunks:</p>
 <div class="highlight"><pre><span></span><code><span class="k">private</span><span class="w"> </span><span class="n">PagedResult</span><span class="o">&lt;</span><span class="n">Score</span><span class="o">&gt;</span><span class="w"> </span><span class="n">currentPage</span><span class="p">;</span>

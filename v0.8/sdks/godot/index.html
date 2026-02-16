@@ -1276,6 +1276,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#fetching-your-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Your Scores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pagination" class="md-nav__link">
     <span class="md-ellipsis">
       Pagination
@@ -2042,6 +2051,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#fetching-your-scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fetching Your Scores
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#pagination" class="md-nav__link">
     <span class="md-ellipsis">
       Pagination
@@ -2372,6 +2390,20 @@
 <span class="w">            </span><span class="k">var</span><span class="w"> </span><span class="n">marker</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s2">&quot; &lt;-- YOU&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">submitted_score</span><span class="o">.</span><span class="n">id</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
 <span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#</span><span class="si">%d</span><span class="s2"> </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%d%s</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">player_name</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="p">])</span>
 </code></pre></div>
+<h3 id="fetching-your-scores">Fetching Your Scores<a class="headerlink" href="#fetching-your-scores" title="Permanent link">&para;</a></h3>
+<p><strong>Get the current player's score(s)</strong> from a board:</p>
+<div class="highlight"><pre><span></span><code><span class="k">func</span><span class="w"> </span><span class="n">show_my_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">:</span><span class="w"> </span><span class="nb nb-Type">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nb nb-Type">void</span><span class="p">:</span>
+<span class="w">    </span><span class="k">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">await</span><span class="w"> </span><span class="n">Leadr</span><span class="o">.</span><span class="n">get_my_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">is_success</span><span class="p">:</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+<span class="w">            </span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;#</span><span class="si">%d</span><span class="s2"> - </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="p">[</span><span class="n">score</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">value_display</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="o">.</span><span class="n">get_relative_time</span><span class="p">()])</span>
+</code></pre></div>
+<p>The number of scores returned depends on the board's configuration:</p>
+<ul>
+<li><strong>RUN_RUNS boards</strong>: Returns all the player's attempts (e.g., speedrun boards where every run is kept)</li>
+<li><strong>Boards with a keep strategy</strong> (best/first/latest): Returns only the player's single kept score</li>
+</ul>
 <h3 id="pagination">Pagination<a class="headerlink" href="#pagination" title="Permanent link">&para;</a></h3>
 <p>For leaderboards with many entries, use the <code>next_page()</code> &amp; <code>prev_page()</code> pagination helper functions to load scores in chunks:</p>
 <div class="highlight"><pre><span></span><code><span class="k">var</span><span class="w"> </span><span class="n">current_page</span><span class="p">:</span><span class="w"> </span><span class="n">LeadrPagedResult</span>
