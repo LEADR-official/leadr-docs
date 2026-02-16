@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.4"
+    "version": "0.8.6"
   },
   "paths": {
     "/v1/accounts": {
@@ -3813,9 +3813,18 @@
           "Scores"
         ],
         "summary": "List Scores Admin",
-        "description": "List scores for an account with optional filters and pagination.\n\nReturns paginated scores for the specified account, with optional\nfiltering by board, game, or identity. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nFor regular admin users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nAround Score:\n- Use around_score_id to get scores centered around a specific score\n- Use around_score_value to get scores centered around a hypothetical value\n  (returns a placeholder score with is_placeholder=True)\n- Both require board_id to be specified\n- Mutually exclusive with cursor pagination and each other\n- Returns a window of scores with the target in the middle\n- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)\n\nExample:\n    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n    GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11\n    GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    account_id: Optional account_id query parameter (required for superadmins).\n    board_id: Optional board ID to filter by.\n    game_id: Optional game ID to filter by.\n    identity_id: Optional identity ID to filter by.\n    around_score_id: Optional score ID to center results around.\n    around_score_value: Optional value to center results around (with placeholder).\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or around validation.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.\n    404: around_score_id score not found.",
+        "description": "List scores for a board with optional filters and pagination.\n\nReturns paginated scores for the specified board, with optional\nfiltering by game or identity. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nFor regular admin users, account_id is automatically derived from their API key.\nFor superadmins, account_id must be explicitly provided as a query parameter.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nAround Score:\n- Use around_score_id to get scores centered around a specific score\n- Use around_score_value to get scores centered around a hypothetical value\n  (returns a placeholder score with is_placeholder=True)\n- Mutually exclusive with cursor pagination and each other\n- Returns a window of scores with the target in the middle\n- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)\n\nExample:\n    GET /v1/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n    GET /v1/scores?board_id=brd_123&around_score_id=scr_456&limit=11\n    GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    board_id: Board ID to list scores for.\n    account_id: Optional account_id query parameter (required for superadmins).\n    game_id: Optional game ID to filter by.\n    identity_id: Optional identity ID to filter by.\n    around_score_id: Optional score ID to center results around.\n    around_score_value: Optional value to center results around (with placeholder).\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or around validation.\n    400: Superadmin did not provide account_id.\n    403: User does not have access to the specified account.\n    404: around_score_id score not found.",
         "operationId": "list_scores_admin_v1_scores_get",
         "parameters": [
+          {
+            "name": "board_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Board Id"
+            }
+          },
           {
             "name": "account_id",
             "in": "query",
@@ -3830,22 +3839,6 @@
                 }
               ],
               "title": "Account Id"
-            }
-          },
-          {
-            "name": "board_id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Board Id"
             }
           },
           {
@@ -7434,22 +7427,15 @@
           "Scores"
         ],
         "summary": "List Scores Client",
-        "description": "List scores for an account with optional filters and pagination.\n\nReturns paginated scores for the specified account, with optional\nfiltering by board and/or identity. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nAround Score:\n- Use around_score_id to get scores centered around a specific score\n- Use around_score_value to get scores centered around a hypothetical value\n  (returns a placeholder score with is_placeholder=True)\n- Both require board_id to be specified\n- Mutually exclusive with cursor pagination and each other\n- Returns a window of scores with the target in the middle\n- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)\n\nExample:\n    GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n    GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11\n    GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    board_id: Optional board ID to filter by.\n    identity_id: Optional identity ID to filter by (e.g., to get \"my scores\").\n    around_score_id: Optional score ID to center results around.\n    around_score_value: Optional value to center results around (with placeholder).\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or around validation.\n    403: User does not have access to the specified account.\n    404: around_score_id score not found.",
+        "description": "List scores for a board with optional filters and pagination.\n\nReturns paginated scores for the specified board, with optional\nfiltering by identity. Supports cursor-based pagination\nwith bidirectional navigation and custom sorting.\n\nPagination:\n- Default: 20 items per page, sorted by created_at:desc,id:asc\n- Custom sort: Use ?sort=value:desc,created_at:asc\n- Valid sort fields: id, value, player_name, created_at, updated_at\n- Navigation: Use next_cursor/prev_cursor from response\n\nAround Score:\n- Use around_score_id to get scores centered around a specific score\n- Use around_score_value to get scores centered around a hypothetical value\n  (returns a placeholder score with is_placeholder=True)\n- Mutually exclusive with cursor pagination and each other\n- Returns a window of scores with the target in the middle\n- Respects limit (e.g., limit=5 returns 2 above + target + 2 below)\n\nExample:\n    GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc\n    GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11\n    GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11\n    GET /client/scores?board_id=brd_123&identity_id=me (filter to current identity)\n\nArgs:\n    auth: Authentication context with user info.\n    service: Injected score service dependency.\n    pagination: Pagination parameters (cursor, limit, sort).\n    board_id: Board ID to list scores for.\n    identity_id: Optional identity ID to filter by, or \"me\" for current identity.\n    around_score_id: Optional score ID to center results around.\n    around_score_value: Optional value to center results around (with placeholder).\n\nReturns:\n    PaginatedResponse with scores and pagination metadata.\n\nRaises:\n    400: Invalid cursor, sort field, cursor state mismatch, or around validation.\n    403: User does not have access to the specified account.\n    404: around_score_id score not found.",
         "operationId": "list_scores_client_v1_client_scores_get",
         "parameters": [
           {
             "name": "board_id",
             "in": "query",
-            "required": false,
+            "required": true,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "string",
               "title": "Board Id"
             }
           },
@@ -7463,11 +7449,17 @@
                   "type": "string"
                 },
                 {
+                  "const": "me",
+                  "type": "string"
+                },
+                {
                   "type": "null"
                 }
               ],
+              "description": "Identity ID to filter by, or 'me' for current identity",
               "title": "Identity Id"
-            }
+            },
+            "description": "Identity ID to filter by, or 'me' for current identity"
           },
           {
             "name": "around_score_id",
