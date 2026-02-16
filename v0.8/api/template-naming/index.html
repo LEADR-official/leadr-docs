@@ -13,13 +13,9 @@
         <meta name="author" content="LEADR">
       
       
-        <link rel="canonical" href="https://docs.leadr.gg/v0.8/api/leadr-open-source/">
+        <link rel="canonical" href="https://docs.leadr.gg/v0.8/api/template-naming/">
       
       
-        <link rel="prev" href="../client-auth/">
-      
-      
-        <link rel="next" href="../self-host/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -29,9 +25,9 @@
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="LEADR Docs">
-<meta property="og:title" content="Overview | LEADR Docs">
+<meta property="og:title" content="Board Template Naming | LEADR Docs">
 <meta property="og:description" content="Documentation for LEADR - the cross-platform leaderboard backend for indie game developers">
-<meta property="og:url" content="https://docs.leadr.gg/v0.8/api/leadr-open-source/">
+<meta property="og:url" content="https://docs.leadr.gg/v0.8/api/template-naming/">
 <meta property="og:image" content="https://docs.leadr.gg/v0.8/assets/images/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -78,7 +74,7 @@
 
     
       
-        <title>Overview - LEADR Docs</title>
+        <title>Board Template Naming - LEADR Docs</title>
       
     
     
@@ -132,7 +128,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#leadr-open-source" class="md-skip">
+        <a href="#board-template-naming" class="md-skip">
           Skip to content
         </a>
       
@@ -181,7 +177,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              Board Template Naming
             
           </span>
         </div>
@@ -1281,8 +1277,6 @@
       
   
   
-    
-  
   
   
     
@@ -1295,11 +1289,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -1315,7 +1309,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             LEADR OSS
@@ -1326,19 +1320,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../leadr-open-source.md" class="md-nav__link">
         
   
   
@@ -1349,7 +1334,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1634,6 +1618,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#placeholders" class="md-nav__link">
+    <span class="md-ellipsis">
+      Placeholders
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sequential-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sequential Series
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1648,8 +1676,92 @@
 
 
 
-<h1 id="leadr-open-source">LEADR Open Source<a class="headerlink" href="#leadr-open-source" title="Permanent link">&para;</a></h1>
-<p>...</p>
+<h1 id="board-template-naming">Board Template Naming<a class="headerlink" href="#board-template-naming" title="Permanent link">&para;</a></h1>
+<p>Board templates can automatically generate board names using placeholders and sequential series.</p>
+<h2 id="placeholders">Placeholders<a class="headerlink" href="#placeholders" title="Permanent link">&para;</a></h2>
+<p>Use placeholders in the <code>name_template</code> field to generate dynamic board names:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Output</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{year}</code></td>
+<td>Four-digit year</td>
+<td><code>2025</code></td>
+</tr>
+<tr>
+<td><code>{month}</code></td>
+<td>Full month name</td>
+<td><code>January</code></td>
+</tr>
+<tr>
+<td><code>{month_short}</code></td>
+<td>Abbreviated month</td>
+<td><code>Jan</code></td>
+</tr>
+<tr>
+<td><code>{week}</code></td>
+<td>ISO week number</td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><code>{quarter}</code></td>
+<td>Quarter of year</td>
+<td><code>Q1</code></td>
+</tr>
+<tr>
+<td><code>{date}</code></td>
+<td>ISO date format</td>
+<td><code>2025-01-15</code></td>
+</tr>
+<tr>
+<td><code>{series}</code></td>
+<td>Sequential number</td>
+<td><code>1</code>, <code>2</code>, <code>3</code>...</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sequential-series">Sequential Series<a class="headerlink" href="#sequential-series" title="Permanent link">&para;</a></h2>
+<p>The <code>series</code> field enables sequential numbering for boards created from the same template:</p>
+<ul>
+<li><strong>Scoped per template</strong>: Each template maintains its own series sequence</li>
+<li><strong>Calculated dynamically</strong>: Series values are generated from existing board count + 1</li>
+<li><strong>Reuses numbers</strong>: If boards are deleted, their numbers become available again</li>
+</ul>
+<p>To use series:</p>
+<ol>
+<li>Set the <code>series</code> field to any identifier (e.g., <code>"weekly"</code>, <code>"seasonal"</code>)</li>
+<li>Include <code>{series}</code> in your <code>name_template</code></li>
+</ol>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Weekly Challenge&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Week {week} Challenge - {year}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;series&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Generates</strong>: "Week 42 Challenge - 2025"</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Monthly Tournament&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{month} Tournament #{series}&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;series&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;monthly&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Generates</strong>: "January Tournament #1", "January Tournament #2"...</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Seasonal Board&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{year} {quarter} Season&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;series&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Generates</strong>: "2025 Q1 Season"</p>
+<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>
+<p>Templates with invalid placeholders are rejected at creation time. Only the placeholders listed above are supported.</p>
 
 
 

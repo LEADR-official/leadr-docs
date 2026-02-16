@@ -1323,7 +1323,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../leadr-open-source/" class="md-nav__link">
+      <a href="../../leadr-open-source.md" class="md-nav__link">
         
   
   
@@ -2022,7 +2022,9 @@ The rank represents the score's position in the leaderboard (1 = first place).</
   <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/scores&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/scores&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+  <span class="s1">&#39;board_id&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+<span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
@@ -2035,7 +2037,7 @@ The rank represents the score's position in the leaderboard (1 = first place).</
 <span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/scores&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/scores?board_id=string&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
 
@@ -2051,9 +2053,9 @@ The rank represents the score's position in the leaderboard (1 = first place).</
 </div>
 </div>
 <p><code>GET /v1/scores</code></p>
-<p>List scores for an account with optional filters and pagination.</p>
-<p>Returns paginated scores for the specified account, with optional
-filtering by board, game, or identity. Supports cursor-based pagination
+<p>List scores for a board with optional filters and pagination.</p>
+<p>Returns paginated scores for the specified board, with optional
+filtering by game or identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.</p>
 <p>For regular admin users, account_id is automatically derived from their API key.
 For superadmins, account_id must be explicitly provided as a query parameter.</p>
@@ -2066,7 +2068,6 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
 - Use around_score_id to get scores centered around a specific score
 - Use around_score_value to get scores centered around a hypothetical value
   (returns a placeholder score with is_placeholder=True)
-- Both require board_id to be specified
 - Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)</p>
@@ -2078,8 +2079,8 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
     auth: Authentication context with user info.
     service: Injected score service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
+    board_id: Board ID to list scores for.
     account_id: Optional account_id query parameter (required for superadmins).
-    board_id: Optional board ID to filter by.
     game_id: Optional game ID to filter by.
     identity_id: Optional identity ID to filter by.
     around_score_id: Optional score ID to center results around.
@@ -2104,14 +2105,14 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
 </thead>
 <tbody>
 <tr>
-<td>account_id</td>
+<td>board_id</td>
 <td>query</td>
-<td>any</td>
-<td>false</td>
+<td>string</td>
+<td>true</td>
 <td>none</td>
 </tr>
 <tr>
-<td>board_id</td>
+<td>account_id</td>
 <td>query</td>
 <td>any</td>
 <td>false</td>
@@ -2695,7 +2696,9 @@ are automatically derived from the authenticated session.</p>
   <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
 <span class="p">}</span>
 
-<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/client/scores&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/v1/client/scores&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+  <span class="s1">&#39;board_id&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+<span class="p">},</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
 </code></pre></div>
@@ -2708,7 +2711,7 @@ are automatically derived from the authenticated session.</p>
 <span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
 <span class="p">};</span>
 
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/client/scores&#39;</span><span class="p">,</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/client/scores?board_id=string&#39;</span><span class="p">,</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
 
@@ -2724,9 +2727,9 @@ are automatically derived from the authenticated session.</p>
 </div>
 </div>
 <p><code>GET /v1/client/scores</code></p>
-<p>List scores for an account with optional filters and pagination.</p>
-<p>Returns paginated scores for the specified account, with optional
-filtering by board and/or identity. Supports cursor-based pagination
+<p>List scores for a board with optional filters and pagination.</p>
+<p>Returns paginated scores for the specified board, with optional
+filtering by identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.</p>
 <p>Pagination:
 - Default: 20 items per page, sorted by created_at:desc,id:asc
@@ -2737,20 +2740,20 @@ with bidirectional navigation and custom sorting.</p>
 - Use around_score_id to get scores centered around a specific score
 - Use around_score_value to get scores centered around a hypothetical value
   (returns a placeholder score with is_placeholder=True)
-- Both require board_id to be specified
 - Mutually exclusive with cursor pagination and each other
 - Returns a window of scores with the target in the middle
 - Respects limit (e.g., limit=5 returns 2 above + target + 2 below)</p>
 <p>Example:
     GET /client/scores?board_id=brd_123&amp;limit=50&amp;sort=value:desc,created_at:asc
     GET /client/scores?board_id=brd_123&amp;around_score_id=scr_456&amp;limit=11
-    GET /client/scores?board_id=brd_123&amp;around_score_value=1500&amp;limit=11</p>
+    GET /client/scores?board_id=brd_123&amp;around_score_value=1500&amp;limit=11
+    GET /client/scores?board_id=brd_123&amp;identity_id=me (filter to current identity)</p>
 <p>Args:
     auth: Authentication context with user info.
     service: Injected score service dependency.
     pagination: Pagination parameters (cursor, limit, sort).
-    board_id: Optional board ID to filter by.
-    identity_id: Optional identity ID to filter by (e.g., to get "my scores").
+    board_id: Board ID to list scores for.
+    identity_id: Optional identity ID to filter by, or "me" for current identity.
     around_score_id: Optional score ID to center results around.
     around_score_value: Optional value to center results around (with placeholder).</p>
 <p>Returns:
@@ -2774,8 +2777,8 @@ with bidirectional navigation and custom sorting.</p>
 <tr>
 <td>board_id</td>
 <td>query</td>
-<td>any</td>
-<td>false</td>
+<td>string</td>
+<td>true</td>
 <td>none</td>
 </tr>
 <tr>
@@ -2783,7 +2786,7 @@ with bidirectional navigation and custom sorting.</p>
 <td>query</td>
 <td>any</td>
 <td>false</td>
-<td>none</td>
+<td>Identity ID to filter by, or 'me' for current identity</td>
 </tr>
 <tr>
 <td>around_score_id</td>

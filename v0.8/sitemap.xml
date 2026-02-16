@@ -37,10 +37,6 @@
          <lastmod>2026-02-16</lastmod>
     </url>
     <url>
-         <loc>https://docs.leadr.gg/v0.8/api/leadr-open-source/</loc>
-         <lastmod>2026-02-16</lastmod>
-    </url>
-    <url>
          <loc>https://docs.leadr.gg/v0.8/api/pagination/</loc>
          <lastmod>2026-02-16</lastmod>
     </url>
@@ -50,6 +46,10 @@
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.8/api/self-host/</loc>
+         <lastmod>2026-02-16</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.8/api/template-naming/</loc>
          <lastmod>2026-02-16</lastmod>
     </url>
     <url>

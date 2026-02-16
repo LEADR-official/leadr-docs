@@ -1323,7 +1323,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../leadr-open-source/" class="md-nav__link">
+      <a href="../../leadr-open-source.md" class="md-nav__link">
         
   
   
@@ -6108,8 +6108,8 @@ soft-deleting the flag.</p>
 <li><a href="#leadr.scores.api.score_routes.get_score"><strong>get_score</strong></a> – Get a score by ID.</li>
 <li><a href="#leadr.scores.api.score_routes.get_score_client"><strong>get_score_client</strong></a> – Get a score by ID (Client API).</li>
 <li><a href="#leadr.scores.api.score_routes.handle_list_scores"><strong>handle_list_scores</strong></a> – Handle list scores logic for both admin and client endpoints.</li>
-<li><a href="#leadr.scores.api.score_routes.list_scores_admin"><strong>list_scores_admin</strong></a> – List scores for an account with optional filters and pagination.</li>
-<li><a href="#leadr.scores.api.score_routes.list_scores_client"><strong>list_scores_client</strong></a> – List scores for an account with optional filters and pagination.</li>
+<li><a href="#leadr.scores.api.score_routes.list_scores_admin"><strong>list_scores_admin</strong></a> – List scores for a board with optional filters and pagination.</li>
+<li><a href="#leadr.scores.api.score_routes.list_scores_client"><strong>list_scores_client</strong></a> – List scores for a board with optional filters and pagination.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
@@ -6208,7 +6208,7 @@ different response models based on the authentication type:</p>
 <li><strong>board_service</strong> – Board service for fetching board details.</li>
 <li><strong>pagination</strong> (<code><a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Pagination parameters (cursor, limit, sort).</li>
 <li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID filter.</li>
-<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID filter.</li>
+<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a></code>) – Board ID to list scores for.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID filter.</li>
 <li><strong>identity_id</strong> (<code><a href="../common/#leadr.common.domain.ids.IdentityID">IdentityID</a> | None</code>) – Optional identity ID filter.</li>
 <li><strong>is_test</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for test scores. True returns only test scores,
@@ -6227,11 +6227,11 @@ different response models based on the authentication type:</p>
 <li><code><a href="#fastapi.HTTPException">HTTPException</a></code> – 404 if around_score_id score not found.</li>
 </ul>
 <h6 id="leadrscoresapiscore_routeslist_scores_admin"><code>leadr.scores.api.score_routes.list_scores_admin</code><a class="headerlink" href="#leadrscoresapiscore_routeslist_scores_admin" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_scores_admin</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">board_service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="n">IsTestFilter</span><span class="o">.</span><span class="n">FALSE</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_scores_admin</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">board_service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="n">IsTestFilter</span><span class="o">.</span><span class="n">FALSE</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
-<p>List scores for an account with optional filters and pagination.</p>
-<p>Returns paginated scores for the specified account, with optional
-filtering by board, game, or identity. Supports cursor-based pagination
+<p>List scores for a board with optional filters and pagination.</p>
+<p>Returns paginated scores for the specified board, with optional
+filtering by game or identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.</p>
 <p>For regular admin users, account_id is automatically derived from their API key.
 For superadmins, account_id must be explicitly provided as a query parameter.</p>
@@ -6247,7 +6247,6 @@ For superadmins, account_id must be explicitly provided as a query parameter.</p
 <li>Use around_score_id to get scores centered around a specific score</li>
 <li>Use around_score_value to get scores centered around a hypothetical value
   (returns a placeholder score with is_placeholder=True)</li>
-<li>Both require board_id to be specified</li>
 <li>Mutually exclusive with cursor pagination and each other</li>
 <li>Returns a window of scores with the target in the middle</li>
 <li>Respects limit (e.g., limit=5 returns 2 above + target + 2 below)</li>
@@ -6266,8 +6265,8 @@ GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 <li><strong>auth</strong> (<code><a href="../auth/#leadr.auth.dependencies.AdminAuthContextDep">AdminAuthContextDep</a></code>) – Authentication context with user info.</li>
 <li><strong>service</strong> (<code><a href="./#leadr.scores.services.dependencies.ScoreServiceDep">ScoreServiceDep</a></code>) – Injected score service dependency.</li>
 <li><strong>pagination</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a>, <a href="#fastapi.Depends">Depends</a>()]</code>) – Pagination parameters (cursor, limit, sort).</li>
+<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a></code>) – Board ID to list scores for.</li>
 <li><strong>account_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None, <a href="#fastapi.Query">Query</a>(description='Account ID filter')]</code>) – Optional account_id query parameter (required for superadmins).</li>
-<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by.</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID to filter by.</li>
 <li><strong>identity_id</strong> (<code><a href="../common/#leadr.common.domain.ids.IdentityID">IdentityID</a> | None</code>) – Optional identity ID to filter by.</li>
 <li><strong>around_score_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a> | None, <a href="#fastapi.Query">Query</a>(description='Center results around this score ID')]</code>) – Optional score ID to center results around.</li>
@@ -6285,11 +6284,11 @@ GET /v1/scores?board_id=brd_123&around_score_value=1500&limit=11
 <li><code>404</code> – around_score_id score not found.</li>
 </ul>
 <h6 id="leadrscoresapiscore_routeslist_scores_client"><code>leadr.scores.api.score_routes.list_scores_client</code><a class="headerlink" href="#leadrscoresapiscore_routeslist_scores_client" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_scores_client</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">board_service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_scores_client</span><span class="p">(</span><span class="n">auth</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">board_service</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">identity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
-<p>List scores for an account with optional filters and pagination.</p>
-<p>Returns paginated scores for the specified account, with optional
-filtering by board and/or identity. Supports cursor-based pagination
+<p>List scores for a board with optional filters and pagination.</p>
+<p>Returns paginated scores for the specified board, with optional
+filtering by identity. Supports cursor-based pagination
 with bidirectional navigation and custom sorting.</p>
 <p>Pagination:</p>
 <ul>
@@ -6303,7 +6302,6 @@ with bidirectional navigation and custom sorting.</p>
 <li>Use around_score_id to get scores centered around a specific score</li>
 <li>Use around_score_value to get scores centered around a hypothetical value
   (returns a placeholder score with is_placeholder=True)</li>
-<li>Both require board_id to be specified</li>
 <li>Mutually exclusive with cursor pagination and each other</li>
 <li>Returns a window of scores with the target in the middle</li>
 <li>Respects limit (e.g., limit=5 returns 2 above + target + 2 below)</li>
@@ -6314,6 +6312,7 @@ with bidirectional navigation and custom sorting.</p>
 GET /client/scores?board_id=brd_123&limit=50&sort=value:desc,created_at:asc
 GET /client/scores?board_id=brd_123&around_score_id=scr_456&limit=11
 GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
+GET /client/scores?board_id=brd_123&identity_id=me (filter to current identity)
 
 </details>
 
@@ -6322,8 +6321,8 @@ GET /client/scores?board_id=brd_123&around_score_value=1500&limit=11
 <li><strong>auth</strong> (<code><a href="../auth/#leadr.auth.dependencies.ClientAuthContextDep">ClientAuthContextDep</a></code>) – Authentication context with user info.</li>
 <li><strong>service</strong> (<code><a href="./#leadr.scores.services.dependencies.ScoreServiceDep">ScoreServiceDep</a></code>) – Injected score service dependency.</li>
 <li><strong>pagination</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.api.pagination.PaginationParams">PaginationParams</a>, <a href="#fastapi.Depends">Depends</a>()]</code>) – Pagination parameters (cursor, limit, sort).</li>
-<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Optional board ID to filter by.</li>
-<li><strong>identity_id</strong> (<code><a href="../common/#leadr.common.domain.ids.IdentityID">IdentityID</a> | None</code>) – Optional identity ID to filter by (e.g., to get "my scores").</li>
+<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a></code>) – Board ID to list scores for.</li>
+<li><strong>identity_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.IdentityID">IdentityID</a> | <a href="#typing.Literal">Literal</a>['me'] | None, <a href="#fastapi.Query">Query</a>(description="Identity ID to filter by, or 'me' for current identity")]</code>) – Optional identity ID to filter by, or "me" for current identity.</li>
 <li><strong>around_score_id</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="../common/#leadr.common.domain.ids.ScoreID">ScoreID</a> | None, <a href="#fastapi.Query">Query</a>(description='Center results around this score ID')]</code>) – Optional score ID to center results around.</li>
 <li><strong>around_score_value</strong> (<code><a href="#typing.Annotated">Annotated</a>[<a href="#float">float</a> | None, <a href="#fastapi.Query">Query</a>(description='Center results around this score value (returns placeholder)')]</code>) – Optional value to center results around (with placeholder).</li>
 </ul>
@@ -8458,14 +8457,14 @@ RunEntry (run_) based on board type. This method tries both services.</p>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If no matching BoardState or RunEntry is found.</li>
 </ul>
 <h6 id="leadrscoresservicesscore_servicescoreservicelist_scores"># <code>leadr.scores.services.score_service.ScoreService.list_scores</code><a class="headerlink" href="#leadrscoresservicesscore_servicescoreservicelist_scores" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">list_scores</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">list_scores</span><span class="p">(</span><span class="n">board_id</span><span class="p">,</span> <span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">game_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="n">around_score_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">around_score_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>List scores for a board with optional filters and pagination.</p>
 <p>Delegates to BoardStateService or RunEntryService based on board type.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Account ID to filter by (for authorization).</li>
-<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a> | None</code>) – Board ID to filter by (required for most use cases).</li>
+<li><strong>board_id</strong> (<code><a href="../common/#leadr.common.domain.ids.BoardID">BoardID</a></code>) – Board ID to list scores for.</li>
+<li><strong>account_id</strong> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID to filter by (for authorization).</li>
 <li><strong>game_id</strong> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a> | None</code>) – Optional game ID filter.</li>
 <li><strong>identity_id</strong> (<code><a href="../common/#leadr.common.domain.ids.IdentityID">IdentityID</a> | None</code>) – Optional identity ID filter.</li>
 <li><strong>is_test</strong> (<code><a href="#bool">bool</a> | None</code>) – Optional filter for test scores.</li>
@@ -8476,10 +8475,6 @@ RunEntry (run_) based on board type. This method tries both services.</p>
 <p><strong>Returns:</strong></p>
 <ul>
 <li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.boards.domain.board_state.BoardState">BoardState</a>] | <a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.boards.domain.run_entry.RunEntry">RunEntry</a>]</code> – PaginatedResult containing BoardState or RunEntry objects.</li>
-</ul>
-<p><strong>Raises:</strong></p>
-<ul>
-<li><code><a href="#ValueError">ValueError</a></code> – If board_id is not provided (required for list queries).</li>
 </ul>
 <h6 id="leadrscoresservicesscore_servicescoreservicesession"># <code>leadr.scores.services.score_service.ScoreService.session</code><a class="headerlink" href="#leadrscoresservicesscore_servicescoreservicesession" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">session</span> <span class="o">=</span> <span class="n">session</span>
