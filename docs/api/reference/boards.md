@@ -96,7 +96,7 @@ created_at: Mapped[timestamp]
 ####### `leadr.boards.adapters.orm.BoardORM.created_from_template_id`
 
 ```python
-created_from_template_id: Mapped[UUID | None] = mapped_column(nullable=True, default=None)
+created_from_template_id: Mapped[UUID | None] = mapped_column(nullable=True, default=None, index=True)
 ```
 
 ####### `leadr.boards.adapters.orm.BoardORM.deleted_at`
@@ -144,13 +144,13 @@ id: Mapped[uuid_pk]
 ####### `leadr.boards.adapters.orm.BoardORM.is_active`
 
 ```python
-is_active: Mapped[bool] = mapped_column(Boolean, nullable=False)
+is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, index=True)
 ```
 
 ####### `leadr.boards.adapters.orm.BoardORM.is_published`
 
 ```python
-is_published: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=(sa.text('true')))
+is_published: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True, server_default=(sa.text('true')), index=True)
 ```
 
 ####### `leadr.boards.adapters.orm.BoardORM.keep_strategy`
@@ -607,7 +607,7 @@ id: Mapped[uuid_pk]
 ####### `leadr.boards.adapters.orm.BoardTemplateORM.is_active`
 
 ```python
-is_active: Mapped[bool] = mapped_column(Boolean, nullable=False)
+is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, index=True)
 ```
 
 ####### `leadr.boards.adapters.orm.BoardTemplateORM.is_published`
@@ -637,7 +637,7 @@ name_template: Mapped[str | None] = mapped_column(String, nullable=True, default
 ####### `leadr.boards.adapters.orm.BoardTemplateORM.next_run_at`
 
 ```python
-next_run_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+next_run_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
 ```
 
 ####### `leadr.boards.adapters.orm.BoardTemplateORM.repeat_interval`

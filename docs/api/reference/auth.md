@@ -1220,7 +1220,7 @@ No authentication is required (the refresh token itself is the credential).
 ###### `leadr.auth.api.client_routes.start_session`
 
 ```python
-start_session(session_request, identity_service)
+start_session(session_request, identity_service, _geo)
 ```
 
 Start a new identity session for a game client.
@@ -1231,10 +1231,14 @@ the device record and creates a new identity session.
 
 No authentication is required to call this endpoint (it IS the authentication).
 
+The \_geo parameter triggers GeoIP lookup for this endpoint. Geo data is
+available for future use via \_geo.timezone, \_geo.country, \_geo.city.
+
 **Parameters:**
 
 - **session_request** (<code>[StartSessionRequest](#leadr.auth.api.client_schemas.StartSessionRequest)</code>) – Session start request with game_id and fingerprint
 - **identity_service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – IdentityService dependency (handles device and identity creation)
+- **\_geo** (<code>[GeoInfoDep](./common.md#leadr.common.dependencies.GeoInfoDep)</code>) – GeoIP information extracted from client IP address (available for future use)
 
 **Returns:**
 
@@ -4097,10 +4101,13 @@ and repository layer.
 - [**list_all**](#leadr.auth.services.api_key_service.APIKeyService.list_all) – List all non-deleted entities.
 - [**list_api_keys**](#leadr.auth.services.api_key_service.APIKeyService.list_api_keys) – List API keys for an account with optional filters and pagination.
 - [**record_usage**](#leadr.auth.services.api_key_service.APIKeyService.record_usage) – Record that an API key was used at a specific time.
+- [**record_usage_async**](#leadr.auth.services.api_key_service.APIKeyService.record_usage_async) – Record API key usage asynchronously (for background tasks).
 - [**revoke_api_key**](#leadr.auth.services.api_key_service.APIKeyService.revoke_api_key) – Revoke an API key, preventing further use.
+- [**should_update_usage**](#leadr.auth.services.api_key_service.APIKeyService.should_update_usage) – Check if last_used_at needs updating based on configurable threshold.
 - [**soft_delete**](#leadr.auth.services.api_key_service.APIKeyService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_api_key_status**](#leadr.auth.services.api_key_service.APIKeyService.update_api_key_status) – Update the status of an API key.
 - [**validate_api_key**](#leadr.auth.services.api_key_service.APIKeyService.validate_api_key) – Validate an API key and return the domain entity if valid.
+- [**validate_api_key_with_user**](#leadr.auth.services.api_key_service.APIKeyService.validate_api_key_with_user) – Validate an API key and return both the key and associated user.
 
 **Attributes:**
 
@@ -4343,6 +4350,21 @@ also be called explicitly if needed.
 
 - <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the key doesn't exist.
 
+####### `leadr.auth.services.api_key_service.APIKeyService.record_usage_async`
+
+```python
+record_usage_async(key_id)
+```
+
+Record API key usage asynchronously (for background tasks).
+
+This method is designed to be called as a background task. It silently
+handles missing keys to avoid errors in background processing.
+
+**Parameters:**
+
+- **key_id** (<code>[APIKeyID](./common.md#leadr.common.domain.ids.APIKeyID)</code>) – The ID of the API key that was used.
+
 ####### `leadr.auth.services.api_key_service.APIKeyService.repository`
 
 ```python
@@ -4368,6 +4390,27 @@ Revoke an API key, preventing further use.
 **Raises:**
 
 - <code>[EntityNotFoundError](./common.md#leadr.common.domain.exceptions.EntityNotFoundError)</code> – If the key doesn't exist.
+
+####### `leadr.auth.services.api_key_service.APIKeyService.should_update_usage`
+
+```python
+should_update_usage(api_key)
+```
+
+Check if last_used_at needs updating based on configurable threshold.
+
+Returns True if:
+
+- last_used_at is None (never used before), or
+- last_used_at is older than API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS
+
+**Parameters:**
+
+- **api_key** (<code>[APIKey](#leadr.auth.domain.api_key.APIKey)</code>) – The API key to check.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if usage should be updated, False otherwise.
 
 ####### `leadr.auth.services.api_key_service.APIKeyService.soft_delete`
 
@@ -4427,7 +4470,10 @@ Performs the following checks:
 1. Verifies the hash matches
 1. Checks if key is active (not revoked)
 1. Checks if key is not expired
-1. Records usage timestamp if valid
+
+Note: This method does NOT update last_used_at. The caller should check
+should_update_usage() and schedule record_usage_async() via background task
+if needed.
 
 **Parameters:**
 
@@ -4443,6 +4489,48 @@ Performs the following checks:
 > > > api_key = await service.validate_api_key("ldr_abc123...")
 > > > if api_key:
 > > > ... print(f"Valid key for account {api_key.account_id}")
+> > > ... else:
+> > > ... print("Invalid or expired key")
+
+</details>
+
+####### `leadr.auth.services.api_key_service.APIKeyService.validate_api_key_with_user`
+
+```python
+validate_api_key_with_user(plain_key)
+```
+
+Validate an API key and return both the key and associated user.
+
+This method performs a single JOIN query to retrieve both the API key
+and user in one database round-trip, reducing auth latency.
+
+Performs the following checks:
+
+1. Extracts prefix and looks up key + user in database via JOIN
+1. Verifies the hash matches
+1. Checks if key is active (not revoked)
+1. Checks if key is not expired
+
+Note: This method does NOT update last_used_at. The caller should check
+should_update_usage() and schedule record_usage_async() via background task
+if needed.
+
+**Parameters:**
+
+- **plain_key** (<code>[str](#str)</code>) – The plain API key string to validate.
+
+**Returns:**
+
+- <code>[tuple](#tuple)\[[APIKey](#leadr.auth.domain.api_key.APIKey), [User](./accounts.md#leadr.accounts.domain.user.User)\] | None</code> – A tuple of (APIKey, User) if valid, None otherwise.
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > result = await service.validate_api_key_with_user("ldr_abc123...")
+> > > if result:
+> > > ... api_key, user = result
+> > > ... print(f"Valid key for user {user.email}")
 > > > ... else:
 > > > ... print("Invalid or expired key")
 
@@ -5715,6 +5803,7 @@ API Key repository for managing API key persistence.
 - [**filter**](./auth.md#leadr.auth.services.repositories.APIKeyRepository.filter) – Filter API keys by account and optional criteria with pagination.
 - [**get_by_id**](#leadr.auth.services.repositories.APIKeyRepository.get_by_id) – Get an entity by its ID.
 - [**get_by_prefix**](#leadr.auth.services.repositories.APIKeyRepository.get_by_prefix) – Get API key by prefix, returns None if not found or soft-deleted.
+- [**get_by_prefix_with_user**](#leadr.auth.services.repositories.APIKeyRepository.get_by_prefix_with_user) – Get API key and associated user in a single query.
 - [**update**](./auth.md#leadr.auth.services.repositories.APIKeyRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
@@ -5826,6 +5915,25 @@ get_by_prefix(key_prefix)
 ```
 
 Get API key by prefix, returns None if not found or soft-deleted.
+
+####### `leadr.auth.services.repositories.APIKeyRepository.get_by_prefix_with_user`
+
+```python
+get_by_prefix_with_user(key_prefix)
+```
+
+Get API key and associated user in a single query.
+
+This method performs a JOIN between api_keys and users tables to retrieve
+both entities in one database round-trip, reducing auth latency.
+
+**Parameters:**
+
+- **key_prefix** (<code>[str](#str)</code>) – The API key prefix to search for.
+
+**Returns:**
+
+- <code>[tuple](#tuple)\[[APIKey](#leadr.auth.domain.api_key.APIKey), [User](./accounts.md#leadr.accounts.domain.user.User)\] | None</code> – A tuple of (APIKey, User) if found and neither soft-deleted, None otherwise.
 
 ####### `leadr.auth.services.repositories.APIKeyRepository.session`
 

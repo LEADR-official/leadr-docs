@@ -67,6 +67,7 @@ field names (case-sensitive).
 - [**ANTICHEAT_RATE_LIMIT_TIER_C**](#leadr.config.CommonSettings.ANTICHEAT_RATE_LIMIT_TIER_C) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_VELOCITY_THRESHOLD_SECONDS**](#leadr.config.CommonSettings.ANTICHEAT_VELOCITY_THRESHOLD_SECONDS) (<code>[float](#float)</code>) –
 - [**API_KEY_SECRET**](#leadr.config.CommonSettings.API_KEY_SECRET) (<code>[str](#str)</code>) –
+- [**API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS**](#leadr.config.CommonSettings.API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS) (<code>[int](#int)</code>) –
 - [**API_PREFIX**](#leadr.config.CommonSettings.API_PREFIX) (<code>[str](#str)</code>) –
 - [**APP**](./config.md#leadr.config.CommonSettings.APP) (<code>[str](#str)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
@@ -194,6 +195,12 @@ ANTICHEAT_VELOCITY_THRESHOLD_SECONDS: float = Field(default=2.0, description='Mi
 
 ```python
 API_KEY_SECRET: str = Field(default='your-super-secret-api-key-pepper-change-in-production', description='Secret pepper for API key hashing. MUST be changed in production.')
+```
+
+##### `leadr.config.CommonSettings.API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS`
+
+```python
+API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS: int = Field(default=300, description='Only update API key last_used_at if older than this (default: 5 minutes)')
 ```
 
 ##### `leadr.config.CommonSettings.API_PREFIX`
@@ -577,6 +584,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**ANTICHEAT_RATE_LIMIT_TIER_C**](#leadr.config.Settings.ANTICHEAT_RATE_LIMIT_TIER_C) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_VELOCITY_THRESHOLD_SECONDS**](#leadr.config.Settings.ANTICHEAT_VELOCITY_THRESHOLD_SECONDS) (<code>[float](#float)</code>) –
 - [**API_KEY_SECRET**](#leadr.config.Settings.API_KEY_SECRET) (<code>[str](#str)</code>) –
+- [**API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS**](#leadr.config.Settings.API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS) (<code>[int](#int)</code>) –
 - [**API_PREFIX**](#leadr.config.Settings.API_PREFIX) (<code>[str](#str)</code>) –
 - [**APP**](#leadr.config.Settings.APP) (<code>[str](#str)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
@@ -664,6 +672,7 @@ Test-specific overrides can be added here.
 - [**ANTICHEAT_RATE_LIMIT_TIER_C**](#leadr.config.TestSettings.ANTICHEAT_RATE_LIMIT_TIER_C) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_VELOCITY_THRESHOLD_SECONDS**](#leadr.config.TestSettings.ANTICHEAT_VELOCITY_THRESHOLD_SECONDS) (<code>[float](#float)</code>) –
 - [**API_KEY_SECRET**](#leadr.config.TestSettings.API_KEY_SECRET) (<code>[str](#str)</code>) –
+- [**API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS**](#leadr.config.TestSettings.API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS) (<code>[int](#int)</code>) –
 - [**API_PREFIX**](#leadr.config.TestSettings.API_PREFIX) (<code>[str](#str)</code>) –
 - [**APP**](./config.md#leadr.config.TestSettings.APP) (<code>[str](#str)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
@@ -791,6 +800,12 @@ ANTICHEAT_VELOCITY_THRESHOLD_SECONDS: float = Field(default=2.0, description='Mi
 
 ```python
 API_KEY_SECRET: str = Field(default='your-super-secret-api-key-pepper-change-in-production', description='Secret pepper for API key hashing. MUST be changed in production.')
+```
+
+##### `leadr.config.TestSettings.API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS`
+
+```python
+API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS: int = Field(default=300, description='Only update API key last_used_at if older than this (default: 5 minutes)')
 ```
 
 ##### `leadr.config.TestSettings.API_PREFIX`

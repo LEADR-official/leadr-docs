@@ -76,7 +76,7 @@ slug: Mapped[str] = mapped_column(String, nullable=False, unique=True, index=Tru
 ####### `leadr.accounts.adapters.orm.AccountORM.status`
 
 ```python
-status: Mapped[AccountStatusEnum] = mapped_column(Enum(AccountStatusEnum, name='account_status', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, default=(AccountStatusEnum.ACTIVE), server_default='active')
+status: Mapped[AccountStatusEnum] = mapped_column(Enum(AccountStatusEnum, name='account_status', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, default=(AccountStatusEnum.ACTIVE), server_default='active', index=True)
 ```
 
 ####### `leadr.accounts.adapters.orm.AccountORM.updated_at`
@@ -182,7 +182,7 @@ id: Mapped[uuid_pk]
 ####### `leadr.accounts.adapters.orm.UserORM.is_owner`
 
 ```python
-is_owner: Mapped[bool] = mapped_column(nullable=False, default=False, server_default='false')
+is_owner: Mapped[bool] = mapped_column(nullable=False, default=False, server_default='false', index=True)
 ```
 
 ####### `leadr.accounts.adapters.orm.UserORM.status`
@@ -194,7 +194,7 @@ status: Mapped[UserStatusEnum] = mapped_column(Enum(UserStatusEnum, name='user_s
 ####### `leadr.accounts.adapters.orm.UserORM.super_admin`
 
 ```python
-super_admin: Mapped[bool] = mapped_column(nullable=False, default=False, server_default='false')
+super_admin: Mapped[bool] = mapped_column(nullable=False, default=False, server_default='false', index=True)
 ```
 
 ####### `leadr.accounts.adapters.orm.UserORM.updated_at`

@@ -858,14 +858,66 @@ handles cleanup and rollback on exceptions.
 
 Shared FastAPI dependencies for the application.
 
+**Functions:**
+
+- [**get_geo_info**](#leadr.common.dependencies.get_geo_info) – FastAPI dependency to get GeoIP info for the request.
+
 **Attributes:**
 
 - [**DatabaseSession**](./common.md#leadr.common.dependencies.DatabaseSession) –
+- [**GeoInfoDep**](./common.md#leadr.common.dependencies.GeoInfoDep) –
+- [**logger**](./common.md#leadr.common.dependencies.logger) –
 
 ##### `leadr.common.dependencies.DatabaseSession`
 
 ```python
 DatabaseSession = Annotated[AsyncSession, Depends(get_db)]
+```
+
+##### `leadr.common.dependencies.GeoInfoDep`
+
+```python
+GeoInfoDep = Annotated[GeoInfo, Depends(get_geo_info)]
+```
+
+##### `leadr.common.dependencies.get_geo_info`
+
+```python
+get_geo_info(request)
+```
+
+FastAPI dependency to get GeoIP info for the request.
+
+This dependency performs GeoIP lookup for the client's IP address. It's
+designed to be used on specific endpoints (like score submissions) rather
+than globally as middleware.
+
+The dependency gracefully handles failures - if GeoIP lookup fails for any
+reason, it returns a GeoInfo with all None fields.
+
+**Parameters:**
+
+- **request** (<code>[Request](#fastapi.Request)</code>) – The incoming FastAPI request.
+
+**Returns:**
+
+- <code>[GeoInfo](./common.md#leadr.common.geoip.GeoInfo)</code> – GeoInfo with timezone, country, and city (all may be None).
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+@router.post("/scores")
+async def submit_score(geo: GeoInfoDep):
+timezone = geo.timezone
+country = geo.country
+city = geo.city
+
+</details>
+
+##### `leadr.common.dependencies.logger`
+
+```python
+logger = logging.getLogger(__name__)
 ```
 
 #### `leadr.common.domain`
