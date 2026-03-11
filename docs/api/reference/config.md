@@ -75,6 +75,11 @@ field names (case-sensitive).
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BASE_URL**](#leadr.config.CommonSettings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**BOARDS_UI_DOMAIN**](#leadr.config.CommonSettings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
+- [**CORS_ALLOW_CREDENTIALS**](#leadr.config.CommonSettings.CORS_ALLOW_CREDENTIALS) (<code>[bool](#bool)</code>) –
+- [**CORS_ALLOW_HEADERS**](#leadr.config.CommonSettings.CORS_ALLOW_HEADERS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_ALLOW_METHODS**](#leadr.config.CommonSettings.CORS_ALLOW_METHODS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_ALLOW_ORIGINS**](#leadr.config.CommonSettings.CORS_ALLOW_ORIGINS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_MAX_AGE**](#leadr.config.CommonSettings.CORS_MAX_AGE) (<code>[int](#int)</code>) –
 - [**DASHBOARD_URL**](#leadr.config.CommonSettings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.CommonSettings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.CommonSettings.DB_HOST) (<code>[str](#str)</code>) –
@@ -243,6 +248,36 @@ BASE_URL: HttpUrl = Field(default=(HttpUrl('http://localhost:8000')), descriptio
 
 ```python
 BOARDS_UI_DOMAIN: str | None = Field(default=None, description="Base URL for public board UI (e.g., 'https://boards.leadr.gg'). When set, enables url/url_short fields in Game and Board API responses.")
+```
+
+##### `leadr.config.CommonSettings.CORS_ALLOW_CREDENTIALS`
+
+```python
+CORS_ALLOW_CREDENTIALS: bool = Field(default=False, description="Allow credentials in CORS. Must be False when origins is ['*'].")
+```
+
+##### `leadr.config.CommonSettings.CORS_ALLOW_HEADERS`
+
+```python
+CORS_ALLOW_HEADERS: list[str] = Field(default=['authorization', 'content-type', 'leadr-client-nonce', 'leadr-client', 'leadr-api-key'], description='HTTP headers allowed in CORS requests.')
+```
+
+##### `leadr.config.CommonSettings.CORS_ALLOW_METHODS`
+
+```python
+CORS_ALLOW_METHODS: list[str] = Field(default=['GET', 'POST', 'PATCH', 'OPTIONS'], description='HTTP methods allowed for CORS requests.')
+```
+
+##### `leadr.config.CommonSettings.CORS_ALLOW_ORIGINS`
+
+```python
+CORS_ALLOW_ORIGINS: list[str] = Field(default=['*'], description="Allowed CORS origins. Use ['*'] for all origins (required for game clients).")
+```
+
+##### `leadr.config.CommonSettings.CORS_MAX_AGE`
+
+```python
+CORS_MAX_AGE: int = Field(default=600, description='Seconds to cache preflight responses (default: 10 minutes).')
 ```
 
 ##### `leadr.config.CommonSettings.DASHBOARD_URL`
@@ -592,6 +627,11 @@ This is the default settings class used when ENV != 'TEST'.
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BASE_URL**](#leadr.config.Settings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**BOARDS_UI_DOMAIN**](#leadr.config.Settings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
+- [**CORS_ALLOW_CREDENTIALS**](#leadr.config.Settings.CORS_ALLOW_CREDENTIALS) (<code>[bool](#bool)</code>) –
+- [**CORS_ALLOW_HEADERS**](#leadr.config.Settings.CORS_ALLOW_HEADERS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_ALLOW_METHODS**](#leadr.config.Settings.CORS_ALLOW_METHODS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_ALLOW_ORIGINS**](#leadr.config.Settings.CORS_ALLOW_ORIGINS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_MAX_AGE**](#leadr.config.Settings.CORS_MAX_AGE) (<code>[int](#int)</code>) –
 - [**DASHBOARD_URL**](#leadr.config.Settings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.Settings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.Settings.DB_HOST) (<code>[str](#str)</code>) –
@@ -680,6 +720,11 @@ Test-specific overrides can be added here.
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BASE_URL**](#leadr.config.TestSettings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**BOARDS_UI_DOMAIN**](#leadr.config.TestSettings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
+- [**CORS_ALLOW_CREDENTIALS**](#leadr.config.TestSettings.CORS_ALLOW_CREDENTIALS) (<code>[bool](#bool)</code>) –
+- [**CORS_ALLOW_HEADERS**](#leadr.config.TestSettings.CORS_ALLOW_HEADERS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_ALLOW_METHODS**](#leadr.config.TestSettings.CORS_ALLOW_METHODS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_ALLOW_ORIGINS**](#leadr.config.TestSettings.CORS_ALLOW_ORIGINS) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**CORS_MAX_AGE**](#leadr.config.TestSettings.CORS_MAX_AGE) (<code>[int](#int)</code>) –
 - [**DASHBOARD_URL**](#leadr.config.TestSettings.DASHBOARD_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**DB_ECHO**](#leadr.config.TestSettings.DB_ECHO) (<code>[bool](#bool)</code>) –
 - [**DB_HOST**](#leadr.config.TestSettings.DB_HOST) (<code>[str](#str)</code>) –
@@ -848,6 +893,36 @@ BASE_URL: HttpUrl = Field(default=(HttpUrl('http://localhost:8000')), descriptio
 
 ```python
 BOARDS_UI_DOMAIN: str | None = Field(default=None, description="Base URL for public board UI (e.g., 'https://boards.leadr.gg'). When set, enables url/url_short fields in Game and Board API responses.")
+```
+
+##### `leadr.config.TestSettings.CORS_ALLOW_CREDENTIALS`
+
+```python
+CORS_ALLOW_CREDENTIALS: bool = Field(default=False, description="Allow credentials in CORS. Must be False when origins is ['*'].")
+```
+
+##### `leadr.config.TestSettings.CORS_ALLOW_HEADERS`
+
+```python
+CORS_ALLOW_HEADERS: list[str] = Field(default=['authorization', 'content-type', 'leadr-client-nonce', 'leadr-client', 'leadr-api-key'], description='HTTP headers allowed in CORS requests.')
+```
+
+##### `leadr.config.TestSettings.CORS_ALLOW_METHODS`
+
+```python
+CORS_ALLOW_METHODS: list[str] = Field(default=['GET', 'POST', 'PATCH', 'OPTIONS'], description='HTTP methods allowed for CORS requests.')
+```
+
+##### `leadr.config.TestSettings.CORS_ALLOW_ORIGINS`
+
+```python
+CORS_ALLOW_ORIGINS: list[str] = Field(default=['*'], description="Allowed CORS origins. Use ['*'] for all origins (required for game clients).")
+```
+
+##### `leadr.config.TestSettings.CORS_MAX_AGE`
+
+```python
+CORS_MAX_AGE: int = Field(default=600, description='Seconds to cache preflight responses (default: 10 minutes).')
 ```
 
 ##### `leadr.config.TestSettings.DASHBOARD_URL`
