@@ -1927,9 +1927,12 @@ replay attacks by ensuring each request is fresh and authorized.</p>
 It is idempotent - calling multiple times for the same fingerprint updates
 the device record and creates a new identity session.</p>
 <p>No authentication is required to call this endpoint (it IS the authentication).</p>
+<p>The _geo parameter triggers GeoIP lookup for this endpoint. Geo data is
+available for future use via _geo.timezone, _geo.country, _geo.city.</p>
 <p>Args:
     session_request: Session start request with game_id and fingerprint
-    identity_service: IdentityService dependency (handles device and identity creation)</p>
+    identity_service: IdentityService dependency (handles device and identity creation)
+    _geo: GeoIP information extracted from client IP address (available for future use)</p>
 <p>Returns:
     StartSessionResponse with identity info and access tokens</p>
 <p>Raises:

@@ -2449,6 +2449,33 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#leadrcommondependenciesgeoinfodep" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.dependencies.GeoInfoDep
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommondependenciesget_geo_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.dependencies.get_geo_info
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommondependencieslogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.dependencies.logger
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4932,12 +4959,52 @@ committing transactions explicitly. The context manager automatically
 handles cleanup and rollback on exceptions.</p>
 <h4 id="leadrcommondependencies"><code>leadr.common.dependencies</code><a class="headerlink" href="#leadrcommondependencies" title="Permanent link">&para;</a></h4>
 <p>Shared FastAPI dependencies for the application.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.common.dependencies.get_geo_info"><strong>get_geo_info</strong></a> – FastAPI dependency to get GeoIP info for the request.</li>
+</ul>
 <p><strong>Attributes:</strong></p>
 <ul>
 <li><a href="./#leadr.common.dependencies.DatabaseSession"><strong>DatabaseSession</strong></a> –</li>
+<li><a href="./#leadr.common.dependencies.GeoInfoDep"><strong>GeoInfoDep</strong></a> –</li>
+<li><a href="./#leadr.common.dependencies.logger"><strong>logger</strong></a> –</li>
 </ul>
 <h5 id="leadrcommondependenciesdatabasesession"><code>leadr.common.dependencies.DatabaseSession</code><a class="headerlink" href="#leadrcommondependenciesdatabasesession" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">DatabaseSession</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">AsyncSession</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)]</span>
+</code></pre></div>
+<h5 id="leadrcommondependenciesgeoinfodep"><code>leadr.common.dependencies.GeoInfoDep</code><a class="headerlink" href="#leadrcommondependenciesgeoinfodep" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">GeoInfoDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">GeoInfo</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_geo_info</span><span class="p">)]</span>
+</code></pre></div>
+<h5 id="leadrcommondependenciesget_geo_info"><code>leadr.common.dependencies.get_geo_info</code><a class="headerlink" href="#leadrcommondependenciesget_geo_info" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">get_geo_info</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</code></pre></div>
+<p>FastAPI dependency to get GeoIP info for the request.</p>
+<p>This dependency performs GeoIP lookup for the client's IP address. It's
+designed to be used on specific endpoints (like score submissions) rather
+than globally as middleware.</p>
+<p>The dependency gracefully handles failures - if GeoIP lookup fails for any
+reason, it returns a GeoInfo with all None fields.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>request</strong> (<code><a href="#fastapi.Request">Request</a></code>) – The incoming FastAPI request.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="./#leadr.common.geoip.GeoInfo">GeoInfo</a></code> – GeoInfo with timezone, country, and city (all may be None).</li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+@router.post("/scores")
+async def submit_score(geo: GeoInfoDep):
+timezone = geo.timezone
+country = geo.country
+city = geo.city
+
+</details>
+
+<h5 id="leadrcommondependencieslogger"><code>leadr.common.dependencies.logger</code><a class="headerlink" href="#leadrcommondependencieslogger" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 </code></pre></div>
 <h4 id="leadrcommondomain"><code>leadr.common.domain</code><a class="headerlink" href="#leadrcommondomain" title="Permanent link">&para;</a></h4>
 <p><strong>Modules:</strong></p>

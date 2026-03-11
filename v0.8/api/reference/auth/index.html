@@ -5397,6 +5397,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicerecord_usage_async" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.record_usage_async
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrauthservicesapi_key_serviceapikeyservicerepository" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.auth.services.api_key_service.APIKeyService.repository
@@ -5409,6 +5418,15 @@
   <a href="#leadrauthservicesapi_key_serviceapikeyservicerevoke_api_key" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.auth.services.api_key_service.APIKeyService.revoke_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyserviceshould_update_usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.should_update_usage
     </span>
   </a>
   
@@ -5436,6 +5454,15 @@
   <a href="#leadrauthservicesapi_key_serviceapikeyservicevalidate_api_key" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.auth.services.api_key_service.APIKeyService.validate_api_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesapi_key_serviceapikeyservicevalidate_api_key_with_user" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.api_key_service.APIKeyService.validate_api_key_with_user
     </span>
   </a>
   
@@ -6153,6 +6180,15 @@
   <a href="#leadrauthservicesrepositoriesapikeyrepositoryget_by_prefix" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.auth.services.repositories.APIKeyRepository.get_by_prefix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrauthservicesrepositoriesapikeyrepositoryget_by_prefix_with_user" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.auth.services.repositories.APIKeyRepository.get_by_prefix_with_user
     </span>
   </a>
   
@@ -7343,17 +7379,20 @@ replay attacks by ensuring each request is fresh and authorized.</p>
 <li><code>422</code> – Invalid request (missing refresh_token)</li>
 </ul>
 <h6 id="leadrauthapiclient_routesstart_session"><code>leadr.auth.api.client_routes.start_session</code><a class="headerlink" href="#leadrauthapiclient_routesstart_session" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">start_session</span><span class="p">(</span><span class="n">session_request</span><span class="p">,</span> <span class="n">identity_service</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">start_session</span><span class="p">(</span><span class="n">session_request</span><span class="p">,</span> <span class="n">identity_service</span><span class="p">,</span> <span class="n">_geo</span><span class="p">)</span>
 </code></pre></div>
 <p>Start a new identity session for a game client.</p>
 <p>This endpoint authenticates game clients and provides JWT access tokens.
 It is idempotent - calling multiple times for the same fingerprint updates
 the device record and creates a new identity session.</p>
 <p>No authentication is required to call this endpoint (it IS the authentication).</p>
+<p>The _geo parameter triggers GeoIP lookup for this endpoint. Geo data is
+available for future use via _geo.timezone, _geo.country, _geo.city.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>session_request</strong> (<code><a href="#leadr.auth.api.client_schemas.StartSessionRequest">StartSessionRequest</a></code>) – Session start request with game_id and fingerprint</li>
 <li><strong>identity_service</strong> (<code><a href="./#leadr.auth.services.dependencies.IdentityServiceDep">IdentityServiceDep</a></code>) – IdentityService dependency (handles device and identity creation)</li>
+<li><strong>_geo</strong> (<code><a href="../common/#leadr.common.dependencies.GeoInfoDep">GeoInfoDep</a></code>) – GeoIP information extracted from client IP address (available for future use)</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
@@ -9326,10 +9365,13 @@ and repository layer.</p>
 <li><a href="#leadr.auth.services.api_key_service.APIKeyService.list_all"><strong>list_all</strong></a> – List all non-deleted entities.</li>
 <li><a href="#leadr.auth.services.api_key_service.APIKeyService.list_api_keys"><strong>list_api_keys</strong></a> – List API keys for an account with optional filters and pagination.</li>
 <li><a href="#leadr.auth.services.api_key_service.APIKeyService.record_usage"><strong>record_usage</strong></a> – Record that an API key was used at a specific time.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.record_usage_async"><strong>record_usage_async</strong></a> – Record API key usage asynchronously (for background tasks).</li>
 <li><a href="#leadr.auth.services.api_key_service.APIKeyService.revoke_api_key"><strong>revoke_api_key</strong></a> – Revoke an API key, preventing further use.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.should_update_usage"><strong>should_update_usage</strong></a> – Check if last_used_at needs updating based on configurable threshold.</li>
 <li><a href="#leadr.auth.services.api_key_service.APIKeyService.soft_delete"><strong>soft_delete</strong></a> – Soft-delete an entity and return it before deletion.</li>
 <li><a href="#leadr.auth.services.api_key_service.APIKeyService.update_api_key_status"><strong>update_api_key_status</strong></a> – Update the status of an API key.</li>
 <li><a href="#leadr.auth.services.api_key_service.APIKeyService.validate_api_key"><strong>validate_api_key</strong></a> – Validate an API key and return the domain entity if valid.</li>
+<li><a href="#leadr.auth.services.api_key_service.APIKeyService.validate_api_key_with_user"><strong>validate_api_key_with_user</strong></a> – Validate an API key and return both the key and associated user.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
@@ -9523,6 +9565,16 @@ also be called explicitly if needed.</p>
 <ul>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the key doesn't exist.</li>
 </ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicerecord_usage_async"># <code>leadr.auth.services.api_key_service.APIKeyService.record_usage_async</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicerecord_usage_async" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">record_usage_async</span><span class="p">(</span><span class="n">key_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Record API key usage asynchronously (for background tasks).</p>
+<p>This method is designed to be called as a background task. It silently
+handles missing keys to avoid errors in background processing.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key_id</strong> (<code><a href="../common/#leadr.common.domain.ids.APIKeyID">APIKeyID</a></code>) – The ID of the API key that was used.</li>
+</ul>
 <h6 id="leadrauthservicesapi_key_serviceapikeyservicerepository"># <code>leadr.auth.services.api_key_service.APIKeyService.repository</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicerepository" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span> <span class="k">if</span> <span class="n">repository</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
@@ -9541,6 +9593,23 @@ also be called explicitly if needed.</p>
 <p><strong>Raises:</strong></p>
 <ul>
 <li><code><a href="../common/#leadr.common.domain.exceptions.EntityNotFoundError">EntityNotFoundError</a></code> – If the key doesn't exist.</li>
+</ul>
+<h6 id="leadrauthservicesapi_key_serviceapikeyserviceshould_update_usage"># <code>leadr.auth.services.api_key_service.APIKeyService.should_update_usage</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyserviceshould_update_usage" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">should_update_usage</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+</code></pre></div>
+<p>Check if last_used_at needs updating based on configurable threshold.</p>
+<p>Returns True if:</p>
+<ul>
+<li>last_used_at is None (never used before), or</li>
+<li>last_used_at is older than API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS</li>
+</ul>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>api_key</strong> (<code><a href="#leadr.auth.domain.api_key.APIKey">APIKey</a></code>) – The API key to check.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#bool">bool</a></code> – True if usage should be updated, False otherwise.</li>
 </ul>
 <h6 id="leadrauthservicesapi_key_serviceapikeyservicesoft_delete"># <code>leadr.auth.services.api_key_service.APIKeyService.soft_delete</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicesoft_delete" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">soft_delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
@@ -9587,8 +9656,10 @@ also be called explicitly if needed.</p>
 <li>Verifies the hash matches</li>
 <li>Checks if key is active (not revoked)</li>
 <li>Checks if key is not expired</li>
-<li>Records usage timestamp if valid</li>
 </ol>
+<p>Note: This method does NOT update last_used_at. The caller should check
+should_update_usage() and schedule record_usage_async() via background task
+if needed.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>plain_key</strong> (<code><a href="#str">str</a></code>) – The plain API key string to validate.</li>
@@ -9603,6 +9674,42 @@ also be called explicitly if needed.</p>
 > > > api_key = await service.validate_api_key("ldr_abc123...")
 > > > if api_key:
 > > > ... print(f"Valid key for account {api_key.account_id}")
+> > > ... else:
+> > > ... print("Invalid or expired key")
+
+</details>
+
+<h6 id="leadrauthservicesapi_key_serviceapikeyservicevalidate_api_key_with_user"># <code>leadr.auth.services.api_key_service.APIKeyService.validate_api_key_with_user</code><a class="headerlink" href="#leadrauthservicesapi_key_serviceapikeyservicevalidate_api_key_with_user" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">validate_api_key_with_user</span><span class="p">(</span><span class="n">plain_key</span><span class="p">)</span>
+</code></pre></div>
+<p>Validate an API key and return both the key and associated user.</p>
+<p>This method performs a single JOIN query to retrieve both the API key
+and user in one database round-trip, reducing auth latency.</p>
+<p>Performs the following checks:</p>
+<ol>
+<li>Extracts prefix and looks up key + user in database via JOIN</li>
+<li>Verifies the hash matches</li>
+<li>Checks if key is active (not revoked)</li>
+<li>Checks if key is not expired</li>
+</ol>
+<p>Note: This method does NOT update last_used_at. The caller should check
+should_update_usage() and schedule record_usage_async() via background task
+if needed.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>plain_key</strong> (<code><a href="#str">str</a></code>) – The plain API key string to validate.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#tuple">tuple</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>, <a href="../accounts/#leadr.accounts.domain.user.User">User</a>] | None</code> – A tuple of (APIKey, User) if valid, None otherwise.</li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > result = await service.validate_api_key_with_user("ldr_abc123...")
+> > > if result:
+> > > ... api_key, user = result
+> > > ... print(f"Valid key for user {user.email}")
 > > > ... else:
 > > > ... print("Invalid or expired key")
 
@@ -10612,6 +10719,7 @@ for audit/debugging purposes.</p>
 <li><a href="./#leadr.auth.services.repositories.APIKeyRepository.filter"><strong>filter</strong></a> – Filter API keys by account and optional criteria with pagination.</li>
 <li><a href="#leadr.auth.services.repositories.APIKeyRepository.get_by_id"><strong>get_by_id</strong></a> – Get an entity by its ID.</li>
 <li><a href="#leadr.auth.services.repositories.APIKeyRepository.get_by_prefix"><strong>get_by_prefix</strong></a> – Get API key by prefix, returns None if not found or soft-deleted.</li>
+<li><a href="#leadr.auth.services.repositories.APIKeyRepository.get_by_prefix_with_user"><strong>get_by_prefix_with_user</strong></a> – Get API key and associated user in a single query.</li>
 <li><a href="./#leadr.auth.services.repositories.APIKeyRepository.update"><strong>update</strong></a> – Update an existing entity in the database.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
@@ -10697,6 +10805,20 @@ for audit/debugging purposes.</p>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_prefix</span><span class="p">(</span><span class="n">key_prefix</span><span class="p">)</span>
 </code></pre></div>
 <p>Get API key by prefix, returns None if not found or soft-deleted.</p>
+<h6 id="leadrauthservicesrepositoriesapikeyrepositoryget_by_prefix_with_user"># <code>leadr.auth.services.repositories.APIKeyRepository.get_by_prefix_with_user</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositoryget_by_prefix_with_user" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_by_prefix_with_user</span><span class="p">(</span><span class="n">key_prefix</span><span class="p">)</span>
+</code></pre></div>
+<p>Get API key and associated user in a single query.</p>
+<p>This method performs a JOIN between api_keys and users tables to retrieve
+both entities in one database round-trip, reducing auth latency.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>key_prefix</strong> (<code><a href="#str">str</a></code>) – The API key prefix to search for.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#tuple">tuple</a>[<a href="#leadr.auth.domain.api_key.APIKey">APIKey</a>, <a href="../accounts/#leadr.accounts.domain.user.User">User</a>] | None</code> – A tuple of (APIKey, User) if found and neither soft-deleted, None otherwise.</li>
+</ul>
 <h6 id="leadrauthservicesrepositoriesapikeyrepositorysession"># <code>leadr.auth.services.repositories.APIKeyRepository.session</code><a class="headerlink" href="#leadrauthservicesrepositoriesapikeyrepositorysession" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">session</span> <span class="o">=</span> <span class="n">session</span>
 </code></pre></div>

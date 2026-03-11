@@ -6120,7 +6120,7 @@ soft-deleting the flag.</p>
 <div class="highlight"><pre><span></span><code><span class="n">client_router</span> <span class="o">=</span> <span class="n">APIRouter</span><span class="p">()</span>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_routescreate_score_client"><code>leadr.scores.api.score_routes.create_score_client</code><a class="headerlink" href="#leadrscoresapiscore_routescreate_score_client" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">create_score_client</span><span class="p">(</span><span class="n">score_request</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">board_service</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">identity_service</span><span class="p">,</span> <span class="n">pre_create_hook</span><span class="p">,</span> <span class="n">post_create_hook</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">create_score_client</span><span class="p">(</span><span class="n">score_request</span><span class="p">,</span> <span class="n">geo</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">board_service</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">identity_service</span><span class="p">,</span> <span class="n">pre_create_hook</span><span class="p">,</span> <span class="n">post_create_hook</span><span class="p">)</span>
 </code></pre></div>
 <p>Create a new score (Client API).</p>
 <p>Creates a new score submission for a board. All IDs (account_id, game_id, identity_id)
@@ -6128,7 +6128,7 @@ are automatically derived from the authenticated session.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>score_request</strong> (<code><a href="#leadr.scores.api.score_schemas.ScoreClientCreateRequest">ScoreClientCreateRequest</a></code>) – Score creation details including board_id, player_name, and value.</li>
-<li><strong>request</strong> (<code><a href="#fastapi.Request">Request</a></code>) – FastAPI request object for accessing geo data.</li>
+<li><strong>geo</strong> (<code><a href="../common/#leadr.common.dependencies.GeoInfoDep">GeoInfoDep</a></code>) – GeoIP information extracted from client IP address.</li>
 <li><strong>service</strong> (<code><a href="./#leadr.scores.services.dependencies.ScoreServiceDep">ScoreServiceDep</a></code>) – Injected score service dependency.</li>
 <li><strong>board_service</strong> (<code><a href="../boards/#leadr.boards.services.dependencies.BoardServiceDep">BoardServiceDep</a></code>) – Injected board service for board lookup.</li>
 <li><strong>background_tasks</strong> (<code><a href="#fastapi.BackgroundTasks">BackgroundTasks</a></code>) – FastAPI background tasks for async metadata updates.</li>

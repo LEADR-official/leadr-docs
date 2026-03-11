@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.6"
+    "version": "0.8.7"
   },
   "paths": {
     "/v1/accounts": {
@@ -7321,7 +7321,7 @@
           "Scores"
         ],
         "summary": "Create Score Client",
-        "description": "Create a new score (Client API).\n\nCreates a new score submission for a board. All IDs (account_id, game_id, identity_id)\nare automatically derived from the authenticated session.\n\nArgs:\n    score_request: Score creation details including board_id, player_name, and value.\n    request: FastAPI request object for accessing geo data.\n    service: Injected score service dependency.\n    board_service: Injected board service for board lookup.\n    background_tasks: FastAPI background tasks for async metadata updates.\n    auth: Client authentication context with device and identity info.\n    pre_create_hook: Hook called before score creation (for quota checks).\n    post_create_hook: Hook called after successful score creation.\n\nReturns:\n    ScoreClientResponse with the created score (excludes device_id).\n\nRaises:\n    404: Board not found.\n    400: Validation failed (board doesn't belong to account, or game doesn't\n        match board's game).\n    403: Score rejected by anti-cheat (rate limit exceeded).",
+        "description": "Create a new score (Client API).\n\nCreates a new score submission for a board. All IDs (account_id, game_id, identity_id)\nare automatically derived from the authenticated session.\n\nArgs:\n    score_request: Score creation details including board_id, player_name, and value.\n    geo: GeoIP information extracted from client IP address.\n    service: Injected score service dependency.\n    board_service: Injected board service for board lookup.\n    background_tasks: FastAPI background tasks for async metadata updates.\n    auth: Client authentication context with device and identity info.\n    pre_create_hook: Hook called before score creation (for quota checks).\n    post_create_hook: Hook called after successful score creation.\n\nReturns:\n    ScoreClientResponse with the created score (excludes device_id).\n\nRaises:\n    404: Board not found.\n    400: Validation failed (board doesn't belong to account, or game doesn't\n        match board's game).\n    403: Score rejected by anti-cheat (rate limit exceeded).",
         "operationId": "create_score_client_v1_client_scores_post",
         "parameters": [
           {
@@ -7985,7 +7985,7 @@
           "Authentication"
         ],
         "summary": "Start Session",
-        "description": "Start a new identity session for a game client.\n\nThis endpoint authenticates game clients and provides JWT access tokens.\nIt is idempotent - calling multiple times for the same fingerprint updates\nthe device record and creates a new identity session.\n\nNo authentication is required to call this endpoint (it IS the authentication).\n\nArgs:\n    session_request: Session start request with game_id and fingerprint\n    identity_service: IdentityService dependency (handles device and identity creation)\n\nReturns:\n    StartSessionResponse with identity info and access tokens\n\nRaises:\n    404: Game not found\n    422: Invalid request (missing required fields, invalid UUID format)",
+        "description": "Start a new identity session for a game client.\n\nThis endpoint authenticates game clients and provides JWT access tokens.\nIt is idempotent - calling multiple times for the same fingerprint updates\nthe device record and creates a new identity session.\n\nNo authentication is required to call this endpoint (it IS the authentication).\n\nThe _geo parameter triggers GeoIP lookup for this endpoint. Geo data is\navailable for future use via _geo.timezone, _geo.country, _geo.city.\n\nArgs:\n    session_request: Session start request with game_id and fingerprint\n    identity_service: IdentityService dependency (handles device and identity creation)\n    _geo: GeoIP information extracted from client IP address (available for future use)\n\nReturns:\n    StartSessionResponse with identity info and access tokens\n\nRaises:\n    404: Game not found\n    422: Invalid request (missing required fields, invalid UUID format)",
         "operationId": "start_session_v1_client_sessions_post",
         "requestBody": {
           "content": {
