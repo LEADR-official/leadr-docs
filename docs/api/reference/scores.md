@@ -4371,7 +4371,7 @@ session = session
 ####### `leadr.scores.services.score_service.ScoreService.submit_score`
 
 ```python
-submit_score(board_id, identity_id, value=None, delta=None, player_name=None, timezone=None, country=None, city=None, is_test=False, trust_tier=TrustTier.B, background_tasks=None)
+submit_score(board_id, identity_id, value=None, delta=None, player_name=None, timezone=None, country=None, city=None, is_test=False, trust_tier=TrustTier.B, background_tasks=None, value_display=None, metadata=None)
 ```
 
 Submit a score using the event-sourcing architecture.
@@ -4393,6 +4393,8 @@ based on the board type and anti-cheat result.
 - **is_test** (<code>[bool](#bool)</code>) – Whether this is a test submission.
 - **trust_tier** (<code>[TrustTier](#leadr.scores.domain.anti_cheat.enums.TrustTier)</code>) – Trust tier for anti-cheat thresholds (defaults to B).
 - **background_tasks** (<code>[BackgroundTasks](#starlette.background.BackgroundTasks) | None</code>) – Optional BackgroundTasks for async ratio updates.
+- **value_display** (<code>[str](#str) | None</code>) – Optional formatted display string for the score value.
+- **metadata** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – Optional custom metadata dictionary.
 
 **Returns:**
 

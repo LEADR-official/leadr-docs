@@ -803,6 +803,7 @@ Database connection and session management.
 
 - [**build_database_url**](#leadr.common.database.build_database_url) – Build async database URL from settings.
 - [**build_direct_database_url**](#leadr.common.database.build_direct_database_url) – Build async database URL for direct connections (migrations).
+- [**create_session**](#leadr.common.database.create_session) – Create a database session for non-FastAPI contexts.
 - [**get_db**](#leadr.common.database.get_db) – FastAPI dependency for async database session.
 
 **Attributes:**
@@ -835,6 +836,31 @@ Build async database URL for direct connections (migrations).
 Uses DB_HOST_DIRECT if set, otherwise falls back to DB_HOST.
 For Neon, DB_HOST_DIRECT should be the non-pooler endpoint to avoid
 connecting through PgBouncer during migrations.
+
+##### `leadr.common.database.create_session`
+
+```python
+create_session()
+```
+
+Create a database session for non-FastAPI contexts.
+
+Use this for background tasks, scripts, and other non-request contexts
+where the FastAPI dependency injection pattern (get_db) is not appropriate.
+
+**Returns:**
+
+- **AsyncSession** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – A new database session that should be used with
+- <code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code> – async context manager: `async with create_session() as session:`
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+async with create_session() as session:
+result = await session.execute(select(User))
+await session.commit()
+
+</details>
 
 ##### `leadr.common.database.engine`
 
