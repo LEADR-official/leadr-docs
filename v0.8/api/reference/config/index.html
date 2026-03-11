@@ -1823,6 +1823,51 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrconfigcommonsettingscors_allow_credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.CommonSettings.CORS_ALLOW_CREDENTIALS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrconfigcommonsettingscors_allow_headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.CommonSettings.CORS_ALLOW_HEADERS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrconfigcommonsettingscors_allow_methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.CommonSettings.CORS_ALLOW_METHODS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrconfigcommonsettingscors_allow_origins" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.CommonSettings.CORS_ALLOW_ORIGINS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrconfigcommonsettingscors_max_age" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.CommonSettings.CORS_MAX_AGE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrconfigcommonsettingsdashboard_url" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.config.CommonSettings.DASHBOARD_URL
@@ -2486,6 +2531,51 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrconfigtestsettingscors_allow_credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.TestSettings.CORS_ALLOW_CREDENTIALS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrconfigtestsettingscors_allow_headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.TestSettings.CORS_ALLOW_HEADERS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrconfigtestsettingscors_allow_methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.TestSettings.CORS_ALLOW_METHODS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrconfigtestsettingscors_allow_origins" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.TestSettings.CORS_ALLOW_ORIGINS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrconfigtestsettingscors_max_age" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.TestSettings.CORS_MAX_AGE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrconfigtestsettingsdashboard_url" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.config.TestSettings.DASHBOARD_URL
@@ -3041,6 +3131,11 @@ field names (case-sensitive).</p>
 <li><a href="#leadr.config.CommonSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL"><strong>BACKGROUND_TASK_TEMPLATE_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.BASE_URL"><strong>BASE_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.BOARDS_UI_DOMAIN"><strong>BOARDS_UI_DOMAIN</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
+<li><a href="#leadr.config.CommonSettings.CORS_ALLOW_CREDENTIALS"><strong>CORS_ALLOW_CREDENTIALS</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
+<li><a href="#leadr.config.CommonSettings.CORS_ALLOW_HEADERS"><strong>CORS_ALLOW_HEADERS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.CommonSettings.CORS_ALLOW_METHODS"><strong>CORS_ALLOW_METHODS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.CommonSettings.CORS_ALLOW_ORIGINS"><strong>CORS_ALLOW_ORIGINS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.CommonSettings.CORS_MAX_AGE"><strong>CORS_MAX_AGE</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.DASHBOARD_URL"><strong>DASHBOARD_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.DB_ECHO"><strong>DB_ECHO</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.DB_HOST"><strong>DB_HOST</strong></a> (<code><a href="#str">str</a></code>) –</li>
@@ -3150,6 +3245,21 @@ field names (case-sensitive).</p>
 </code></pre></div>
 <h5 id="leadrconfigcommonsettingsboards_ui_domain"><code>leadr.config.CommonSettings.BOARDS_UI_DOMAIN</code><a class="headerlink" href="#leadrconfigcommonsettingsboards_ui_domain" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">BOARDS_UI_DOMAIN</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base URL for public board UI (e.g., &#39;https://boards.leadr.gg&#39;). When set, enables url/url_short fields in Game and Board API responses.&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigcommonsettingscors_allow_credentials"><code>leadr.config.CommonSettings.CORS_ALLOW_CREDENTIALS</code><a class="headerlink" href="#leadrconfigcommonsettingscors_allow_credentials" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_ALLOW_CREDENTIALS</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Allow credentials in CORS. Must be False when origins is [&#39;*&#39;].&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigcommonsettingscors_allow_headers"><code>leadr.config.CommonSettings.CORS_ALLOW_HEADERS</code><a class="headerlink" href="#leadrconfigcommonsettingscors_allow_headers" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_ALLOW_HEADERS</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">,</span> <span class="s1">&#39;content-type&#39;</span><span class="p">,</span> <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">,</span> <span class="s1">&#39;leadr-client&#39;</span><span class="p">,</span> <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;HTTP headers allowed in CORS requests.&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigcommonsettingscors_allow_methods"><code>leadr.config.CommonSettings.CORS_ALLOW_METHODS</code><a class="headerlink" href="#leadrconfigcommonsettingscors_allow_methods" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_ALLOW_METHODS</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;PATCH&#39;</span><span class="p">,</span> <span class="s1">&#39;OPTIONS&#39;</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;HTTP methods allowed for CORS requests.&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigcommonsettingscors_allow_origins"><code>leadr.config.CommonSettings.CORS_ALLOW_ORIGINS</code><a class="headerlink" href="#leadrconfigcommonsettingscors_allow_origins" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_ALLOW_ORIGINS</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Allowed CORS origins. Use [&#39;*&#39;] for all origins (required for game clients).&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigcommonsettingscors_max_age"><code>leadr.config.CommonSettings.CORS_MAX_AGE</code><a class="headerlink" href="#leadrconfigcommonsettingscors_max_age" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_MAX_AGE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Seconds to cache preflight responses (default: 10 minutes).&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrconfigcommonsettingsdashboard_url"><code>leadr.config.CommonSettings.DASHBOARD_URL</code><a class="headerlink" href="#leadrconfigcommonsettingsdashboard_url" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">DASHBOARD_URL</span><span class="p">:</span> <span class="n">HttpUrl</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">HttpUrl</span><span class="p">(</span><span class="s1">&#39;http://localhost:8000&#39;</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for the web dashboard (e.g., &#39;https://dashboard.leadr.gg&#39;)&quot;</span><span class="p">)</span>
@@ -3338,6 +3448,11 @@ the .env file at the project root.</p>
 <li><a href="#leadr.config.Settings.BACKGROUND_TASK_TEMPLATE_INTERVAL"><strong>BACKGROUND_TASK_TEMPLATE_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.Settings.BASE_URL"><strong>BASE_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.Settings.BOARDS_UI_DOMAIN"><strong>BOARDS_UI_DOMAIN</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
+<li><a href="#leadr.config.Settings.CORS_ALLOW_CREDENTIALS"><strong>CORS_ALLOW_CREDENTIALS</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
+<li><a href="#leadr.config.Settings.CORS_ALLOW_HEADERS"><strong>CORS_ALLOW_HEADERS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.Settings.CORS_ALLOW_METHODS"><strong>CORS_ALLOW_METHODS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.Settings.CORS_ALLOW_ORIGINS"><strong>CORS_ALLOW_ORIGINS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.Settings.CORS_MAX_AGE"><strong>CORS_MAX_AGE</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.Settings.DASHBOARD_URL"><strong>DASHBOARD_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.Settings.DB_ECHO"><strong>DB_ECHO</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.Settings.DB_HOST"><strong>DB_HOST</strong></a> (<code><a href="#str">str</a></code>) –</li>
@@ -3421,6 +3536,11 @@ Test-specific overrides can be added here.</p>
 <li><a href="#leadr.config.TestSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL"><strong>BACKGROUND_TASK_TEMPLATE_INTERVAL</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.BASE_URL"><strong>BASE_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.BOARDS_UI_DOMAIN"><strong>BOARDS_UI_DOMAIN</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
+<li><a href="#leadr.config.TestSettings.CORS_ALLOW_CREDENTIALS"><strong>CORS_ALLOW_CREDENTIALS</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
+<li><a href="#leadr.config.TestSettings.CORS_ALLOW_HEADERS"><strong>CORS_ALLOW_HEADERS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.TestSettings.CORS_ALLOW_METHODS"><strong>CORS_ALLOW_METHODS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.TestSettings.CORS_ALLOW_ORIGINS"><strong>CORS_ALLOW_ORIGINS</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.config.TestSettings.CORS_MAX_AGE"><strong>CORS_MAX_AGE</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.DASHBOARD_URL"><strong>DASHBOARD_URL</strong></a> (<code><a href="#pydantic.HttpUrl">HttpUrl</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.DB_ECHO"><strong>DB_ECHO</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.DB_HOST"><strong>DB_HOST</strong></a> (<code><a href="#str">str</a></code>) –</li>
@@ -3530,6 +3650,21 @@ Test-specific overrides can be added here.</p>
 </code></pre></div>
 <h5 id="leadrconfigtestsettingsboards_ui_domain"><code>leadr.config.TestSettings.BOARDS_UI_DOMAIN</code><a class="headerlink" href="#leadrconfigtestsettingsboards_ui_domain" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">BOARDS_UI_DOMAIN</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base URL for public board UI (e.g., &#39;https://boards.leadr.gg&#39;). When set, enables url/url_short fields in Game and Board API responses.&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigtestsettingscors_allow_credentials"><code>leadr.config.TestSettings.CORS_ALLOW_CREDENTIALS</code><a class="headerlink" href="#leadrconfigtestsettingscors_allow_credentials" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_ALLOW_CREDENTIALS</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Allow credentials in CORS. Must be False when origins is [&#39;*&#39;].&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigtestsettingscors_allow_headers"><code>leadr.config.TestSettings.CORS_ALLOW_HEADERS</code><a class="headerlink" href="#leadrconfigtestsettingscors_allow_headers" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_ALLOW_HEADERS</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">,</span> <span class="s1">&#39;content-type&#39;</span><span class="p">,</span> <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">,</span> <span class="s1">&#39;leadr-client&#39;</span><span class="p">,</span> <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;HTTP headers allowed in CORS requests.&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigtestsettingscors_allow_methods"><code>leadr.config.TestSettings.CORS_ALLOW_METHODS</code><a class="headerlink" href="#leadrconfigtestsettingscors_allow_methods" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_ALLOW_METHODS</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;PATCH&#39;</span><span class="p">,</span> <span class="s1">&#39;OPTIONS&#39;</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;HTTP methods allowed for CORS requests.&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigtestsettingscors_allow_origins"><code>leadr.config.TestSettings.CORS_ALLOW_ORIGINS</code><a class="headerlink" href="#leadrconfigtestsettingscors_allow_origins" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_ALLOW_ORIGINS</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">],</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Allowed CORS origins. Use [&#39;*&#39;] for all origins (required for game clients).&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrconfigtestsettingscors_max_age"><code>leadr.config.TestSettings.CORS_MAX_AGE</code><a class="headerlink" href="#leadrconfigtestsettingscors_max_age" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">CORS_MAX_AGE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Seconds to cache preflight responses (default: 10 minutes).&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrconfigtestsettingsdashboard_url"><code>leadr.config.TestSettings.DASHBOARD_URL</code><a class="headerlink" href="#leadrconfigtestsettingsdashboard_url" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">DASHBOARD_URL</span><span class="p">:</span> <span class="n">HttpUrl</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">HttpUrl</span><span class="p">(</span><span class="s1">&#39;http://localhost:8000&#39;</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for the web dashboard (e.g., &#39;https://dashboard.leadr.gg&#39;)&quot;</span><span class="p">)</span>
