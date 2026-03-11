@@ -154,9 +154,13 @@ the device record and creates a new identity session.
 
 No authentication is required to call this endpoint (it IS the authentication).
 
+The _geo parameter triggers GeoIP lookup for this endpoint. Geo data is
+available for future use via _geo.timezone, _geo.country, _geo.city.
+
 Args:
     session_request: Session start request with game_id and fingerprint
     identity_service: IdentityService dependency (handles device and identity creation)
+    _geo: GeoIP information extracted from client IP address (available for future use)
 
 Returns:
     StartSessionResponse with identity info and access tokens

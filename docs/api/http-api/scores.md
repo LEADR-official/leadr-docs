@@ -459,7 +459,7 @@ are automatically derived from the authenticated session.
 
 Args:
     score_request: Score creation details including board_id, player_name, and value.
-    request: FastAPI request object for accessing geo data.
+    geo: GeoIP information extracted from client IP address.
     service: Injected score service dependency.
     board_service: Injected board service for board lookup.
     background_tasks: FastAPI background tasks for async metadata updates.

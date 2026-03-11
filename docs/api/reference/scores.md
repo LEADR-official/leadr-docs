@@ -995,7 +995,7 @@ client_router = APIRouter()
 ###### `leadr.scores.api.score_routes.create_score_client`
 
 ```python
-create_score_client(score_request, request, service, board_service, background_tasks, auth, identity_service, pre_create_hook, post_create_hook)
+create_score_client(score_request, geo, service, board_service, background_tasks, auth, identity_service, pre_create_hook, post_create_hook)
 ```
 
 Create a new score (Client API).
@@ -1006,7 +1006,7 @@ are automatically derived from the authenticated session.
 **Parameters:**
 
 - **score_request** (<code>[ScoreClientCreateRequest](#leadr.scores.api.score_schemas.ScoreClientCreateRequest)</code>) – Score creation details including board_id, player_name, and value.
-- **request** (<code>[Request](#fastapi.Request)</code>) – FastAPI request object for accessing geo data.
+- **geo** (<code>[GeoInfoDep](./common.md#leadr.common.dependencies.GeoInfoDep)</code>) – GeoIP information extracted from client IP address.
 - **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service dependency.
 - **board_service** (<code>[BoardServiceDep](./boards.md#leadr.boards.services.dependencies.BoardServiceDep)</code>) – Injected board service for board lookup.
 - **background_tasks** (<code>[BackgroundTasks](#fastapi.BackgroundTasks)</code>) – FastAPI background tasks for async metadata updates.
