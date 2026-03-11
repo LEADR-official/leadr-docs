@@ -2408,6 +2408,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrcommondatabasecreate_session" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.database.create_session
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommondatabaseengine" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.database.engine
@@ -4926,6 +4935,7 @@ It returns immediately after starting the tasks.</p>
 <ul>
 <li><a href="#leadr.common.database.build_database_url"><strong>build_database_url</strong></a> – Build async database URL from settings.</li>
 <li><a href="#leadr.common.database.build_direct_database_url"><strong>build_direct_database_url</strong></a> – Build async database URL for direct connections (migrations).</li>
+<li><a href="#leadr.common.database.create_session"><strong>create_session</strong></a> – Create a database session for non-FastAPI contexts.</li>
 <li><a href="#leadr.common.database.get_db"><strong>get_db</strong></a> – FastAPI dependency for async database session.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
@@ -4947,6 +4957,26 @@ It returns immediately after starting the tasks.</p>
 <p>Uses DB_HOST_DIRECT if set, otherwise falls back to DB_HOST.
 For Neon, DB_HOST_DIRECT should be the non-pooler endpoint to avoid
 connecting through PgBouncer during migrations.</p>
+<h5 id="leadrcommondatabasecreate_session"><code>leadr.common.database.create_session</code><a class="headerlink" href="#leadrcommondatabasecreate_session" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">create_session</span><span class="p">()</span>
+</code></pre></div>
+<p>Create a database session for non-FastAPI contexts.</p>
+<p>Use this for background tasks, scripts, and other non-request contexts
+where the FastAPI dependency injection pattern (get_db) is not appropriate.</p>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><strong>AsyncSession</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – A new database session that should be used with</li>
+<li><code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code> – async context manager: <code>async with create_session() as session:</code></li>
+</ul>
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+async with create_session() as session:
+result = await session.execute(select(User))
+await session.commit()
+
+</details>
+
 <h5 id="leadrcommondatabaseengine"><code>leadr.common.database.engine</code><a class="headerlink" href="#leadrcommondatabaseengine" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">engine</span> <span class="o">=</span> <span class="n">create_async_engine</span><span class="p">(</span><span class="n">build_database_url</span><span class="p">(),</span> <span class="n">connect_args</span><span class="o">=</span><span class="p">(</span><span class="n">_get_connect_args</span><span class="p">()),</span> <span class="n">poolclass</span><span class="o">=</span><span class="p">(</span><span class="n">_get_pool_class</span><span class="p">()),</span> <span class="o">**</span><span class="p">(</span><span class="n">_get_pool_options</span><span class="p">()),</span> <span class="n">echo</span><span class="o">=</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">DB_ECHO</span><span class="p">))</span>
 </code></pre></div>
