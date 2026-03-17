@@ -457,7 +457,7 @@ Public registration API routes.
 ###### `leadr.registration.api.routes.complete_registration`
 
 ```python
-complete_registration(request, registration_service)
+complete_registration(request, registration_service, background_tasks, post_hook, geo_info)
 ```
 
 Complete registration or invite acceptance.
@@ -470,12 +470,14 @@ Registration flow (new account):
 - Creates user as account owner
 - Creates API key for CLI authentication
 - Optionally redeems jam code
+- Geo fields (timezone, country, city) auto-populated from GeoIP
 
 Invite flow (joining existing account):
 
 - Activates the invited user (changes status from INVITED to ACTIVE)
 - Creates API key for CLI authentication
 - account_name and jam_code are ignored
+- geo_info is ignored (account already exists)
 
 The API key is returned in plaintext and should be stored securely by the client.
 
@@ -2426,16 +2428,17 @@ api_key_service = api_key_service
 ####### `leadr.registration.services.registration_service.RegistrationService.complete_registration`
 
 ```python
-complete_registration(verification_token, account_name=None, account_slug=None, jam_code=None, display_name=None)
+complete_registration(verification_token, account_name=None, account_slug=None, jam_code=None, display_name=None, geo_info=None)
 ```
 
 Complete the registration process and create account, user, and API key.
 
 For invite flow: If the verification token contains a user_id, this is an
 invite completion. The existing invited user is activated and an API key
-is created. Account creation is skipped.
+is created. Account creation is skipped. geo_info is ignored.
 
 For registration flow: A new account, user, and API key are created.
+geo_info is used to populate the account's timezone, country, and city.
 
 **Parameters:**
 
@@ -2444,6 +2447,7 @@ For registration flow: A new account, user, and API key are created.
 - **account_slug** (<code>[str](#str) | None</code>) – Optional slug (will be auto-generated if not provided).
 - **jam_code** (<code>[str](#str) | None</code>) – Optional jam code for promotional features (registration only).
 - **display_name** (<code>[str](#str) | None</code>) – Optional display name (will use email prefix if not provided).
+- **geo_info** (<code>[GeoInfo](./common.md#leadr.common.geoip.GeoInfo) | None</code>) – Optional GeoIP info to populate account geo fields (registration only).
 
 **Returns:**
 

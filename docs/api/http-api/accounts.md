@@ -94,6 +94,9 @@ Raises:
   "name": "string",
   "slug": "string",
   "status": "active",
+  "timezone": "string",
+  "country": "string",
+  "city": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -307,6 +310,9 @@ Raises:
   "name": "string",
   "slug": "string",
   "status": "active",
+  "timezone": "string",
+  "country": "string",
+  "city": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -349,7 +355,10 @@ Raises:
       "name": "string",
       "slug": "string",
       "status": "active",
-      "deleted": true
+      "deleted": true,
+      "timezone": "string",
+      "country": "string",
+      "city": "string"
     }';
     const headers = {
       'Content-Type':'application/json',
@@ -399,7 +408,10 @@ Raises:
   "name": "string",
   "slug": "string",
   "status": "active",
-  "deleted": true
+  "deleted": true,
+  "timezone": "string",
+  "country": "string",
+  "city": "string"
 }
 ```
 
@@ -424,6 +436,9 @@ Raises:
   "name": "string",
   "slug": "string",
   "status": "active",
+  "timezone": "string",
+  "country": "string",
+  "city": "string",
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }

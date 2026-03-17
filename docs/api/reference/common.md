@@ -123,10 +123,12 @@ These hooks are no-ops in OSS but can be overridden via FastAPI dependency_overr
 **Classes:**
 
 - [**Hook**](./common.md#leadr.common.api.hooks.Hook) – Generic hook type for resource lifecycle events.
+- [**PostCompleteRegistrationHook**](./common.md#leadr.common.api.hooks.PostCompleteRegistrationHook) – Hook called after POST /register/complete succeeds.
 - [**UpdateHook**](./common.md#leadr.common.api.hooks.UpdateHook) – Hook type for update operations that need the resource's account_id.
 
 **Functions:**
 
+- [**get_post_complete_registration_hook**](#leadr.common.api.hooks.get_post_complete_registration_hook) – Get the post-complete registration hook. Override in cloud.
 - [**get_post_create_board_hook**](#leadr.common.api.hooks.get_post_create_board_hook) – Get the post-create board hook. Override in cloud.
 - [**get_post_create_game_hook**](#leadr.common.api.hooks.get_post_create_game_hook) – Get the post-create game hook. Override in cloud.
 - [**get_post_create_score_hook**](#leadr.common.api.hooks.get_post_create_score_hook) – Get the post-create score hook. Override in cloud.
@@ -136,6 +138,7 @@ These hooks are no-ops in OSS but can be overridden via FastAPI dependency_overr
 - [**get_pre_create_score_hook**](#leadr.common.api.hooks.get_pre_create_score_hook) – Get the pre-create score hook. Override in cloud.
 - [**get_pre_update_board_template_hook**](#leadr.common.api.hooks.get_pre_update_board_template_hook) – Get the pre-update board template hook. Override in cloud.
 - [**get_rate_limit_hook**](#leadr.common.api.hooks.get_rate_limit_hook) – Get the rate limit hook. Override in cloud.
+- [**noop_post_complete_registration**](#leadr.common.api.hooks.noop_post_complete_registration) – No-op post-complete registration hook.
 - [**noop_post_create_board**](#leadr.common.api.hooks.noop_post_create_board) – No-op post-create board hook.
 - [**noop_post_create_game**](#leadr.common.api.hooks.noop_post_create_game) – No-op post-create game hook.
 - [**noop_post_create_score**](#leadr.common.api.hooks.noop_post_create_score) – No-op post-create score hook.
@@ -150,6 +153,7 @@ These hooks are no-ops in OSS but can be overridden via FastAPI dependency_overr
 **Attributes:**
 
 - [**AuthT**](./common.md#leadr.common.api.hooks.AuthT) –
+- [**PostCompleteRegistrationHookDep**](./common.md#leadr.common.api.hooks.PostCompleteRegistrationHookDep) –
 - [**PostCreateBoardHook**](./common.md#leadr.common.api.hooks.PostCreateBoardHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
 - [**PostCreateBoardHookDep**](./common.md#leadr.common.api.hooks.PostCreateBoardHookDep) –
 - [**PostCreateGameHook**](./common.md#leadr.common.api.hooks.PostCreateGameHook) (<code>[TypeAlias](#typing.TypeAlias)</code>) –
@@ -186,6 +190,23 @@ All hooks follow the signature: (request, auth, background_tasks) -> None
 - request: The Pydantic request schema for the operation
 - auth: The authentication context (AdminAuthContext or ClientAuthContext)
 - background_tasks: FastAPI BackgroundTasks for scheduling async work
+
+###### `leadr.common.api.hooks.PostCompleteRegistrationHook`
+
+Bases: <code>[Protocol](#typing.Protocol)</code>
+
+Hook called after POST /register/complete succeeds.
+
+Fires for both new-account registration and invite-acceptance flows.
+Does not follow the standard Hook[RequestT, AuthT] pattern because
+/register/complete is a public endpoint with no auth context; the useful
+data comes from the created entities rather than the request body.
+
+###### `leadr.common.api.hooks.PostCompleteRegistrationHookDep`
+
+```python
+PostCompleteRegistrationHookDep = Annotated[PostCompleteRegistrationHook, Depends(get_post_complete_registration_hook)]
+```
 
 ###### `leadr.common.api.hooks.PostCreateBoardHook`
 
@@ -304,6 +325,14 @@ Hook type for update operations that need the resource's account_id.
 Update hooks receive account_id separately since it comes from the existing
 resource, not the update request body.
 
+###### `leadr.common.api.hooks.get_post_complete_registration_hook`
+
+```python
+get_post_complete_registration_hook()
+```
+
+Get the post-complete registration hook. Override in cloud.
+
 ###### `leadr.common.api.hooks.get_post_create_board_hook`
 
 ```python
@@ -375,6 +404,14 @@ get_rate_limit_hook()
 ```
 
 Get the rate limit hook. Override in cloud.
+
+###### `leadr.common.api.hooks.noop_post_complete_registration`
+
+```python
+noop_post_complete_registration(email, display_name, account_name, account_slug, background_tasks)
+```
+
+No-op post-complete registration hook.
 
 ###### `leadr.common.api.hooks.noop_post_create_board`
 

@@ -34,14 +34,29 @@ Maps to the accounts table with unique name and slug constraints.
 
 **Attributes:**
 
+- [**city**](./accounts.md#leadr.accounts.adapters.orm.AccountORM.city) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
+- [**country**](./accounts.md#leadr.accounts.adapters.orm.AccountORM.country) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
 - [**created_at**](#leadr.accounts.adapters.orm.AccountORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**deleted_at**](#leadr.accounts.adapters.orm.AccountORM.deleted_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[nullable_timestamp](#leadr.common.orm.nullable_timestamp)\]</code>) –
 - [**id**](./accounts.md#leadr.accounts.adapters.orm.AccountORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
 - [**name**](./accounts.md#leadr.accounts.adapters.orm.AccountORM.name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**slug**](./accounts.md#leadr.accounts.adapters.orm.AccountORM.slug) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**status**](./accounts.md#leadr.accounts.adapters.orm.AccountORM.status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[AccountStatusEnum](./accounts.md#leadr.accounts.adapters.orm.AccountStatusEnum)\]</code>) –
+- [**timezone**](./accounts.md#leadr.accounts.adapters.orm.AccountORM.timezone) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
 - [**updated_at**](#leadr.accounts.adapters.orm.AccountORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 - [**users**](./accounts.md#leadr.accounts.adapters.orm.AccountORM.users) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[list](#list)\[[UserORM](./accounts.md#leadr.accounts.adapters.orm.UserORM)\]\]</code>) –
+
+####### `leadr.accounts.adapters.orm.AccountORM.city`
+
+```python
+city: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
+
+####### `leadr.accounts.adapters.orm.AccountORM.country`
+
+```python
+country: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
 
 ####### `leadr.accounts.adapters.orm.AccountORM.created_at`
 
@@ -77,6 +92,12 @@ slug: Mapped[str] = mapped_column(String, nullable=False, unique=True, index=Tru
 
 ```python
 status: Mapped[AccountStatusEnum] = mapped_column(Enum(AccountStatusEnum, name='account_status', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, default=(AccountStatusEnum.ACTIVE), server_default='active', index=True)
+```
+
+####### `leadr.accounts.adapters.orm.AccountORM.timezone`
+
+```python
+timezone: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
 ```
 
 ####### `leadr.accounts.adapters.orm.AccountORM.updated_at`
@@ -427,12 +448,27 @@ Response model for an account.
 
 **Attributes:**
 
+- [**city**](#leadr.accounts.api.account_schemas.AccountResponse.city) (<code>[str](#str) | None</code>) –
+- [**country**](#leadr.accounts.api.account_schemas.AccountResponse.country) (<code>[str](#str) | None</code>) –
 - [**created_at**](#leadr.accounts.api.account_schemas.AccountResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**id**](#leadr.accounts.api.account_schemas.AccountResponse.id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
 - [**name**](#leadr.accounts.api.account_schemas.AccountResponse.name) (<code>[str](#str)</code>) –
 - [**slug**](#leadr.accounts.api.account_schemas.AccountResponse.slug) (<code>[str](#str)</code>) –
 - [**status**](#leadr.accounts.api.account_schemas.AccountResponse.status) (<code>[AccountStatus](./accounts.md#leadr.accounts.domain.account.AccountStatus)</code>) –
+- [**timezone**](#leadr.accounts.api.account_schemas.AccountResponse.timezone) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.accounts.api.account_schemas.AccountResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
+
+####### `leadr.accounts.api.account_schemas.AccountResponse.city`
+
+```python
+city: str | None = Field(description='City name from registration GeoIP')
+```
+
+####### `leadr.accounts.api.account_schemas.AccountResponse.country`
+
+```python
+country: str | None = Field(description='Country code from registration GeoIP')
+```
 
 ####### `leadr.accounts.api.account_schemas.AccountResponse.created_at`
 
@@ -480,6 +516,12 @@ slug: str = Field(description='URL-friendly identifier')
 status: AccountStatus = Field(description='Current account status')
 ```
 
+####### `leadr.accounts.api.account_schemas.AccountResponse.timezone`
+
+```python
+timezone: str | None = Field(description='Timezone from registration GeoIP')
+```
+
 ####### `leadr.accounts.api.account_schemas.AccountResponse.updated_at`
 
 ```python
@@ -494,10 +536,25 @@ Request model for updating an account.
 
 **Attributes:**
 
+- [**city**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.city) (<code>[str](#str) | None</code>) –
+- [**country**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.country) (<code>[str](#str) | None</code>) –
 - [**deleted**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
 - [**name**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.name) (<code>[str](#str) | None</code>) –
 - [**slug**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.slug) (<code>[str](#str) | None</code>) –
 - [**status**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.status) (<code>[AccountStatus](./accounts.md#leadr.accounts.domain.account.AccountStatus) | None</code>) –
+- [**timezone**](#leadr.accounts.api.account_schemas.AccountUpdateRequest.timezone) (<code>[str](#str) | None</code>) –
+
+####### `leadr.accounts.api.account_schemas.AccountUpdateRequest.city`
+
+```python
+city: str | None = Field(default=None, description='City name')
+```
+
+####### `leadr.accounts.api.account_schemas.AccountUpdateRequest.country`
+
+```python
+country: str | None = Field(default=None, description='Country code (ISO 2-letter)')
+```
 
 ####### `leadr.accounts.api.account_schemas.AccountUpdateRequest.deleted`
 
@@ -521,6 +578,12 @@ slug: str | None = Field(default=None, description='Updated URL-friendly identif
 
 ```python
 status: AccountStatus | None = Field(default=None, description='Account status (active, suspended, deleted)')
+```
+
+####### `leadr.accounts.api.account_schemas.AccountUpdateRequest.timezone`
+
+```python
+timezone: str | None = Field(default=None, description='Timezone (IANA format)')
 ```
 
 ##### `leadr.accounts.api.user_routes`
@@ -869,6 +932,8 @@ active or suspended.
 
 **Attributes:**
 
+- [**city**](./accounts.md#leadr.accounts.domain.account.Account.city) (<code>[str](#str) | None</code>) –
+- [**country**](./accounts.md#leadr.accounts.domain.account.Account.country) (<code>[str](#str) | None</code>) –
 - [**created_at**](#leadr.accounts.domain.account.Account.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**deleted_at**](#leadr.accounts.domain.account.Account.deleted_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**id**](./accounts.md#leadr.accounts.domain.account.Account.id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
@@ -877,6 +942,7 @@ active or suspended.
 - [**name**](./accounts.md#leadr.accounts.domain.account.Account.name) (<code>[str](#str)</code>) –
 - [**slug**](./accounts.md#leadr.accounts.domain.account.Account.slug) (<code>[str](#str)</code>) –
 - [**status**](./accounts.md#leadr.accounts.domain.account.Account.status) (<code>[AccountStatus](./accounts.md#leadr.accounts.domain.account.AccountStatus)</code>) –
+- [**timezone**](./accounts.md#leadr.accounts.domain.account.Account.timezone) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.accounts.domain.account.Account.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
 ####### `leadr.accounts.domain.account.Account.activate`
@@ -886,6 +952,18 @@ activate()
 ```
 
 Activate the account, allowing access.
+
+####### `leadr.accounts.domain.account.Account.city`
+
+```python
+city: str | None = Field(default=None, description='City name from GeoIP lookup during registration')
+```
+
+####### `leadr.accounts.domain.account.Account.country`
+
+```python
+country: str | None = Field(default=None, description='Country code from GeoIP lookup during registration')
+```
 
 ####### `leadr.accounts.domain.account.Account.created_at`
 
@@ -987,6 +1065,12 @@ suspend()
 ```
 
 Suspend the account, preventing access.
+
+####### `leadr.accounts.domain.account.Account.timezone`
+
+```python
+timezone: str | None = Field(default=None, description='Timezone from GeoIP lookup during registration')
+```
 
 ####### `leadr.accounts.domain.account.Account.updated_at`
 
