@@ -4511,6 +4511,7 @@ or
   "game_id": "string",
   "board_id": "string",
   "identity_id": "string",
+  "score_event_id": "string",
   "player_name": "string",
   "value": 0,
   "value_display": "string",
@@ -4539,6 +4540,24 @@ ScoreResponse
 |game_id|string|true|none|ID of the game this score belongs to|
 |board_id|string|true|none|ID of the board this score belongs to|
 |identity_id|string|true|none|ID of the identity that submitted this score|
+|score_event_id|any|false|none|ID of the score event that created/updated this score. Null for RATIO boards which derive values from other boards.|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|string|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
 |player_name|string|true|none|Display name of the player|
 |value|number|true|none|Numeric value of the score|
 |value_display|any|false|none|Formatted display string, or null|

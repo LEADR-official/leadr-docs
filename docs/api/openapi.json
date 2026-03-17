@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.11"
+    "version": "0.8.12"
   },
   "paths": {
     "/v1/accounts": {
@@ -12355,6 +12355,18 @@
             "type": "string",
             "title": "Identity Id",
             "description": "ID of the identity that submitted this score"
+          },
+          "score_event_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score Event Id",
+            "description": "ID of the score event that created/updated this score. Null for RATIO boards which derive values from other boards."
           },
           "player_name": {
             "type": "string",

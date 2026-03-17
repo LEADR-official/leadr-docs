@@ -1629,6 +1629,7 @@ with denormalized fields for query efficiency.
 - [**metadata**](#leadr.scores.api.score_schemas.ScoreResponse.metadata) (<code>[Any](#typing.Any) | None</code>) –
 - [**player_name**](#leadr.scores.api.score_schemas.ScoreResponse.player_name) (<code>[str](#str)</code>) –
 - [**rank**](#leadr.scores.api.score_schemas.ScoreResponse.rank) (<code>[int](#int) | None</code>) –
+- [**score_event_id**](#leadr.scores.api.score_schemas.ScoreResponse.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID) | None</code>) –
 - [**status**](#leadr.scores.api.score_schemas.ScoreResponse.status) (<code>[ScoreStatus](#leadr.scores.domain.anti_cheat.enums.ScoreStatus)</code>) –
 - [**timezone**](#leadr.scores.api.score_schemas.ScoreResponse.timezone) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.scores.api.score_schemas.ScoreResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
@@ -1753,6 +1754,12 @@ player_name: str = Field(description='Display name of the player')
 
 ```python
 rank: int | None = Field(default=None, description='Leaderboard position (1 = first). Null if not querying by board_id.')
+```
+
+####### `leadr.scores.api.score_schemas.ScoreResponse.score_event_id`
+
+```python
+score_event_id: ScoreEventID | None = Field(default=None, description='ID of the score event that created/updated this score. Null for RATIO boards which derive values from other boards.')
 ```
 
 ####### `leadr.scores.api.score_schemas.ScoreResponse.status`
