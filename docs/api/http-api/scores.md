@@ -83,6 +83,7 @@ Raises:
   "game_id": "string",
   "board_id": "string",
   "identity_id": "string",
+  "score_event_id": "string",
   "player_name": "string",
   "value": 0,
   "value_display": "string",
