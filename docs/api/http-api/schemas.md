@@ -2408,6 +2408,58 @@ or
 |---|---|---|---|---|
 |» *anonymous*|null|false|none|none|
 
+## FlagConfidence
+
+```json
+"low"
+
+```
+
+FlagConfidence
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|FlagConfidence|string|false|none|Confidence level for anti-cheat detection.<br><br>Determines the action taken when a flag is raised:<br>- HIGH: Auto-reject submission<br>- MEDIUM: Flag for manual review, accept submission<br>- LOW: Log for analysis, accept submission|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|FlagConfidence|low|
+|FlagConfidence|medium|
+|FlagConfidence|high|
+
+## FlagType
+
+```json
+"rate_limit"
+
+```
+
+FlagType
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|FlagType|string|false|none|Type of anti-cheat flag detected.<br><br>Each flag type represents a different detection tactic used to identify<br>potentially suspicious score submissions.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|FlagType|rate_limit|
+|FlagType|duplicate|
+|FlagType|velocity|
+|FlagType|outlier|
+|FlagType|impossible_value|
+|FlagType|pattern|
+|FlagType|progression|
+|FlagType|cluster|
+|FlagType|manual|
+
 ## GameCreateRequest
 
 ```json
@@ -4236,6 +4288,41 @@ continued
 |---|---|---|---|---|
 |created_at|string(date-time)|true|none|Timestamp when the event was created (UTC)|
 
+## ScoreFlagCreateRequest
+
+```json
+{
+  "score_event_id": "string",
+  "flag_type": "rate_limit",
+  "confidence": "low",
+  "metadata": {}
+}
+
+```
+
+ScoreFlagCreateRequest
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|score_event_id|string|true|none|ID of the score event to flag|
+|flag_type|[FlagType](./schemas.md#flagtype)|false|none|Type of flag (manual, duplicate, velocity, rate_limit, outlier, etc.)|
+|confidence|[FlagConfidence](./schemas.md#flagconfidence)|false|none|Confidence level (low, medium, high)|
+|metadata|any|false|none|Optional metadata/notes about the flag|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|object|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
 ## ScoreFlagResponse
 
 ```json
@@ -4324,11 +4411,35 @@ continued
 |created_at|string(date-time)|true|none|Timestamp when the flag was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
+## ScoreFlagStatus
+
+```json
+"pending"
+
+```
+
+ScoreFlagStatus
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ScoreFlagStatus|string|false|none|Status of a score flag review.<br><br>Indicates whether a flag has been reviewed and what decision was made.|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|ScoreFlagStatus|pending|
+|ScoreFlagStatus|confirmed_cheat|
+|ScoreFlagStatus|false_positive|
+|ScoreFlagStatus|dismissed|
+
 ## ScoreFlagUpdateRequest
 
 ```json
 {
-  "status": "string",
+  "status": "pending",
   "reviewer_decision": "string",
   "deleted": true
 }
@@ -4347,7 +4458,7 @@ anyOf
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» *anonymous*|string|false|none|none|
+|» *anonymous*|[ScoreFlagStatus](./schemas.md#scoreflagstatus)|false|none|Status of a score flag review.<br><br>Indicates whether a flag has been reviewed and what decision was made.|
 
 or
 

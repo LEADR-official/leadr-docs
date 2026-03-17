@@ -723,6 +723,7 @@ API routes for score flag management.
 
 **Functions:**
 
+- [**create_score_flag**](#leadr.scores.api.score_flag_routes.create_score_flag) – Create a score flag (manual flagging by admin).
 - [**get_score_flag**](#leadr.scores.api.score_flag_routes.get_score_flag) – Get a score flag by ID.
 - [**list_score_flags**](#leadr.scores.api.score_flag_routes.list_score_flags) – List score flags for an account with optional filters and pagination.
 - [**update_score_flag**](#leadr.scores.api.score_flag_routes.update_score_flag) – Update a score flag (review or soft-delete).
@@ -730,6 +731,35 @@ API routes for score flag management.
 **Attributes:**
 
 - [**router**](#leadr.scores.api.score_flag_routes.router) –
+
+###### `leadr.scores.api.score_flag_routes.create_score_flag`
+
+```python
+create_score_flag(request, service, auth)
+```
+
+Create a score flag (manual flagging by admin).
+
+Allows game admins to manually flag a score for review. By default, flags
+are created with type 'manual' and confidence 'medium', but admins can
+override these to specify a different flag type (e.g., duplicate, velocity).
+
+**Parameters:**
+
+- **request** (<code>[ScoreFlagCreateRequest](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest)</code>) – Flag creation details (score_event_id, optional flag_type,
+  confidence, and metadata).
+- **service** (<code>[ScoreFlagServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreFlagServiceDep)</code>) – Injected score flag service dependency.
+- **auth** (<code>[AdminAuthContextDep](./auth.md#leadr.auth.dependencies.AdminAuthContextDep)</code>) – Authentication context with user info.
+
+**Returns:**
+
+- <code>[ScoreFlagResponse](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse)</code> – ScoreFlagResponse with the created flag details.
+
+**Raises:**
+
+- <code>422</code> – Invalid flag_type or confidence value.
+- <code>403</code> – User does not have access to this score event's account.
+- <code>404</code> – Score event not found.
 
 ###### `leadr.scores.api.score_flag_routes.get_score_flag`
 
@@ -829,8 +859,46 @@ API request and response models for score flags.
 
 **Classes:**
 
+- [**ScoreFlagCreateRequest**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest) – Request model for creating a score flag (manual flagging by admin).
 - [**ScoreFlagResponse**](#leadr.scores.api.score_flag_schemas.ScoreFlagResponse) – Response model for a score flag.
 - [**ScoreFlagUpdateRequest**](#leadr.scores.api.score_flag_schemas.ScoreFlagUpdateRequest) – Request model for updating a score flag (reviewing).
+
+###### `leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Request model for creating a score flag (manual flagging by admin).
+
+**Attributes:**
+
+- [**confidence**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.confidence) (<code>[FlagConfidence](#leadr.scores.domain.anti_cheat.enums.FlagConfidence)</code>) –
+- [**flag_type**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.flag_type) (<code>[FlagType](#leadr.scores.domain.anti_cheat.enums.FlagType)</code>) –
+- [**metadata**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.metadata) (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) –
+- [**score_event_id**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
+
+####### `leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.confidence`
+
+```python
+confidence: FlagConfidence = Field(default=(FlagConfidence.MEDIUM), description='Confidence level (low, medium, high)')
+```
+
+####### `leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.flag_type`
+
+```python
+flag_type: FlagType = Field(default=(FlagType.MANUAL), description='Type of flag (manual, duplicate, velocity, rate_limit, outlier, etc.)')
+```
+
+####### `leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.metadata`
+
+```python
+metadata: dict[str, Any] | None = Field(default=None, description='Optional metadata/notes about the flag')
+```
+
+####### `leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.score_event_id`
+
+```python
+score_event_id: ScoreEventID = Field(description='ID of the score event to flag')
+```
 
 ###### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse`
 
@@ -948,7 +1016,7 @@ Request model for updating a score flag (reviewing).
 
 - [**deleted**](#leadr.scores.api.score_flag_schemas.ScoreFlagUpdateRequest.deleted) (<code>[bool](#bool) | None</code>) –
 - [**reviewer_decision**](#leadr.scores.api.score_flag_schemas.ScoreFlagUpdateRequest.reviewer_decision) (<code>[str](#str) | None</code>) –
-- [**status**](#leadr.scores.api.score_flag_schemas.ScoreFlagUpdateRequest.status) (<code>[str](#str) | None</code>) –
+- [**status**](#leadr.scores.api.score_flag_schemas.ScoreFlagUpdateRequest.status) (<code>[ScoreFlagStatus](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus) | None</code>) –
 
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagUpdateRequest.deleted`
 
@@ -965,7 +1033,7 @@ reviewer_decision: str | None = Field(default=None, description="Admin's decisio
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagUpdateRequest.status`
 
 ```python
-status: str | None = Field(default=None, description='Updated status: pending, confirmed_cheat, false_positive, or dismissed')
+status: ScoreFlagStatus | None = Field(default=None, description='Updated status: pending, confirmed_cheat, false_positive, or dismissed')
 ```
 
 ##### `leadr.scores.api.score_routes`
@@ -2058,6 +2126,7 @@ potentially suspicious score submissions.
 - [**CLUSTER**](#leadr.scores.domain.anti_cheat.FlagType.CLUSTER) – Multiple users submitting identical scores in short time window.
 - [**DUPLICATE**](#leadr.scores.domain.anti_cheat.FlagType.DUPLICATE) – Identical score value submitted multiple times in short time window.
 - [**IMPOSSIBLE_VALUE**](#leadr.scores.domain.anti_cheat.FlagType.IMPOSSIBLE_VALUE) – Score contains mathematically impossible value (negative, NaN, etc).
+- [**MANUAL**](#leadr.scores.domain.anti_cheat.FlagType.MANUAL) – Admin manually flagged this score for review.
 - [**OUTLIER**](#leadr.scores.domain.anti_cheat.FlagType.OUTLIER) – Score is statistically anomalous compared to board distribution.
 - [**PATTERN**](#leadr.scores.domain.anti_cheat.FlagType.PATTERN) – Suspicious pattern detected in submission history (all round numbers, etc).
 - [**PROGRESSION**](#leadr.scores.domain.anti_cheat.FlagType.PROGRESSION) – Unrealistic improvement percentage between submissions.
@@ -2087,6 +2156,14 @@ IMPOSSIBLE_VALUE = 'impossible_value'
 ```
 
 Score contains mathematically impossible value (negative, NaN, etc).
+
+####### `leadr.scores.domain.anti_cheat.FlagType.MANUAL`
+
+```python
+MANUAL = 'manual'
+```
+
+Admin manually flagged this score for review.
 
 ####### `leadr.scores.domain.anti_cheat.FlagType.OUTLIER`
 
@@ -2590,6 +2667,7 @@ potentially suspicious score submissions.
 - [**CLUSTER**](#leadr.scores.domain.anti_cheat.enums.FlagType.CLUSTER) – Multiple users submitting identical scores in short time window.
 - [**DUPLICATE**](#leadr.scores.domain.anti_cheat.enums.FlagType.DUPLICATE) – Identical score value submitted multiple times in short time window.
 - [**IMPOSSIBLE_VALUE**](#leadr.scores.domain.anti_cheat.enums.FlagType.IMPOSSIBLE_VALUE) – Score contains mathematically impossible value (negative, NaN, etc).
+- [**MANUAL**](#leadr.scores.domain.anti_cheat.enums.FlagType.MANUAL) – Admin manually flagged this score for review.
 - [**OUTLIER**](#leadr.scores.domain.anti_cheat.enums.FlagType.OUTLIER) – Score is statistically anomalous compared to board distribution.
 - [**PATTERN**](#leadr.scores.domain.anti_cheat.enums.FlagType.PATTERN) – Suspicious pattern detected in submission history (all round numbers, etc).
 - [**PROGRESSION**](#leadr.scores.domain.anti_cheat.enums.FlagType.PROGRESSION) – Unrealistic improvement percentage between submissions.
@@ -2619,6 +2697,14 @@ IMPOSSIBLE_VALUE = 'impossible_value'
 ```
 
 Score contains mathematically impossible value (negative, NaN, etc).
+
+######## `leadr.scores.domain.anti_cheat.enums.FlagType.MANUAL`
+
+```python
+MANUAL = 'manual'
+```
+
+Admin manually flagged this score for review.
 
 ######## `leadr.scores.domain.anti_cheat.enums.FlagType.OUTLIER`
 
@@ -4021,6 +4107,7 @@ by coordinating between the domain models and repository layer.
 
 **Functions:**
 
+- [**create_flag**](#leadr.scores.services.score_flag_service.ScoreFlagService.create_flag) – Create a new score flag (for manual admin flagging).
 - [**delete**](#leadr.scores.services.score_flag_service.ScoreFlagService.delete) – Soft-delete an entity.
 - [**get_by_id**](#leadr.scores.services.score_flag_service.ScoreFlagService.get_by_id) – Get an entity by its ID.
 - [**get_by_id_or_raise**](#leadr.scores.services.score_flag_service.ScoreFlagService.get_by_id_or_raise) – Get an entity by its ID or raise EntityNotFoundError.
@@ -4039,6 +4126,37 @@ by coordinating between the domain models and repository layer.
 **Parameters:**
 
 - **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session for database operations
+
+####### `leadr.scores.services.score_flag_service.ScoreFlagService.create_flag`
+
+```python
+create_flag(score_event_id, flag_type, confidence, metadata=None)
+```
+
+Create a new score flag (for manual admin flagging).
+
+**Parameters:**
+
+- **score_event_id** (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) – ID of the score event to flag
+- **flag_type** (<code>[FlagType](#leadr.scores.domain.anti_cheat.enums.FlagType)</code>) – Type of flag (MANUAL, DUPLICATE, etc.)
+- **confidence** (<code>[FlagConfidence](#leadr.scores.domain.anti_cheat.enums.FlagConfidence)</code>) – Confidence level (LOW, MEDIUM, HIGH)
+- **metadata** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – Optional metadata/notes about the flag
+
+**Returns:**
+
+- <code>[ScoreFlag](#leadr.scores.domain.anti_cheat.models.ScoreFlag)</code> – The created ScoreFlag
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > flag = await service.create_flag(
+> > > ... score_event_id=event.id,
+> > > ... flag_type=FlagType.MANUAL,
+> > > ... confidence=FlagConfidence.MEDIUM,
+> > > ... metadata={"reason": "Suspicious score"},
+> > > ... )
+
+</details>
 
 ####### `leadr.scores.services.score_flag_service.ScoreFlagService.delete`
 
