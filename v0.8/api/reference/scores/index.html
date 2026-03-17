@@ -3171,6 +3171,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrscoresapiscore_schemasscoreresponsescore_event_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.api.score_schemas.ScoreResponse.score_event_id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrscoresapiscore_schemasscoreresponsestatus" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.scores.api.score_schemas.ScoreResponse.status
@@ -6679,6 +6688,7 @@ with denormalized fields for query efficiency.</p>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.metadata"><strong>metadata</strong></a> (<code><a href="#typing.Any">Any</a> | None</code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.player_name"><strong>player_name</strong></a> (<code><a href="#str">str</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.rank"><strong>rank</strong></a> (<code><a href="#int">int</a> | None</code>) –</li>
+<li><a href="#leadr.scores.api.score_schemas.ScoreResponse.score_event_id"><strong>score_event_id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.ScoreEventID">ScoreEventID</a> | None</code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.status"><strong>status</strong></a> (<code><a href="#leadr.scores.domain.anti_cheat.enums.ScoreStatus">ScoreStatus</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.timezone"><strong>timezone</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.scores.api.score_schemas.ScoreResponse.updated_at"><strong>updated_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
@@ -6755,6 +6765,9 @@ with denormalized fields for query efficiency.</p>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_schemasscoreresponserank"># <code>leadr.scores.api.score_schemas.ScoreResponse.rank</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreresponserank" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">rank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Leaderboard position (1 = first). Null if not querying by board_id.&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrscoresapiscore_schemasscoreresponsescore_event_id"># <code>leadr.scores.api.score_schemas.ScoreResponse.score_event_id</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreresponsescore_event_id" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">score_event_id</span><span class="p">:</span> <span class="n">ScoreEventID</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;ID of the score event that created/updated this score. Null for RATIO boards which derive values from other boards.&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_schemasscoreresponsestatus"># <code>leadr.scores.api.score_schemas.ScoreResponse.status</code><a class="headerlink" href="#leadrscoresapiscore_schemasscoreresponsestatus" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">ScoreStatus</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Score lifecycle status (active, under_review, rejected)&#39;</span><span class="p">)</span>
