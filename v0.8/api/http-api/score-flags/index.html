@@ -1625,13 +1625,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#list-score-flags" class="md-nav__link">
+  <a href="#create-score-flag" class="md-nav__link">
     <span class="md-ellipsis">
-      List Score Flags
+      Create Score Flag
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="List Score Flags">
+    <nav class="md-nav" aria-label="Create Score Flag">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1658,13 +1658,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-score-flag" class="md-nav__link">
+  <a href="#list-score-flags" class="md-nav__link">
     <span class="md-ellipsis">
-      Get Score Flag
+      List Score Flags
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Get Score Flag">
+    <nav class="md-nav" aria-label="List Score Flags">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1691,13 +1691,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#update-score-flag" class="md-nav__link">
+  <a href="#get-score-flag" class="md-nav__link">
     <span class="md-ellipsis">
-      Update Score Flag
+      Get Score Flag
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Update Score Flag">
+    <nav class="md-nav" aria-label="Get Score Flag">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1711,6 +1711,39 @@
         
           <li class="md-nav__item">
   <a href="#responses_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Responses
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-score-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update Score Flag
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Update Score Flag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parameters_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responses_3" class="md-nav__link">
     <span class="md-ellipsis">
       Responses
     </span>
@@ -1740,8 +1773,178 @@
 
 
 <h1 id="score-flags">Score Flags<a class="headerlink" href="#score-flags" title="Permanent link">&para;</a></h1>
-<h2 id="list-score-flags">List Score Flags<a class="headerlink" href="#list-score-flags" title="Permanent link">&para;</a></h2>
+<h2 id="create-score-flag">Create Score Flag<a class="headerlink" href="#create-score-flag" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">JavaScript</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-api-key&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;authorization&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;leadr-client-nonce&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span>
+<span class="p">}</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;/v1/score-flags&#39;</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">inputBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">  &quot;score_event_id&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;flag_type&quot;: &quot;rate_limit&quot;,</span>
+<span class="s1">  &quot;confidence&quot;: &quot;low&quot;,</span>
+<span class="s1">  &quot;metadata&quot;: {}</span>
+<span class="s1">}&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;Accept&#39;</span><span class="o">:</span><span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-api-key&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;authorization&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">&#39;leadr-client-nonce&#39;</span><span class="o">:</span><span class="s1">&#39;string&#39;</span>
+<span class="p">};</span>
+
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/v1/score-flags&#39;</span><span class="p">,</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="nx">inputBody</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="nx">headers</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><code>POST /v1/score-flags</code></p>
+<p>Create a score flag (manual flagging by admin).</p>
+<p>Allows game admins to manually flag a score for review. By default, flags
+are created with type 'manual' and confidence 'medium', but admins can
+override these to specify a different flag type (e.g., duplicate, velocity).</p>
+<p>Args:
+    request: Flag creation details (score_event_id, optional flag_type,
+        confidence, and metadata).
+    service: Injected score flag service dependency.
+    auth: Authentication context with user info.</p>
+<p>Returns:
+    ScoreFlagResponse with the created flag details.</p>
+<p>Raises:
+    422: Invalid flag_type or confidence value.
+    403: User does not have access to this score event's account.
+    404: Score event not found.</p>
+<blockquote>
+<p>Body parameter</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;score_event_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;flag_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rate_limit&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;low&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>account_id</td>
+<td>query</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-api-key</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>authorization</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>leadr-client-nonce</td>
+<td>header</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>body</td>
+<td>body</td>
+<td><a href="../schemas/#scoreflagcreaterequest">ScoreFlagCreateRequest</a></td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Example responses</p>
+<p>201 Response</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;score_event_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;flag_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;reviewed_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;reviewer_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;reviewer_decision&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="responses">Responses<a class="headerlink" href="#responses" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Description</th>
+<th>Schema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>201</td>
+<td><a href="https://tools.ietf.org/html/rfc7231#section-6.3.2">Created</a></td>
+<td>Successful Response</td>
+<td><a href="../schemas/#scoreflagresponse">ScoreFlagResponse</a></td>
+</tr>
+<tr>
+<td>422</td>
+<td><a href="https://tools.ietf.org/html/rfc2518#section-10.3">Unprocessable Entity</a></td>
+<td>Validation Error</td>
+<td><a href="../schemas/#httpvalidationerror">HTTPValidationError</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition success">
+<p class="admonition-title">Success</p>
+<p>This operation does not require authentication</p>
+</div>
+<h2 id="list-score-flags">List Score Flags<a class="headerlink" href="#list-score-flags" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
@@ -1801,7 +2004,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 <p>Raises:
     400: Invalid cursor or sort field.
     403: User does not have access to the specified account.</p>
-<h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h3>
+<h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1911,7 +2114,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="responses">Responses<a class="headerlink" href="#responses" title="Permanent link">&para;</a></h3>
+<h3 id="responses_1">Responses<a class="headerlink" href="#responses_1" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -1941,7 +2144,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 <p>This operation does not require authentication</p>
 </div>
 <h2 id="get-score-flag">Get Score Flag<a class="headerlink" href="#get-score-flag" title="Permanent link">&para;</a></h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">JavaScript</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python</label><label for="__tabbed_3_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
@@ -1991,7 +2194,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 <p>Raises:
     403: User does not have access to this flag's account.
     404: Flag not found or soft-deleted.</p>
-<h3 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h3>
+<h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -2058,7 +2261,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="responses_1">Responses<a class="headerlink" href="#responses_1" title="Permanent link">&para;</a></h3>
+<h3 id="responses_2">Responses<a class="headerlink" href="#responses_2" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -2088,7 +2291,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 <p>This operation does not require authentication</p>
 </div>
 <h2 id="update-score-flag">Update Score Flag<a class="headerlink" href="#update-score-flag" title="Permanent link">&para;</a></h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python</label><label for="__tabbed_3_2">JavaScript</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python</label><label for="__tabbed_4_2">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
@@ -2107,7 +2310,7 @@ For superadmins, account_id is optional - if omitted, returns flags from all acc
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">inputBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;status&quot;: &quot;string&quot;,</span>
+<span class="s1">  &quot;status&quot;: &quot;pending&quot;,</span>
 <span class="s1">  &quot;reviewer_decision&quot;: &quot;string&quot;,</span>
 <span class="s1">  &quot;deleted&quot;: true</span>
 <span class="s1">}&#39;</span><span class="p">;</span>
@@ -2153,12 +2356,12 @@ soft-deleting the flag.</p>
 <p>Body parameter</p>
 </blockquote>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pending&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;reviewer_decision&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;deleted&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h3>
+<h3 id="parameters_3">Parameters<a class="headerlink" href="#parameters_3" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -2232,7 +2435,7 @@ soft-deleting the flag.</p>
 <span class="w">  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="responses_2">Responses<a class="headerlink" href="#responses_2" title="Permanent link">&para;</a></h3>
+<h3 id="responses_3">Responses<a class="headerlink" href="#responses_3" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
