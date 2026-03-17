@@ -723,11 +723,13 @@ Registration flow (new account):
 - Creates user as account owner
 - Creates API key for CLI authentication
 - Optionally redeems jam code
+- Geo fields (timezone, country, city) auto-populated from GeoIP
 
 Invite flow (joining existing account):
 - Activates the invited user (changes status from INVITED to ACTIVE)
 - Creates API key for CLI authentication
 - account_name and jam_code are ignored
+- geo_info is ignored (account already exists)
 
 The API key is returned in plaintext and should be stored securely by the client.
 

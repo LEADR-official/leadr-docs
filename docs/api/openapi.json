@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.9"
+    "version": "0.8.10"
   },
   "paths": {
     "/v1/accounts": {
@@ -7901,7 +7901,7 @@
           "Registration"
         ],
         "summary": "Complete Registration",
-        "description": "Complete registration or invite acceptance.\n\nThis endpoint handles two flows based on the verification token type:\n\nRegistration flow (new account):\n- Creates account with the specified name and slug\n- Creates user as account owner\n- Creates API key for CLI authentication\n- Optionally redeems jam code\n\nInvite flow (joining existing account):\n- Activates the invited user (changes status from INVITED to ACTIVE)\n- Creates API key for CLI authentication\n- account_name and jam_code are ignored\n\nThe API key is returned in plaintext and should be stored securely by the client.",
+        "description": "Complete registration or invite acceptance.\n\nThis endpoint handles two flows based on the verification token type:\n\nRegistration flow (new account):\n- Creates account with the specified name and slug\n- Creates user as account owner\n- Creates API key for CLI authentication\n- Optionally redeems jam code\n- Geo fields (timezone, country, city) auto-populated from GeoIP\n\nInvite flow (joining existing account):\n- Activates the invited user (changes status from INVITED to ACTIVE)\n- Creates API key for CLI authentication\n- account_name and jam_code are ignored\n- geo_info is ignored (account already exists)\n\nThe API key is returned in plaintext and should be stored securely by the client.",
         "operationId": "complete_registration_v1_register_complete_post",
         "requestBody": {
           "content": {
@@ -8208,6 +8208,42 @@
             "$ref": "#/components/schemas/AccountStatus",
             "description": "Current account status"
           },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone",
+            "description": "Timezone from registration GeoIP"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "Country code from registration GeoIP"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City",
+            "description": "City name from registration GeoIP"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -8227,6 +8263,9 @@
           "name",
           "slug",
           "status",
+          "timezone",
+          "country",
+          "city",
           "created_at",
           "updated_at"
         ],
@@ -8290,6 +8329,42 @@
             ],
             "title": "Deleted",
             "description": "Set to true to soft delete the account"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone",
+            "description": "Timezone (IANA format)"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country",
+            "description": "Country code (ISO 2-letter)"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City",
+            "description": "City name"
           }
         },
         "type": "object",
