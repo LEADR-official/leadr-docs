@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.10"
+    "version": "0.8.11"
   },
   "paths": {
     "/v1/accounts": {
@@ -4459,6 +4459,112 @@
       }
     },
     "/v1/score-flags": {
+      "post": {
+        "tags": [
+          "Score Flags"
+        ],
+        "summary": "Create Score Flag",
+        "description": "Create a score flag (manual flagging by admin).\n\nAllows game admins to manually flag a score for review. By default, flags\nare created with type 'manual' and confidence 'medium', but admins can\noverride these to specify a different flag type (e.g., duplicate, velocity).\n\nArgs:\n    request: Flag creation details (score_event_id, optional flag_type,\n        confidence, and metadata).\n    service: Injected score flag service dependency.\n    auth: Authentication context with user info.\n\nReturns:\n    ScoreFlagResponse with the created flag details.\n\nRaises:\n    422: Invalid flag_type or confidence value.\n    403: User does not have access to this score event's account.\n    404: Score event not found.",
+        "operationId": "create_score_flag_v1_score_flags_post",
+        "parameters": [
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreFlagCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreFlagResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "tags": [
           "Score Flags"
@@ -10144,6 +10250,32 @@
         "title": "DeviceUpdateRequest",
         "description": "Request model for updating a device."
       },
+      "FlagConfidence": {
+        "type": "string",
+        "enum": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "title": "FlagConfidence",
+        "description": "Confidence level for anti-cheat detection.\n\nDetermines the action taken when a flag is raised:\n- HIGH: Auto-reject submission\n- MEDIUM: Flag for manual review, accept submission\n- LOW: Log for analysis, accept submission"
+      },
+      "FlagType": {
+        "type": "string",
+        "enum": [
+          "rate_limit",
+          "duplicate",
+          "velocity",
+          "outlier",
+          "impossible_value",
+          "pattern",
+          "progression",
+          "cluster",
+          "manual"
+        ],
+        "title": "FlagType",
+        "description": "Type of anti-cheat flag detected.\n\nEach flag type represents a different detection tactic used to identify\npotentially suspicious score submissions."
+      },
       "GameCreateRequest": {
         "properties": {
           "account_id": {
@@ -12009,6 +12141,44 @@
         "title": "ScoreEventResponse",
         "description": "Response model for a score event (admin only).\n\nScore events are immutable facts about score submissions.\nThey are append-only and cannot be updated or deleted."
       },
+      "ScoreFlagCreateRequest": {
+        "properties": {
+          "score_event_id": {
+            "type": "string",
+            "title": "Score Event Id",
+            "description": "ID of the score event to flag"
+          },
+          "flag_type": {
+            "$ref": "#/components/schemas/FlagType",
+            "description": "Type of flag (manual, duplicate, velocity, rate_limit, outlier, etc.)",
+            "default": "manual"
+          },
+          "confidence": {
+            "$ref": "#/components/schemas/FlagConfidence",
+            "description": "Confidence level (low, medium, high)",
+            "default": "medium"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Optional metadata/notes about the flag"
+          }
+        },
+        "type": "object",
+        "required": [
+          "score_event_id"
+        ],
+        "title": "ScoreFlagCreateRequest",
+        "description": "Request model for creating a score flag (manual flagging by admin)."
+      },
       "ScoreFlagResponse": {
         "properties": {
           "id": {
@@ -12106,18 +12276,28 @@
         "title": "ScoreFlagResponse",
         "description": "Response model for a score flag."
       },
+      "ScoreFlagStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "confirmed_cheat",
+          "false_positive",
+          "dismissed"
+        ],
+        "title": "ScoreFlagStatus",
+        "description": "Status of a score flag review.\n\nIndicates whether a flag has been reviewed and what decision was made."
+      },
       "ScoreFlagUpdateRequest": {
         "properties": {
           "status": {
             "anyOf": [
               {
-                "type": "string"
+                "$ref": "#/components/schemas/ScoreFlagStatus"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Status",
             "description": "Updated status: pending, confirmed_cheat, false_positive, or dismissed"
           },
           "reviewer_decision": {

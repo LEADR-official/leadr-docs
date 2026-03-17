@@ -1,5 +1,128 @@
 # Score Flags
 
+## Create Score Flag
+
+=== "Python"
+
+    ```python
+    import requests
+    headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'leadr-api-key': 'string',
+      'authorization': 'string',
+      'leadr-client-nonce': 'string'
+    }
+
+    r = requests.post('/v1/score-flags', headers = headers)
+
+    print(r.json())
+
+    ```
+
+=== "JavaScript"
+
+    ```javascript
+    const inputBody = '{
+      "score_event_id": "string",
+      "flag_type": "rate_limit",
+      "confidence": "low",
+      "metadata": {}
+    }';
+    const headers = {
+      'Content-Type':'application/json',
+      'Accept':'application/json',
+      'leadr-api-key':'string',
+      'authorization':'string',
+      'leadr-client-nonce':'string'
+    };
+
+    fetch('/v1/score-flags',
+    {
+      method: 'POST',
+      body: inputBody,
+      headers: headers
+    })
+    .then(function(res) {
+        return res.json();
+    }).then(function(body) {
+        console.log(body);
+    });
+
+    ```
+`POST /v1/score-flags`
+
+Create a score flag (manual flagging by admin).
+
+Allows game admins to manually flag a score for review. By default, flags
+are created with type 'manual' and confidence 'medium', but admins can
+override these to specify a different flag type (e.g., duplicate, velocity).
+
+Args:
+    request: Flag creation details (score_event_id, optional flag_type,
+        confidence, and metadata).
+    service: Injected score flag service dependency.
+    auth: Authentication context with user info.
+
+Returns:
+    ScoreFlagResponse with the created flag details.
+
+Raises:
+    422: Invalid flag_type or confidence value.
+    403: User does not have access to this score event's account.
+    404: Score event not found.
+
+> Body parameter
+
+```json
+{
+  "score_event_id": "string",
+  "flag_type": "rate_limit",
+  "confidence": "low",
+  "metadata": {}
+}
+```
+
+### Parameters
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|account_id|query|any|false|none|
+|leadr-api-key|header|any|false|none|
+|authorization|header|any|false|none|
+|leadr-client-nonce|header|any|false|none|
+|body|body|[ScoreFlagCreateRequest](./schemas.md#scoreflagcreaterequest)|true|none|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "id": "string",
+  "score_event_id": "string",
+  "flag_type": "string",
+  "confidence": "string",
+  "metadata": {},
+  "status": "string",
+  "reviewed_at": "2019-08-24T14:15:22Z",
+  "reviewer_id": "string",
+  "reviewer_decision": "string",
+  "created_at": "2019-08-24T14:15:22Z",
+  "updated_at": "2019-08-24T14:15:22Z"
+}
+```
+
+### Responses
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successful Response|[ScoreFlagResponse](./schemas.md#scoreflagresponse)|
+|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
+
+!!! success
+    This operation does not require authentication
+
 ## List Score Flags
 
 === "Python"
@@ -241,7 +364,7 @@ Raises:
 
     ```javascript
     const inputBody = '{
-      "status": "string",
+      "status": "pending",
       "reviewer_decision": "string",
       "deleted": true
     }';
@@ -291,7 +414,7 @@ Raises:
 
 ```json
 {
-  "status": "string",
+  "status": "pending",
   "reviewer_decision": "string",
   "deleted": true
 }
