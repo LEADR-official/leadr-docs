@@ -1731,6 +1731,24 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrcommonapihookspostcompleteregistrationhook" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.api.hooks.PostCompleteRegistrationHook
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonapihookspostcompleteregistrationhookdep" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.api.hooks.PostCompleteRegistrationHookDep
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommonapihookspostcreateboardhook" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.api.hooks.PostCreateBoardHook
@@ -1902,6 +1920,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrcommonapihooksget_post_complete_registration_hook" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.api.hooks.get_post_complete_registration_hook
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommonapihooksget_post_create_board_hook" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.api.hooks.get_post_create_board_hook
@@ -1977,6 +2004,15 @@
   <a href="#leadrcommonapihooksget_rate_limit_hook" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.api.hooks.get_rate_limit_hook
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonapihooksnoop_post_complete_registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.api.hooks.noop_post_complete_registration
     </span>
   </a>
   
@@ -4501,10 +4537,12 @@ error response envelope.</p>
 <p><strong>Classes:</strong></p>
 <ul>
 <li><a href="./#leadr.common.api.hooks.Hook"><strong>Hook</strong></a> – Generic hook type for resource lifecycle events.</li>
+<li><a href="./#leadr.common.api.hooks.PostCompleteRegistrationHook"><strong>PostCompleteRegistrationHook</strong></a> – Hook called after POST /register/complete succeeds.</li>
 <li><a href="./#leadr.common.api.hooks.UpdateHook"><strong>UpdateHook</strong></a> – Hook type for update operations that need the resource's account_id.</li>
 </ul>
 <p><strong>Functions:</strong></p>
 <ul>
+<li><a href="#leadr.common.api.hooks.get_post_complete_registration_hook"><strong>get_post_complete_registration_hook</strong></a> – Get the post-complete registration hook. Override in cloud.</li>
 <li><a href="#leadr.common.api.hooks.get_post_create_board_hook"><strong>get_post_create_board_hook</strong></a> – Get the post-create board hook. Override in cloud.</li>
 <li><a href="#leadr.common.api.hooks.get_post_create_game_hook"><strong>get_post_create_game_hook</strong></a> – Get the post-create game hook. Override in cloud.</li>
 <li><a href="#leadr.common.api.hooks.get_post_create_score_hook"><strong>get_post_create_score_hook</strong></a> – Get the post-create score hook. Override in cloud.</li>
@@ -4514,6 +4552,7 @@ error response envelope.</p>
 <li><a href="#leadr.common.api.hooks.get_pre_create_score_hook"><strong>get_pre_create_score_hook</strong></a> – Get the pre-create score hook. Override in cloud.</li>
 <li><a href="#leadr.common.api.hooks.get_pre_update_board_template_hook"><strong>get_pre_update_board_template_hook</strong></a> – Get the pre-update board template hook. Override in cloud.</li>
 <li><a href="#leadr.common.api.hooks.get_rate_limit_hook"><strong>get_rate_limit_hook</strong></a> – Get the rate limit hook. Override in cloud.</li>
+<li><a href="#leadr.common.api.hooks.noop_post_complete_registration"><strong>noop_post_complete_registration</strong></a> – No-op post-complete registration hook.</li>
 <li><a href="#leadr.common.api.hooks.noop_post_create_board"><strong>noop_post_create_board</strong></a> – No-op post-create board hook.</li>
 <li><a href="#leadr.common.api.hooks.noop_post_create_game"><strong>noop_post_create_game</strong></a> – No-op post-create game hook.</li>
 <li><a href="#leadr.common.api.hooks.noop_post_create_score"><strong>noop_post_create_score</strong></a> – No-op post-create score hook.</li>
@@ -4528,6 +4567,7 @@ error response envelope.</p>
 <p><strong>Attributes:</strong></p>
 <ul>
 <li><a href="./#leadr.common.api.hooks.AuthT"><strong>AuthT</strong></a> –</li>
+<li><a href="./#leadr.common.api.hooks.PostCompleteRegistrationHookDep"><strong>PostCompleteRegistrationHookDep</strong></a> –</li>
 <li><a href="./#leadr.common.api.hooks.PostCreateBoardHook"><strong>PostCreateBoardHook</strong></a> (<code><a href="#typing.TypeAlias">TypeAlias</a></code>) –</li>
 <li><a href="./#leadr.common.api.hooks.PostCreateBoardHookDep"><strong>PostCreateBoardHookDep</strong></a> –</li>
 <li><a href="./#leadr.common.api.hooks.PostCreateGameHook"><strong>PostCreateGameHook</strong></a> (<code><a href="#typing.TypeAlias">TypeAlias</a></code>) –</li>
@@ -4559,6 +4599,16 @@ error response envelope.</p>
 <li>auth: The authentication context (AdminAuthContext or ClientAuthContext)</li>
 <li>background_tasks: FastAPI BackgroundTasks for scheduling async work</li>
 </ul>
+<h6 id="leadrcommonapihookspostcompleteregistrationhook"><code>leadr.common.api.hooks.PostCompleteRegistrationHook</code><a class="headerlink" href="#leadrcommonapihookspostcompleteregistrationhook" title="Permanent link">&para;</a></h6>
+<p>Bases: <code><a href="#typing.Protocol">Protocol</a></code></p>
+<p>Hook called after POST /register/complete succeeds.</p>
+<p>Fires for both new-account registration and invite-acceptance flows.
+Does not follow the standard Hook[RequestT, AuthT] pattern because
+/register/complete is a public endpoint with no auth context; the useful
+data comes from the created entities rather than the request body.</p>
+<h6 id="leadrcommonapihookspostcompleteregistrationhookdep"><code>leadr.common.api.hooks.PostCompleteRegistrationHookDep</code><a class="headerlink" href="#leadrcommonapihookspostcompleteregistrationhookdep" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">PostCompleteRegistrationHookDep</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">PostCompleteRegistrationHook</span><span class="p">,</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_post_complete_registration_hook</span><span class="p">)]</span>
+</code></pre></div>
 <h6 id="leadrcommonapihookspostcreateboardhook"><code>leadr.common.api.hooks.PostCreateBoardHook</code><a class="headerlink" href="#leadrcommonapihookspostcreateboardhook" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">PostCreateBoardHook</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Hook</span><span class="p">[</span><span class="n">BoardCreateRequest</span><span class="p">,</span> <span class="n">AdminAuthContext</span><span class="p">]</span>
 </code></pre></div>
@@ -4618,6 +4668,10 @@ error response envelope.</p>
 <p>Hook type for update operations that need the resource's account_id.</p>
 <p>Update hooks receive account_id separately since it comes from the existing
 resource, not the update request body.</p>
+<h6 id="leadrcommonapihooksget_post_complete_registration_hook"><code>leadr.common.api.hooks.get_post_complete_registration_hook</code><a class="headerlink" href="#leadrcommonapihooksget_post_complete_registration_hook" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_post_complete_registration_hook</span><span class="p">()</span>
+</code></pre></div>
+<p>Get the post-complete registration hook. Override in cloud.</p>
 <h6 id="leadrcommonapihooksget_post_create_board_hook"><code>leadr.common.api.hooks.get_post_create_board_hook</code><a class="headerlink" href="#leadrcommonapihooksget_post_create_board_hook" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_post_create_board_hook</span><span class="p">()</span>
 </code></pre></div>
@@ -4654,6 +4708,10 @@ resource, not the update request body.</p>
 <div class="highlight"><pre><span></span><code><span class="n">get_rate_limit_hook</span><span class="p">()</span>
 </code></pre></div>
 <p>Get the rate limit hook. Override in cloud.</p>
+<h6 id="leadrcommonapihooksnoop_post_complete_registration"><code>leadr.common.api.hooks.noop_post_complete_registration</code><a class="headerlink" href="#leadrcommonapihooksnoop_post_complete_registration" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">noop_post_complete_registration</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">display_name</span><span class="p">,</span> <span class="n">account_name</span><span class="p">,</span> <span class="n">account_slug</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">)</span>
+</code></pre></div>
+<p>No-op post-complete registration hook.</p>
 <h6 id="leadrcommonapihooksnoop_post_create_board"><code>leadr.common.api.hooks.noop_post_create_board</code><a class="headerlink" href="#leadrcommonapihooksnoop_post_create_board" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">noop_post_create_board</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">)</span>
 </code></pre></div>

@@ -4637,7 +4637,7 @@ Used during account registration to verify email ownership.</p>
 <li><a href="./#leadr.registration.api.routes.router"><strong>router</strong></a> –</li>
 </ul>
 <h6 id="leadrregistrationapiroutescomplete_registration"><code>leadr.registration.api.routes.complete_registration</code><a class="headerlink" href="#leadrregistrationapiroutescomplete_registration" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">complete_registration</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">registration_service</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">complete_registration</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">registration_service</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">,</span> <span class="n">post_hook</span><span class="p">,</span> <span class="n">geo_info</span><span class="p">)</span>
 </code></pre></div>
 <p>Complete registration or invite acceptance.</p>
 <p>This endpoint handles two flows based on the verification token type:</p>
@@ -4647,12 +4647,14 @@ Used during account registration to verify email ownership.</p>
 <li>Creates user as account owner</li>
 <li>Creates API key for CLI authentication</li>
 <li>Optionally redeems jam code</li>
+<li>Geo fields (timezone, country, city) auto-populated from GeoIP</li>
 </ul>
 <p>Invite flow (joining existing account):</p>
 <ul>
 <li>Activates the invited user (changes status from INVITED to ACTIVE)</li>
 <li>Creates API key for CLI authentication</li>
 <li>account_name and jam_code are ignored</li>
+<li>geo_info is ignored (account already exists)</li>
 </ul>
 <p>The API key is returned in plaintext and should be stored securely by the client.</p>
 <h6 id="leadrregistrationapiroutescreate_jam_code"><code>leadr.registration.api.routes.create_jam_code</code><a class="headerlink" href="#leadrregistrationapiroutescreate_jam_code" title="Permanent link">&para;</a></h6>
@@ -5967,13 +5969,14 @@ resends the invite (invalidates old code, creates new one).</p>
 <div class="highlight"><pre><span></span><code><span class="n">api_key_service</span> <span class="o">=</span> <span class="n">api_key_service</span>
 </code></pre></div>
 <h6 id="leadrregistrationservicesregistration_serviceregistrationservicecomplete_registration"># <code>leadr.registration.services.registration_service.RegistrationService.complete_registration</code><a class="headerlink" href="#leadrregistrationservicesregistration_serviceregistrationservicecomplete_registration" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">complete_registration</span><span class="p">(</span><span class="n">verification_token</span><span class="p">,</span> <span class="n">account_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">jam_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">display_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">complete_registration</span><span class="p">(</span><span class="n">verification_token</span><span class="p">,</span> <span class="n">account_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">jam_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">display_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">geo_info</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Complete the registration process and create account, user, and API key.</p>
 <p>For invite flow: If the verification token contains a user_id, this is an
 invite completion. The existing invited user is activated and an API key
-is created. Account creation is skipped.</p>
-<p>For registration flow: A new account, user, and API key are created.</p>
+is created. Account creation is skipped. geo_info is ignored.</p>
+<p>For registration flow: A new account, user, and API key are created.
+geo_info is used to populate the account's timezone, country, and city.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>verification_token</strong> (<code><a href="#str">str</a></code>) – JWT token from email verification.</li>
@@ -5981,6 +5984,7 @@ is created. Account creation is skipped.</p>
 <li><strong>account_slug</strong> (<code><a href="#str">str</a> | None</code>) – Optional slug (will be auto-generated if not provided).</li>
 <li><strong>jam_code</strong> (<code><a href="#str">str</a> | None</code>) – Optional jam code for promotional features (registration only).</li>
 <li><strong>display_name</strong> (<code><a href="#str">str</a> | None</code>) – Optional display name (will use email prefix if not provided).</li>
+<li><strong>geo_info</strong> (<code><a href="../common/#leadr.common.geoip.GeoInfo">GeoInfo</a> | None</code>) – Optional GeoIP info to populate account geo fields (registration only).</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
