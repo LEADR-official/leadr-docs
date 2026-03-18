@@ -2584,7 +2584,7 @@ Anti-cheat enums for flag types, confidence levels, and actions.
 - [**FlagConfidence**](#leadr.scores.domain.anti_cheat.enums.FlagConfidence) – Confidence level for anti-cheat detection.
 - [**FlagType**](#leadr.scores.domain.anti_cheat.enums.FlagType) – Type of anti-cheat flag detected.
 - [**ScoreFlagStatus**](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus) – Status of a score flag review.
-- [**ScoreStatus**](#leadr.scores.domain.anti_cheat.enums.ScoreStatus) – Lifecycle status of a score in the anti-cheat workflow.
+- [**ScoreStatus**](#leadr.scores.domain.anti_cheat.enums.ScoreStatus) – DEPRECATED: Legacy lifecycle status field.
 - [**TrustTier**](#leadr.scores.domain.anti_cheat.enums.TrustTier) – Trust tier for devices/users, determining anti-cheat thresholds.
 
 ####### `leadr.scores.domain.anti_cheat.enums.FlagAction`
@@ -2820,10 +2820,15 @@ Admin has chosen to remove this score.
 
 Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
 
-Lifecycle status of a score in the anti-cheat workflow.
+DEPRECATED: Legacy lifecycle status field.
 
-Tracks the score from submission through review, determining visibility
-on leaderboards.
+This enum is retained for API backwards compatibility only. Score visibility
+is now controlled via ScoreFlag status and materialized views:
+
+- RunEntry.excluded_at for RUN_RUNS boards
+- BoardState recomputation for RUN_IDENTITY/COUNTER boards
+
+All API responses return ACTIVE regardless of actual flag status.
 
 **Attributes:**
 

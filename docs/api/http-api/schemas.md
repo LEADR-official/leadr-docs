@@ -4707,7 +4707,7 @@ ScoreStatus
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|ScoreStatus|string|false|none|Lifecycle status of a score in the anti-cheat workflow.<br><br>Tracks the score from submission through review, determining visibility<br>on leaderboards.|
+|ScoreStatus|string|false|none|DEPRECATED: Legacy lifecycle status field.<br><br>This enum is retained for API backwards compatibility only. Score visibility<br>is now controlled via ScoreFlag status and materialized views:<br>- RunEntry.excluded_at for RUN_RUNS boards<br>- BoardState recomputation for RUN_IDENTITY/COUNTER boards<br><br>All API responses return ACTIVE regardless of actual flag status.|
 
 #### Enumerated Values
 

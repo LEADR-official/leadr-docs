@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.13"
+    "version": "0.8.14"
   },
   "paths": {
     "/v1/accounts": {
@@ -12515,7 +12515,7 @@
           "rejected"
         ],
         "title": "ScoreStatus",
-        "description": "Lifecycle status of a score in the anti-cheat workflow.\n\nTracks the score from submission through review, determining visibility\non leaderboards."
+        "description": "DEPRECATED: Legacy lifecycle status field.\n\nThis enum is retained for API backwards compatibility only. Score visibility\nis now controlled via ScoreFlag status and materialized views:\n- RunEntry.excluded_at for RUN_RUNS boards\n- BoardState recomputation for RUN_IDENTITY/COUNTER boards\n\nAll API responses return ACTIVE regardless of actual flag status."
       },
       "ScoreSubmissionMetaResponse": {
         "properties": {
