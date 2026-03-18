@@ -16133,6 +16133,7 @@
 <span class="w">  </span><span class="nt">&quot;score_event_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;flag_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rate_limit&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;confidence&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;low&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;removed&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -16170,6 +16171,69 @@
 <td>none</td>
 <td>Confidence level (low, medium, high)</td>
 </tr>
+<tr>
+<td>status</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+<td>Flag status (defaults to removed for manual admin flagging)</td>
+</tr>
+</tbody>
+</table>
+<p>anyOf</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>» <em>anonymous</em></td>
+<td><a href="./#scoreflagstatus">ScoreFlagStatus</a></td>
+<td>false</td>
+<td>none</td>
+<td>Status of a score flag review.<br><br>Indicates whether a flag has been reviewed and what decision was made.</td>
+</tr>
+</tbody>
+</table>
+<p>or</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>» <em>anonymous</em></td>
+<td>null</td>
+<td>false</td>
+<td>none</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>continued</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>metadata</td>
 <td>any</td>
@@ -16537,6 +16601,10 @@
 <tr>
 <td>ScoreFlagStatus</td>
 <td>confirmed_cheat</td>
+</tr>
+<tr>
+<td>ScoreFlagStatus</td>
+<td>removed</td>
 </tr>
 <tr>
 <td>ScoreFlagStatus</td>

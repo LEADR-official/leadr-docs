@@ -2502,6 +2502,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrscoresapiscore_flag_schemasscoreflagcreaterequeststatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrscoresapiscore_flag_schemasscoreflagresponse" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.scores.api.score_flag_schemas.ScoreFlagResponse
@@ -4170,6 +4179,15 @@
   <a href="#leadrscoresdomainanti_cheatenumsscoreflagstatuspending" class="md-nav__link">
     <span class="md-ellipsis">
       ## leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.PENDING
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrscoresdomainanti_cheatenumsscoreflagstatusremoved" class="md-nav__link">
+    <span class="md-ellipsis">
+      ## leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.REMOVED
     </span>
   </a>
   
@@ -6141,6 +6159,7 @@ soft-deleting the flag.</p>
 <li><a href="#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.flag_type"><strong>flag_type</strong></a> (<code><a href="#leadr.scores.domain.anti_cheat.enums.FlagType">FlagType</a></code>) –</li>
 <li><a href="#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.metadata"><strong>metadata</strong></a> (<code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#typing.Any">Any</a>] | None</code>) –</li>
 <li><a href="#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.score_event_id"><strong>score_event_id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.ScoreEventID">ScoreEventID</a></code>) –</li>
+<li><a href="#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.status"><strong>status</strong></a> (<code><a href="#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus">ScoreFlagStatus</a> | None</code>) –</li>
 </ul>
 <h6 id="leadrscoresapiscore_flag_schemasscoreflagcreaterequestconfidence"># <code>leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.confidence</code><a class="headerlink" href="#leadrscoresapiscore_flag_schemasscoreflagcreaterequestconfidence" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">confidence</span><span class="p">:</span> <span class="n">FlagConfidence</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">FlagConfidence</span><span class="o">.</span><span class="n">MEDIUM</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Confidence level (low, medium, high)&#39;</span><span class="p">)</span>
@@ -6153,6 +6172,9 @@ soft-deleting the flag.</p>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_flag_schemasscoreflagcreaterequestscore_event_id"># <code>leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.score_event_id</code><a class="headerlink" href="#leadrscoresapiscore_flag_schemasscoreflagcreaterequestscore_event_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">score_event_id</span><span class="p">:</span> <span class="n">ScoreEventID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ID of the score event to flag&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrscoresapiscore_flag_schemasscoreflagcreaterequeststatus"># <code>leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.status</code><a class="headerlink" href="#leadrscoresapiscore_flag_schemasscoreflagcreaterequeststatus" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">status</span><span class="p">:</span> <span class="n">ScoreFlagStatus</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">ScoreFlagStatus</span><span class="o">.</span><span class="n">REMOVED</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Flag status (defaults to removed for manual admin flagging)&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrscoresapiscore_flag_schemasscoreflagresponse"><code>leadr.scores.api.score_flag_schemas.ScoreFlagResponse</code><a class="headerlink" href="#leadrscoresapiscore_flag_schemasscoreflagresponse" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
@@ -7410,6 +7432,7 @@ potentially suspicious score submissions.</p>
 <li><a href="#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.DISMISSED"><strong>DISMISSED</strong></a> – Admin dismissed the flag without a specific determination.</li>
 <li><a href="#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.FALSE_POSITIVE"><strong>FALSE_POSITIVE</strong></a> – Admin determined this was legitimate gameplay.</li>
 <li><a href="#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.PENDING"><strong>PENDING</strong></a> – Flag has not been reviewed yet.</li>
+<li><a href="#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.REMOVED"><strong>REMOVED</strong></a> – Admin has chosen to remove this score.</li>
 </ul>
 <h6 id="leadrscoresdomainanti_cheatenumsscoreflagstatusconfirmed_cheat">## <code>leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.CONFIRMED_CHEAT</code><a class="headerlink" href="#leadrscoresdomainanti_cheatenumsscoreflagstatusconfirmed_cheat" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">CONFIRMED_CHEAT</span> <span class="o">=</span> <span class="s1">&#39;confirmed_cheat&#39;</span>
@@ -7427,6 +7450,10 @@ potentially suspicious score submissions.</p>
 <div class="highlight"><pre><span></span><code><span class="n">PENDING</span> <span class="o">=</span> <span class="s1">&#39;pending&#39;</span>
 </code></pre></div>
 <p>Flag has not been reviewed yet.</p>
+<h6 id="leadrscoresdomainanti_cheatenumsscoreflagstatusremoved">## <code>leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.REMOVED</code><a class="headerlink" href="#leadrscoresdomainanti_cheatenumsscoreflagstatusremoved" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">REMOVED</span> <span class="o">=</span> <span class="s1">&#39;removed&#39;</span>
+</code></pre></div>
+<p>Admin has chosen to remove this score.</p>
 <h6 id="leadrscoresdomainanti_cheatenumsscorestatus"># <code>leadr.scores.domain.anti_cheat.enums.ScoreStatus</code><a class="headerlink" href="#leadrscoresdomainanti_cheatenumsscorestatus" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="#str">str</a></code>, <code><a href="#enum.Enum">Enum</a></code></p>
 <p>Lifecycle status of a score in the anti-cheat workflow.</p>
@@ -8372,7 +8399,7 @@ by coordinating between the domain models and repository layer.</p>
 <li><strong>session</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – SQLAlchemy async session for database operations</li>
 </ul>
 <h6 id="leadrscoresservicesscore_flag_servicescoreflagservicecreate_flag"># <code>leadr.scores.services.score_flag_service.ScoreFlagService.create_flag</code><a class="headerlink" href="#leadrscoresservicesscore_flag_servicescoreflagservicecreate_flag" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">create_flag</span><span class="p">(</span><span class="n">score_event_id</span><span class="p">,</span> <span class="n">flag_type</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">create_flag</span><span class="p">(</span><span class="n">score_event_id</span><span class="p">,</span> <span class="n">flag_type</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">ScoreFlagStatus</span><span class="o">.</span><span class="n">PENDING</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Create a new score flag (for manual admin flagging).</p>
 <p><strong>Parameters:</strong></p>
@@ -8380,6 +8407,7 @@ by coordinating between the domain models and repository layer.</p>
 <li><strong>score_event_id</strong> (<code><a href="../common/#leadr.common.domain.ids.ScoreEventID">ScoreEventID</a></code>) – ID of the score event to flag</li>
 <li><strong>flag_type</strong> (<code><a href="#leadr.scores.domain.anti_cheat.enums.FlagType">FlagType</a></code>) – Type of flag (MANUAL, DUPLICATE, etc.)</li>
 <li><strong>confidence</strong> (<code><a href="#leadr.scores.domain.anti_cheat.enums.FlagConfidence">FlagConfidence</a></code>) – Confidence level (LOW, MEDIUM, HIGH)</li>
+<li><strong>status</strong> (<code><a href="#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus">ScoreFlagStatus</a></code>) – Initial status (defaults to PENDING)</li>
 <li><strong>metadata</strong> (<code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#typing.Any">Any</a>] | None</code>) – Optional metadata/notes about the flag</li>
 </ul>
 <p><strong>Returns:</strong></p>
