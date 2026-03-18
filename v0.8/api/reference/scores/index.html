@@ -7317,7 +7317,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <li><a href="#leadr.scores.domain.anti_cheat.enums.FlagConfidence"><strong>FlagConfidence</strong></a> – Confidence level for anti-cheat detection.</li>
 <li><a href="#leadr.scores.domain.anti_cheat.enums.FlagType"><strong>FlagType</strong></a> – Type of anti-cheat flag detected.</li>
 <li><a href="#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus"><strong>ScoreFlagStatus</strong></a> – Status of a score flag review.</li>
-<li><a href="#leadr.scores.domain.anti_cheat.enums.ScoreStatus"><strong>ScoreStatus</strong></a> – Lifecycle status of a score in the anti-cheat workflow.</li>
+<li><a href="#leadr.scores.domain.anti_cheat.enums.ScoreStatus"><strong>ScoreStatus</strong></a> – DEPRECATED: Legacy lifecycle status field.</li>
 <li><a href="#leadr.scores.domain.anti_cheat.enums.TrustTier"><strong>TrustTier</strong></a> – Trust tier for devices/users, determining anti-cheat thresholds.</li>
 </ul>
 <h6 id="leadrscoresdomainanti_cheatenumsflagaction"># <code>leadr.scores.domain.anti_cheat.enums.FlagAction</code><a class="headerlink" href="#leadrscoresdomainanti_cheatenumsflagaction" title="Permanent link">&para;</a></h6>
@@ -7456,9 +7456,14 @@ potentially suspicious score submissions.</p>
 <p>Admin has chosen to remove this score.</p>
 <h6 id="leadrscoresdomainanti_cheatenumsscorestatus"># <code>leadr.scores.domain.anti_cheat.enums.ScoreStatus</code><a class="headerlink" href="#leadrscoresdomainanti_cheatenumsscorestatus" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="#str">str</a></code>, <code><a href="#enum.Enum">Enum</a></code></p>
-<p>Lifecycle status of a score in the anti-cheat workflow.</p>
-<p>Tracks the score from submission through review, determining visibility
-on leaderboards.</p>
+<p>DEPRECATED: Legacy lifecycle status field.</p>
+<p>This enum is retained for API backwards compatibility only. Score visibility
+is now controlled via ScoreFlag status and materialized views:</p>
+<ul>
+<li>RunEntry.excluded_at for RUN_RUNS boards</li>
+<li>BoardState recomputation for RUN_IDENTITY/COUNTER boards</li>
+</ul>
+<p>All API responses return ACTIVE regardless of actual flag status.</p>
 <p><strong>Attributes:</strong></p>
 <ul>
 <li><a href="#leadr.scores.domain.anti_cheat.enums.ScoreStatus.ACTIVE"><strong>ACTIVE</strong></a> – Score passed anti-cheat checks and is visible on leaderboards.</li>
