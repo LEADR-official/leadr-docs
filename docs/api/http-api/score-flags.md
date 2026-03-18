@@ -27,6 +27,7 @@
       "score_event_id": "string",
       "flag_type": "rate_limit",
       "confidence": "low",
+      "status": "removed",
       "metadata": {}
     }';
     const headers = {
@@ -79,6 +80,7 @@ Raises:
   "score_event_id": "string",
   "flag_type": "rate_limit",
   "confidence": "low",
+  "status": "removed",
   "metadata": {}
 }
 ```

@@ -875,6 +875,7 @@ Request model for creating a score flag (manual flagging by admin).
 - [**flag_type**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.flag_type) (<code>[FlagType](#leadr.scores.domain.anti_cheat.enums.FlagType)</code>) –
 - [**metadata**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.metadata) (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) –
 - [**score_event_id**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.score_event_id) (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) –
+- [**status**](#leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.status) (<code>[ScoreFlagStatus](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus) | None</code>) –
 
 ####### `leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.confidence`
 
@@ -898,6 +899,12 @@ metadata: dict[str, Any] | None = Field(default=None, description='Optional meta
 
 ```python
 score_event_id: ScoreEventID = Field(description='ID of the score event to flag')
+```
+
+####### `leadr.scores.api.score_flag_schemas.ScoreFlagCreateRequest.status`
+
+```python
+status: ScoreFlagStatus | None = Field(default=(ScoreFlagStatus.REMOVED), description='Flag status (defaults to removed for manual admin flagging)')
 ```
 
 ###### `leadr.scores.api.score_flag_schemas.ScoreFlagResponse`
@@ -2767,6 +2774,7 @@ Indicates whether a flag has been reviewed and what decision was made.
 - [**DISMISSED**](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.DISMISSED) – Admin dismissed the flag without a specific determination.
 - [**FALSE_POSITIVE**](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.FALSE_POSITIVE) – Admin determined this was legitimate gameplay.
 - [**PENDING**](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.PENDING) – Flag has not been reviewed yet.
+- [**REMOVED**](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.REMOVED) – Admin has chosen to remove this score.
 
 ######## `leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.CONFIRMED_CHEAT`
 
@@ -2799,6 +2807,14 @@ PENDING = 'pending'
 ```
 
 Flag has not been reviewed yet.
+
+######## `leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus.REMOVED`
+
+```python
+REMOVED = 'removed'
+```
+
+Admin has chosen to remove this score.
 
 ####### `leadr.scores.domain.anti_cheat.enums.ScoreStatus`
 
@@ -4137,7 +4153,7 @@ by coordinating between the domain models and repository layer.
 ####### `leadr.scores.services.score_flag_service.ScoreFlagService.create_flag`
 
 ```python
-create_flag(score_event_id, flag_type, confidence, metadata=None)
+create_flag(score_event_id, flag_type, confidence, status=ScoreFlagStatus.PENDING, metadata=None)
 ```
 
 Create a new score flag (for manual admin flagging).
@@ -4147,6 +4163,7 @@ Create a new score flag (for manual admin flagging).
 - **score_event_id** (<code>[ScoreEventID](./common.md#leadr.common.domain.ids.ScoreEventID)</code>) – ID of the score event to flag
 - **flag_type** (<code>[FlagType](#leadr.scores.domain.anti_cheat.enums.FlagType)</code>) – Type of flag (MANUAL, DUPLICATE, etc.)
 - **confidence** (<code>[FlagConfidence](#leadr.scores.domain.anti_cheat.enums.FlagConfidence)</code>) – Confidence level (LOW, MEDIUM, HIGH)
+- **status** (<code>[ScoreFlagStatus](#leadr.scores.domain.anti_cheat.enums.ScoreFlagStatus)</code>) – Initial status (defaults to PENDING)
 - **metadata** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – Optional metadata/notes about the flag
 
 **Returns:**

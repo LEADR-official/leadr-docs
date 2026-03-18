@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.12"
+    "version": "0.8.13"
   },
   "paths": {
     "/v1/accounts": {
@@ -12158,6 +12158,18 @@
             "description": "Confidence level (low, medium, high)",
             "default": "medium"
           },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ScoreFlagStatus"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Flag status (defaults to removed for manual admin flagging)",
+            "default": "removed"
+          },
           "metadata": {
             "anyOf": [
               {
@@ -12281,6 +12293,7 @@
         "enum": [
           "pending",
           "confirmed_cheat",
+          "removed",
           "false_positive",
           "dismissed"
         ],
