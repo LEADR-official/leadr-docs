@@ -4295,6 +4295,7 @@ continued
   "score_event_id": "string",
   "flag_type": "rate_limit",
   "confidence": "low",
+  "status": "removed",
   "metadata": {}
 }
 
@@ -4309,6 +4310,24 @@ ScoreFlagCreateRequest
 |score_event_id|string|true|none|ID of the score event to flag|
 |flag_type|[FlagType](./schemas.md#flagtype)|false|none|Type of flag (manual, duplicate, velocity, rate_limit, outlier, etc.)|
 |confidence|[FlagConfidence](./schemas.md#flagconfidence)|false|none|Confidence level (low, medium, high)|
+|status|any|false|none|Flag status (defaults to removed for manual admin flagging)|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[ScoreFlagStatus](./schemas.md#scoreflagstatus)|false|none|Status of a score flag review.<br><br>Indicates whether a flag has been reviewed and what decision was made.|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
 |metadata|any|false|none|Optional metadata/notes about the flag|
 
 anyOf
@@ -4432,6 +4451,7 @@ ScoreFlagStatus
 |---|---|
 |ScoreFlagStatus|pending|
 |ScoreFlagStatus|confirmed_cheat|
+|ScoreFlagStatus|removed|
 |ScoreFlagStatus|false_positive|
 |ScoreFlagStatus|dismissed|
 
