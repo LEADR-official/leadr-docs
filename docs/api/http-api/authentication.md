@@ -158,6 +158,7 @@ The _geo parameter triggers GeoIP lookup for this endpoint. Geo data is
 available for future use via _geo.timezone, _geo.country, _geo.city.
 
 Args:
+    request: FastAPI request object (used for access logging)
     session_request: Session start request with game_id and fingerprint
     identity_service: IdentityService dependency (handles device and identity creation)
     _geo: GeoIP information extracted from client IP address (available for future use)

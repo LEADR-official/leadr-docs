@@ -1220,7 +1220,7 @@ No authentication is required (the refresh token itself is the credential).
 ###### `leadr.auth.api.client_routes.start_session`
 
 ```python
-start_session(session_request, identity_service, _geo)
+start_session(request, session_request, identity_service, _geo)
 ```
 
 Start a new identity session for a game client.
@@ -1236,6 +1236,7 @@ available for future use via \_geo.timezone, \_geo.country, \_geo.city.
 
 **Parameters:**
 
+- **request** (<code>[Request](#fastapi.Request)</code>) – FastAPI request object (used for access logging)
 - **session_request** (<code>[StartSessionRequest](#leadr.auth.api.client_schemas.StartSessionRequest)</code>) – Session start request with game_id and fingerprint
 - **identity_service** (<code>[IdentityServiceDep](./auth.md#leadr.auth.services.dependencies.IdentityServiceDep)</code>) – IdentityService dependency (handles device and identity creation)
 - **\_geo** (<code>[GeoInfoDep](./common.md#leadr.common.dependencies.GeoInfoDep)</code>) – GeoIP information extracted from client IP address (available for future use)
