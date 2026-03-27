@@ -2317,6 +2317,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#leadrconfigcommonsettingsvalidate_superadmin_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.CommonSettings.validate_superadmin_api_key
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3025,6 +3034,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#leadrconfigtestsettingsvalidate_superadmin_api_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.TestSettings.validate_superadmin_api_key
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3108,6 +3126,7 @@ field names (case-sensitive).</p>
 <p><strong>Functions:</strong></p>
 <ul>
 <li><a href="#leadr.config.CommonSettings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled.</li>
+<li><a href="#leadr.config.CommonSettings.validate_superadmin_api_key"><strong>validate_superadmin_api_key</strong></a> –</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
@@ -3382,7 +3401,7 @@ field names (case-sensitive).</p>
 <div class="highlight"><pre><span></span><code><span class="n">SUPERADMIN_ACCOUNT_SLUG</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;leadr&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;URL-friendly slug for the superadmin system account&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrconfigcommonsettingssuperadmin_api_key"><code>leadr.config.CommonSettings.SUPERADMIN_API_KEY</code><a class="headerlink" href="#leadrconfigcommonsettingssuperadmin_api_key" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="n">SUPERADMIN_API_KEY</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;API key for the superadmin user. REQUIRED for bootstrap.&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">SUPERADMIN_API_KEY</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;API key for the superadmin user. Must start with </span><span class="se">\&#39;</span><span class="s1">ldr_</span><span class="se">\&#39;</span><span class="s1">. Generate with: echo &quot;ldr_$(openssl rand -base64 60 | tr -d </span><span class="se">\&#39;</span><span class="s1">/+=</span><span class="se">\\</span><span class="s1">n</span><span class="se">\&#39;</span><span class="s1">)&quot;&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrconfigcommonsettingssuperadmin_api_key_name"><code>leadr.config.CommonSettings.SUPERADMIN_API_KEY_NAME</code><a class="headerlink" href="#leadrconfigcommonsettingssuperadmin_api_key_name" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">SUPERADMIN_API_KEY_NAME</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;Superadmin Key&#39;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Display name for the superadmin API key&#39;</span><span class="p">)</span>
@@ -3413,6 +3432,9 @@ field names (case-sensitive).</p>
 <div class="highlight"><pre><span></span><code><span class="n">validate_api_enabled</span><span class="p">()</span>
 </code></pre></div>
 <p>Ensure at least one API (Admin or Client) is enabled.</p>
+<h5 id="leadrconfigcommonsettingsvalidate_superadmin_api_key"><code>leadr.config.CommonSettings.validate_superadmin_api_key</code><a class="headerlink" href="#leadrconfigcommonsettingsvalidate_superadmin_api_key" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">validate_superadmin_api_key</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</code></pre></div>
 <h4 id="leadrconfigproj_root"><code>leadr.config.PROJ_ROOT</code><a class="headerlink" href="#leadrconfigproj_root" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="n">PROJ_ROOT</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
 </code></pre></div>
@@ -3425,6 +3447,7 @@ the .env file at the project root.</p>
 <p><strong>Functions:</strong></p>
 <ul>
 <li><a href="#leadr.config.Settings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled.</li>
+<li><a href="#leadr.config.Settings.validate_superadmin_api_key"><strong>validate_superadmin_api_key</strong></a> –</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
@@ -3513,6 +3536,7 @@ Test-specific overrides can be added here.</p>
 <p><strong>Functions:</strong></p>
 <ul>
 <li><a href="#leadr.config.TestSettings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled.</li>
+<li><a href="#leadr.config.TestSettings.validate_superadmin_api_key"><strong>validate_superadmin_api_key</strong></a> –</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
@@ -3818,6 +3842,9 @@ Test-specific overrides can be added here.</p>
 <div class="highlight"><pre><span></span><code><span class="n">validate_api_enabled</span><span class="p">()</span>
 </code></pre></div>
 <p>Ensure at least one API (Admin or Client) is enabled.</p>
+<h5 id="leadrconfigtestsettingsvalidate_superadmin_api_key"><code>leadr.config.TestSettings.validate_superadmin_api_key</code><a class="headerlink" href="#leadrconfigtestsettingsvalidate_superadmin_api_key" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">validate_superadmin_api_key</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</code></pre></div>
 <h4 id="leadrconfigsettings_1"><code>leadr.config.settings</code><a class="headerlink" href="#leadrconfigsettings_1" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="n">settings</span> <span class="o">=</span> <span class="n">TestSettings</span><span class="p">(</span><span class="n">_env_file</span><span class="o">=</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">PROJ_ROOT</span><span class="p">,</span> <span class="s1">&#39;.env.test&#39;</span><span class="p">)))</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ENV&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;TEST&#39;</span> <span class="k">else</span> <span class="n">Settings</span><span class="p">(</span><span class="n">_env_file</span><span class="o">=</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">PROJ_ROOT</span><span class="p">,</span> <span class="s1">&#39;.env&#39;</span><span class="p">)))</span>
 </code></pre></div>

@@ -7379,7 +7379,7 @@ replay attacks by ensuring each request is fresh and authorized.</p>
 <li><code>422</code> – Invalid request (missing refresh_token)</li>
 </ul>
 <h6 id="leadrauthapiclient_routesstart_session"><code>leadr.auth.api.client_routes.start_session</code><a class="headerlink" href="#leadrauthapiclient_routesstart_session" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">start_session</span><span class="p">(</span><span class="n">session_request</span><span class="p">,</span> <span class="n">identity_service</span><span class="p">,</span> <span class="n">_geo</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">start_session</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">session_request</span><span class="p">,</span> <span class="n">identity_service</span><span class="p">,</span> <span class="n">_geo</span><span class="p">)</span>
 </code></pre></div>
 <p>Start a new identity session for a game client.</p>
 <p>This endpoint authenticates game clients and provides JWT access tokens.
@@ -7390,6 +7390,7 @@ the device record and creates a new identity session.</p>
 available for future use via _geo.timezone, _geo.country, _geo.city.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
+<li><strong>request</strong> (<code><a href="#fastapi.Request">Request</a></code>) – FastAPI request object (used for access logging)</li>
 <li><strong>session_request</strong> (<code><a href="#leadr.auth.api.client_schemas.StartSessionRequest">StartSessionRequest</a></code>) – Session start request with game_id and fingerprint</li>
 <li><strong>identity_service</strong> (<code><a href="./#leadr.auth.services.dependencies.IdentityServiceDep">IdentityServiceDep</a></code>) – IdentityService dependency (handles device and identity creation)</li>
 <li><strong>_geo</strong> (<code><a href="../common/#leadr.common.dependencies.GeoInfoDep">GeoInfoDep</a></code>) – GeoIP information extracted from client IP address (available for future use)</li>

@@ -2252,7 +2252,7 @@
 </tr>
 <tr>
 <td><code>SUPERADMIN_API_KEY</code></td>
-<td>Admin API key - <strong>must start with <code>ldr_</code></strong></td>
+<td>Admin API key - <strong>must start with <code>ldr_</code></strong> - see generation command below</td>
 </tr>
 <tr>
 <td><code>JWT_SECRET</code></td>
@@ -2264,6 +2264,10 @@
 </tr>
 </tbody>
 </table>
+<p>Generate your <code>SUPERADMIN_API_KEY</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;ldr_</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-base64<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;/+=\n&#39;</span><span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Set the output as the value of <code>SUPERADMIN_API_KEY</code> in your <code>.env</code> file.</p>
 <h3 id="optional-variables">Optional Variables<a class="headerlink" href="#optional-variables" title="Permanent link">&para;</a></h3>
 <p>These have sensible defaults but can be customized:</p>
 <table>
