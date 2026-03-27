@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.14"
+    "version": "0.8.16"
   },
   "paths": {
     "/v1/accounts": {
@@ -8091,7 +8091,7 @@
           "Authentication"
         ],
         "summary": "Start Session",
-        "description": "Start a new identity session for a game client.\n\nThis endpoint authenticates game clients and provides JWT access tokens.\nIt is idempotent - calling multiple times for the same fingerprint updates\nthe device record and creates a new identity session.\n\nNo authentication is required to call this endpoint (it IS the authentication).\n\nThe _geo parameter triggers GeoIP lookup for this endpoint. Geo data is\navailable for future use via _geo.timezone, _geo.country, _geo.city.\n\nArgs:\n    session_request: Session start request with game_id and fingerprint\n    identity_service: IdentityService dependency (handles device and identity creation)\n    _geo: GeoIP information extracted from client IP address (available for future use)\n\nReturns:\n    StartSessionResponse with identity info and access tokens\n\nRaises:\n    404: Game not found\n    422: Invalid request (missing required fields, invalid UUID format)",
+        "description": "Start a new identity session for a game client.\n\nThis endpoint authenticates game clients and provides JWT access tokens.\nIt is idempotent - calling multiple times for the same fingerprint updates\nthe device record and creates a new identity session.\n\nNo authentication is required to call this endpoint (it IS the authentication).\n\nThe _geo parameter triggers GeoIP lookup for this endpoint. Geo data is\navailable for future use via _geo.timezone, _geo.country, _geo.city.\n\nArgs:\n    request: FastAPI request object (used for access logging)\n    session_request: Session start request with game_id and fingerprint\n    identity_service: IdentityService dependency (handles device and identity creation)\n    _geo: GeoIP information extracted from client IP address (available for future use)\n\nReturns:\n    StartSessionResponse with identity info and access tokens\n\nRaises:\n    404: Game not found\n    422: Invalid request (missing required fields, invalid UUID format)",
         "operationId": "start_session_v1_client_sessions_post",
         "requestBody": {
           "content": {

@@ -5,6 +5,7 @@
 - [**blob_storage**](#leadr.infra.blob_storage) –
 - [**cache**](./infra.md#leadr.infra.cache) – Cache infrastructure module.
 - [**email**](./infra.md#leadr.infra.email) – Email infrastructure domain with factory functions for easy integration.
+- [**webhooks**](./infra.md#leadr.infra.webhooks) – Webhook event tracking infrastructure.
 
 #### `leadr.infra.blob_storage`
 
@@ -2575,3 +2576,523 @@ Validate the email provider configuration.
 ```python
 logger = logging.getLogger(__name__)
 ```
+
+#### `leadr.infra.webhooks`
+
+Webhook event tracking infrastructure.
+
+**Modules:**
+
+- [**adapters**](./infra.md#leadr.infra.webhooks.adapters) – Webhook adapters.
+- [**domain**](./infra.md#leadr.infra.webhooks.domain) – Webhook domain models.
+- [**services**](./infra.md#leadr.infra.webhooks.services) – Webhook services.
+
+##### `leadr.infra.webhooks.adapters`
+
+Webhook adapters.
+
+**Modules:**
+
+- [**orm**](./infra.md#leadr.infra.webhooks.adapters.orm) – Webhook event ORM model.
+
+###### `leadr.infra.webhooks.adapters.orm`
+
+Webhook event ORM model.
+
+**Classes:**
+
+- [**WebhookEventORM**](./infra.md#leadr.infra.webhooks.adapters.orm.WebhookEventORM) – Webhook event ORM model.
+- [**WebhookProcessingStatusEnum**](./infra.md#leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum) – Webhook processing status enum for database.
+- [**WebhookSourceEnum**](./infra.md#leadr.infra.webhooks.adapters.orm.WebhookSourceEnum) – Webhook source enum for database.
+
+####### `leadr.infra.webhooks.adapters.orm.WebhookEventORM`
+
+Bases: <code>[ImmutableBase](./common.md#leadr.common.orm.ImmutableBase)</code>
+
+Webhook event ORM model.
+
+Tracks received webhook events for idempotency and audit purposes.
+Uses a unique constraint on (source, external_event_id) to prevent duplicate processing.
+
+**Functions:**
+
+- [**from_domain**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.from_domain) – Convert domain entity to ORM model.
+- [**to_domain**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.to_domain) – Convert ORM model to domain entity.
+
+**Attributes:**
+
+- [**created_at**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.created_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
+- [**error**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.error) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
+- [**event_type**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.event_type) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
+- [**external_event_id**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.external_event_id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
+- [**id**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.id) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[uuid_pk](#leadr.common.orm.uuid_pk)\]</code>) –
+- [**metadata**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.metadata) –
+- [**processed_at**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.processed_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime) | None\]</code>) –
+- [**processing_status**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.processing_status) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[WebhookProcessingStatusEnum](./infra.md#leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum)\]</code>) –
+- [**registry**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.registry) –
+- [**source**](#leadr.infra.webhooks.adapters.orm.WebhookEventORM.source) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[WebhookSourceEnum](./infra.md#leadr.infra.webhooks.adapters.orm.WebhookSourceEnum)\]</code>) –
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.created_at`
+
+```python
+created_at: Mapped[timestamp]
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.error`
+
+```python
+error: Mapped[str | None] = mapped_column(Text, nullable=True)
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.event_type`
+
+```python
+event_type: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.external_event_id`
+
+```python
+external_event_id: Mapped[str] = mapped_column(String(256), nullable=False)
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.from_domain`
+
+```python
+from_domain(entity)
+```
+
+Convert domain entity to ORM model.
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.id`
+
+```python
+id: Mapped[uuid_pk]
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.metadata`
+
+```python
+metadata = Base.metadata
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.processed_at`
+
+```python
+processed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.processing_status`
+
+```python
+processing_status: Mapped[WebhookProcessingStatusEnum] = mapped_column(Enum(WebhookProcessingStatusEnum, name='webhook_processing_status', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, default=(WebhookProcessingStatusEnum.PENDING), server_default='pending', index=True)
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.registry`
+
+```python
+registry = Base.registry
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.source`
+
+```python
+source: Mapped[WebhookSourceEnum] = mapped_column(Enum(WebhookSourceEnum, name='webhook_source', native_enum=True, values_callable=(lambda x: [(e.value) for e in x])), nullable=False, index=True)
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookEventORM.to_domain`
+
+```python
+to_domain()
+```
+
+Convert ORM model to domain entity.
+
+####### `leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Webhook processing status enum for database.
+
+**Attributes:**
+
+- [**FAILED**](#leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum.FAILED) –
+- [**PENDING**](#leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum.PENDING) –
+- [**PROCESSED**](#leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum.PROCESSED) –
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum.FAILED`
+
+```python
+FAILED = 'failed'
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum.PENDING`
+
+```python
+PENDING = 'pending'
+```
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookProcessingStatusEnum.PROCESSED`
+
+```python
+PROCESSED = 'processed'
+```
+
+####### `leadr.infra.webhooks.adapters.orm.WebhookSourceEnum`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Webhook source enum for database.
+
+**Attributes:**
+
+- [**STRIPE**](#leadr.infra.webhooks.adapters.orm.WebhookSourceEnum.STRIPE) –
+
+######## `leadr.infra.webhooks.adapters.orm.WebhookSourceEnum.STRIPE`
+
+```python
+STRIPE = 'stripe'
+```
+
+##### `leadr.infra.webhooks.domain`
+
+Webhook domain models.
+
+**Modules:**
+
+- [**enums**](./infra.md#leadr.infra.webhooks.domain.enums) – Webhook domain enums.
+- [**ids**](./infra.md#leadr.infra.webhooks.domain.ids) – Webhook domain IDs.
+- [**webhook_event**](#leadr.infra.webhooks.domain.webhook_event) – WebhookEvent domain entity.
+
+###### `leadr.infra.webhooks.domain.enums`
+
+Webhook domain enums.
+
+**Classes:**
+
+- [**WebhookProcessingStatus**](./infra.md#leadr.infra.webhooks.domain.enums.WebhookProcessingStatus) – Processing status of a received webhook event.
+- [**WebhookSource**](./infra.md#leadr.infra.webhooks.domain.enums.WebhookSource) – Source system that sent the webhook.
+
+####### `leadr.infra.webhooks.domain.enums.WebhookProcessingStatus`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Processing status of a received webhook event.
+
+**Attributes:**
+
+- [**FAILED**](#leadr.infra.webhooks.domain.enums.WebhookProcessingStatus.FAILED) –
+- [**PENDING**](#leadr.infra.webhooks.domain.enums.WebhookProcessingStatus.PENDING) –
+- [**PROCESSED**](#leadr.infra.webhooks.domain.enums.WebhookProcessingStatus.PROCESSED) –
+
+######## `leadr.infra.webhooks.domain.enums.WebhookProcessingStatus.FAILED`
+
+```python
+FAILED = 'failed'
+```
+
+######## `leadr.infra.webhooks.domain.enums.WebhookProcessingStatus.PENDING`
+
+```python
+PENDING = 'pending'
+```
+
+######## `leadr.infra.webhooks.domain.enums.WebhookProcessingStatus.PROCESSED`
+
+```python
+PROCESSED = 'processed'
+```
+
+####### `leadr.infra.webhooks.domain.enums.WebhookSource`
+
+Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
+
+Source system that sent the webhook.
+
+**Attributes:**
+
+- [**STRIPE**](#leadr.infra.webhooks.domain.enums.WebhookSource.STRIPE) –
+
+######## `leadr.infra.webhooks.domain.enums.WebhookSource.STRIPE`
+
+```python
+STRIPE = 'stripe'
+```
+
+###### `leadr.infra.webhooks.domain.ids`
+
+Webhook domain IDs.
+
+**Classes:**
+
+- [**WebhookEventID**](./infra.md#leadr.infra.webhooks.domain.ids.WebhookEventID) – Webhook event entity identifier.
+
+####### `leadr.infra.webhooks.domain.ids.WebhookEventID`
+
+Bases: <code>[PrefixedID](./common.md#leadr.common.domain.ids.PrefixedID)</code>
+
+Webhook event entity identifier.
+
+**Attributes:**
+
+- [**prefix**](#leadr.infra.webhooks.domain.ids.WebhookEventID.prefix) –
+- [**uuid**](#leadr.infra.webhooks.domain.ids.WebhookEventID.uuid) –
+
+######## `leadr.infra.webhooks.domain.ids.WebhookEventID.prefix`
+
+```python
+prefix = 'whe'
+```
+
+######## `leadr.infra.webhooks.domain.ids.WebhookEventID.uuid`
+
+```python
+uuid = uuid4()
+```
+
+###### `leadr.infra.webhooks.domain.webhook_event`
+
+WebhookEvent domain entity.
+
+**Classes:**
+
+- [**WebhookEvent**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent) – Represents a received webhook event from an external system.
+
+####### `leadr.infra.webhooks.domain.webhook_event.WebhookEvent`
+
+Bases: <code>[ImmutableEntity](./common.md#leadr.common.domain.models.ImmutableEntity)</code>
+
+Represents a received webhook event from an external system.
+
+Tracks idempotency and processing status for external webhook events.
+Immutable after creation — processing state is updated via repository methods.
+
+**Attributes:**
+
+- [**created_at**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.created_at) (<code>[datetime](#datetime.datetime)</code>) –
+- [**error**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.error) (<code>[str](#str) | None</code>) –
+- [**event_type**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.event_type) (<code>[str](#str)</code>) –
+- [**external_event_id**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.external_event_id) (<code>[str](#str)</code>) –
+- [**id**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.id) (<code>[WebhookEventID](./infra.md#leadr.infra.webhooks.domain.ids.WebhookEventID)</code>) –
+- [**model_config**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.model_config) –
+- [**processed_at**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.processed_at) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**processing_status**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.processing_status) (<code>[WebhookProcessingStatus](./infra.md#leadr.infra.webhooks.domain.enums.WebhookProcessingStatus)</code>) –
+- [**source**](#leadr.infra.webhooks.domain.webhook_event.WebhookEvent.source) (<code>[WebhookSource](./infra.md#leadr.infra.webhooks.domain.enums.WebhookSource)</code>) –
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.created_at`
+
+```python
+created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp when entity was created (UTC)')
+```
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.error`
+
+```python
+error: str | None = Field(default=None, description='Error message if processing failed')
+```
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.event_type`
+
+```python
+event_type: str = Field(description="The event type (e.g. 'customer.subscription.created')")
+```
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.external_event_id`
+
+```python
+external_event_id: str = Field(description='The event ID from the external system (e.g. Stripe event ID)')
+```
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.id`
+
+```python
+id: WebhookEventID = Field(frozen=True, default_factory=WebhookEventID, description='Unique identifier for this webhook event record')
+```
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.model_config`
+
+```python
+model_config = ConfigDict(validate_assignment=True)
+```
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.processed_at`
+
+```python
+processed_at: datetime | None = Field(default=None, description='Timestamp when event was successfully processed (UTC)')
+```
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.processing_status`
+
+```python
+processing_status: WebhookProcessingStatus = Field(default=(WebhookProcessingStatus.PENDING), description='Current processing status of this event')
+```
+
+######## `leadr.infra.webhooks.domain.webhook_event.WebhookEvent.source`
+
+```python
+source: WebhookSource = Field(description='The external system that sent this webhook')
+```
+
+##### `leadr.infra.webhooks.services`
+
+Webhook services.
+
+**Modules:**
+
+- [**dependencies**](./infra.md#leadr.infra.webhooks.services.dependencies) – Webhook event service dependency injection.
+- [**repository**](./infra.md#leadr.infra.webhooks.services.repository) – Webhook event repository.
+- [**webhook_service**](#leadr.infra.webhooks.services.webhook_service) – Webhook event service for idempotency tracking.
+
+###### `leadr.infra.webhooks.services.dependencies`
+
+Webhook event service dependency injection.
+
+**Functions:**
+
+- [**get_webhook_event_service**](#leadr.infra.webhooks.services.dependencies.get_webhook_event_service) – Get WebhookEventService dependency.
+
+**Attributes:**
+
+- [**WebhookEventServiceDep**](./infra.md#leadr.infra.webhooks.services.dependencies.WebhookEventServiceDep) –
+
+####### `leadr.infra.webhooks.services.dependencies.WebhookEventServiceDep`
+
+```python
+WebhookEventServiceDep = Annotated[WebhookEventService, Depends(get_webhook_event_service)]
+```
+
+####### `leadr.infra.webhooks.services.dependencies.get_webhook_event_service`
+
+```python
+get_webhook_event_service(db)
+```
+
+Get WebhookEventService dependency.
+
+###### `leadr.infra.webhooks.services.repository`
+
+Webhook event repository.
+
+**Classes:**
+
+- [**WebhookEventRepository**](./infra.md#leadr.infra.webhooks.services.repository.WebhookEventRepository) – Repository for WebhookEvent entities.
+
+####### `leadr.infra.webhooks.services.repository.WebhookEventRepository`
+
+```python
+WebhookEventRepository(session)
+```
+
+Repository for WebhookEvent entities.
+
+Handles creation and status tracking of incoming webhook events.
+Uses direct SQL updates for status transitions (mark_processed, mark_failed).
+
+**Functions:**
+
+- [**create**](#leadr.infra.webhooks.services.repository.WebhookEventRepository.create) – Persist a new webhook event record.
+- [**get_by_source_and_external_id**](#leadr.infra.webhooks.services.repository.WebhookEventRepository.get_by_source_and_external_id) – Look up a webhook event by (source, external_event_id) — the idempotency key.
+- [**mark_failed**](#leadr.infra.webhooks.services.repository.WebhookEventRepository.mark_failed) – Update the event to FAILED status with an error message.
+- [**mark_processed**](#leadr.infra.webhooks.services.repository.WebhookEventRepository.mark_processed) – Update the event to PROCESSED status.
+
+######## `leadr.infra.webhooks.services.repository.WebhookEventRepository.create`
+
+```python
+create(event)
+```
+
+Persist a new webhook event record.
+
+######## `leadr.infra.webhooks.services.repository.WebhookEventRepository.get_by_source_and_external_id`
+
+```python
+get_by_source_and_external_id(source, external_event_id)
+```
+
+Look up a webhook event by (source, external_event_id) — the idempotency key.
+
+######## `leadr.infra.webhooks.services.repository.WebhookEventRepository.mark_failed`
+
+```python
+mark_failed(event_id, error)
+```
+
+Update the event to FAILED status with an error message.
+
+######## `leadr.infra.webhooks.services.repository.WebhookEventRepository.mark_processed`
+
+```python
+mark_processed(event_id, processed_at=None)
+```
+
+Update the event to PROCESSED status.
+
+###### `leadr.infra.webhooks.services.webhook_service`
+
+Webhook event service for idempotency tracking.
+
+**Classes:**
+
+- [**WebhookEventService**](#leadr.infra.webhooks.services.webhook_service.WebhookEventService) – Service for tracking webhook event receipt and processing status.
+
+####### `leadr.infra.webhooks.services.webhook_service.WebhookEventService`
+
+```python
+WebhookEventService(session)
+```
+
+Service for tracking webhook event receipt and processing status.
+
+Provides idempotency by recording each event before processing and marking
+it as processed or failed afterwards. Callers should check is_already_processed()
+before performing domain logic to avoid duplicate side-effects.
+
+**Functions:**
+
+- [**get_existing_event**](#leadr.infra.webhooks.services.webhook_service.WebhookEventService.get_existing_event) – Return an existing webhook event record if one exists (any status).
+- [**is_already_processed**](#leadr.infra.webhooks.services.webhook_service.WebhookEventService.is_already_processed) – Return True if this event has already been successfully processed.
+- [**mark_failed**](#leadr.infra.webhooks.services.webhook_service.WebhookEventService.mark_failed) – Mark a webhook event as failed with an error message.
+- [**mark_processed**](#leadr.infra.webhooks.services.webhook_service.WebhookEventService.mark_processed) – Mark a webhook event as successfully processed.
+- [**record_received**](#leadr.infra.webhooks.services.webhook_service.WebhookEventService.record_received) – Record that a webhook event has been received (status: PENDING).
+
+######## `leadr.infra.webhooks.services.webhook_service.WebhookEventService.get_existing_event`
+
+```python
+get_existing_event(source, external_event_id)
+```
+
+Return an existing webhook event record if one exists (any status).
+
+######## `leadr.infra.webhooks.services.webhook_service.WebhookEventService.is_already_processed`
+
+```python
+is_already_processed(source, external_event_id)
+```
+
+Return True if this event has already been successfully processed.
+
+A PENDING or FAILED event is not considered processed — it can be retried.
+
+######## `leadr.infra.webhooks.services.webhook_service.WebhookEventService.mark_failed`
+
+```python
+mark_failed(event_id, error)
+```
+
+Mark a webhook event as failed with an error message.
+
+######## `leadr.infra.webhooks.services.webhook_service.WebhookEventService.mark_processed`
+
+```python
+mark_processed(event_id, processed_at=None)
+```
+
+Mark a webhook event as successfully processed.
+
+######## `leadr.infra.webhooks.services.webhook_service.WebhookEventService.record_received`
+
+```python
+record_received(source, external_event_id, event_type)
+```
+
+Record that a webhook event has been received (status: PENDING).

@@ -52,6 +52,7 @@ field names (case-sensitive).
 **Functions:**
 
 - [**validate_api_enabled**](#leadr.config.CommonSettings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled.
+- [**validate_superadmin_api_key**](#leadr.config.CommonSettings.validate_superadmin_api_key) –
 
 **Attributes:**
 
@@ -523,7 +524,7 @@ SUPERADMIN_ACCOUNT_SLUG: str = Field(default='leadr', description='URL-friendly 
 ##### `leadr.config.CommonSettings.SUPERADMIN_API_KEY`
 
 ```python
-SUPERADMIN_API_KEY: str = Field(default=..., description='API key for the superadmin user. REQUIRED for bootstrap.')
+SUPERADMIN_API_KEY: str = Field(default=..., description='API key for the superadmin user. Must start with \'ldr_\'. Generate with: echo "ldr_$(openssl rand -base64 60 | tr -d \'/+=\\n\')"')
 ```
 
 ##### `leadr.config.CommonSettings.SUPERADMIN_API_KEY_NAME`
@@ -584,6 +585,12 @@ validate_api_enabled()
 
 Ensure at least one API (Admin or Client) is enabled.
 
+##### `leadr.config.CommonSettings.validate_superadmin_api_key`
+
+```python
+validate_superadmin_api_key(v)
+```
+
 #### `leadr.config.PROJ_ROOT`
 
 ```python
@@ -604,6 +611,7 @@ This is the default settings class used when ENV != 'TEST'.
 **Functions:**
 
 - [**validate_api_enabled**](#leadr.config.Settings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled.
+- [**validate_superadmin_api_key**](#leadr.config.Settings.validate_superadmin_api_key) –
 
 **Attributes:**
 
@@ -697,6 +705,7 @@ Test-specific overrides can be added here.
 **Functions:**
 
 - [**validate_api_enabled**](#leadr.config.TestSettings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled.
+- [**validate_superadmin_api_key**](#leadr.config.TestSettings.validate_superadmin_api_key) –
 
 **Attributes:**
 
@@ -1228,6 +1237,12 @@ validate_api_enabled()
 ```
 
 Ensure at least one API (Admin or Client) is enabled.
+
+##### `leadr.config.TestSettings.validate_superadmin_api_key`
+
+```python
+validate_superadmin_api_key(v)
+```
 
 #### `leadr.config.settings`
 
