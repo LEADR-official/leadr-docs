@@ -2,7 +2,7 @@
 
 Get your first leaderboard up and running in under 5 minutes. This guide walks you through each step, from installing the LEADR app to adding leaderboards to your game.
 
-!!! tip "Need help along the way?"
+!!! leadr "Need help along the way?"
 
     Each step below links to a detailed guide if you want to go deeper.
 
@@ -123,6 +123,6 @@ You've got a working leaderboard. Here's where to go from here:
 - **[See All Features](features.md)** - Review scores, anti-cheat system, web views, and more
 - **[Go-Live Checklist](guides/go-live-checklist.md)** - Everything to check before your game ships
 
-!!! info "Join the community"
+!!! leadr "Join the community"
 
     Got questions, feedback, or just want to chat about game dev? Join the [LEADR Discord](https://discord.gg/RMUukcAxSZ). We'd love to hear what you're building.

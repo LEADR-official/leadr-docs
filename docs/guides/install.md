@@ -137,7 +137,7 @@ If the problem persists, share a screenshot of the error in the "#🐛-bug-repor
 
 This may happen if there's a problem or ongoing maintenance on the LEADR Admin API. You can check the [LEADR status page](https://status.leadr.gg) for incidents or planned maintenance events. You may need to try again later.
 
-!!! info "Don't panic"
+!!! leadr "Don't panic"
 
     We deploy, update and monitor the LEADR Admin API (used by LEADR app) and Client API (used by SDKs and your game) separately to keep your leaderboards running as smoothly as possible. Even if the LEADR app reports an error from the Admin API, your leaderboards and game are unlikely to be impacted.
 
