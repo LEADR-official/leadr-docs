@@ -34,6 +34,12 @@ Run recurring competitions with seasonal boards that reset automatically from te
 
 [Learn about Board Templates](reference/board-templates.md)
 
+## LEADR Cloud
+
+The hosted LEADR service runs on scalable European infrastructure, serving players worldwide with zero cold starts. Your leaderboard queries return instantly, whether you have ten players or ten thousand. Data stays in the EU for GDPR compliance, automatic backups protect your player data, and the platform scales automatically with your game's success. Full data export is available for all users, and uptime guarantees are available on paid tiers.
+
+Prefer to manage your own infrastructure? [Self-host with our open-source core](api/self-host.md).
+
 ---
 
 Looking for something not listed here? Check out our [roadmap](roadmap.md) to see what's coming next, or join the conversation in our [Discord](https://discord.gg/RMUukcAxSZ) to share your ideas.
