@@ -2967,8 +2967,135 @@ Common utility functions.
 
 **Modules:**
 
+- [**backup**](./common.md#leadr.common.utils.backup) – Database backup utilities for LEADR.
 - [**ip**](./common.md#leadr.common.utils.ip) – IP address extraction utilities.
 - [**slug**](./common.md#leadr.common.utils.slug) – Slug generation utilities.
+
+##### `leadr.common.utils.backup`
+
+Database backup utilities for LEADR.
+
+Creates a pg_dump backup in custom format and uploads it to S3-compatible
+object storage along with a JSON manifest file.
+
+Can be run as a module or imported by other packages (e.g. leadr-cloud).
+
+<details class="usage" open markdown="1">
+<summary>Usage</summary>
+
+uv run python -m leadr.common.utils.backup
+uv run python -m leadr.common.utils.backup --local /path/to/backup/dir
+
+</details>
+
+<details class="options" open markdown="1">
+<summary>Options</summary>
+
+--local <dir> Store backup files locally instead of uploading to object storage.
+Skips upload configuration validation. Creates the directory if needed.
+
+</details>
+
+Environment Variables (configured in .env):
+BACKUP_ENABLED: Enable/disable backups (default: false)
+BACKUP_STORAGE_BUCKET: Object storage bucket name
+BACKUP_STORAGE_PREFIX: Key prefix within the bucket (default: "leadr-backups")
+BACKUP_STORAGE_ENDPOINT_URL: Endpoint for S3-compatible providers (Hetzner, R2, MinIO)
+BACKUP_STORAGE_REGION: Storage region
+BACKUP_STORAGE_ACCESS_KEY_ID: Access key for object storage
+BACKUP_STORAGE_SECRET_ACCESS_KEY: Secret key for object storage
+
+**Functions:**
+
+- [**build_manifest**](#leadr.common.utils.backup.build_manifest) – Build the JSON manifest for a backup.
+- [**build_object_key**](#leadr.common.utils.backup.build_object_key) – Build the object storage key for a backup file.
+- [**compute_md5**](#leadr.common.utils.backup.compute_md5) – Compute the MD5 hex digest of a file.
+- [**get_pg_dump_version**](#leadr.common.utils.backup.get_pg_dump_version) – Get the pg_dump version string.
+- [**run_backup**](#leadr.common.utils.backup.run_backup) – Run the database backup process.
+- [**upload_to_storage**](#leadr.common.utils.backup.upload_to_storage) – Upload backup files to S3-compatible object storage.
+- [**validate_backup_config**](#leadr.common.utils.backup.validate_backup_config) – Validate that required backup configuration is present.
+
+**Attributes:**
+
+- [**args**](./common.md#leadr.common.utils.backup.args) –
+- [**logger**](./common.md#leadr.common.utils.backup.logger) –
+- [**parser**](./common.md#leadr.common.utils.backup.parser) –
+
+###### `leadr.common.utils.backup.args`
+
+```python
+args = parser.parse_args()
+```
+
+###### `leadr.common.utils.backup.build_manifest`
+
+```python
+build_manifest(*, timestamp, db_name, db_host, db_port, backup_filename, backup_size_bytes, backup_md5, pg_dump_version, duration_seconds, env=None)
+```
+
+Build the JSON manifest for a backup.
+
+###### `leadr.common.utils.backup.build_object_key`
+
+```python
+build_object_key(prefix, db_name, timestamp, ext, *, env=None)
+```
+
+Build the object storage key for a backup file.
+
+Structure: {prefix}/{YYYY}/{MM}/{db_name}\_{YYYYMMDD}T{HHMMSS}Z[.{env}].{ext}
+
+###### `leadr.common.utils.backup.compute_md5`
+
+```python
+compute_md5(file_path)
+```
+
+Compute the MD5 hex digest of a file.
+
+###### `leadr.common.utils.backup.get_pg_dump_version`
+
+```python
+get_pg_dump_version()
+```
+
+Get the pg_dump version string.
+
+###### `leadr.common.utils.backup.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
+
+###### `leadr.common.utils.backup.parser`
+
+```python
+parser = argparse.ArgumentParser(description='LEADR database backup')
+```
+
+###### `leadr.common.utils.backup.run_backup`
+
+```python
+run_backup(*, local_dir=None)
+```
+
+Run the database backup process.
+
+###### `leadr.common.utils.backup.upload_to_storage`
+
+```python
+upload_to_storage(*, dump_path, manifest_path, dump_key, manifest_key)
+```
+
+Upload backup files to S3-compatible object storage.
+
+###### `leadr.common.utils.backup.validate_backup_config`
+
+```python
+validate_backup_config(*, bucket, access_key_id, secret_access_key)
+```
+
+Validate that required backup configuration is present.
 
 ##### `leadr.common.utils.ip`
 
