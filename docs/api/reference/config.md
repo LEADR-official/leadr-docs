@@ -74,6 +74,13 @@ field names (case-sensitive).
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
+- [**BACKUP_ENABLED**](#leadr.config.CommonSettings.BACKUP_ENABLED) (<code>[bool](#bool)</code>) –
+- [**BACKUP_STORAGE_ACCESS_KEY_ID**](#leadr.config.CommonSettings.BACKUP_STORAGE_ACCESS_KEY_ID) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_BUCKET**](#leadr.config.CommonSettings.BACKUP_STORAGE_BUCKET) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_ENDPOINT_URL**](#leadr.config.CommonSettings.BACKUP_STORAGE_ENDPOINT_URL) (<code>[str](#str) | None</code>) –
+- [**BACKUP_STORAGE_PREFIX**](#leadr.config.CommonSettings.BACKUP_STORAGE_PREFIX) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_REGION**](#leadr.config.CommonSettings.BACKUP_STORAGE_REGION) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_SECRET_ACCESS_KEY**](#leadr.config.CommonSettings.BACKUP_STORAGE_SECRET_ACCESS_KEY) (<code>[str](#str)</code>) –
 - [**BASE_URL**](#leadr.config.CommonSettings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**BOARDS_UI_DOMAIN**](#leadr.config.CommonSettings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
 - [**CORS_ALLOW_CREDENTIALS**](#leadr.config.CommonSettings.CORS_ALLOW_CREDENTIALS) (<code>[bool](#bool)</code>) –
@@ -237,6 +244,48 @@ BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL: int = Field(default=3600, description='I
 
 ```python
 BACKGROUND_TASK_TEMPLATE_INTERVAL: int = Field(default=60, description='Interval in seconds for processing due board templates (default: 60s)')
+```
+
+##### `leadr.config.CommonSettings.BACKUP_ENABLED`
+
+```python
+BACKUP_ENABLED: bool = Field(default=False, description='Enable scheduled database backups to object storage')
+```
+
+##### `leadr.config.CommonSettings.BACKUP_STORAGE_ACCESS_KEY_ID`
+
+```python
+BACKUP_STORAGE_ACCESS_KEY_ID: str = Field(default='', description='Access key ID for object storage authentication')
+```
+
+##### `leadr.config.CommonSettings.BACKUP_STORAGE_BUCKET`
+
+```python
+BACKUP_STORAGE_BUCKET: str = Field(default='', description='Object storage bucket name for backups')
+```
+
+##### `leadr.config.CommonSettings.BACKUP_STORAGE_ENDPOINT_URL`
+
+```python
+BACKUP_STORAGE_ENDPOINT_URL: str | None = Field(default=None, description='Endpoint URL for S3-compatible object storage providers (e.g. Hetzner, Cloudflare R2, MinIO). Required for non-AWS providers.')
+```
+
+##### `leadr.config.CommonSettings.BACKUP_STORAGE_PREFIX`
+
+```python
+BACKUP_STORAGE_PREFIX: str = Field(default='leadr-backups', description='Key prefix (folder) within the backup bucket')
+```
+
+##### `leadr.config.CommonSettings.BACKUP_STORAGE_REGION`
+
+```python
+BACKUP_STORAGE_REGION: str = Field(default='', description="Storage region (e.g. 'fsn1', 'us-east-1')")
+```
+
+##### `leadr.config.CommonSettings.BACKUP_STORAGE_SECRET_ACCESS_KEY`
+
+```python
+BACKUP_STORAGE_SECRET_ACCESS_KEY: str = Field(default='', description='Secret access key for object storage authentication')
 ```
 
 ##### `leadr.config.CommonSettings.BASE_URL`
@@ -633,6 +682,13 @@ This is the default settings class used when ENV != 'TEST'.
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
+- [**BACKUP_ENABLED**](#leadr.config.Settings.BACKUP_ENABLED) (<code>[bool](#bool)</code>) –
+- [**BACKUP_STORAGE_ACCESS_KEY_ID**](#leadr.config.Settings.BACKUP_STORAGE_ACCESS_KEY_ID) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_BUCKET**](#leadr.config.Settings.BACKUP_STORAGE_BUCKET) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_ENDPOINT_URL**](#leadr.config.Settings.BACKUP_STORAGE_ENDPOINT_URL) (<code>[str](#str) | None</code>) –
+- [**BACKUP_STORAGE_PREFIX**](#leadr.config.Settings.BACKUP_STORAGE_PREFIX) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_REGION**](#leadr.config.Settings.BACKUP_STORAGE_REGION) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_SECRET_ACCESS_KEY**](#leadr.config.Settings.BACKUP_STORAGE_SECRET_ACCESS_KEY) (<code>[str](#str)</code>) –
 - [**BASE_URL**](#leadr.config.Settings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**BOARDS_UI_DOMAIN**](#leadr.config.Settings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
 - [**CORS_ALLOW_CREDENTIALS**](#leadr.config.Settings.CORS_ALLOW_CREDENTIALS) (<code>[bool](#bool)</code>) –
@@ -727,6 +783,13 @@ Test-specific overrides can be added here.
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
+- [**BACKUP_ENABLED**](#leadr.config.TestSettings.BACKUP_ENABLED) (<code>[bool](#bool)</code>) –
+- [**BACKUP_STORAGE_ACCESS_KEY_ID**](#leadr.config.TestSettings.BACKUP_STORAGE_ACCESS_KEY_ID) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_BUCKET**](#leadr.config.TestSettings.BACKUP_STORAGE_BUCKET) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_ENDPOINT_URL**](#leadr.config.TestSettings.BACKUP_STORAGE_ENDPOINT_URL) (<code>[str](#str) | None</code>) –
+- [**BACKUP_STORAGE_PREFIX**](#leadr.config.TestSettings.BACKUP_STORAGE_PREFIX) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_REGION**](#leadr.config.TestSettings.BACKUP_STORAGE_REGION) (<code>[str](#str)</code>) –
+- [**BACKUP_STORAGE_SECRET_ACCESS_KEY**](#leadr.config.TestSettings.BACKUP_STORAGE_SECRET_ACCESS_KEY) (<code>[str](#str)</code>) –
 - [**BASE_URL**](#leadr.config.TestSettings.BASE_URL) (<code>[HttpUrl](#pydantic.HttpUrl)</code>) –
 - [**BOARDS_UI_DOMAIN**](#leadr.config.TestSettings.BOARDS_UI_DOMAIN) (<code>[str](#str) | None</code>) –
 - [**CORS_ALLOW_CREDENTIALS**](#leadr.config.TestSettings.CORS_ALLOW_CREDENTIALS) (<code>[bool](#bool)</code>) –
@@ -890,6 +953,48 @@ BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL: int = Field(default=3600, description='I
 
 ```python
 BACKGROUND_TASK_TEMPLATE_INTERVAL: int = Field(default=60, description='Interval in seconds for processing due board templates (default: 60s)')
+```
+
+##### `leadr.config.TestSettings.BACKUP_ENABLED`
+
+```python
+BACKUP_ENABLED: bool = Field(default=False, description='Enable scheduled database backups to object storage')
+```
+
+##### `leadr.config.TestSettings.BACKUP_STORAGE_ACCESS_KEY_ID`
+
+```python
+BACKUP_STORAGE_ACCESS_KEY_ID: str = Field(default='', description='Access key ID for object storage authentication')
+```
+
+##### `leadr.config.TestSettings.BACKUP_STORAGE_BUCKET`
+
+```python
+BACKUP_STORAGE_BUCKET: str = Field(default='', description='Object storage bucket name for backups')
+```
+
+##### `leadr.config.TestSettings.BACKUP_STORAGE_ENDPOINT_URL`
+
+```python
+BACKUP_STORAGE_ENDPOINT_URL: str | None = Field(default=None, description='Endpoint URL for S3-compatible object storage providers (e.g. Hetzner, Cloudflare R2, MinIO). Required for non-AWS providers.')
+```
+
+##### `leadr.config.TestSettings.BACKUP_STORAGE_PREFIX`
+
+```python
+BACKUP_STORAGE_PREFIX: str = Field(default='leadr-backups', description='Key prefix (folder) within the backup bucket')
+```
+
+##### `leadr.config.TestSettings.BACKUP_STORAGE_REGION`
+
+```python
+BACKUP_STORAGE_REGION: str = Field(default='', description="Storage region (e.g. 'fsn1', 'us-east-1')")
+```
+
+##### `leadr.config.TestSettings.BACKUP_STORAGE_SECRET_ACCESS_KEY`
+
+```python
+BACKUP_STORAGE_SECRET_ACCESS_KEY: str = Field(default='', description='Secret access key for object storage authentication')
 ```
 
 ##### `leadr.config.TestSettings.BASE_URL`
