@@ -4336,6 +4336,111 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackup" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.common.utils.backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackupargs" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.args
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackupbuild_manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.build_manifest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackupbuild_object_key" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.build_object_key
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackupcompute_md5" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.compute_md5
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackupget_pg_dump_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.get_pg_dump_version
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackuplogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.logger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackupparser" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.parser
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackuprun_backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.run_backup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackupupload_to_storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.upload_to_storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsbackupvalidate_backup_config" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.backup.validate_backup_config
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommonutilsip" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.utils.ip
@@ -6444,9 +6549,93 @@ Provides only create, get, and filter operations.</p>
 <p>Common utility functions.</p>
 <p><strong>Modules:</strong></p>
 <ul>
+<li><a href="./#leadr.common.utils.backup"><strong>backup</strong></a> – Database backup utilities for LEADR.</li>
 <li><a href="./#leadr.common.utils.ip"><strong>ip</strong></a> – IP address extraction utilities.</li>
 <li><a href="./#leadr.common.utils.slug"><strong>slug</strong></a> – Slug generation utilities.</li>
 </ul>
+<h5 id="leadrcommonutilsbackup"><code>leadr.common.utils.backup</code><a class="headerlink" href="#leadrcommonutilsbackup" title="Permanent link">&para;</a></h5>
+<p>Database backup utilities for LEADR.</p>
+<p>Creates a pg_dump backup in custom format and uploads it to S3-compatible
+object storage along with a JSON manifest file.</p>
+<p>Can be run as a module or imported by other packages (e.g. leadr-cloud).</p>
+<details class="usage" open markdown="1">
+<summary>Usage</summary>
+
+uv run python -m leadr.common.utils.backup
+uv run python -m leadr.common.utils.backup --local /path/to/backup/dir
+
+</details>
+
+<details class="options" open markdown="1">
+<summary>Options</summary>
+
+--local <dir> Store backup files locally instead of uploading to object storage.
+Skips upload configuration validation. Creates the directory if needed.
+
+</details>
+
+<p>Environment Variables (configured in .env):
+BACKUP_ENABLED: Enable/disable backups (default: false)
+BACKUP_STORAGE_BUCKET: Object storage bucket name
+BACKUP_STORAGE_PREFIX: Key prefix within the bucket (default: "leadr-backups")
+BACKUP_STORAGE_ENDPOINT_URL: Endpoint for S3-compatible providers (Hetzner, R2, MinIO)
+BACKUP_STORAGE_REGION: Storage region
+BACKUP_STORAGE_ACCESS_KEY_ID: Access key for object storage
+BACKUP_STORAGE_SECRET_ACCESS_KEY: Secret key for object storage</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.common.utils.backup.build_manifest"><strong>build_manifest</strong></a> – Build the JSON manifest for a backup.</li>
+<li><a href="#leadr.common.utils.backup.build_object_key"><strong>build_object_key</strong></a> – Build the object storage key for a backup file.</li>
+<li><a href="#leadr.common.utils.backup.compute_md5"><strong>compute_md5</strong></a> – Compute the MD5 hex digest of a file.</li>
+<li><a href="#leadr.common.utils.backup.get_pg_dump_version"><strong>get_pg_dump_version</strong></a> – Get the pg_dump version string.</li>
+<li><a href="#leadr.common.utils.backup.run_backup"><strong>run_backup</strong></a> – Run the database backup process.</li>
+<li><a href="#leadr.common.utils.backup.upload_to_storage"><strong>upload_to_storage</strong></a> – Upload backup files to S3-compatible object storage.</li>
+<li><a href="#leadr.common.utils.backup.validate_backup_config"><strong>validate_backup_config</strong></a> – Validate that required backup configuration is present.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="./#leadr.common.utils.backup.args"><strong>args</strong></a> –</li>
+<li><a href="./#leadr.common.utils.backup.logger"><strong>logger</strong></a> –</li>
+<li><a href="./#leadr.common.utils.backup.parser"><strong>parser</strong></a> –</li>
+</ul>
+<h6 id="leadrcommonutilsbackupargs"><code>leadr.common.utils.backup.args</code><a class="headerlink" href="#leadrcommonutilsbackupargs" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</code></pre></div>
+<h6 id="leadrcommonutilsbackupbuild_manifest"><code>leadr.common.utils.backup.build_manifest</code><a class="headerlink" href="#leadrcommonutilsbackupbuild_manifest" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">build_manifest</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">db_host</span><span class="p">,</span> <span class="n">db_port</span><span class="p">,</span> <span class="n">backup_filename</span><span class="p">,</span> <span class="n">backup_size_bytes</span><span class="p">,</span> <span class="n">backup_md5</span><span class="p">,</span> <span class="n">pg_dump_version</span><span class="p">,</span> <span class="n">duration_seconds</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Build the JSON manifest for a backup.</p>
+<h6 id="leadrcommonutilsbackupbuild_object_key"><code>leadr.common.utils.backup.build_object_key</code><a class="headerlink" href="#leadrcommonutilsbackupbuild_object_key" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">build_object_key</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">db_name</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Build the object storage key for a backup file.</p>
+<p>Structure: {prefix}/{YYYY}/{MM}/{db_name}_{YYYYMMDD}T{HHMMSS}Z[.{env}].{ext}</p>
+<h6 id="leadrcommonutilsbackupcompute_md5"><code>leadr.common.utils.backup.compute_md5</code><a class="headerlink" href="#leadrcommonutilsbackupcompute_md5" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">compute_md5</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</code></pre></div>
+<p>Compute the MD5 hex digest of a file.</p>
+<h6 id="leadrcommonutilsbackupget_pg_dump_version"><code>leadr.common.utils.backup.get_pg_dump_version</code><a class="headerlink" href="#leadrcommonutilsbackupget_pg_dump_version" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_pg_dump_version</span><span class="p">()</span>
+</code></pre></div>
+<p>Get the pg_dump version string.</p>
+<h6 id="leadrcommonutilsbackuplogger"><code>leadr.common.utils.backup.logger</code><a class="headerlink" href="#leadrcommonutilsbackuplogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrcommonutilsbackupparser"><code>leadr.common.utils.backup.parser</code><a class="headerlink" href="#leadrcommonutilsbackupparser" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;LEADR database backup&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrcommonutilsbackuprun_backup"><code>leadr.common.utils.backup.run_backup</code><a class="headerlink" href="#leadrcommonutilsbackuprun_backup" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">run_backup</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">local_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Run the database backup process.</p>
+<h6 id="leadrcommonutilsbackupupload_to_storage"><code>leadr.common.utils.backup.upload_to_storage</code><a class="headerlink" href="#leadrcommonutilsbackupupload_to_storage" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">upload_to_storage</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">dump_path</span><span class="p">,</span> <span class="n">manifest_path</span><span class="p">,</span> <span class="n">dump_key</span><span class="p">,</span> <span class="n">manifest_key</span><span class="p">)</span>
+</code></pre></div>
+<p>Upload backup files to S3-compatible object storage.</p>
+<h6 id="leadrcommonutilsbackupvalidate_backup_config"><code>leadr.common.utils.backup.validate_backup_config</code><a class="headerlink" href="#leadrcommonutilsbackupvalidate_backup_config" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">validate_backup_config</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">access_key_id</span><span class="p">,</span> <span class="n">secret_access_key</span><span class="p">)</span>
+</code></pre></div>
+<p>Validate that required backup configuration is present.</p>
 <h5 id="leadrcommonutilsip"><code>leadr.common.utils.ip</code><a class="headerlink" href="#leadrcommonutilsip" title="Permanent link">&para;</a></h5>
 <p>IP address extraction utilities.</p>
 <p><strong>Functions:</strong></p>
