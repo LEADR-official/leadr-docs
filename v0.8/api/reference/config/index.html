@@ -2110,6 +2110,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrconfigcommonsettingsjob_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.CommonSettings.JOB_MODE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrconfigcommonsettingsjwt_lifetime_seconds" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.config.CommonSettings.JWT_LIFETIME_SECONDS
@@ -2890,6 +2899,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrconfigtestsettingsjob_mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.config.TestSettings.JOB_MODE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrconfigtestsettingsjwt_lifetime_seconds" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.config.TestSettings.JWT_LIFETIME_SECONDS
@@ -3241,7 +3259,7 @@ override defaults or add environment-specific settings.</p>
 field names (case-sensitive).</p>
 <p><strong>Functions:</strong></p>
 <ul>
-<li><a href="#leadr.config.CommonSettings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled.</li>
+<li><a href="#leadr.config.CommonSettings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled, unless in job mode.</li>
 <li><a href="#leadr.config.CommonSettings.validate_superadmin_api_key"><strong>validate_superadmin_api_key</strong></a> –</li>
 </ul>
 <p><strong>Attributes:</strong></p>
@@ -3299,6 +3317,7 @@ field names (case-sensitive).</p>
 <li><a href="#leadr.config.CommonSettings.GEOIP_DOWNLOAD_ENABLED"><strong>GEOIP_DOWNLOAD_ENABLED</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.GEOIP_REFRESH_DAYS"><strong>GEOIP_REFRESH_DAYS</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.INVITE_CODE_EXPIRY_SECONDS"><strong>INVITE_CODE_EXPIRY_SECONDS</strong></a> (<code><a href="#int">int</a></code>) –</li>
+<li><a href="#leadr.config.CommonSettings.JOB_MODE"><strong>JOB_MODE</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.JWT_LIFETIME_SECONDS"><strong>JWT_LIFETIME_SECONDS</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.JWT_SECRET"><strong>JWT_SECRET</strong></a> (<code><a href="#str">str</a></code>) –</li>
 <li><a href="#leadr.config.CommonSettings.KEYS_PATH"><strong>KEYS_PATH</strong></a> (<code><a href="#pathlib.Path">Path</a></code>) –</li>
@@ -3487,6 +3506,9 @@ field names (case-sensitive).</p>
 <h5 id="leadrconfigcommonsettingsinvite_code_expiry_seconds"><code>leadr.config.CommonSettings.INVITE_CODE_EXPIRY_SECONDS</code><a class="headerlink" href="#leadrconfigcommonsettingsinvite_code_expiry_seconds" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">INVITE_CODE_EXPIRY_SECONDS</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">86400</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Expiry time for invite codes in seconds (default: 24 hours)&#39;</span><span class="p">)</span>
 </code></pre></div>
+<h5 id="leadrconfigcommonsettingsjob_mode"><code>leadr.config.CommonSettings.JOB_MODE</code><a class="headerlink" href="#leadrconfigcommonsettingsjob_mode" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">JOB_MODE</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Set to True for standalone job scripts (backup, restore, clear_board) that don&#39;t need the API enabled.&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h5 id="leadrconfigcommonsettingsjwt_lifetime_seconds"><code>leadr.config.CommonSettings.JWT_LIFETIME_SECONDS</code><a class="headerlink" href="#leadrconfigcommonsettingsjwt_lifetime_seconds" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">JWT_LIFETIME_SECONDS</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;JWT token lifetime in seconds (default: 1 hour)&#39;</span><span class="p">)</span>
 </code></pre></div>
@@ -3575,7 +3597,7 @@ field names (case-sensitive).</p>
 <h5 id="leadrconfigcommonsettingsvalidate_api_enabled"><code>leadr.config.CommonSettings.validate_api_enabled</code><a class="headerlink" href="#leadrconfigcommonsettingsvalidate_api_enabled" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">validate_api_enabled</span><span class="p">()</span>
 </code></pre></div>
-<p>Ensure at least one API (Admin or Client) is enabled.</p>
+<p>Ensure at least one API (Admin or Client) is enabled, unless in job mode.</p>
 <h5 id="leadrconfigcommonsettingsvalidate_superadmin_api_key"><code>leadr.config.CommonSettings.validate_superadmin_api_key</code><a class="headerlink" href="#leadrconfigcommonsettingsvalidate_superadmin_api_key" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">validate_superadmin_api_key</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 </code></pre></div>
@@ -3590,7 +3612,7 @@ the .env file at the project root.</p>
 <p>This is the default settings class used when ENV != 'TEST'.</p>
 <p><strong>Functions:</strong></p>
 <ul>
-<li><a href="#leadr.config.Settings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled.</li>
+<li><a href="#leadr.config.Settings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled, unless in job mode.</li>
 <li><a href="#leadr.config.Settings.validate_superadmin_api_key"><strong>validate_superadmin_api_key</strong></a> –</li>
 </ul>
 <p><strong>Attributes:</strong></p>
@@ -3648,6 +3670,7 @@ the .env file at the project root.</p>
 <li><a href="#leadr.config.Settings.GEOIP_DOWNLOAD_ENABLED"><strong>GEOIP_DOWNLOAD_ENABLED</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.Settings.GEOIP_REFRESH_DAYS"><strong>GEOIP_REFRESH_DAYS</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.Settings.INVITE_CODE_EXPIRY_SECONDS"><strong>INVITE_CODE_EXPIRY_SECONDS</strong></a> (<code><a href="#int">int</a></code>) –</li>
+<li><a href="#leadr.config.Settings.JOB_MODE"><strong>JOB_MODE</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.Settings.JWT_LIFETIME_SECONDS"><strong>JWT_LIFETIME_SECONDS</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.Settings.JWT_SECRET"><strong>JWT_SECRET</strong></a> (<code><a href="#str">str</a></code>) –</li>
 <li><a href="#leadr.config.Settings.KEYS_PATH"><strong>KEYS_PATH</strong></a> (<code><a href="#pathlib.Path">Path</a></code>) –</li>
@@ -3686,7 +3709,7 @@ the .env.test file at the project root.</p>
 Test-specific overrides can be added here.</p>
 <p><strong>Functions:</strong></p>
 <ul>
-<li><a href="#leadr.config.TestSettings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled.</li>
+<li><a href="#leadr.config.TestSettings.validate_api_enabled"><strong>validate_api_enabled</strong></a> – Ensure at least one API (Admin or Client) is enabled, unless in job mode.</li>
 <li><a href="#leadr.config.TestSettings.validate_superadmin_api_key"><strong>validate_superadmin_api_key</strong></a> –</li>
 </ul>
 <p><strong>Attributes:</strong></p>
@@ -3744,6 +3767,7 @@ Test-specific overrides can be added here.</p>
 <li><a href="#leadr.config.TestSettings.GEOIP_DOWNLOAD_ENABLED"><strong>GEOIP_DOWNLOAD_ENABLED</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.GEOIP_REFRESH_DAYS"><strong>GEOIP_REFRESH_DAYS</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.INVITE_CODE_EXPIRY_SECONDS"><strong>INVITE_CODE_EXPIRY_SECONDS</strong></a> (<code><a href="#int">int</a></code>) –</li>
+<li><a href="#leadr.config.TestSettings.JOB_MODE"><strong>JOB_MODE</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.JWT_LIFETIME_SECONDS"><strong>JWT_LIFETIME_SECONDS</strong></a> (<code><a href="#int">int</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.JWT_SECRET"><strong>JWT_SECRET</strong></a> (<code><a href="#str">str</a></code>) –</li>
 <li><a href="#leadr.config.TestSettings.KEYS_PATH"><strong>KEYS_PATH</strong></a> (<code><a href="#pathlib.Path">Path</a></code>) –</li>
@@ -3932,6 +3956,9 @@ Test-specific overrides can be added here.</p>
 <h5 id="leadrconfigtestsettingsinvite_code_expiry_seconds"><code>leadr.config.TestSettings.INVITE_CODE_EXPIRY_SECONDS</code><a class="headerlink" href="#leadrconfigtestsettingsinvite_code_expiry_seconds" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">INVITE_CODE_EXPIRY_SECONDS</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">86400</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Expiry time for invite codes in seconds (default: 24 hours)&#39;</span><span class="p">)</span>
 </code></pre></div>
+<h5 id="leadrconfigtestsettingsjob_mode"><code>leadr.config.TestSettings.JOB_MODE</code><a class="headerlink" href="#leadrconfigtestsettingsjob_mode" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">JOB_MODE</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Set to True for standalone job scripts (backup, restore, clear_board) that don&#39;t need the API enabled.&quot;</span><span class="p">)</span>
+</code></pre></div>
 <h5 id="leadrconfigtestsettingsjwt_lifetime_seconds"><code>leadr.config.TestSettings.JWT_LIFETIME_SECONDS</code><a class="headerlink" href="#leadrconfigtestsettingsjwt_lifetime_seconds" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">JWT_LIFETIME_SECONDS</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;JWT token lifetime in seconds (default: 1 hour)&#39;</span><span class="p">)</span>
 </code></pre></div>
@@ -4020,7 +4047,7 @@ Test-specific overrides can be added here.</p>
 <h5 id="leadrconfigtestsettingsvalidate_api_enabled"><code>leadr.config.TestSettings.validate_api_enabled</code><a class="headerlink" href="#leadrconfigtestsettingsvalidate_api_enabled" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">validate_api_enabled</span><span class="p">()</span>
 </code></pre></div>
-<p>Ensure at least one API (Admin or Client) is enabled.</p>
+<p>Ensure at least one API (Admin or Client) is enabled, unless in job mode.</p>
 <h5 id="leadrconfigtestsettingsvalidate_superadmin_api_key"><code>leadr.config.TestSettings.validate_superadmin_api_key</code><a class="headerlink" href="#leadrconfigtestsettingsvalidate_superadmin_api_key" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">validate_superadmin_api_key</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 </code></pre></div>
