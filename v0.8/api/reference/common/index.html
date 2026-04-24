@@ -4441,6 +4441,93 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_board" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.common.utils.clear_board">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_boardargs" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board.args
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_boardclear_board" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board.clear_board
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_boardcount_affected_records" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board.count_affected_records
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_boarddelete_records" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board.delete_records
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_boardget_affected_identity_ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board.get_affected_identity_ids
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_boardlogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board.logger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_boardparser" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board.parser
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonutilsclear_boardresolve_board" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.utils.clear_board.resolve_board
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommonutilsip" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.utils.ip
@@ -6550,6 +6637,7 @@ Provides only create, get, and filter operations.</p>
 <p><strong>Modules:</strong></p>
 <ul>
 <li><a href="./#leadr.common.utils.backup"><strong>backup</strong></a> – Database backup utilities for LEADR.</li>
+<li><a href="#leadr.common.utils.clear_board"><strong>clear_board</strong></a> – Board score clearing utility for LEADR.</li>
 <li><a href="./#leadr.common.utils.ip"><strong>ip</strong></a> – IP address extraction utilities.</li>
 <li><a href="./#leadr.common.utils.slug"><strong>slug</strong></a> – Slug generation utilities.</li>
 </ul>
@@ -6636,6 +6724,141 @@ BACKUP_STORAGE_SECRET_ACCESS_KEY: Secret key for object storage</p>
 <div class="highlight"><pre><span></span><code><span class="n">validate_backup_config</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">access_key_id</span><span class="p">,</span> <span class="n">secret_access_key</span><span class="p">)</span>
 </code></pre></div>
 <p>Validate that required backup configuration is present.</p>
+<h5 id="leadrcommonutilsclear_board"><code>leadr.common.utils.clear_board</code><a class="headerlink" href="#leadrcommonutilsclear_board" title="Permanent link">&para;</a></h5>
+<p>Board score clearing utility for LEADR.</p>
+<p>Removes all score data from a given board, with optional filtering by
+production/test mode. After partial deletion, remaining data is recomputed
+to maintain integrity.</p>
+<p>Can be run as a module:</p>
+<details class="usage" open markdown="1">
+<summary>Usage</summary>
+
+uv run python -m leadr.common.utils.clear_board --board \<id_or_shortcode> --account \<account_id>
+uv run python -m leadr.common.utils.clear_board --board ABC12345 --account acc_xxx --mode all
+uv run python -m leadr.common.utils.clear_board --board ABC12345 --account acc_xxx --dry-run
+
+</details>
+
+<details class="options" open markdown="1">
+<summary>Options</summary>
+
+--board \<id_or_shortcode> Board ID (brd_xxx) or short_code (required)
+--account \<account_id> Account ID (acc_xxx) for safety validation (required)
+--mode \<production|test|all> Which scores to clear (default: production)
+--dry-run Show what would be deleted without deleting
+
+</details>
+
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.common.utils.clear_board.clear_board"><strong>clear_board</strong></a> – Clear all scores from a board.</li>
+<li><a href="#leadr.common.utils.clear_board.count_affected_records"><strong>count_affected_records</strong></a> – Count records that would be affected by deletion.</li>
+<li><a href="#leadr.common.utils.clear_board.delete_records"><strong>delete_records</strong></a> – Delete all score-related records for a board.</li>
+<li><a href="#leadr.common.utils.clear_board.get_affected_identity_ids"><strong>get_affected_identity_ids</strong></a> – Get unique identity IDs affected by the deletion.</li>
+<li><a href="#leadr.common.utils.clear_board.resolve_board"><strong>resolve_board</strong></a> – Resolve board from ID or short_code and validate account ownership.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.common.utils.clear_board.args"><strong>args</strong></a> –</li>
+<li><a href="#leadr.common.utils.clear_board.logger"><strong>logger</strong></a> –</li>
+<li><a href="#leadr.common.utils.clear_board.parser"><strong>parser</strong></a> –</li>
+</ul>
+<h6 id="leadrcommonutilsclear_boardargs"><code>leadr.common.utils.clear_board.args</code><a class="headerlink" href="#leadrcommonutilsclear_boardargs" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</code></pre></div>
+<h6 id="leadrcommonutilsclear_boardclear_board"><code>leadr.common.utils.clear_board.clear_board</code><a class="headerlink" href="#leadrcommonutilsclear_boardclear_board" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">clear_board</span><span class="p">(</span><span class="n">board_input</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;production&#39;</span><span class="p">,</span> <span class="n">dry_run</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>Clear all scores from a board.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>board_input</strong> (<code><a href="#str">str</a></code>) – Board ID (brd_xxx) or short_code</li>
+<li><strong>account_id</strong> (<code><a href="#str">str</a></code>) – Account ID (acc_xxx) for safety validation</li>
+<li><strong>mode</strong> (<code><a href="#str">str</a></code>) – Which scores to clear - "production", "test", or "all"</li>
+<li><strong>dry_run</strong> (<code><a href="#bool">bool</a></code>) – If True, only count and report without deleting</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#int">int</a>]</code> – Dictionary with counts of affected/deleted records</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If board not found or account mismatch</li>
+</ul>
+<h6 id="leadrcommonutilsclear_boardcount_affected_records"><code>leadr.common.utils.clear_board.count_affected_records</code><a class="headerlink" href="#leadrcommonutilsclear_boardcount_affected_records" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">count_affected_records</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">is_test_filter</span><span class="p">)</span>
+</code></pre></div>
+<p>Count records that would be affected by deletion.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>session</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – Database session</li>
+<li><strong>board_id</strong> (<code><a href="./#leadr.common.domain.ids.BoardID">BoardID</a></code>) – Board ID to count records for</li>
+<li><strong>is_test_filter</strong> (<code><a href="#bool">bool</a> | None</code>) – Filter by is_test (None = all)</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#int">int</a>]</code> – Dictionary with counts for each record type</li>
+</ul>
+<h6 id="leadrcommonutilsclear_boarddelete_records"><code>leadr.common.utils.clear_board.delete_records</code><a class="headerlink" href="#leadrcommonutilsclear_boarddelete_records" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">delete_records</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">is_test_filter</span><span class="p">)</span>
+</code></pre></div>
+<p>Delete all score-related records for a board.</p>
+<p>Deletes in FK order to respect foreign key constraints:</p>
+<ol>
+<li>ScoreFlags</li>
+<li>RunEntries</li>
+<li>ScoreSubmissionMeta</li>
+<li>BoardStates</li>
+<li>ScoreEvents</li>
+</ol>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>session</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – Database session</li>
+<li><strong>board_id</strong> (<code><a href="./#leadr.common.domain.ids.BoardID">BoardID</a></code>) – Board ID to delete records for</li>
+<li><strong>is_test_filter</strong> (<code><a href="#bool">bool</a> | None</code>) – Filter by is_test (None = all)</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#int">int</a>]</code> – Dictionary with counts of deleted records</li>
+</ul>
+<h6 id="leadrcommonutilsclear_boardget_affected_identity_ids"><code>leadr.common.utils.clear_board.get_affected_identity_ids</code><a class="headerlink" href="#leadrcommonutilsclear_boardget_affected_identity_ids" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">get_affected_identity_ids</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">board_id</span><span class="p">,</span> <span class="n">is_test_filter</span><span class="p">)</span>
+</code></pre></div>
+<p>Get unique identity IDs affected by the deletion.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>session</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – Database session</li>
+<li><strong>board_id</strong> (<code><a href="./#leadr.common.domain.ids.BoardID">BoardID</a></code>) – Board ID</li>
+<li><strong>is_test_filter</strong> (<code><a href="#bool">bool</a> | None</code>) – Filter by is_test (None = all)</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#set">set</a>[<a href="./#leadr.common.domain.ids.IdentityID">IdentityID</a>]</code> – Set of affected IdentityIDs</li>
+</ul>
+<h6 id="leadrcommonutilsclear_boardlogger"><code>leadr.common.utils.clear_board.logger</code><a class="headerlink" href="#leadrcommonutilsclear_boardlogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrcommonutilsclear_boardparser"><code>leadr.common.utils.clear_board.parser</code><a class="headerlink" href="#leadrcommonutilsclear_boardparser" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Clear all scores from a LEADR board&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrcommonutilsclear_boardresolve_board"><code>leadr.common.utils.clear_board.resolve_board</code><a class="headerlink" href="#leadrcommonutilsclear_boardresolve_board" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">resolve_board</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">board_input</span><span class="p">,</span> <span class="n">account_id</span><span class="p">)</span>
+</code></pre></div>
+<p>Resolve board from ID or short_code and validate account ownership.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>session</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – Database session</li>
+<li><strong>board_input</strong> (<code><a href="#str">str</a></code>) – Board ID (brd_xxx) or short_code</li>
+<li><strong>account_id</strong> (<code><a href="#str">str</a></code>) – Account ID (acc_xxx) for validation</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="../boards/#leadr.boards.domain.board.Board">Board</a></code> – The resolved Board</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If board not found or account mismatch</li>
+</ul>
 <h5 id="leadrcommonutilsip"><code>leadr.common.utils.ip</code><a class="headerlink" href="#leadrcommonutilsip" title="Permanent link">&para;</a></h5>
 <p>IP address extraction utilities.</p>
 <p><strong>Functions:</strong></p>

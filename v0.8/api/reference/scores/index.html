@@ -5321,6 +5321,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrscoresservicesscore_flag_servicescoreflagservicerecompute_state_for_identities" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.scores.services.score_flag_service.ScoreFlagService.recompute_state_for_identities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrscoresservicesscore_flag_servicescoreflagservicerepository" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.scores.services.score_flag_service.ScoreFlagService.repository
@@ -8380,6 +8389,7 @@ by coordinating between the domain models and repository layer.</p>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.get_flag"><strong>get_flag</strong></a> – Get a flag by its ID.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.list_all"><strong>list_all</strong></a> – List all non-deleted entities.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.list_flags"><strong>list_flags</strong></a> – List score flags for an account with optional filters and pagination.</li>
+<li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.recompute_state_for_identities"><strong>recompute_state_for_identities</strong></a> – Recompute board state for multiple identities after score deletion.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.review_flag"><strong>review_flag</strong></a> – Review a flag and update its status.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.soft_delete"><strong>soft_delete</strong></a> – Soft-delete an entity and return it before deletion.</li>
 <li><a href="#leadr.scores.services.score_flag_service.ScoreFlagService.update_flag"><strong>update_flag</strong></a> – Update a flag's status and/or reviewer decision.</li>
@@ -8518,6 +8528,25 @@ by coordinating between the domain models and repository layer.</p>
 
 </details>
 
+<h6 id="leadrscoresservicesscore_flag_servicescoreflagservicerecompute_state_for_identities"># <code>leadr.scores.services.score_flag_service.ScoreFlagService.recompute_state_for_identities</code><a class="headerlink" href="#leadrscoresservicesscore_flag_servicescoreflagservicerecompute_state_for_identities" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">recompute_state_for_identities</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">identity_ids</span><span class="p">)</span>
+</code></pre></div>
+<p>Recompute board state for multiple identities after score deletion.</p>
+<p>This is a bulk version of the single-identity recomputation used during
+flag review. For each identity:</p>
+<ul>
+<li>If no events remain: deletes the BoardState</li>
+<li>If events remain: recomputes using existing <em>recompute</em>* methods</li>
+</ul>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>board</strong> (<code><a href="../boards/#leadr.boards.domain.board.Board">Board</a></code>) – The board to recompute state for</li>
+<li><strong>identity_ids</strong> (<code><a href="#set">set</a>[<a href="../common/#leadr.common.domain.ids.IdentityID">IdentityID</a>]</code>) – Set of identity IDs that were affected by deletion</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#int">int</a></code> – Number of identities recomputed</li>
+</ul>
 <h6 id="leadrscoresservicesscore_flag_servicescoreflagservicerepository"># <code>leadr.scores.services.score_flag_service.ScoreFlagService.repository</code><a class="headerlink" href="#leadrscoresservicesscore_flag_servicescoreflagservicerepository" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span> <span class="k">if</span> <span class="n">repository</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_repository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
