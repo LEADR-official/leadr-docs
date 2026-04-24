@@ -2968,6 +2968,7 @@ Common utility functions.
 **Modules:**
 
 - [**backup**](./common.md#leadr.common.utils.backup) – Database backup utilities for LEADR.
+- [**clear_board**](#leadr.common.utils.clear_board) – Board score clearing utility for LEADR.
 - [**ip**](./common.md#leadr.common.utils.ip) – IP address extraction utilities.
 - [**slug**](./common.md#leadr.common.utils.slug) – Slug generation utilities.
 
@@ -3096,6 +3097,174 @@ validate_backup_config(*, bucket, access_key_id, secret_access_key)
 ```
 
 Validate that required backup configuration is present.
+
+##### `leadr.common.utils.clear_board`
+
+Board score clearing utility for LEADR.
+
+Removes all score data from a given board, with optional filtering by
+production/test mode. After partial deletion, remaining data is recomputed
+to maintain integrity.
+
+Can be run as a module:
+
+<details class="usage" open markdown="1">
+<summary>Usage</summary>
+
+uv run python -m leadr.common.utils.clear_board --board \<id_or_shortcode> --account \<account_id>
+uv run python -m leadr.common.utils.clear_board --board ABC12345 --account acc_xxx --mode all
+uv run python -m leadr.common.utils.clear_board --board ABC12345 --account acc_xxx --dry-run
+
+</details>
+
+<details class="options" open markdown="1">
+<summary>Options</summary>
+
+--board \<id_or_shortcode> Board ID (brd_xxx) or short_code (required)
+--account \<account_id> Account ID (acc_xxx) for safety validation (required)
+--mode \<production|test|all> Which scores to clear (default: production)
+--dry-run Show what would be deleted without deleting
+
+</details>
+
+**Functions:**
+
+- [**clear_board**](#leadr.common.utils.clear_board.clear_board) – Clear all scores from a board.
+- [**count_affected_records**](#leadr.common.utils.clear_board.count_affected_records) – Count records that would be affected by deletion.
+- [**delete_records**](#leadr.common.utils.clear_board.delete_records) – Delete all score-related records for a board.
+- [**get_affected_identity_ids**](#leadr.common.utils.clear_board.get_affected_identity_ids) – Get unique identity IDs affected by the deletion.
+- [**resolve_board**](#leadr.common.utils.clear_board.resolve_board) – Resolve board from ID or short_code and validate account ownership.
+
+**Attributes:**
+
+- [**args**](#leadr.common.utils.clear_board.args) –
+- [**logger**](#leadr.common.utils.clear_board.logger) –
+- [**parser**](#leadr.common.utils.clear_board.parser) –
+
+###### `leadr.common.utils.clear_board.args`
+
+```python
+args = parser.parse_args()
+```
+
+###### `leadr.common.utils.clear_board.clear_board`
+
+```python
+clear_board(board_input, account_id, mode='production', dry_run=False)
+```
+
+Clear all scores from a board.
+
+**Parameters:**
+
+- **board_input** (<code>[str](#str)</code>) – Board ID (brd_xxx) or short_code
+- **account_id** (<code>[str](#str)</code>) – Account ID (acc_xxx) for safety validation
+- **mode** (<code>[str](#str)</code>) – Which scores to clear - "production", "test", or "all"
+- **dry_run** (<code>[bool](#bool)</code>) – If True, only count and report without deleting
+
+**Returns:**
+
+- <code>[dict](#dict)\[[str](#str), [int](#int)\]</code> – Dictionary with counts of affected/deleted records
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If board not found or account mismatch
+
+###### `leadr.common.utils.clear_board.count_affected_records`
+
+```python
+count_affected_records(session, board_id, is_test_filter)
+```
+
+Count records that would be affected by deletion.
+
+**Parameters:**
+
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – Database session
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to count records for
+- **is_test_filter** (<code>[bool](#bool) | None</code>) – Filter by is_test (None = all)
+
+**Returns:**
+
+- <code>[dict](#dict)\[[str](#str), [int](#int)\]</code> – Dictionary with counts for each record type
+
+###### `leadr.common.utils.clear_board.delete_records`
+
+```python
+delete_records(session, board_id, is_test_filter)
+```
+
+Delete all score-related records for a board.
+
+Deletes in FK order to respect foreign key constraints:
+
+1. ScoreFlags
+1. RunEntries
+1. ScoreSubmissionMeta
+1. BoardStates
+1. ScoreEvents
+
+**Parameters:**
+
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – Database session
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID to delete records for
+- **is_test_filter** (<code>[bool](#bool) | None</code>) – Filter by is_test (None = all)
+
+**Returns:**
+
+- <code>[dict](#dict)\[[str](#str), [int](#int)\]</code> – Dictionary with counts of deleted records
+
+###### `leadr.common.utils.clear_board.get_affected_identity_ids`
+
+```python
+get_affected_identity_ids(session, board_id, is_test_filter)
+```
+
+Get unique identity IDs affected by the deletion.
+
+**Parameters:**
+
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – Database session
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – Board ID
+- **is_test_filter** (<code>[bool](#bool) | None</code>) – Filter by is_test (None = all)
+
+**Returns:**
+
+- <code>[set](#set)\[[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)\]</code> – Set of affected IdentityIDs
+
+###### `leadr.common.utils.clear_board.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
+
+###### `leadr.common.utils.clear_board.parser`
+
+```python
+parser = argparse.ArgumentParser(description='Clear all scores from a LEADR board')
+```
+
+###### `leadr.common.utils.clear_board.resolve_board`
+
+```python
+resolve_board(session, board_input, account_id)
+```
+
+Resolve board from ID or short_code and validate account ownership.
+
+**Parameters:**
+
+- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – Database session
+- **board_input** (<code>[str](#str)</code>) – Board ID (brd_xxx) or short_code
+- **account_id** (<code>[str](#str)</code>) – Account ID (acc_xxx) for validation
+
+**Returns:**
+
+- <code>[Board](./boards.md#leadr.boards.domain.board.Board)</code> – The resolved Board
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If board not found or account mismatch
 
 ##### `leadr.common.utils.ip`
 

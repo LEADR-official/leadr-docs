@@ -4142,6 +4142,7 @@ by coordinating between the domain models and repository layer.
 - [**get_flag**](#leadr.scores.services.score_flag_service.ScoreFlagService.get_flag) – Get a flag by its ID.
 - [**list_all**](#leadr.scores.services.score_flag_service.ScoreFlagService.list_all) – List all non-deleted entities.
 - [**list_flags**](#leadr.scores.services.score_flag_service.ScoreFlagService.list_flags) – List score flags for an account with optional filters and pagination.
+- [**recompute_state_for_identities**](#leadr.scores.services.score_flag_service.ScoreFlagService.recompute_state_for_identities) – Recompute board state for multiple identities after score deletion.
 - [**review_flag**](#leadr.scores.services.score_flag_service.ScoreFlagService.review_flag) – Review a flag and update its status.
 - [**soft_delete**](#leadr.scores.services.score_flag_service.ScoreFlagService.soft_delete) – Soft-delete an entity and return it before deletion.
 - [**update_flag**](#leadr.scores.services.score_flag_service.ScoreFlagService.update_flag) – Update a flag's status and/or reviewer decision.
@@ -4307,6 +4308,29 @@ List score flags for an account with optional filters and pagination.
 > > > ... )
 
 </details>
+
+####### `leadr.scores.services.score_flag_service.ScoreFlagService.recompute_state_for_identities`
+
+```python
+recompute_state_for_identities(board, identity_ids)
+```
+
+Recompute board state for multiple identities after score deletion.
+
+This is a bulk version of the single-identity recomputation used during
+flag review. For each identity:
+
+- If no events remain: deletes the BoardState
+- If events remain: recomputes using existing _recompute_\* methods
+
+**Parameters:**
+
+- **board** (<code>[Board](./boards.md#leadr.boards.domain.board.Board)</code>) – The board to recompute state for
+- **identity_ids** (<code>[set](#set)\[[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)\]</code>) – Set of identity IDs that were affected by deletion
+
+**Returns:**
+
+- <code>[int](#int)</code> – Number of identities recomputed
 
 ####### `leadr.scores.services.score_flag_service.ScoreFlagService.repository`
 
