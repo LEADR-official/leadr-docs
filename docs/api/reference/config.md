@@ -51,7 +51,7 @@ field names (case-sensitive).
 
 **Functions:**
 
-- [**validate_api_enabled**](#leadr.config.CommonSettings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled.
+- [**validate_api_enabled**](#leadr.config.CommonSettings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled, unless in job mode.
 - [**validate_superadmin_api_key**](#leadr.config.CommonSettings.validate_superadmin_api_key) –
 
 **Attributes:**
@@ -109,6 +109,7 @@ field names (case-sensitive).
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.CommonSettings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.CommonSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.CommonSettings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
+- [**JOB_MODE**](#leadr.config.CommonSettings.JOB_MODE) (<code>[bool](#bool)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.CommonSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.CommonSettings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.CommonSettings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
@@ -456,6 +457,12 @@ GEOIP_REFRESH_DAYS: int = Field(default=7, description='Number of days between G
 INVITE_CODE_EXPIRY_SECONDS: int = Field(default=86400, description='Expiry time for invite codes in seconds (default: 24 hours)')
 ```
 
+##### `leadr.config.CommonSettings.JOB_MODE`
+
+```python
+JOB_MODE: bool = Field(default=False, description="Set to True for standalone job scripts (backup, restore, clear_board) that don't need the API enabled.")
+```
+
 ##### `leadr.config.CommonSettings.JWT_LIFETIME_SECONDS`
 
 ```python
@@ -632,7 +639,7 @@ model_config = SettingsConfigDict(case_sensitive=True, extra='ignore')
 validate_api_enabled()
 ```
 
-Ensure at least one API (Admin or Client) is enabled.
+Ensure at least one API (Admin or Client) is enabled, unless in job mode.
 
 ##### `leadr.config.CommonSettings.validate_superadmin_api_key`
 
@@ -659,7 +666,7 @@ This is the default settings class used when ENV != 'TEST'.
 
 **Functions:**
 
-- [**validate_api_enabled**](#leadr.config.Settings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled.
+- [**validate_api_enabled**](#leadr.config.Settings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled, unless in job mode.
 - [**validate_superadmin_api_key**](#leadr.config.Settings.validate_superadmin_api_key) –
 
 **Attributes:**
@@ -717,6 +724,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.Settings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.Settings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.Settings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
+- [**JOB_MODE**](#leadr.config.Settings.JOB_MODE) (<code>[bool](#bool)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.Settings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.Settings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.Settings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
@@ -760,7 +768,7 @@ Test-specific overrides can be added here.
 
 **Functions:**
 
-- [**validate_api_enabled**](#leadr.config.TestSettings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled.
+- [**validate_api_enabled**](#leadr.config.TestSettings.validate_api_enabled) – Ensure at least one API (Admin or Client) is enabled, unless in job mode.
 - [**validate_superadmin_api_key**](#leadr.config.TestSettings.validate_superadmin_api_key) –
 
 **Attributes:**
@@ -818,6 +826,7 @@ Test-specific overrides can be added here.
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.TestSettings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.TestSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.TestSettings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
+- [**JOB_MODE**](#leadr.config.TestSettings.JOB_MODE) (<code>[bool](#bool)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.TestSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
 - [**JWT_SECRET**](#leadr.config.TestSettings.JWT_SECRET) (<code>[str](#str)</code>) –
 - [**KEYS_PATH**](#leadr.config.TestSettings.KEYS_PATH) (<code>[Path](#pathlib.Path)</code>) –
@@ -1165,6 +1174,12 @@ GEOIP_REFRESH_DAYS: int = Field(default=7, description='Number of days between G
 INVITE_CODE_EXPIRY_SECONDS: int = Field(default=86400, description='Expiry time for invite codes in seconds (default: 24 hours)')
 ```
 
+##### `leadr.config.TestSettings.JOB_MODE`
+
+```python
+JOB_MODE: bool = Field(default=False, description="Set to True for standalone job scripts (backup, restore, clear_board) that don't need the API enabled.")
+```
+
 ##### `leadr.config.TestSettings.JWT_LIFETIME_SECONDS`
 
 ```python
@@ -1341,7 +1356,7 @@ model_config = SettingsConfigDict(case_sensitive=True, extra='ignore')
 validate_api_enabled()
 ```
 
-Ensure at least one API (Admin or Client) is enabled.
+Ensure at least one API (Admin or Client) is enabled, unless in job mode.
 
 ##### `leadr.config.TestSettings.validate_superadmin_api_key`
 
