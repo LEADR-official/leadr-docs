@@ -1901,7 +1901,7 @@ continued
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|board_type|any|false|none|Updated board type|
+|board_type|any|false|none|DEPRECATED: board_type cannot be changed after creation|
 
 anyOf
 
