@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.8.19"
+    "version": "0.8.20"
   },
   "paths": {
     "/v1/accounts": {
@@ -9773,7 +9773,8 @@
                 "type": "null"
               }
             ],
-            "description": "Updated board type"
+            "description": "DEPRECATED: board_type cannot be changed after creation",
+            "deprecated": true
           },
           "keep_strategy": {
             "anyOf": [

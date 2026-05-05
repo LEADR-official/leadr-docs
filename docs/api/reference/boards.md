@@ -1854,7 +1854,7 @@ Request model for updating a board.
 ####### `leadr.boards.api.board_schemas.BoardUpdateRequest.board_type`
 
 ```python
-board_type: BoardType | None = Field(default=None, description='Updated board type')
+board_type: BoardType | None = Field(default=None, description='DEPRECATED: board_type cannot be changed after creation', deprecated=True)
 ```
 
 ####### `leadr.boards.api.board_schemas.BoardUpdateRequest.created_from_template_id`
