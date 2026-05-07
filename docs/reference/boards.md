@@ -44,6 +44,14 @@ The short code is automatically generated and cannot be customised.
 
 ## Board Types
 
+!!! leadr "Board type is not editable"
+
+    After a board is created the type cannot be updated. If you later decide you actually need a different board type you will need to create a new board (and optionally delete the original board).
+
+    Read about the different board types and example use cases below to help you pick the right one - most cases work perfectly well with "Per Run".
+
+    If you're unsure, just ask on the [LEADR Discord](https://discord.gg/RMUukcAxSZ) where the LEADR team and community is always happy to help.
+
 ### Per Run
 
 Every score submission is ranked separately. Players can have multiple entries on the leaderboard.
