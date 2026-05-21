@@ -4105,6 +4105,8 @@ validate_repeat_interval(value)
 
 Validate repeat_interval uses PostgreSQL interval syntax.
 
+Delegates to parse_interval() as the single source of truth for interval validation.
+
 **Parameters:**
 
 - **value** (<code>[str](#str)</code>) – The interval string to validate.
@@ -4160,6 +4162,8 @@ Supports formats like:
 - "1 month"
 - "1 year"
 - "2 hours"
+- "30 minutes"
+- "10 seconds"
 
 **Parameters:**
 
