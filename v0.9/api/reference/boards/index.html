@@ -10094,6 +10094,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <div class="highlight"><pre><span></span><code><span class="n">validate_repeat_interval</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div>
 <p>Validate repeat_interval uses PostgreSQL interval syntax.</p>
+<p>Delegates to parse_interval() as the single source of truth for interval validation.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>value</strong> (<code><a href="#str">str</a></code>) – The interval string to validate.</li>
@@ -10139,6 +10140,8 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <li>"1 month"</li>
 <li>"1 year"</li>
 <li>"2 hours"</li>
+<li>"30 minutes"</li>
+<li>"10 seconds"</li>
 </ul>
 <p><strong>Parameters:</strong></p>
 <ul>
