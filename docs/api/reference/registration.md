@@ -2541,11 +2541,11 @@ Create a new entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity to create
+- **entity** (<code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
+- <code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code> – Created domain entity with refreshed data
 
 ####### `leadr.registration.services.repositories.JamCodeRedemptionRepository.delete`
 
@@ -2698,11 +2698,11 @@ Create a new entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity to create
+- **entity** (<code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
+- <code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code> – Created domain entity with refreshed data
 
 ####### `leadr.registration.services.repositories.JamCodeRepository.delete`
 
@@ -2840,11 +2840,11 @@ Create a new entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity to create
+- **entity** (<code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
+- <code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code> – Created domain entity with refreshed data
 
 ####### `leadr.registration.services.repositories.VerificationCodeRepository.delete`
 

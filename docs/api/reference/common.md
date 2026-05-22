@@ -1908,7 +1908,7 @@ Common domain models and value objects.
 
 ###### `leadr.common.domain.models.Entity`
 
-Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+Bases: <code>[\_EntityBase](#leadr.common.domain.models._EntityBase)</code>
 
 Base class for all domain entities with ID and timestamps.
 
@@ -2023,7 +2023,7 @@ updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), descri
 
 ###### `leadr.common.domain.models.ImmutableEntity`
 
-Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+Bases: <code>[\_EntityBase](#leadr.common.domain.models._EntityBase)</code>
 
 Base class for immutable domain entities (append-only, no updates/deletes).
 
@@ -2042,26 +2042,8 @@ type safety and API clarity.
 **Attributes:**
 
 - [**created_at**](#leadr.common.domain.models.ImmutableEntity.created_at) (<code>[datetime](#datetime.datetime)</code>) –
-- [**id**](./common.md#leadr.common.domain.models.ImmutableEntity.id) (<code>[Any](#typing.Any)</code>) –
+- [**id**](#leadr.common.domain.models.ImmutableEntity.id) (<code>[Any](#typing.Any)</code>) –
 - [**model_config**](#leadr.common.domain.models.ImmutableEntity.model_config) –
-
-####### `leadr.common.domain.models.ImmutableEntity.created_at`
-
-```python
-created_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp when entity was created (UTC)')
-```
-
-####### `leadr.common.domain.models.ImmutableEntity.id`
-
-```python
-id: Any = Field(frozen=True, default_factory=uuid4, description='Unique identifier (auto-generated UUID or typed ID)')
-```
-
-####### `leadr.common.domain.models.ImmutableEntity.model_config`
-
-```python
-model_config = ConfigDict(validate_assignment=True)
-```
 
 ##### `leadr.common.domain.pagination`
 
@@ -2128,6 +2110,10 @@ Bases: <code>[str](#str)</code>, <code>[Enum](#enum.Enum)</code>
 
 Sort direction for fields.
 
+**Functions:**
+
+- [**opposite**](./common.md#leadr.common.domain.pagination.SortDirection.opposite) – Return the opposite sort direction.
+
 **Attributes:**
 
 - [**ASC**](./common.md#leadr.common.domain.pagination.SortDirection.ASC) –
@@ -2144,6 +2130,14 @@ ASC = 'asc'
 ```python
 DESC = 'desc'
 ```
+
+####### `leadr.common.domain.pagination.SortDirection.opposite`
+
+```python
+opposite()
+```
+
+Return the opposite sort direction.
 
 ###### `leadr.common.domain.pagination.SortField`
 
@@ -2565,11 +2559,7 @@ Base repository abstraction for common CRUD operations.
 
 ##### `leadr.common.repositories.BaseRepository`
 
-```python
-BaseRepository(session)
-```
-
-Bases: <code>[ABC](#abc.ABC)</code>, <code>[Generic](#typing.Generic)\[[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT), [ORMModelT](./common.md#leadr.common.repositories.ORMModelT)\]</code>
+Bases: <code>[\_RepositoryBase](#leadr.common.repositories._RepositoryBase)\[[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT), [ORMModelT](./common.md#leadr.common.repositories.ORMModelT)\]</code>
 
 Abstract base repository providing common CRUD operations.
 
@@ -2590,10 +2580,6 @@ All delete operations are soft deletes by default, setting deleted_at timestamp.
 
 - [**session**](./common.md#leadr.common.repositories.BaseRepository.session) –
 
-**Parameters:**
-
-- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session
-
 ###### `leadr.common.repositories.BaseRepository.create`
 
 ```python
@@ -2604,11 +2590,11 @@ Create a new entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity to create
+- **entity** (<code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
+- <code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code> – Created domain entity with refreshed data
 
 ###### `leadr.common.repositories.BaseRepository.delete`
 
@@ -2634,23 +2620,15 @@ filter(account_id=None, *, pagination, **kwargs)
 
 Filter entities based on criteria with pagination.
 
-All filter operations return paginated results. The pagination parameter
-is required to enforce consistent API behavior across the codebase.
-
-For multi-tenant entities, implementations should make account_id required
-(no default). For top-level entities like Account, account_id can remain
-optional and unused.
-
 **Parameters:**
 
-- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID for filtering. Multi-tenant entities
-  should override to make this required.
+- **account_id** (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID) | None</code>) – Optional account ID for filtering.
 - **pagination** (<code>[PaginationParams](./common.md#leadr.common.api.pagination.PaginationParams)</code>) – Required pagination parameters (cursor, limit, sort).
 - \*\***kwargs** (<code>[Any](#typing.Any)</code>) – Additional filter parameters specific to the entity type.
 
 **Returns:**
 
-- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)\]</code> – PaginatedResult containing matching entities and pagination metadata.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)\]</code> – PaginatedResult containing matching entities and pagination metadata.
 
 ###### `leadr.common.repositories.BaseRepository.get_by_id`
 
@@ -2703,11 +2681,7 @@ DomainEntityT = TypeVar('DomainEntityT', bound=Entity)
 
 ##### `leadr.common.repositories.ImmutableBaseRepository`
 
-```python
-ImmutableBaseRepository(session)
-```
-
-Bases: <code>[ABC](#abc.ABC)</code>, <code>[Generic](#typing.Generic)\[[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT), [ImmutableORMT](./common.md#leadr.common.repositories.ImmutableORMT)\]</code>
+Bases: <code>[\_RepositoryBase](#leadr.common.repositories._RepositoryBase)\[[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT), [ImmutableORMT](./common.md#leadr.common.repositories.ImmutableORMT)\]</code>
 
 Abstract base repository for immutable (append-only) entities.
 
@@ -2716,17 +2690,13 @@ Provides only create, get, and filter operations.
 
 **Functions:**
 
-- [**create**](./common.md#leadr.common.repositories.ImmutableBaseRepository.create) – Create a new immutable entity in the database.
-- [**filter**](./common.md#leadr.common.repositories.ImmutableBaseRepository.filter) – Filter immutable entities based on criteria with pagination.
+- [**create**](./common.md#leadr.common.repositories.ImmutableBaseRepository.create) – Create a new entity in the database.
+- [**filter**](./common.md#leadr.common.repositories.ImmutableBaseRepository.filter) – Filter entities based on criteria with pagination.
 - [**get_by_id**](#leadr.common.repositories.ImmutableBaseRepository.get_by_id) – Get an immutable entity by its ID.
 
 **Attributes:**
 
 - [**session**](./common.md#leadr.common.repositories.ImmutableBaseRepository.session) –
-
-**Parameters:**
-
-- **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session
 
 ###### `leadr.common.repositories.ImmutableBaseRepository.create`
 
@@ -2734,15 +2704,15 @@ Provides only create, get, and filter operations.
 create(entity)
 ```
 
-Create a new immutable entity in the database.
+Create a new entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)</code>) – Domain entity to create
+- **entity** (<code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)</code> – Created domain entity with refreshed data
+- <code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code> – Created domain entity with refreshed data
 
 ###### `leadr.common.repositories.ImmutableBaseRepository.filter`
 
@@ -2750,7 +2720,7 @@ Create a new immutable entity in the database.
 filter(account_id=None, *, pagination, **kwargs)
 ```
 
-Filter immutable entities based on criteria with pagination.
+Filter entities based on criteria with pagination.
 
 **Parameters:**
 
@@ -2760,7 +2730,7 @@ Filter immutable entities based on criteria with pagination.
 
 **Returns:**
 
-- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)\]</code> – PaginatedResult containing matching entities and pagination metadata.
+- <code>[PaginatedResult](#leadr.common.domain.pagination_result.PaginatedResult)\[[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)\]</code> – PaginatedResult containing matching entities and pagination metadata.
 
 ###### `leadr.common.repositories.ImmutableBaseRepository.get_by_id`
 

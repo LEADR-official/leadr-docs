@@ -3461,11 +3461,11 @@ Create a new entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity to create
+- **entity** (<code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
+- <code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code> – Created domain entity with refreshed data
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.delete`
 
@@ -3616,11 +3616,11 @@ Create a new entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code>) – Domain entity to create
+- **entity** (<code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[DomainEntityT](./common.md#leadr.common.repositories.DomainEntityT)</code> – Created domain entity with refreshed data
+- <code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code> – Created domain entity with refreshed data
 
 ####### `leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.delete`
 
@@ -3918,7 +3918,7 @@ does not support update or delete operations.
 
 **Functions:**
 
-- [**create**](./scores.md#leadr.scores.services.repositories.ScoreEventRepository.create) – Create a new immutable entity in the database.
+- [**create**](./scores.md#leadr.scores.services.repositories.ScoreEventRepository.create) – Create a new entity in the database.
 - [**filter**](./scores.md#leadr.scores.services.repositories.ScoreEventRepository.filter) – Filter score events based on criteria with pagination.
 - [**get_by_id**](#leadr.scores.services.repositories.ScoreEventRepository.get_by_id) – Get an immutable entity by its ID.
 
@@ -3932,15 +3932,15 @@ does not support update or delete operations.
 create(entity)
 ```
 
-Create a new immutable entity in the database.
+Create a new entity in the database.
 
 **Parameters:**
 
-- **entity** (<code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)</code>) – Domain entity to create
+- **entity** (<code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code>) – Domain entity to create
 
 **Returns:**
 
-- <code>[ImmutableEntityT](./common.md#leadr.common.repositories.ImmutableEntityT)</code> – Created domain entity with refreshed data
+- <code>[\_EntityBaseT](#leadr.common.repositories._EntityBaseT)</code> – Created domain entity with refreshed data
 
 ####### `leadr.scores.services.repositories.ScoreEventRepository.filter`
 
