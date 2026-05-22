@@ -2,274 +2,282 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.leadr.gg/v0.9/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/about/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/changelog/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/features/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/quick-start/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/roadmap/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/client-api/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/client-auth/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/pagination/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/patterns/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/self-host/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/template-naming/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/accounts/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/api-keys/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/authentication/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/board-states/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/board-templates/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/boards/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/devices/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/games/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/identities/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/identity-sessions/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/public/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/registration/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/run-entries/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/schemas/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/score-events/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/score-flags/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/score-submission-metadata/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/scores/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/http-api/users/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/accounts/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/auth/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/boards/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/common/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/config/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/games/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/infra/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/logging/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/players/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/registration/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/api/reference/scores/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/advanced-boards/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/board-pages/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/create-board/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/create-game/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/get-sdk/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/go-live-checklist/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/install/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/invites/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/join/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/register/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/review-score-flags/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.9/guides/subscription-management/</loc>
+         <lastmod>2026-05-22</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.leadr.gg/v0.9/guides/upgrading/</loc>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/guides/use-sdk/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/reference/anti-cheat/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/reference/board-templates/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/reference/boards/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/reference/games/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/sdks/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/sdks/c-sharp/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/sdks/godot/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/sdks/godot/reference/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/sdks/unity/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/sdks/unity/reference/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
     <url>
          <loc>https://docs.leadr.gg/v0.9/sdks/unreal/</loc>
-         <lastmod>2026-05-21</lastmod>
+         <lastmod>2026-05-22</lastmod>
     </url>
 </urlset>
