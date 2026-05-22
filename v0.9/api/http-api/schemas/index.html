@@ -7083,6 +7083,7 @@
 <span class="w">  </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fa-crown&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;board_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RUN_IDENTITY&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FIRST&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
@@ -7477,12 +7478,75 @@
 <td>Direction to sort scores (ascending/descending)</td>
 </tr>
 <tr>
+<td>board_type</td>
+<td><a href="./#boardtype">BoardType</a></td>
+<td>false</td>
+<td>none</td>
+<td>Type of board to create from this template</td>
+</tr>
+<tr>
 <td>keep_strategy</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+<td>Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)</td>
+</tr>
+</tbody>
+</table>
+<p>anyOf</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>» <em>anonymous</em></td>
 <td><a href="./#keepstrategy">KeepStrategy</a></td>
 <td>false</td>
 <td>none</td>
-<td>Strategy for keeping multiple scores from the same user</td>
+<td>Strategy for keeping scores from the same user (RUN_IDENTITY boards only).</td>
 </tr>
+</tbody>
+</table>
+<p>or</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>» <em>anonymous</em></td>
+<td>null</td>
+<td>false</td>
+<td>none</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>continued</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Restrictions</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>starts_at</td>
 <td>any</td>
@@ -7735,6 +7799,7 @@
 <span class="w">  </span><span class="nt">&quot;icon&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;unit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;sort_direction&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ASCENDING&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;board_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RUN_IDENTITY&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;keep_strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FIRST&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;starts_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;ends_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-08-24T14:15:22Z&quot;</span><span class="p">,</span>
@@ -8114,11 +8179,18 @@
 <td>Direction to sort scores (ascending/descending)</td>
 </tr>
 <tr>
+<td>board_type</td>
+<td><a href="./#boardtype">BoardType</a></td>
+<td>true</td>
+<td>none</td>
+<td>Type of board to create from this template</td>
+</tr>
+<tr>
 <td>keep_strategy</td>
 <td><a href="./#keepstrategy">KeepStrategy</a></td>
 <td>true</td>
 <td>none</td>
-<td>Strategy for keeping multiple scores from the same user</td>
+<td>Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)</td>
 </tr>
 <tr>
 <td>starts_at</td>

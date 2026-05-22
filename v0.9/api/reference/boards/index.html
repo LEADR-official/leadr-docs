@@ -3990,6 +3990,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestboard_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.board_type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestconfig" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.config
@@ -4155,6 +4164,15 @@
   <a href="#leadrboardsapiboard_template_schemasboardtemplateresponseaccount_id" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.api.board_template_schemas.BoardTemplateResponse.account_id
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrboardsapiboard_template_schemasboardtemplateresponseboard_type" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.api.board_template_schemas.BoardTemplateResponse.board_type
     </span>
   </a>
   
@@ -5826,6 +5844,15 @@
   <a href="#leadrboardsdomainboard_templateboardtemplateupdated_at" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.domain.board_template.BoardTemplate.updated_at
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrboardsdomainboard_templateboardtemplatevalidate_board_type_keep_strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.domain.board_template.BoardTemplate.validate_board_type_keep_strategy
     </span>
   </a>
   
@@ -8967,13 +8994,14 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <p><strong>Attributes:</strong></p>
 <ul>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.account_id"><strong>account_id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a></code>) –</li>
+<li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.board_type"><strong>board_type</strong></a> (<code><a href="./#leadr.boards.domain.board.BoardType">BoardType</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.config"><strong>config</strong></a> (<code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#typing.Any">Any</a>] | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.ends_at"><strong>ends_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.game_id"><strong>game_id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.GameID">GameID</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.icon"><strong>icon</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.is_active"><strong>is_active</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.is_published"><strong>is_published</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
-<li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.keep_strategy"><strong>keep_strategy</strong></a> (<code><a href="./#leadr.boards.domain.board.KeepStrategy">KeepStrategy</a></code>) –</li>
+<li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.keep_strategy"><strong>keep_strategy</strong></a> (<code><a href="./#leadr.boards.domain.board.KeepStrategy">KeepStrategy</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.name"><strong>name</strong></a> (<code><a href="#str">str</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.name_template"><strong>name_template</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.next_run_at"><strong>next_run_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
@@ -8987,6 +9015,9 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 </ul>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequestaccount_id"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.account_id</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestaccount_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">account_id</span><span class="p">:</span> <span class="n">AccountID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ID of the account this template belongs to&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequestboard_type"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.board_type</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestboard_type" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">board_type</span><span class="p">:</span> <span class="n">BoardType</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">BoardType</span><span class="o">.</span><span class="n">RUN_IDENTITY</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Type of board to create from this template&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequestconfig"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.config</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestconfig" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Reserved for future procedural generation (bounds, variables, randomization rules)&#39;</span><span class="p">)</span>
@@ -9007,7 +9038,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <div class="highlight"><pre><span></span><code><span class="n">is_published</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether boards created from this template should be published&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequestkeep_strategy"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.keep_strategy</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestkeep_strategy" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">keep_strategy</span><span class="p">:</span> <span class="n">KeepStrategy</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="n">KeepStrategy</span><span class="o">.</span><span class="n">BEST</span><span class="p">),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Strategy for keeping multiple scores from the same user&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">keep_strategy</span><span class="p">:</span> <span class="n">KeepStrategy</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequestname"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.name</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestname" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Name of the template&#39;</span><span class="p">)</span>
@@ -9049,6 +9080,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <p><strong>Attributes:</strong></p>
 <ul>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.account_id"><strong>account_id</strong></a> (<code><a href="../common/#leadr.common.domain.ids.AccountID">AccountID</a></code>) –</li>
+<li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.board_type"><strong>board_type</strong></a> (<code><a href="./#leadr.boards.domain.board.BoardType">BoardType</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.config"><strong>config</strong></a> (<code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#typing.Any">Any</a>]</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.created_at"><strong>created_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.ends_at"><strong>ends_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
@@ -9072,6 +9104,9 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 </ul>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateresponseaccount_id"># <code>leadr.boards.api.board_template_schemas.BoardTemplateResponse.account_id</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateresponseaccount_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">account_id</span><span class="p">:</span> <span class="n">AccountID</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;ID of the account this template belongs to&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrboardsapiboard_template_schemasboardtemplateresponseboard_type"># <code>leadr.boards.api.board_template_schemas.BoardTemplateResponse.board_type</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateresponseboard_type" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">board_type</span><span class="p">:</span> <span class="n">BoardType</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Type of board to create from this template&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateresponseconfig"># <code>leadr.boards.api.board_template_schemas.BoardTemplateResponse.config</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateresponseconfig" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Reserved for future procedural generation (bounds, variables, randomization rules)&#39;</span><span class="p">)</span>
@@ -9110,7 +9145,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <div class="highlight"><pre><span></span><code><span class="n">is_published</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether boards created from this template should be published&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateresponsekeep_strategy"># <code>leadr.boards.api.board_template_schemas.BoardTemplateResponse.keep_strategy</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateresponsekeep_strategy" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">keep_strategy</span><span class="p">:</span> <span class="n">KeepStrategy</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Strategy for keeping multiple scores from the same user&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">keep_strategy</span><span class="p">:</span> <span class="n">KeepStrategy</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateresponsename"># <code>leadr.boards.api.board_template_schemas.BoardTemplateResponse.name</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateresponsename" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Name of the template&#39;</span><span class="p">)</span>
@@ -9967,6 +10002,7 @@ generation. Templates can be activated/deactivated and track the next scheduled 
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.generate_name"><strong>generate_name</strong></a> – Generate a board name using the name template.</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.restore"><strong>restore</strong></a> – Restore a soft-deleted entity.</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.soft_delete"><strong>soft_delete</strong></a> – Mark entity as soft-deleted.</li>
+<li><a href="#leadr.boards.domain.board_template.BoardTemplate.validate_board_type_keep_strategy"><strong>validate_board_type_keep_strategy</strong></a> – Validate board_type and keep_strategy combination.</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.validate_name"><strong>validate_name</strong></a> – Validate template name is not empty.</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.validate_repeat_interval"><strong>validate_repeat_interval</strong></a> – Validate repeat_interval uses PostgreSQL interval syntax.</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.validate_slug"><strong>validate_slug</strong></a> – Validate slug format (lowercase alphanumeric with hyphens).</li>
@@ -10138,6 +10174,22 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <h6 id="leadrboardsdomainboard_templateboardtemplateupdated_at"># <code>leadr.boards.domain.board_template.BoardTemplate.updated_at</code><a class="headerlink" href="#leadrboardsdomainboard_templateboardtemplateupdated_at" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp of last update (UTC)&#39;</span><span class="p">)</span>
 </code></pre></div>
+<h6 id="leadrboardsdomainboard_templateboardtemplatevalidate_board_type_keep_strategy"># <code>leadr.boards.domain.board_template.BoardTemplate.validate_board_type_keep_strategy</code><a class="headerlink" href="#leadrboardsdomainboard_templateboardtemplatevalidate_board_type_keep_strategy" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">validate_board_type_keep_strategy</span><span class="p">()</span>
+</code></pre></div>
+<p>Validate board_type and keep_strategy combination.</p>
+<ul>
+<li>RUN_IDENTITY boards must have a non-NA keep_strategy (FIRST, BEST, LATEST)</li>
+<li>Non-RUN_IDENTITY boards (RUN_RUNS, COUNTER, RATIO) must have NA keep_strategy</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a></code> – The validated BoardTemplate instance.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If the board_type/keep_strategy combination is invalid.</li>
+</ul>
 <h6 id="leadrboardsdomainboard_templateboardtemplatevalidate_name"># <code>leadr.boards.domain.board_template.BoardTemplate.validate_name</code><a class="headerlink" href="#leadrboardsdomainboard_templateboardtemplatevalidate_name" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">validate_name</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div>
@@ -11116,7 +11168,7 @@ Ensures business rules like game validation are enforced.</p>
 </details>
 
 <h6 id="leadrboardsservicesboard_template_serviceboardtemplateservicecreate_board_template"># <code>leadr.boards.services.board_template_service.BoardTemplateService.create_board_template</code><a class="headerlink" href="#leadrboardsservicesboard_template_serviceboardtemplateservicecreate_board_template" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">create_board_template</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">slug</span><span class="p">,</span> <span class="n">repeat_interval</span><span class="p">,</span> <span class="n">next_run_at</span><span class="p">,</span> <span class="n">is_active</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;fa-crown&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="n">SortDirection</span><span class="o">.</span><span class="n">DESCENDING</span><span class="p">,</span> <span class="n">keep_strategy</span><span class="o">=</span><span class="n">KeepStrategy</span><span class="o">.</span><span class="n">BEST</span><span class="p">,</span> <span class="n">starts_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">create_board_template</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">slug</span><span class="p">,</span> <span class="n">repeat_interval</span><span class="p">,</span> <span class="n">next_run_at</span><span class="p">,</span> <span class="n">is_active</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;fa-crown&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="n">SortDirection</span><span class="o">.</span><span class="n">DESCENDING</span><span class="p">,</span> <span class="n">board_type</span><span class="o">=</span><span class="n">BoardType</span><span class="o">.</span><span class="n">RUN_IDENTITY</span><span class="p">,</span> <span class="n">keep_strategy</span><span class="o">=</span><span class="n">KeepStrategy</span><span class="o">.</span><span class="n">BEST</span><span class="p">,</span> <span class="n">starts_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Create a new board template.</p>
 <p><strong>Parameters:</strong></p>
