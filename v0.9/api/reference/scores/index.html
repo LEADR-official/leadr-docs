@@ -7921,11 +7921,11 @@ Unlike regular entities, ScoreEvents:</p>
 <p>Create a new entity in the database.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>entity</strong> (<code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code>) – Domain entity to create</li>
+<li><strong>entity</strong> (<code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code>) – Domain entity to create</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code> – Created domain entity with refreshed data</li>
+<li><code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code> – Created domain entity with refreshed data</li>
 </ul>
 <h6 id="leadrscoresservicesanti_cheat_repositoriesscoreflagrepositorydelete"># <code>leadr.scores.services.anti_cheat_repositories.ScoreFlagRepository.delete</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoreflagrepositorydelete" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
@@ -8038,11 +8038,11 @@ a direct account relation.</p>
 <p>Create a new entity in the database.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>entity</strong> (<code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code>) – Domain entity to create</li>
+<li><strong>entity</strong> (<code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code>) – Domain entity to create</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="../common/#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code> – Created domain entity with refreshed data</li>
+<li><code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code> – Created domain entity with refreshed data</li>
 </ul>
 <h6 id="leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositorydelete"># <code>leadr.scores.services.anti_cheat_repositories.ScoreSubmissionMetaRepository.delete</code><a class="headerlink" href="#leadrscoresservicesanti_cheat_repositoriesscoresubmissionmetarepositorydelete" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
@@ -8263,7 +8263,7 @@ the event-sourcing architecture where identity is the ranking key.</p>
 does not support update or delete operations.</p>
 <p><strong>Functions:</strong></p>
 <ul>
-<li><a href="./#leadr.scores.services.repositories.ScoreEventRepository.create"><strong>create</strong></a> – Create a new immutable entity in the database.</li>
+<li><a href="./#leadr.scores.services.repositories.ScoreEventRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
 <li><a href="./#leadr.scores.services.repositories.ScoreEventRepository.filter"><strong>filter</strong></a> – Filter score events based on criteria with pagination.</li>
 <li><a href="#leadr.scores.services.repositories.ScoreEventRepository.get_by_id"><strong>get_by_id</strong></a> – Get an immutable entity by its ID.</li>
 </ul>
@@ -8274,14 +8274,14 @@ does not support update or delete operations.</p>
 <h6 id="leadrscoresservicesrepositoriesscoreeventrepositorycreate"># <code>leadr.scores.services.repositories.ScoreEventRepository.create</code><a class="headerlink" href="#leadrscoresservicesrepositoriesscoreeventrepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
-<p>Create a new immutable entity in the database.</p>
+<p>Create a new entity in the database.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>entity</strong> (<code><a href="../common/#leadr.common.repositories.ImmutableEntityT">ImmutableEntityT</a></code>) – Domain entity to create</li>
+<li><strong>entity</strong> (<code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code>) – Domain entity to create</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="../common/#leadr.common.repositories.ImmutableEntityT">ImmutableEntityT</a></code> – Created domain entity with refreshed data</li>
+<li><code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code> – Created domain entity with refreshed data</li>
 </ul>
 <h6 id="leadrscoresservicesrepositoriesscoreeventrepositoryfilter"># <code>leadr.scores.services.repositories.ScoreEventRepository.filter</code><a class="headerlink" href="#leadrscoresservicesrepositoriesscoreeventrepositoryfilter" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">identity_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

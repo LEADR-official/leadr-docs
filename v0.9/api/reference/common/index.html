@@ -3536,33 +3536,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#leadrcommondomainmodelsimmutableentitycreated_at" class="md-nav__link">
-    <span class="md-ellipsis">
-      # leadr.common.domain.models.ImmutableEntity.created_at
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#leadrcommondomainmodelsimmutableentityid" class="md-nav__link">
-    <span class="md-ellipsis">
-      # leadr.common.domain.models.ImmutableEntity.id
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#leadrcommondomainmodelsimmutableentitymodel_config" class="md-nav__link">
-    <span class="md-ellipsis">
-      # leadr.common.domain.models.ImmutableEntity.model_config
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -3654,6 +3627,15 @@
   <a href="#leadrcommondomainpaginationsortdirectiondesc" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.common.domain.pagination.SortDirection.DESC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommondomainpaginationsortdirectionopposite" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.common.domain.pagination.SortDirection.opposite
     </span>
   </a>
   
@@ -5943,7 +5925,7 @@ maintaining internal UUID representation for database efficiency.</p>
 <li><a href="./#leadr.common.domain.models.ImmutableEntity"><strong>ImmutableEntity</strong></a> – Base class for immutable domain entities (append-only, no updates/deletes).</li>
 </ul>
 <h6 id="leadrcommondomainmodelsentity"><code>leadr.common.domain.models.Entity</code><a class="headerlink" href="#leadrcommondomainmodelsentity" title="Permanent link">&para;</a></h6>
-<p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
+<p>Bases: <code><a href="#leadr.common.domain.models._EntityBase">_EntityBase</a></code></p>
 <p>Base class for all domain entities with ID and timestamps.</p>
 <p>Provides common functionality for domain entities including:</p>
 <ul>
@@ -6024,7 +6006,7 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <div class="highlight"><pre><span></span><code><span class="n">updated_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp of last update (UTC)&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrcommondomainmodelsimmutableentity"><code>leadr.common.domain.models.ImmutableEntity</code><a class="headerlink" href="#leadrcommondomainmodelsimmutableentity" title="Permanent link">&para;</a></h6>
-<p>Bases: <code><a href="#pydantic.BaseModel">BaseModel</a></code></p>
+<p>Bases: <code><a href="#leadr.common.domain.models._EntityBase">_EntityBase</a></code></p>
 <p>Base class for immutable domain entities (append-only, no updates/deletes).</p>
 <p>Provides common functionality for event-sourced entities including:</p>
 <ul>
@@ -6039,18 +6021,9 @@ type safety and API clarity.</p>
 <p><strong>Attributes:</strong></p>
 <ul>
 <li><a href="#leadr.common.domain.models.ImmutableEntity.created_at"><strong>created_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
-<li><a href="./#leadr.common.domain.models.ImmutableEntity.id"><strong>id</strong></a> (<code><a href="#typing.Any">Any</a></code>) –</li>
+<li><a href="#leadr.common.domain.models.ImmutableEntity.id"><strong>id</strong></a> (<code><a href="#typing.Any">Any</a></code>) –</li>
 <li><a href="#leadr.common.domain.models.ImmutableEntity.model_config"><strong>model_config</strong></a> –</li>
 </ul>
-<h6 id="leadrcommondomainmodelsimmutableentitycreated_at"># <code>leadr.common.domain.models.ImmutableEntity.created_at</code><a class="headerlink" href="#leadrcommondomainmodelsimmutableentitycreated_at" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)),</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Timestamp when entity was created (UTC)&#39;</span><span class="p">)</span>
-</code></pre></div>
-<h6 id="leadrcommondomainmodelsimmutableentityid"># <code>leadr.common.domain.models.ImmutableEntity.id</code><a class="headerlink" href="#leadrcommondomainmodelsimmutableentityid" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="nb">id</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default_factory</span><span class="o">=</span><span class="n">uuid4</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Unique identifier (auto-generated UUID or typed ID)&#39;</span><span class="p">)</span>
-</code></pre></div>
-<h6 id="leadrcommondomainmodelsimmutableentitymodel_config"># <code>leadr.common.domain.models.ImmutableEntity.model_config</code><a class="headerlink" href="#leadrcommondomainmodelsimmutableentitymodel_config" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">validate_assignment</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</code></pre></div>
 <h5 id="leadrcommondomainpagination"><code>leadr.common.domain.pagination</code><a class="headerlink" href="#leadrcommondomainpagination" title="Permanent link">&para;</a></h5>
 <p>Pagination domain models.</p>
 <p><strong>Classes:</strong></p>
@@ -6092,6 +6065,10 @@ type safety and API clarity.</p>
 <h6 id="leadrcommondomainpaginationsortdirection"><code>leadr.common.domain.pagination.SortDirection</code><a class="headerlink" href="#leadrcommondomainpaginationsortdirection" title="Permanent link">&para;</a></h6>
 <p>Bases: <code><a href="#str">str</a></code>, <code><a href="#enum.Enum">Enum</a></code></p>
 <p>Sort direction for fields.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="./#leadr.common.domain.pagination.SortDirection.opposite"><strong>opposite</strong></a> – Return the opposite sort direction.</li>
+</ul>
 <p><strong>Attributes:</strong></p>
 <ul>
 <li><a href="./#leadr.common.domain.pagination.SortDirection.ASC"><strong>ASC</strong></a> –</li>
@@ -6103,6 +6080,10 @@ type safety and API clarity.</p>
 <h6 id="leadrcommondomainpaginationsortdirectiondesc"># <code>leadr.common.domain.pagination.SortDirection.DESC</code><a class="headerlink" href="#leadrcommondomainpaginationsortdirectiondesc" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">DESC</span> <span class="o">=</span> <span class="s1">&#39;desc&#39;</span>
 </code></pre></div>
+<h6 id="leadrcommondomainpaginationsortdirectionopposite"># <code>leadr.common.domain.pagination.SortDirection.opposite</code><a class="headerlink" href="#leadrcommondomainpaginationsortdirectionopposite" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">opposite</span><span class="p">()</span>
+</code></pre></div>
+<p>Return the opposite sort direction.</p>
 <h6 id="leadrcommondomainpaginationsortfield"><code>leadr.common.domain.pagination.SortField</code><a class="headerlink" href="#leadrcommondomainpaginationsortfield" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">SortField</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
 </code></pre></div>
@@ -6383,9 +6364,7 @@ Databases are cached locally and refreshed periodically.</p>
 <li><a href="./#leadr.common.repositories.ORMModelT"><strong>ORMModelT</strong></a> –</li>
 </ul>
 <h5 id="leadrcommonrepositoriesbaserepository"><code>leadr.common.repositories.BaseRepository</code><a class="headerlink" href="#leadrcommonrepositoriesbaserepository" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="n">BaseRepository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
-</code></pre></div>
-<p>Bases: <code><a href="#abc.ABC">ABC</a></code>, <code><a href="#typing.Generic">Generic</a>[<a href="./#leadr.common.repositories.DomainEntityT">DomainEntityT</a>, <a href="./#leadr.common.repositories.ORMModelT">ORMModelT</a>]</code></p>
+<p>Bases: <code><a href="#leadr.common.repositories._RepositoryBase">_RepositoryBase</a>[<a href="./#leadr.common.repositories.DomainEntityT">DomainEntityT</a>, <a href="./#leadr.common.repositories.ORMModelT">ORMModelT</a>]</code></p>
 <p>Abstract base repository providing common CRUD operations.</p>
 <p>All repositories should extend this class and implement the abstract methods
 for converting between domain entities and ORM models.</p>
@@ -6402,21 +6381,17 @@ for converting between domain entities and ORM models.</p>
 <ul>
 <li><a href="./#leadr.common.repositories.BaseRepository.session"><strong>session</strong></a> –</li>
 </ul>
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><strong>session</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – SQLAlchemy async session</li>
-</ul>
 <h6 id="leadrcommonrepositoriesbaserepositorycreate"><code>leadr.common.repositories.BaseRepository.create</code><a class="headerlink" href="#leadrcommonrepositoriesbaserepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
 <p>Create a new entity in the database.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>entity</strong> (<code><a href="./#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code>) – Domain entity to create</li>
+<li><strong>entity</strong> (<code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code>) – Domain entity to create</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="./#leadr.common.repositories.DomainEntityT">DomainEntityT</a></code> – Created domain entity with refreshed data</li>
+<li><code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code> – Created domain entity with refreshed data</li>
 </ul>
 <h6 id="leadrcommonrepositoriesbaserepositorydelete"><code>leadr.common.repositories.BaseRepository.delete</code><a class="headerlink" href="#leadrcommonrepositoriesbaserepositorydelete" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">delete</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
@@ -6434,21 +6409,15 @@ for converting between domain entities and ORM models.</p>
 <div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
 <p>Filter entities based on criteria with pagination.</p>
-<p>All filter operations return paginated results. The pagination parameter
-is required to enforce consistent API behavior across the codebase.</p>
-<p>For multi-tenant entities, implementations should make account_id required
-(no default). For top-level entities like Account, account_id can remain
-optional and unused.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>account_id</strong> (<code><a href="./#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID for filtering. Multi-tenant entities
-  should override to make this required.</li>
+<li><strong>account_id</strong> (<code><a href="./#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID for filtering.</li>
 <li><strong>pagination</strong> (<code><a href="./#leadr.common.api.pagination.PaginationParams">PaginationParams</a></code>) – Required pagination parameters (cursor, limit, sort).</li>
 <li>**<strong>kwargs</strong> (<code><a href="#typing.Any">Any</a></code>) – Additional filter parameters specific to the entity type.</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.common.repositories.DomainEntityT">DomainEntityT</a>]</code> – PaginatedResult containing matching entities and pagination metadata.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a>]</code> – PaginatedResult containing matching entities and pagination metadata.</li>
 </ul>
 <h6 id="leadrcommonrepositoriesbaserepositoryget_by_id"><code>leadr.common.repositories.BaseRepository.get_by_id</code><a class="headerlink" href="#leadrcommonrepositoriesbaserepositoryget_by_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">,</span> <span class="n">include_deleted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -6486,42 +6455,36 @@ optional and unused.</p>
 <div class="highlight"><pre><span></span><code><span class="n">DomainEntityT</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;DomainEntityT&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Entity</span><span class="p">)</span>
 </code></pre></div>
 <h5 id="leadrcommonrepositoriesimmutablebaserepository"><code>leadr.common.repositories.ImmutableBaseRepository</code><a class="headerlink" href="#leadrcommonrepositoriesimmutablebaserepository" title="Permanent link">&para;</a></h5>
-<div class="highlight"><pre><span></span><code><span class="n">ImmutableBaseRepository</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
-</code></pre></div>
-<p>Bases: <code><a href="#abc.ABC">ABC</a></code>, <code><a href="#typing.Generic">Generic</a>[<a href="./#leadr.common.repositories.ImmutableEntityT">ImmutableEntityT</a>, <a href="./#leadr.common.repositories.ImmutableORMT">ImmutableORMT</a>]</code></p>
+<p>Bases: <code><a href="#leadr.common.repositories._RepositoryBase">_RepositoryBase</a>[<a href="./#leadr.common.repositories.ImmutableEntityT">ImmutableEntityT</a>, <a href="./#leadr.common.repositories.ImmutableORMT">ImmutableORMT</a>]</code></p>
 <p>Abstract base repository for immutable (append-only) entities.</p>
 <p>Used for event-sourced entities that are never updated or deleted.
 Provides only create, get, and filter operations.</p>
 <p><strong>Functions:</strong></p>
 <ul>
-<li><a href="./#leadr.common.repositories.ImmutableBaseRepository.create"><strong>create</strong></a> – Create a new immutable entity in the database.</li>
-<li><a href="./#leadr.common.repositories.ImmutableBaseRepository.filter"><strong>filter</strong></a> – Filter immutable entities based on criteria with pagination.</li>
+<li><a href="./#leadr.common.repositories.ImmutableBaseRepository.create"><strong>create</strong></a> – Create a new entity in the database.</li>
+<li><a href="./#leadr.common.repositories.ImmutableBaseRepository.filter"><strong>filter</strong></a> – Filter entities based on criteria with pagination.</li>
 <li><a href="#leadr.common.repositories.ImmutableBaseRepository.get_by_id"><strong>get_by_id</strong></a> – Get an immutable entity by its ID.</li>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
 <li><a href="./#leadr.common.repositories.ImmutableBaseRepository.session"><strong>session</strong></a> –</li>
 </ul>
-<p><strong>Parameters:</strong></p>
-<ul>
-<li><strong>session</strong> (<code><a href="#sqlalchemy.ext.asyncio.AsyncSession">AsyncSession</a></code>) – SQLAlchemy async session</li>
-</ul>
 <h6 id="leadrcommonrepositoriesimmutablebaserepositorycreate"><code>leadr.common.repositories.ImmutableBaseRepository.create</code><a class="headerlink" href="#leadrcommonrepositoriesimmutablebaserepositorycreate" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">create</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 </code></pre></div>
-<p>Create a new immutable entity in the database.</p>
+<p>Create a new entity in the database.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
-<li><strong>entity</strong> (<code><a href="./#leadr.common.repositories.ImmutableEntityT">ImmutableEntityT</a></code>) – Domain entity to create</li>
+<li><strong>entity</strong> (<code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code>) – Domain entity to create</li>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="./#leadr.common.repositories.ImmutableEntityT">ImmutableEntityT</a></code> – Created domain entity with refreshed data</li>
+<li><code><a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a></code> – Created domain entity with refreshed data</li>
 </ul>
 <h6 id="leadrcommonrepositoriesimmutablebaserepositoryfilter"><code>leadr.common.repositories.ImmutableBaseRepository.filter</code><a class="headerlink" href="#leadrcommonrepositoriesimmutablebaserepositoryfilter" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="nb">filter</span><span class="p">(</span><span class="n">account_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pagination</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Filter immutable entities based on criteria with pagination.</p>
+<p>Filter entities based on criteria with pagination.</p>
 <p><strong>Parameters:</strong></p>
 <ul>
 <li><strong>account_id</strong> (<code><a href="./#leadr.common.domain.ids.AccountID">AccountID</a> | None</code>) – Optional account ID for filtering.</li>
@@ -6530,7 +6493,7 @@ Provides only create, get, and filter operations.</p>
 </ul>
 <p><strong>Returns:</strong></p>
 <ul>
-<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="./#leadr.common.repositories.ImmutableEntityT">ImmutableEntityT</a>]</code> – PaginatedResult containing matching entities and pagination metadata.</li>
+<li><code><a href="#leadr.common.domain.pagination_result.PaginatedResult">PaginatedResult</a>[<a href="#leadr.common.repositories._EntityBaseT">_EntityBaseT</a>]</code> – PaginatedResult containing matching entities and pagination metadata.</li>
 </ul>
 <h6 id="leadrcommonrepositoriesimmutablebaserepositoryget_by_id"><code>leadr.common.repositories.ImmutableBaseRepository.get_by_id</code><a class="headerlink" href="#leadrcommonrepositoriesimmutablebaserepositoryget_by_id" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">get_by_id</span><span class="p">(</span><span class="n">entity_id</span><span class="p">)</span>
