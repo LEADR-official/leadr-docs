@@ -1011,6 +1011,7 @@ continued
   "icon": "fa-crown",
   "unit": "string",
   "sort_direction": "ASCENDING",
+  "board_type": "RUN_IDENTITY",
   "keep_strategy": "FIRST",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
@@ -1126,7 +1127,25 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |sort_direction|[SortDirection](./schemas.md#sortdirection)|false|none|Direction to sort scores (ascending/descending)|
-|keep_strategy|[KeepStrategy](./schemas.md#keepstrategy)|false|none|Strategy for keeping multiple scores from the same user|
+|board_type|[BoardType](./schemas.md#boardtype)|false|none|Type of board to create from this template|
+|keep_strategy|any|false|none|Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[KeepStrategy](./schemas.md#keepstrategy)|false|none|Strategy for keeping scores from the same user (RUN_IDENTITY boards only).|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
 |starts_at|any|false|none|Optional start time for time-bounded boards|
 
 anyOf
@@ -1209,6 +1228,7 @@ or
   "icon": "string",
   "unit": "string",
   "sort_direction": "ASCENDING",
+  "board_type": "RUN_IDENTITY",
   "keep_strategy": "FIRST",
   "starts_at": "2019-08-24T14:15:22Z",
   "ends_at": "2019-08-24T14:15:22Z",
@@ -1327,7 +1347,8 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |sort_direction|[SortDirection](./schemas.md#sortdirection)|true|none|Direction to sort scores (ascending/descending)|
-|keep_strategy|[KeepStrategy](./schemas.md#keepstrategy)|true|none|Strategy for keeping multiple scores from the same user|
+|board_type|[BoardType](./schemas.md#boardtype)|true|none|Type of board to create from this template|
+|keep_strategy|[KeepStrategy](./schemas.md#keepstrategy)|true|none|Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)|
 |starts_at|any|true|none|Optional start time for time-bounded boards|
 
 anyOf

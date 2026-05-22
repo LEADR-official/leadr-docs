@@ -2273,13 +2273,14 @@ Request model for creating a board template.
 **Attributes:**
 
 - [**account_id**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**board_type**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.board_type) (<code>[BoardType](./boards.md#leadr.boards.domain.board.BoardType)</code>) –
 - [**config**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.config) (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) –
 - [**ends_at**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.ends_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**game_id**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.game_id) (<code>[GameID](./common.md#leadr.common.domain.ids.GameID)</code>) –
 - [**icon**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.icon) (<code>[str](#str) | None</code>) –
 - [**is_active**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.is_active) (<code>[bool](#bool)</code>) –
 - [**is_published**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.is_published) (<code>[bool](#bool)</code>) –
-- [**keep_strategy**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.keep_strategy) (<code>[KeepStrategy](./boards.md#leadr.boards.domain.board.KeepStrategy)</code>) –
+- [**keep_strategy**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.keep_strategy) (<code>[KeepStrategy](./boards.md#leadr.boards.domain.board.KeepStrategy) | None</code>) –
 - [**name**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.name) (<code>[str](#str)</code>) –
 - [**name_template**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.name_template) (<code>[str](#str) | None</code>) –
 - [**next_run_at**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.next_run_at) (<code>[datetime](#datetime.datetime)</code>) –
@@ -2295,6 +2296,12 @@ Request model for creating a board template.
 
 ```python
 account_id: AccountID = Field(description='ID of the account this template belongs to')
+```
+
+####### `leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.board_type`
+
+```python
+board_type: BoardType = Field(default=(BoardType.RUN_IDENTITY), description='Type of board to create from this template')
 ```
 
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.config`
@@ -2336,7 +2343,7 @@ is_published: bool = Field(default=True, description='Whether boards created fro
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.keep_strategy`
 
 ```python
-keep_strategy: KeepStrategy = Field(default=(KeepStrategy.BEST), description='Strategy for keeping multiple scores from the same user')
+keep_strategy: KeepStrategy | None = Field(default=None, description='Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)')
 ```
 
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.name`
@@ -2412,6 +2419,7 @@ Response model for a board template.
 **Attributes:**
 
 - [**account_id**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.account_id) (<code>[AccountID](./common.md#leadr.common.domain.ids.AccountID)</code>) –
+- [**board_type**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.board_type) (<code>[BoardType](./boards.md#leadr.boards.domain.board.BoardType)</code>) –
 - [**config**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.config) (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\]</code>) –
 - [**created_at**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.created_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**ends_at**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.ends_at) (<code>[datetime](#datetime.datetime) | None</code>) –
@@ -2437,6 +2445,12 @@ Response model for a board template.
 
 ```python
 account_id: AccountID = Field(description='ID of the account this template belongs to')
+```
+
+####### `leadr.boards.api.board_template_schemas.BoardTemplateResponse.board_type`
+
+```python
+board_type: BoardType = Field(description='Type of board to create from this template')
 ```
 
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateResponse.config`
@@ -2506,7 +2520,7 @@ is_published: bool = Field(description='Whether boards created from this templat
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateResponse.keep_strategy`
 
 ```python
-keep_strategy: KeepStrategy = Field(description='Strategy for keeping multiple scores from the same user')
+keep_strategy: KeepStrategy = Field(description='Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)')
 ```
 
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateResponse.name`
@@ -3815,6 +3829,7 @@ generation. Templates can be activated/deactivated and track the next scheduled 
 - [**generate_name**](#leadr.boards.domain.board_template.BoardTemplate.generate_name) – Generate a board name using the name template.
 - [**restore**](#leadr.boards.domain.board_template.BoardTemplate.restore) – Restore a soft-deleted entity.
 - [**soft_delete**](#leadr.boards.domain.board_template.BoardTemplate.soft_delete) – Mark entity as soft-deleted.
+- [**validate_board_type_keep_strategy**](#leadr.boards.domain.board_template.BoardTemplate.validate_board_type_keep_strategy) – Validate board_type and keep_strategy combination.
 - [**validate_name**](#leadr.boards.domain.board_template.BoardTemplate.validate_name) – Validate template name is not empty.
 - [**validate_repeat_interval**](#leadr.boards.domain.board_template.BoardTemplate.validate_repeat_interval) – Validate repeat_interval uses PostgreSQL interval syntax.
 - [**validate_slug**](#leadr.boards.domain.board_template.BoardTemplate.validate_slug) – Validate slug format (lowercase alphanumeric with hyphens).
@@ -4076,6 +4091,25 @@ unit: str | None = Field(description="Unit of measurement for scores (e.g., 'sec
 ```python
 updated_at: datetime = Field(default_factory=(lambda: datetime.now(UTC)), description='Timestamp of last update (UTC)')
 ```
+
+####### `leadr.boards.domain.board_template.BoardTemplate.validate_board_type_keep_strategy`
+
+```python
+validate_board_type_keep_strategy()
+```
+
+Validate board_type and keep_strategy combination.
+
+- RUN_IDENTITY boards must have a non-NA keep_strategy (FIRST, BEST, LATEST)
+- Non-RUN_IDENTITY boards (RUN_RUNS, COUNTER, RATIO) must have NA keep_strategy
+
+**Returns:**
+
+- <code>[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)</code> – The validated BoardTemplate instance.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If the board_type/keep_strategy combination is invalid.
 
 ####### `leadr.boards.domain.board_template.BoardTemplate.validate_name`
 
@@ -5353,7 +5387,7 @@ This is typically called after successfully creating a board from the template.
 ####### `leadr.boards.services.board_template_service.BoardTemplateService.create_board_template`
 
 ```python
-create_board_template(account_id, game_id, name, slug, repeat_interval, next_run_at, is_active, is_published=True, name_template=None, series=None, icon='fa-crown', unit=None, sort_direction=SortDirection.DESCENDING, keep_strategy=KeepStrategy.BEST, starts_at=None, ends_at=None, tags=None, config=None)
+create_board_template(account_id, game_id, name, slug, repeat_interval, next_run_at, is_active, is_published=True, name_template=None, series=None, icon='fa-crown', unit=None, sort_direction=SortDirection.DESCENDING, board_type=BoardType.RUN_IDENTITY, keep_strategy=KeepStrategy.BEST, starts_at=None, ends_at=None, tags=None, config=None)
 ```
 
 Create a new board template.
