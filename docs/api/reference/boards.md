@@ -4145,7 +4145,41 @@ Utilities for parsing PostgreSQL interval syntax.
 
 **Functions:**
 
+- [**normalize_interval**](#leadr.boards.domain.interval_parser.normalize_interval) – Normalize an interval string, expanding shorthand aliases.
 - [**parse_interval**](#leadr.boards.domain.interval_parser.parse_interval) – Parse PostgreSQL interval syntax to Python relativedelta.
+
+**Attributes:**
+
+- [**SHORTHAND_INTERVALS**](#leadr.boards.domain.interval_parser.SHORTHAND_INTERVALS) (<code>[dict](#dict)\[[str](#str), [str](#str)\]</code>) –
+
+###### `leadr.boards.domain.interval_parser.SHORTHAND_INTERVALS`
+
+```python
+SHORTHAND_INTERVALS: dict[str, str] = {'hourly': '1 hour', 'daily': '1 day', 'weekly': '7 days', 'monthly': '1 month'}
+```
+
+###### `leadr.boards.domain.interval_parser.normalize_interval`
+
+```python
+normalize_interval(interval_string)
+```
+
+Normalize an interval string, expanding shorthand aliases.
+
+Converts shorthand aliases like "daily" to their PostgreSQL interval
+equivalents like "1 day". Standard interval syntax passes through unchanged.
+
+**Parameters:**
+
+- **interval_string** (<code>[str](#str)</code>) – Interval string, either shorthand or PostgreSQL syntax.
+
+**Returns:**
+
+- <code>[str](#str)</code> – Normalized PostgreSQL interval string.
+
+**Raises:**
+
+- <code>[ValueError](#ValueError)</code> – If interval format is invalid.
 
 ###### `leadr.boards.domain.interval_parser.parse_interval`
 
