@@ -1961,11 +1961,11 @@
 <td>Template name (used as fallback for board names)</td>
 </tr>
 <tr>
-<td><strong>Name Template</strong></td>
+<td><strong>Series</strong></td>
 <td>No</td>
-<td><code>{month_short} Challenge</code></td>
+<td><code>monthly-challenge</code></td>
 <td>None</td>
-<td>Template string with placeholders for dynamic board names</td>
+<td>Identifier for sequential numbering (e.g., "weekly", "season")</td>
 </tr>
 <tr>
 <td><strong>Slug</strong></td>
@@ -1975,18 +1975,25 @@
 <td>URL-friendly identifier for boards created from this template</td>
 </tr>
 <tr>
-<td><strong>Series</strong></td>
+<td><strong>Name Template</strong></td>
 <td>No</td>
-<td><code>monthly-challenge</code></td>
+<td><code>{month_short} Challenge</code></td>
 <td>None</td>
-<td>Identifier for sequential numbering (e.g., "weekly", "season")</td>
+<td>Template string with placeholders for dynamic board names</td>
 </tr>
 <tr>
 <td><strong>Repeat Interval</strong></td>
 <td>Yes</td>
-<td><code>1 month</code></td>
+<td><code>1 week</code></td>
 <td>-</td>
 <td>How often to create boards (see format below)</td>
+</tr>
+<tr>
+<td><strong>Next Run</strong></td>
+<td>Yes</td>
+<td><code>2026-06-15 19:00</code></td>
+<td>-</td>
+<td>Next scheduled date and time (in UTC) to create a board from this template</td>
 </tr>
 <tr>
 <td><strong>Board Type</strong></td>
@@ -2061,7 +2068,7 @@
 </tbody>
 </table>
 <h2 id="repeat-interval-format">Repeat Interval Format<a class="headerlink" href="#repeat-interval-format" title="Permanent link">&para;</a></h2>
-<p>The repeat interval uses PostgreSQL interval syntax. Valid formats:</p>
+<p>The repeat interval uses PostgreSQL-style interval syntax. Valid formats:</p>
 <table>
 <thead>
 <tr>
@@ -2071,8 +2078,12 @@
 </thead>
 <tbody>
 <tr>
+<td>Hours</td>
+<td><code>1 hour</code>, <code>12 hours</code></td>
+</tr>
+<tr>
 <td>Days</td>
-<td><code>7 days</code>, <code>14 days</code></td>
+<td><code>1 day</code>, <code>5 days</code>, <code>13 days</code></td>
 </tr>
 <tr>
 <td>Weeks</td>
@@ -2088,13 +2099,20 @@
 </tr>
 </tbody>
 </table>
+<div class="admonition leadr">
+<p class="admonition-title">LEADR Cloud</p>
+<p>The LEADR Cloud service enables the weekly and monthly repeat interval to all accounts - including the free tier. An account with a paid plan is required to create board templates with daily, hourly or custom repeat intervals.</p>
+<p>Self-hosted deployments manage the allowed repeat intervals independently.</p>
+</div>
 <p><strong>Common intervals:</strong></p>
 <ul>
+<li>Daily: <code>1 day</code></li>
 <li>Weekly: <code>7 days</code> or <code>1 week</code></li>
+<li>Weekends: <code>7 days</code> or <code>1 week</code>, plus the date of the first weekend in <code>Next Run</code></li>
 <li>Bi-weekly: <code>14 days</code> or <code>2 weeks</code></li>
 <li>Monthly: <code>1 month</code></li>
+<li>First day of each month: <code>1 month</code>, plus the 1st date of the next month in <code>Next Run</code></li>
 <li>Quarterly: <code>3 months</code></li>
-<li>Yearly: <code>1 year</code></li>
 </ul>
 <h2 id="name-template-placeholders">Name Template Placeholders<a class="headerlink" href="#name-template-placeholders" title="Permanent link">&para;</a></h2>
 <p>Use placeholders in the <strong>Name Template</strong> field to generate dynamic board names:</p>
