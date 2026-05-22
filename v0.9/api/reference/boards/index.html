@@ -5874,6 +5874,24 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#leadrboardsdomaininterval_parsershorthand_intervals" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.boards.domain.interval_parser.SHORTHAND_INTERVALS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrboardsdomaininterval_parsernormalize_interval" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.boards.domain.interval_parser.normalize_interval
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrboardsdomaininterval_parserparse_interval" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.boards.domain.interval_parser.parse_interval
@@ -10173,7 +10191,33 @@ already deleted are not affected (deleted_at remains at original deletion time).
 <p>Utilities for parsing PostgreSQL interval syntax.</p>
 <p><strong>Functions:</strong></p>
 <ul>
+<li><a href="#leadr.boards.domain.interval_parser.normalize_interval"><strong>normalize_interval</strong></a> – Normalize an interval string, expanding shorthand aliases.</li>
 <li><a href="#leadr.boards.domain.interval_parser.parse_interval"><strong>parse_interval</strong></a> – Parse PostgreSQL interval syntax to Python relativedelta.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.boards.domain.interval_parser.SHORTHAND_INTERVALS"><strong>SHORTHAND_INTERVALS</strong></a> (<code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#str">str</a>]</code>) –</li>
+</ul>
+<h6 id="leadrboardsdomaininterval_parsershorthand_intervals"><code>leadr.boards.domain.interval_parser.SHORTHAND_INTERVALS</code><a class="headerlink" href="#leadrboardsdomaininterval_parsershorthand_intervals" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">SHORTHAND_INTERVALS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;hourly&#39;</span><span class="p">:</span> <span class="s1">&#39;1 hour&#39;</span><span class="p">,</span> <span class="s1">&#39;daily&#39;</span><span class="p">:</span> <span class="s1">&#39;1 day&#39;</span><span class="p">,</span> <span class="s1">&#39;weekly&#39;</span><span class="p">:</span> <span class="s1">&#39;7 days&#39;</span><span class="p">,</span> <span class="s1">&#39;monthly&#39;</span><span class="p">:</span> <span class="s1">&#39;1 month&#39;</span><span class="p">}</span>
+</code></pre></div>
+<h6 id="leadrboardsdomaininterval_parsernormalize_interval"><code>leadr.boards.domain.interval_parser.normalize_interval</code><a class="headerlink" href="#leadrboardsdomaininterval_parsernormalize_interval" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">normalize_interval</span><span class="p">(</span><span class="n">interval_string</span><span class="p">)</span>
+</code></pre></div>
+<p>Normalize an interval string, expanding shorthand aliases.</p>
+<p>Converts shorthand aliases like "daily" to their PostgreSQL interval
+equivalents like "1 day". Standard interval syntax passes through unchanged.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>interval_string</strong> (<code><a href="#str">str</a></code>) – Interval string, either shorthand or PostgreSQL syntax.</li>
+</ul>
+<p><strong>Returns:</strong></p>
+<ul>
+<li><code><a href="#str">str</a></code> – Normalized PostgreSQL interval string.</li>
+</ul>
+<p><strong>Raises:</strong></p>
+<ul>
+<li><code><a href="#ValueError">ValueError</a></code> – If interval format is invalid.</li>
 </ul>
 <h6 id="leadrboardsdomaininterval_parserparse_interval"><code>leadr.boards.domain.interval_parser.parse_interval</code><a class="headerlink" href="#leadrboardsdomaininterval_parserparse_interval" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">parse_interval</span><span class="p">(</span><span class="n">interval_string</span><span class="p">)</span>
