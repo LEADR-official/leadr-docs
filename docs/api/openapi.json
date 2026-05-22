@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.9.2"
+    "version": "0.9.3"
   },
   "paths": {
     "/v1/accounts": {
@@ -9192,10 +9192,21 @@
             "description": "Direction to sort scores (ascending/descending)",
             "default": "DESCENDING"
           },
+          "board_type": {
+            "$ref": "#/components/schemas/BoardType",
+            "description": "Type of board to create from this template",
+            "default": "RUN_IDENTITY"
+          },
           "keep_strategy": {
-            "$ref": "#/components/schemas/KeepStrategy",
-            "description": "Strategy for keeping multiple scores from the same user",
-            "default": "BEST"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/KeepStrategy"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)"
           },
           "starts_at": {
             "anyOf": [
@@ -9350,9 +9361,13 @@
             "$ref": "#/components/schemas/SortDirection",
             "description": "Direction to sort scores (ascending/descending)"
           },
+          "board_type": {
+            "$ref": "#/components/schemas/BoardType",
+            "description": "Type of board to create from this template"
+          },
           "keep_strategy": {
             "$ref": "#/components/schemas/KeepStrategy",
-            "description": "Strategy for keeping multiple scores from the same user"
+            "description": "Strategy for keeping multiple scores from the same user (RUN_IDENTITY only)"
           },
           "starts_at": {
             "anyOf": [
@@ -9438,6 +9453,7 @@
           "icon",
           "unit",
           "sort_direction",
+          "board_type",
           "keep_strategy",
           "starts_at",
           "ends_at",
