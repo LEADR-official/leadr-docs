@@ -13,10 +13,11 @@ Each template has a unique identifier in the format `tpl_<uuid>`, for example: `
 | Field | Required | Example | Default | Description |
 |-------|----------|---------|---------|-------------|
 | **Name** | Yes | `Monthly Challenge Boards` | - | Template name (used as fallback for board names) |
-| **Name Template** | No | `{month_short} Challenge` | None | Template string with placeholders for dynamic board names |
-| **Slug** | No | `monthly-challenge` | None | URL-friendly identifier for boards created from this template |
 | **Series** | No | `monthly-challenge` | None | Identifier for sequential numbering (e.g., "weekly", "season") |
-| **Repeat Interval** | Yes | `1 month` | - | How often to create boards (see format below) |
+| **Slug** | No | `monthly-challenge` | None | URL-friendly identifier for boards created from this template |
+| **Name Template** | No | `{month_short} Challenge` | None | Template string with placeholders for dynamic board names |
+| **Repeat Interval** | Yes | `1 week` | - | How often to create boards (see format below) |
+| **Next Run** | Yes | `2026-06-15 19:00` | - | Next scheduled date and time (in UTC) to create a board from this template |
 | **Board Type** | No | - | Per Player | Type of boards to create |
 | **Sort Direction** | No | - | Descending | Sort direction for boards |
 | **Keep Strategy** | No | - | Best | Keep strategy for Per Player boards |
@@ -30,22 +31,31 @@ Each template has a unique identifier in the format `tpl_<uuid>`, for example: `
 
 ## Repeat Interval Format
 
-The repeat interval uses PostgreSQL interval syntax. Valid formats:
+The repeat interval uses PostgreSQL-style interval syntax. Valid formats:
 
 | Interval | Example |
 |----------|---------|
-| Days | `7 days`, `14 days` |
+| Hours | `1 hour`, `12 hours` |
+| Days | `1 day`, `5 days`, `13 days` |
 | Weeks | `1 week`, `2 weeks` |
 | Months | `1 month`, `3 months` |
 | Years | `1 year` |
 
+!!! leadr "LEADR Cloud"
+
+    The LEADR Cloud service enables the weekly and monthly repeat interval to all accounts - including the free tier. An account with a paid plan is required to create board templates with daily, hourly or custom repeat intervals.
+
+    Self-hosted deployments manage the allowed repeat intervals independently.
+
 **Common intervals:**
 
+- Daily: `1 day`
 - Weekly: `7 days` or `1 week`
+- Weekends: `7 days` or `1 week`, plus the date of the first weekend in `Next Run`
 - Bi-weekly: `14 days` or `2 weeks`
 - Monthly: `1 month`
+- First day of each month: `1 month`, plus the 1st date of the next month in `Next Run`
 - Quarterly: `3 months`
-- Yearly: `1 year`
 
 ## Name Template Placeholders
 
