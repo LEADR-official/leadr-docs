@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.9.3"
+    "version": "0.9.4"
   },
   "paths": {
     "/v1/accounts": {
@@ -12616,6 +12616,7 @@
           },
           "client_fingerprint": {
             "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$",
             "title": "Client Fingerprint",
             "description": "Client-generated SHA256 device fingerprint (64 hex characters)"
           },

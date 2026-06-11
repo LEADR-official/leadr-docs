@@ -93,7 +93,7 @@ Convert all FastAPI HTTPExceptions to ensure our response envelope.
 ###### `leadr.common.api.exceptions.logger`
 
 ```python
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 ```
 
 ###### `leadr.common.api.exceptions.validation_error_handler`

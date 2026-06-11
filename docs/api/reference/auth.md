@@ -1358,7 +1358,7 @@ Used by game clients to authenticate and obtain an access token.
 ####### `leadr.auth.api.client_schemas.StartSessionRequest.client_fingerprint`
 
 ```python
-client_fingerprint: str = Field(description='Client-generated SHA256 device fingerprint (64 hex characters)')
+client_fingerprint: str = Field(pattern='^[a-fA-F0-9]{64}$', description='Client-generated SHA256 device fingerprint (64 hex characters)')
 ```
 
 ####### `leadr.auth.api.client_schemas.StartSessionRequest.game_id`
