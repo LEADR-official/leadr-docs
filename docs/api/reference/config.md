@@ -71,6 +71,7 @@ field names (case-sensitive).
 - [**API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS**](#leadr.config.CommonSettings.API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS) (<code>[int](#int)</code>) –
 - [**API_PREFIX**](#leadr.config.CommonSettings.API_PREFIX) (<code>[str](#str)</code>) –
 - [**APP**](./config.md#leadr.config.CommonSettings.APP) (<code>[str](#str)</code>) –
+- [**BACKGROUND_TASKS_ENABLED**](#leadr.config.CommonSettings.BACKGROUND_TASKS_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
@@ -227,6 +228,12 @@ API_PREFIX: str = Field(default='/v1', description="API route prefix for version
 
 ```python
 APP: str = Field(default='LEADR', description='Application name identifier')
+```
+
+##### `leadr.config.CommonSettings.BACKGROUND_TASKS_ENABLED`
+
+```python
+BACKGROUND_TASKS_ENABLED: bool = Field(default=True, description='Enable background task scheduler (board templates, expiry, nonce cleanup). Set to false to disable all background tasks (useful for read-only replicas).')
 ```
 
 ##### `leadr.config.CommonSettings.BACKGROUND_TASK_EXPIRE_INTERVAL`
@@ -686,6 +693,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS**](#leadr.config.Settings.API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS) (<code>[int](#int)</code>) –
 - [**API_PREFIX**](#leadr.config.Settings.API_PREFIX) (<code>[str](#str)</code>) –
 - [**APP**](#leadr.config.Settings.APP) (<code>[str](#str)</code>) –
+- [**BACKGROUND_TASKS_ENABLED**](#leadr.config.Settings.BACKGROUND_TASKS_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
@@ -788,6 +796,7 @@ Test-specific overrides can be added here.
 - [**API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS**](#leadr.config.TestSettings.API_KEY_USAGE_UPDATE_THRESHOLD_SECONDS) (<code>[int](#int)</code>) –
 - [**API_PREFIX**](#leadr.config.TestSettings.API_PREFIX) (<code>[str](#str)</code>) –
 - [**APP**](./config.md#leadr.config.TestSettings.APP) (<code>[str](#str)</code>) –
+- [**BACKGROUND_TASKS_ENABLED**](#leadr.config.TestSettings.BACKGROUND_TASKS_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
@@ -944,6 +953,12 @@ API_PREFIX: str = Field(default='/v1', description="API route prefix for version
 
 ```python
 APP: str = Field(default='LEADR', description='Application name identifier')
+```
+
+##### `leadr.config.TestSettings.BACKGROUND_TASKS_ENABLED`
+
+```python
+BACKGROUND_TASKS_ENABLED: bool = Field(default=True, description='Enable background task scheduler (board templates, expiry, nonce cleanup). Set to false to disable all background tasks (useful for read-only replicas).')
 ```
 
 ##### `leadr.config.TestSettings.BACKGROUND_TASK_EXPIRE_INTERVAL`
