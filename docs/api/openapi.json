@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.9.6"
+    "version": "0.10.0"
   },
   "paths": {
     "/v1/accounts": {
@@ -9277,6 +9277,12 @@
             "description": "Whether boards created from this template should be published",
             "default": true
           },
+          "unique_player_names": {
+            "type": "boolean",
+            "title": "Unique Player Names",
+            "description": "Whether player names must be unique on boards created from this template",
+            "default": false
+          },
           "name_template": {
             "anyOf": [
               {
@@ -9569,6 +9575,12 @@
             "title": "Is Published",
             "description": "Whether boards created from this template should be published"
           },
+          "unique_player_names": {
+            "type": "boolean",
+            "title": "Unique Player Names",
+            "description": "Whether player names must be unique on boards created from this template",
+            "default": false
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -9805,6 +9817,18 @@
             ],
             "title": "Is Published",
             "description": "Updated published status"
+          },
+          "unique_player_names": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unique Player Names",
+            "description": "Whether player names must be unique on boards created from this template"
           },
           "deleted": {
             "anyOf": [

@@ -526,6 +526,7 @@ Uses JSONB column for config to support flexible procedural generation configura
 - [**sort_direction**](#leadr.boards.adapters.orm.BoardTemplateORM.sort_direction) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str)\]</code>) –
 - [**starts_at**](#leadr.boards.adapters.orm.BoardTemplateORM.starts_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime) | None\]</code>) –
 - [**tags**](./boards.md#leadr.boards.adapters.orm.BoardTemplateORM.tags) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[list](#list)\[[str](#str)\]\]</code>) –
+- [**unique_player_names**](#leadr.boards.adapters.orm.BoardTemplateORM.unique_player_names) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
 - [**unit**](./boards.md#leadr.boards.adapters.orm.BoardTemplateORM.unit) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
 - [**updated_at**](#leadr.boards.adapters.orm.BoardTemplateORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 
@@ -694,6 +695,12 @@ Convert ORM model to domain entity.
 **Returns:**
 
 - <code>[BoardTemplate](#leadr.boards.domain.board_template.BoardTemplate)</code> – BoardTemplate domain entity with all fields populated from ORM model.
+
+####### `leadr.boards.adapters.orm.BoardTemplateORM.unique_player_names`
+
+```python
+unique_player_names: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default=(sa.text('false')))
+```
 
 ####### `leadr.boards.adapters.orm.BoardTemplateORM.unit`
 
@@ -2318,6 +2325,7 @@ Request model for creating a board template.
 - [**sort_direction**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.sort_direction) (<code>[SortDirection](./boards.md#leadr.boards.domain.board.SortDirection)</code>) –
 - [**starts_at**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**tags**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.tags) (<code>[list](#list)\[[str](#str)\] | None</code>) –
+- [**unique_player_names**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unique_player_names) (<code>[bool](#bool)</code>) –
 - [**unit**](#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unit) (<code>[str](#str) | None</code>) –
 
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.account_id`
@@ -2428,6 +2436,12 @@ starts_at: datetime | None = Field(default=None, description='Optional start tim
 tags: list[str] | None = Field(default=None, description='List of tags for categorizing boards created from this template')
 ```
 
+####### `leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unique_player_names`
+
+```python
+unique_player_names: bool = Field(default=False, description='Whether player names must be unique on boards created from this template')
+```
+
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unit`
 
 ```python
@@ -2466,6 +2480,7 @@ Response model for a board template.
 - [**sort_direction**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.sort_direction) (<code>[SortDirection](./boards.md#leadr.boards.domain.board.SortDirection)</code>) –
 - [**starts_at**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**tags**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.tags) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**unique_player_names**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.unique_player_names) (<code>[bool](#bool)</code>) –
 - [**unit**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.unit) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.boards.api.board_template_schemas.BoardTemplateResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -2605,6 +2620,12 @@ starts_at: datetime | None = Field(description='Optional start time for time-bou
 tags: list[str] = Field(description='List of tags for categorizing boards created from this template')
 ```
 
+####### `leadr.boards.api.board_template_schemas.BoardTemplateResponse.unique_player_names`
+
+```python
+unique_player_names: bool = Field(default=False, description='Whether player names must be unique on boards created from this template')
+```
+
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateResponse.unit`
 
 ```python
@@ -2641,6 +2662,7 @@ Request model for updating a board template.
 - [**sort_direction**](#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.sort_direction) (<code>[SortDirection](./boards.md#leadr.boards.domain.board.SortDirection) | None</code>) –
 - [**starts_at**](#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**tags**](#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.tags) (<code>[list](#list)\[[str](#str)\] | None</code>) –
+- [**unique_player_names**](#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unique_player_names) (<code>[bool](#bool) | None</code>) –
 - [**unit**](#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unit) (<code>[str](#str) | None</code>) –
 
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.config`
@@ -2737,6 +2759,12 @@ starts_at: datetime | None = Field(default=None, description='Updated start time
 
 ```python
 tags: list[str] | None = Field(default=None, description='Updated tags list')
+```
+
+####### `leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unique_player_names`
+
+```python
+unique_player_names: bool | None = Field(default=None, description='Whether player names must be unique on boards created from this template')
 ```
 
 ####### `leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unit`
@@ -3894,6 +3922,7 @@ generation. Templates can be activated/deactivated and track the next scheduled 
 - [**sort_direction**](#leadr.boards.domain.board_template.BoardTemplate.sort_direction) (<code>[SortDirection](./boards.md#leadr.boards.domain.board.SortDirection)</code>) –
 - [**starts_at**](#leadr.boards.domain.board_template.BoardTemplate.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**tags**](#leadr.boards.domain.board_template.BoardTemplate.tags) (<code>[list](#list)\[[str](#str)\]</code>) –
+- [**unique_player_names**](#leadr.boards.domain.board_template.BoardTemplate.unique_player_names) (<code>[bool](#bool)</code>) –
 - [**unit**](#leadr.boards.domain.board_template.BoardTemplate.unit) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.boards.domain.board_template.BoardTemplate.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -4113,6 +4142,12 @@ starts_at: datetime | None = Field(default=None, description='Optional start tim
 
 ```python
 tags: list[str] = Field(default_factory=list, description='List of tags for categorizing boards created from this template')
+```
+
+####### `leadr.boards.domain.board_template.BoardTemplate.unique_player_names`
+
+```python
+unique_player_names: bool = Field(default=False, description='Whether player names must be unique on boards created from this template')
 ```
 
 ####### `leadr.boards.domain.board_template.BoardTemplate.unit`
@@ -5424,7 +5459,7 @@ This is typically called after successfully creating a board from the template.
 ####### `leadr.boards.services.board_template_service.BoardTemplateService.create_board_template`
 
 ```python
-create_board_template(account_id, game_id, name, slug, repeat_interval, next_run_at, is_active, is_published=True, name_template=None, series=None, icon='fa-crown', unit=None, sort_direction=SortDirection.DESCENDING, board_type=BoardType.RUN_IDENTITY, keep_strategy=KeepStrategy.BEST, starts_at=None, ends_at=None, tags=None, config=None)
+create_board_template(account_id, game_id, name, slug, repeat_interval, next_run_at, is_active, is_published=True, unique_player_names=False, name_template=None, series=None, icon='fa-crown', unit=None, sort_direction=SortDirection.DESCENDING, board_type=BoardType.RUN_IDENTITY, keep_strategy=KeepStrategy.BEST, starts_at=None, ends_at=None, tags=None, config=None)
 ```
 
 Create a new board template.

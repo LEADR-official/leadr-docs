@@ -1010,6 +1010,7 @@ continued
   "next_run_at": "2019-08-24T14:15:22Z",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": false,
   "name_template": "string",
   "series": "string",
   "icon": "fa-crown",
@@ -1058,6 +1059,7 @@ continued
 |next_run_at|string(date-time)|true|none|Next scheduled time to create a board from this template (UTC)|
 |is_active|boolean|true|none|Whether the template is currently active|
 |is_published|boolean|false|none|Whether boards created from this template should be published|
+|unique_player_names|boolean|false|none|Whether player names must be unique on boards created from this template|
 |name_template|any|false|none|Optional template string for generating board names|
 
 anyOf
@@ -1244,6 +1246,7 @@ or
   "next_run_at": "2019-08-24T14:15:22Z",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -1395,6 +1398,7 @@ continued
 |next_run_at|string(date-time)|true|none|Next scheduled run time (UTC)|
 |is_active|boolean|true|none|Whether the template is currently active|
 |is_published|boolean|true|none|Whether boards created from this template should be published|
+|unique_player_names|boolean|false|none|Whether player names must be unique on boards created from this template|
 |created_at|string(date-time)|true|none|Timestamp when the template was created (UTC)|
 |updated_at|string(date-time)|true|none|Timestamp of last update (UTC)|
 
@@ -1420,6 +1424,7 @@ continued
   "next_run_at": "2019-08-24T14:15:22Z",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": true,
   "deleted": true
 }
 
@@ -1702,6 +1707,24 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |is_published|any|false|none|Updated published status|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|boolean|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|unique_player_names|any|false|none|Whether player names must be unique on boards created from this template|
 
 anyOf
 

@@ -32,6 +32,7 @@
       "next_run_at": "2019-08-24T14:15:22Z",
       "is_active": true,
       "is_published": true,
+      "unique_player_names": false,
       "name_template": "string",
       "series": "string",
       "icon": "fa-crown",
@@ -103,6 +104,7 @@ Raises:
   "next_run_at": "2019-08-24T14:15:22Z",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": false,
   "name_template": "string",
   "series": "string",
   "icon": "fa-crown",
@@ -157,6 +159,7 @@ Raises:
   "next_run_at": "2019-08-24T14:15:22Z",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -386,6 +389,7 @@ Raises:
   "next_run_at": "2019-08-24T14:15:22Z",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
@@ -443,6 +447,7 @@ Raises:
       "next_run_at": "2019-08-24T14:15:22Z",
       "is_active": true,
       "is_published": true,
+      "unique_player_names": true,
       "deleted": true
     }';
     const headers = {
@@ -508,6 +513,7 @@ Raises:
   "next_run_at": "2019-08-24T14:15:22Z",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": true,
   "deleted": true
 }
 ```
@@ -551,6 +557,7 @@ Raises:
   "next_run_at": "2019-08-24T14:15:22Z",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": false,
   "created_at": "2019-08-24T14:15:22Z",
   "updated_at": "2019-08-24T14:15:22Z"
 }
