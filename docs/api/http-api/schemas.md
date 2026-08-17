@@ -384,6 +384,7 @@ or
   "unit": "string",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": false,
   "sort_direction": "ASCENDING",
   "board_type": "RUN_IDENTITY",
   "keep_strategy": "FIRST",
@@ -493,6 +494,7 @@ continued
 |---|---|---|---|---|
 |is_active|boolean|false|none|Whether the board is currently active|
 |is_published|boolean|false|none|Whether the board is published and visible on public web views|
+|unique_player_names|boolean|false|none|Whether player names must be unique on this board (case-insensitive)|
 |sort_direction|[SortDirection](./schemas.md#sortdirection)|false|none|Direction to sort scores|
 |board_type|[BoardType](./schemas.md#boardtype)|false|none|Type of board determining score behavior|
 |keep_strategy|any|false|none|Strategy for keeping scores (RUN_IDENTITY boards only). Defaults to BEST for RUN_IDENTITY, ignored for other board types.|
@@ -721,6 +723,7 @@ BoardRatioConfigResponse
   "unit": "string",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": false,
   "sort_direction": "ASCENDING",
   "board_type": "RUN_IDENTITY",
   "keep_strategy": "FIRST",
@@ -803,6 +806,7 @@ continued
 |---|---|---|---|---|
 |is_active|boolean|true|none|Whether the board is currently active|
 |is_published|boolean|true|none|Whether the board is published and visible on public web views|
+|unique_player_names|boolean|false|none|Whether player names must be unique on this board (case-insensitive)|
 |sort_direction|[SortDirection](./schemas.md#sortdirection)|true|none|Direction to sort scores|
 |board_type|[BoardType](./schemas.md#boardtype)|true|none|Type of board determining score behavior|
 |keep_strategy|[KeepStrategy](./schemas.md#keepstrategy)|true|none|Strategy for keeping scores (RUN_IDENTITY only)|
@@ -1763,6 +1767,7 @@ BoardType
   "unit": "string",
   "is_active": true,
   "is_published": true,
+  "unique_player_names": true,
   "sort_direction": "ASCENDING",
   "board_type": "RUN_IDENTITY",
   "keep_strategy": "FIRST",
@@ -1887,6 +1892,24 @@ continued
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |is_published|any|false|none|Updated published status|
+
+anyOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|boolean|false|none|none|
+
+or
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|null|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|unique_player_names|any|false|none|Whether player names must be unique on this board (case-insensitive)|
 
 anyOf
 
@@ -3887,6 +3910,53 @@ continued
 |has_next|boolean|true|none|Whether there are more results after this page|
 |has_prev|boolean|true|none|Whether there are results before this page|
 |count|integer|true|none|Number of items in this page|
+
+## PlayerNameCheckResponse
+
+```json
+{
+  "name": "string",
+  "normalised_name": "string",
+  "available": true,
+  "conflicts": [
+    {
+      "board_id": "string",
+      "board_name": "string"
+    }
+  ]
+}
+
+```
+
+PlayerNameCheckResponse
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|name|string|true|none|Original name submitted|
+|normalised_name|string|true|none|Normalised name (lowercase, trimmed)|
+|available|boolean|true|none|Whether name is available on all checked boards|
+|conflicts|[[PlayerNameConflict](./schemas.md#playernameconflict)]|false|none|Boards where this name is already taken|
+
+## PlayerNameConflict
+
+```json
+{
+  "board_id": "string",
+  "board_name": "string"
+}
+
+```
+
+PlayerNameConflict
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|board_id|string|true|none|ID of the board with the conflict|
+|board_name|string|true|none|Name of the board with the conflict|
 
 ## RatioDisplay
 

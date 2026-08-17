@@ -9,6 +9,7 @@
 - [**domain**](./common.md#leadr.common.domain) –
 - [**geoip**](./common.md#leadr.common.geoip) – GeoIP service for IP address geolocation using MaxMind databases.
 - [**orm**](./common.md#leadr.common.orm) – Common ORM base classes and utilities.
+- [**ratelimit**](./common.md#leadr.common.ratelimit) – Rate limiting module for 4xx-based adaptive blocking.
 - [**repositories**](./common.md#leadr.common.repositories) – Base repository abstraction for common CRUD operations.
 - [**services**](./common.md#leadr.common.services) – Base service abstraction for common business logic patterns.
 - [**utils**](./common.md#leadr.common.utils) – Common utility functions.
@@ -1133,6 +1134,7 @@ Domain-specific exceptions for LEADR.
 - [**DomainError**](./common.md#leadr.common.domain.exceptions.DomainError) – Base exception for all domain-level errors.
 - [**EntityNotFoundError**](./common.md#leadr.common.domain.exceptions.EntityNotFoundError) – Raised when an entity cannot be found in the repository.
 - [**InvalidEntityStateError**](./common.md#leadr.common.domain.exceptions.InvalidEntityStateError) – Raised when an entity is in an invalid state for the requested operation.
+- [**PlayerNameConflictError**](./common.md#leadr.common.domain.exceptions.PlayerNameConflictError) – Raised when player name conflicts with existing entry on board.
 - [**ValidationError**](./common.md#leadr.common.domain.exceptions.ValidationError) – Raised when entity validation fails.
 
 ###### `leadr.common.domain.exceptions.DomainError`
@@ -1271,6 +1273,49 @@ message = message
 
 ```python
 reason = reason
+```
+
+###### `leadr.common.domain.exceptions.PlayerNameConflictError`
+
+```python
+PlayerNameConflictError(player_name)
+```
+
+Bases: <code>[DomainError](./common.md#leadr.common.domain.exceptions.DomainError)</code>
+
+Raised when player name conflicts with existing entry on board.
+
+This exception is raised when attempting to submit a score with a player
+name that is already in use by another identity on a board that has
+unique_player_names enabled.
+
+**Parameters:**
+
+- **player_name** (<code>[str](#str)</code>) – The player name that caused the conflict.
+
+<details class="example" open markdown="1">
+<summary>Example</summary>
+
+> > > raise PlayerNameConflictError("Alice")
+> > > PlayerNameConflictError: Player name 'Alice' is already in use on this board
+
+</details>
+
+**Attributes:**
+
+- [**message**](./common.md#leadr.common.domain.exceptions.PlayerNameConflictError.message) –
+- [**player_name**](#leadr.common.domain.exceptions.PlayerNameConflictError.player_name) –
+
+####### `leadr.common.domain.exceptions.PlayerNameConflictError.message`
+
+```python
+message = message
+```
+
+####### `leadr.common.domain.exceptions.PlayerNameConflictError.player_name`
+
+```python
+player_name = player_name
 ```
 
 ###### `leadr.common.domain.exceptions.ValidationError`
@@ -2540,6 +2585,174 @@ timestamp = Annotated[datetime, mapped_column(DateTime(timezone=True), nullable=
 ```python
 uuid_pk = Annotated[UUID, mapped_column(primary_key=True, default=uuid4, server_default=(func.gen_random_uuid()))]
 ```
+
+#### `leadr.common.ratelimit`
+
+Rate limiting module for 4xx-based adaptive blocking.
+
+**Modules:**
+
+- [**domain**](./common.md#leadr.common.ratelimit.domain) – Rate limit state domain model.
+- [**service**](./common.md#leadr.common.ratelimit.service) – Rate limit service using in-memory cache.
+
+##### `leadr.common.ratelimit.domain`
+
+Rate limit state domain model.
+
+**Classes:**
+
+- [**IPRateLimitState**](./common.md#leadr.common.ratelimit.domain.IPRateLimitState) – Tracks rate limit state for a single IP address.
+
+###### `leadr.common.ratelimit.domain.IPRateLimitState`
+
+```python
+IPRateLimitState(consecutive_4xx_count=0, blocked_until=None)
+```
+
+Tracks rate limit state for a single IP address.
+
+Used for 4xx-based adaptive rate limiting. When an IP accumulates
+too many consecutive 4xx responses, it gets temporarily blocked.
+
+**Functions:**
+
+- [**block_for_seconds**](#leadr.common.ratelimit.domain.IPRateLimitState.block_for_seconds) – Block for specified duration.
+- [**is_blocked**](#leadr.common.ratelimit.domain.IPRateLimitState.is_blocked) – Check if currently blocked.
+- [**record_4xx**](#leadr.common.ratelimit.domain.IPRateLimitState.record_4xx) – Increment counter on 4xx response.
+- [**record_success**](#leadr.common.ratelimit.domain.IPRateLimitState.record_success) – Reset counter on successful (non-4xx) response.
+
+**Attributes:**
+
+- [**blocked_until**](#leadr.common.ratelimit.domain.IPRateLimitState.blocked_until) (<code>[datetime](#datetime.datetime) | None</code>) –
+- [**consecutive_4xx_count**](#leadr.common.ratelimit.domain.IPRateLimitState.consecutive_4xx_count) (<code>[int](#int)</code>) –
+
+####### `leadr.common.ratelimit.domain.IPRateLimitState.block_for_seconds`
+
+```python
+block_for_seconds(seconds)
+```
+
+Block for specified duration.
+
+####### `leadr.common.ratelimit.domain.IPRateLimitState.blocked_until`
+
+```python
+blocked_until: datetime | None = None
+```
+
+####### `leadr.common.ratelimit.domain.IPRateLimitState.consecutive_4xx_count`
+
+```python
+consecutive_4xx_count: int = 0
+```
+
+####### `leadr.common.ratelimit.domain.IPRateLimitState.is_blocked`
+
+```python
+is_blocked()
+```
+
+Check if currently blocked.
+
+####### `leadr.common.ratelimit.domain.IPRateLimitState.record_4xx`
+
+```python
+record_4xx()
+```
+
+Increment counter on 4xx response.
+
+####### `leadr.common.ratelimit.domain.IPRateLimitState.record_success`
+
+```python
+record_success()
+```
+
+Reset counter on successful (non-4xx) response.
+
+##### `leadr.common.ratelimit.service`
+
+Rate limit service using in-memory cache.
+
+**Classes:**
+
+- [**RateLimitService**](./common.md#leadr.common.ratelimit.service.RateLimitService) – Manages per-IP rate limit state for 4xx-based adaptive blocking.
+
+###### `leadr.common.ratelimit.service.RateLimitService`
+
+```python
+RateLimitService(cache)
+```
+
+Manages per-IP rate limit state for 4xx-based adaptive blocking.
+
+Tracks consecutive 4xx responses per IP. When threshold is exceeded,
+the IP is blocked with exponential backoff.
+
+Uses in-memory cache by default. Cloud deployments can provide
+Redis-backed cache for distributed rate limiting.
+
+**Functions:**
+
+- [**check_and_update**](#leadr.common.ratelimit.service.RateLimitService.check_and_update) – Update state based on response status and check if blocked.
+- [**is_blocked**](#leadr.common.ratelimit.service.RateLimitService.is_blocked) – Check if an IP is currently blocked.
+
+**Attributes:**
+
+- [**CACHE_PREFIX**](#leadr.common.ratelimit.service.RateLimitService.CACHE_PREFIX) –
+- [**TTL_SECONDS**](#leadr.common.ratelimit.service.RateLimitService.TTL_SECONDS) –
+
+**Parameters:**
+
+- **cache** (<code>[InMemoryCache](./infra.md#leadr.infra.cache.adapters.memory.InMemoryCache)</code>) – Cache backend for storing rate limit state.
+
+####### `leadr.common.ratelimit.service.RateLimitService.CACHE_PREFIX`
+
+```python
+CACHE_PREFIX = 'ratelimit:ip:'
+```
+
+####### `leadr.common.ratelimit.service.RateLimitService.TTL_SECONDS`
+
+```python
+TTL_SECONDS = 3600
+```
+
+####### `leadr.common.ratelimit.service.RateLimitService.check_and_update`
+
+```python
+check_and_update(ip, status_code)
+```
+
+Update state based on response status and check if blocked.
+
+Call this after each response. 4xx responses increment the counter,
+other responses reset it. When threshold is exceeded, IP is blocked.
+
+**Parameters:**
+
+- **ip** (<code>[str](#str)</code>) – Client IP address.
+- **status_code** (<code>[int](#int)</code>) – HTTP response status code.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if IP is now blocked, False otherwise.
+
+####### `leadr.common.ratelimit.service.RateLimitService.is_blocked`
+
+```python
+is_blocked(ip)
+```
+
+Check if an IP is currently blocked.
+
+**Parameters:**
+
+- **ip** (<code>[str](#str)</code>) – Client IP address.
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if IP is blocked, False otherwise.
 
 #### `leadr.common.repositories`
 

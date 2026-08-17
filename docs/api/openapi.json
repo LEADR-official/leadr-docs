@@ -3,7 +3,7 @@
   "info": {
     "title": "LEADR Open-Source Edition - Admin & Client API",
     "description": "LEADR Open-Source Edition is the free cross-platform leaderboard backend for game devs",
-    "version": "0.9.5"
+    "version": "0.9.6"
   },
   "paths": {
     "/v1/accounts": {
@@ -7742,6 +7742,133 @@
         }
       }
     },
+    "/v1/client/player-names/check": {
+      "get": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Check Player Name",
+        "description": "Check if a player name is available before gameplay.\n\nChecks whether the given player name is available on boards that have\nunique_player_names enabled. This allows games to validate names early,\nbefore gameplay begins.\n\nArgs:\n    name: The player name to check.\n    auth: Client authentication context.\n    service: Injected score service.\n    board_service: Injected board service.\n    board_ids: Optional comma-separated board IDs to check. If omitted,\n        checks all boards for the game that have unique_player_names enabled.\n\nReturns:\n    PlayerNameCheckResponse with availability status and any conflicts.",
+        "operationId": "check_player_name_v1_client_player_names_check_get",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Player name to check",
+              "title": "Name"
+            },
+            "description": "Player name to check"
+          },
+          {
+            "name": "board_ids",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Comma-separated board IDs to check. If omitted, checks all game boards.",
+              "title": "Board Ids"
+            },
+            "description": "Comma-separated board IDs to check. If omitted, checks all game boards."
+          },
+          {
+            "name": "account_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Account Id"
+            }
+          },
+          {
+            "name": "leadr-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Api-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "leadr-client-nonce",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Leadr-Client-Nonce"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayerNameCheckResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/client/scores/{score_id}": {
       "get": {
         "tags": [
@@ -8555,6 +8682,12 @@
             "description": "Whether the board is published and visible on public web views",
             "default": true
           },
+          "unique_player_names": {
+            "type": "boolean",
+            "title": "Unique Player Names",
+            "description": "Whether player names must be unique on this board (case-insensitive)",
+            "default": false
+          },
           "sort_direction": {
             "$ref": "#/components/schemas/SortDirection",
             "description": "Direction to sort scores",
@@ -8879,6 +9012,12 @@
             "type": "boolean",
             "title": "Is Published",
             "description": "Whether the board is published and visible on public web views"
+          },
+          "unique_player_names": {
+            "type": "boolean",
+            "title": "Unique Player Names",
+            "description": "Whether player names must be unique on this board (case-insensitive)",
+            "default": false
           },
           "sort_direction": {
             "$ref": "#/components/schemas/SortDirection",
@@ -9768,6 +9907,18 @@
             ],
             "title": "Is Published",
             "description": "Updated published status"
+          },
+          "unique_player_names": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unique Player Names",
+            "description": "Whether player names must be unique on this board (case-insensitive)"
           },
           "sort_direction": {
             "anyOf": [
@@ -11712,6 +11863,62 @@
         ],
         "title": "PaginationMeta",
         "description": "Pagination metadata in API responses."
+      },
+      "PlayerNameCheckResponse": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Original name submitted"
+          },
+          "normalised_name": {
+            "type": "string",
+            "title": "Normalised Name",
+            "description": "Normalised name (lowercase, trimmed)"
+          },
+          "available": {
+            "type": "boolean",
+            "title": "Available",
+            "description": "Whether name is available on all checked boards"
+          },
+          "conflicts": {
+            "items": {
+              "$ref": "#/components/schemas/PlayerNameConflict"
+            },
+            "type": "array",
+            "title": "Conflicts",
+            "description": "Boards where this name is already taken"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "normalised_name",
+          "available"
+        ],
+        "title": "PlayerNameCheckResponse",
+        "description": "Response for player name availability check."
+      },
+      "PlayerNameConflict": {
+        "properties": {
+          "board_id": {
+            "type": "string",
+            "title": "Board Id",
+            "description": "ID of the board with the conflict"
+          },
+          "board_name": {
+            "type": "string",
+            "title": "Board Name",
+            "description": "Name of the board with the conflict"
+          }
+        },
+        "type": "object",
+        "required": [
+          "board_id",
+          "board_name"
+        ],
+        "title": "PlayerNameConflict",
+        "description": "A board where the player name conflicts."
       },
       "RatioDisplay": {
         "type": "string",

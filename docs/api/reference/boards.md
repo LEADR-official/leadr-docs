@@ -66,6 +66,7 @@ active boards only.
 - [**starts_at**](#leadr.boards.adapters.orm.BoardORM.starts_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[datetime](#datetime.datetime) | None\]</code>) –
 - [**tags**](./boards.md#leadr.boards.adapters.orm.BoardORM.tags) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[list](#list)\[[str](#str)\]\]</code>) –
 - [**template_name**](#leadr.boards.adapters.orm.BoardORM.template_name) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
+- [**unique_player_names**](#leadr.boards.adapters.orm.BoardORM.unique_player_names) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[bool](#bool)\]</code>) –
 - [**unit**](./boards.md#leadr.boards.adapters.orm.BoardORM.unit) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[str](#str) | None\]</code>) –
 - [**updated_at**](#leadr.boards.adapters.orm.BoardORM.updated_at) (<code>[Mapped](#sqlalchemy.orm.Mapped)\[[timestamp](./common.md#leadr.common.orm.timestamp)\]</code>) –
 
@@ -199,6 +200,12 @@ tags: Mapped[list[str]] = mapped_column(ARRAY(String), nullable=False, default=l
 
 ```python
 template_name: Mapped[str | None] = mapped_column(String, nullable=True, default=None)
+```
+
+####### `leadr.boards.adapters.orm.BoardORM.unique_player_names`
+
+```python
+unique_player_names: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default=(sa.text('false')))
 ```
 
 ####### `leadr.boards.adapters.orm.BoardORM.unit`
@@ -1336,6 +1343,7 @@ Request model for creating a board.
 - [**starts_at**](#leadr.boards.api.board_schemas.BoardCreateRequest.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**tags**](#leadr.boards.api.board_schemas.BoardCreateRequest.tags) (<code>[list](#list)\[[str](#str)\] | None</code>) –
 - [**template_name**](#leadr.boards.api.board_schemas.BoardCreateRequest.template_name) (<code>[str](#str) | None</code>) –
+- [**unique_player_names**](#leadr.boards.api.board_schemas.BoardCreateRequest.unique_player_names) (<code>[bool](#bool)</code>) –
 - [**unit**](#leadr.boards.api.board_schemas.BoardCreateRequest.unit) (<code>[str](#str) | None</code>) –
 
 ####### `leadr.boards.api.board_schemas.BoardCreateRequest.account_id`
@@ -1444,6 +1452,12 @@ tags: list[str] | None = Field(default=None, description='Optional list of tags 
 
 ```python
 template_name: str | None = Field(default=None, description='Optional template name this board was created from')
+```
+
+####### `leadr.boards.api.board_schemas.BoardCreateRequest.unique_player_names`
+
+```python
+unique_player_names: bool = Field(default=False, description='Whether player names must be unique on this board (case-insensitive)')
 ```
 
 ####### `leadr.boards.api.board_schemas.BoardCreateRequest.unit`
@@ -1661,6 +1675,7 @@ Response model for a board.
 - [**starts_at**](#leadr.boards.api.board_schemas.BoardResponse.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**tags**](#leadr.boards.api.board_schemas.BoardResponse.tags) (<code>[list](#list)\[[str](#str)\]</code>) –
 - [**template_name**](#leadr.boards.api.board_schemas.BoardResponse.template_name) (<code>[str](#str) | None</code>) –
+- [**unique_player_names**](#leadr.boards.api.board_schemas.BoardResponse.unique_player_names) (<code>[bool](#bool)</code>) –
 - [**unit**](#leadr.boards.api.board_schemas.BoardResponse.unit) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.boards.api.board_schemas.BoardResponse.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 - [**url_short**](#leadr.boards.api.board_schemas.BoardResponse.url_short) (<code>[str](#str) | None</code>) – Short URL for direct board access via short_code.
@@ -1802,6 +1817,12 @@ tags: list[str] = Field(default_factory=list, description='List of tags for cate
 template_name: str | None = Field(default=None, description='Template name this board was created from, or null')
 ```
 
+####### `leadr.boards.api.board_schemas.BoardResponse.unique_player_names`
+
+```python
+unique_player_names: bool = Field(default=False, description='Whether player names must be unique on this board (case-insensitive)')
+```
+
 ####### `leadr.boards.api.board_schemas.BoardResponse.unit`
 
 ```python
@@ -1849,6 +1870,7 @@ Request model for updating a board.
 - [**starts_at**](#leadr.boards.api.board_schemas.BoardUpdateRequest.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**tags**](#leadr.boards.api.board_schemas.BoardUpdateRequest.tags) (<code>[list](#list)\[[str](#str)\] | None</code>) –
 - [**template_name**](#leadr.boards.api.board_schemas.BoardUpdateRequest.template_name) (<code>[str](#str) | None</code>) –
+- [**unique_player_names**](#leadr.boards.api.board_schemas.BoardUpdateRequest.unique_player_names) (<code>[bool](#bool) | None</code>) –
 - [**unit**](#leadr.boards.api.board_schemas.BoardUpdateRequest.unit) (<code>[str](#str) | None</code>) –
 
 ####### `leadr.boards.api.board_schemas.BoardUpdateRequest.board_type`
@@ -1945,6 +1967,12 @@ tags: list[str] | None = Field(default=None, description='Updated tags list')
 
 ```python
 template_name: str | None = Field(default=None, description='Updated template name')
+```
+
+####### `leadr.boards.api.board_schemas.BoardUpdateRequest.unique_player_names`
+
+```python
+unique_player_names: bool | None = Field(default=None, description='Whether player names must be unique on this board (case-insensitive)')
 ```
 
 ####### `leadr.boards.api.board_schemas.BoardUpdateRequest.unit`
@@ -2943,6 +2971,7 @@ tags for categorization.
 - [**starts_at**](#leadr.boards.domain.board.Board.starts_at) (<code>[datetime](#datetime.datetime) | None</code>) –
 - [**tags**](./boards.md#leadr.boards.domain.board.Board.tags) (<code>[list](#list)\[[str](#str)\]</code>) –
 - [**template_name**](#leadr.boards.domain.board.Board.template_name) (<code>[str](#str) | None</code>) –
+- [**unique_player_names**](#leadr.boards.domain.board.Board.unique_player_names) (<code>[bool](#bool)</code>) –
 - [**unit**](./boards.md#leadr.boards.domain.board.Board.unit) (<code>[str](#str) | None</code>) –
 - [**updated_at**](#leadr.boards.domain.board.Board.updated_at) (<code>[datetime](#datetime.datetime)</code>) –
 
@@ -3121,6 +3150,12 @@ tags: list[str] = Field(default_factory=list, description='List of tags for cate
 
 ```python
 template_name: str | None = Field(default=None, description='Optional name of the template this board was created from')
+```
+
+####### `leadr.boards.domain.board.Board.unique_player_names`
+
+```python
+unique_player_names: bool = Field(default=False, description='Whether player names must be unique on this board (case-insensitive)')
 ```
 
 ####### `leadr.boards.domain.board.Board.unit`
@@ -4743,7 +4778,7 @@ Ensures business rules like game validation are enforced.
 ####### `leadr.boards.services.board_service.BoardService.create_board`
 
 ```python
-create_board(account_id, game_id, name, icon='fa-crown', unit=None, is_active=True, is_published=True, sort_direction=SortDirection.DESCENDING, board_type=BoardType.RUN_IDENTITY, keep_strategy=KeepStrategy.BEST, slug=None, short_code=None, created_from_template_id=None, template_name=None, starts_at=None, ends_at=None, tags=None, description=None)
+create_board(account_id, game_id, name, icon='fa-crown', unit=None, is_active=True, is_published=True, unique_player_names=False, sort_direction=SortDirection.DESCENDING, board_type=BoardType.RUN_IDENTITY, keep_strategy=KeepStrategy.BEST, slug=None, short_code=None, created_from_template_id=None, template_name=None, starts_at=None, ends_at=None, tags=None, description=None)
 ```
 
 Create a new board.
@@ -4758,6 +4793,8 @@ Create a new board.
 - **is_active** (<code>[bool](#bool)</code>) – Whether the board is currently active. Defaults to True.
 - **is_published** (<code>[bool](#bool)</code>) – Whether the board is published and visible on public web views.
   Defaults to True.
+- **unique_player_names** (<code>[bool](#bool)</code>) – Whether player names must be unique on this board
+  (case-insensitive). Defaults to False.
 - **sort_direction** (<code>[SortDirection](./boards.md#leadr.boards.domain.board.SortDirection)</code>) – Direction to sort scores. Defaults to DESCENDING.
 - **keep_strategy** (<code>[KeepStrategy](./boards.md#leadr.boards.domain.board.KeepStrategy)</code>) – Strategy for keeping multiple scores from same user. Defaults to ALL.
 - **slug** (<code>[str](#str) | None</code>) – Optional URL-friendly slug. If not provided, auto-generated from name.
@@ -6074,6 +6111,7 @@ Each identity has at most one state per board.
 - [**get_by_board_and_identity**](#leadr.boards.services.repositories.BoardStateRepository.get_by_board_and_identity) – Get a board state by board and identity.
 - [**get_by_id**](#leadr.boards.services.repositories.BoardStateRepository.get_by_id) – Get an entity by its ID.
 - [**get_rank**](#leadr.boards.services.repositories.BoardStateRepository.get_rank) – Compute rank for a board state using COUNT approach.
+- [**is_player_name_available**](#leadr.boards.services.repositories.BoardStateRepository.is_player_name_available) – Check if a player name is available on a board (case-insensitive).
 - [**update**](./boards.md#leadr.boards.services.repositories.BoardStateRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
@@ -6247,6 +6285,26 @@ same multi-field comparison logic used for sorting.
 
 - <code>[int](#int)</code> – Rank (1-indexed, where 1 is the best).
 
+####### `leadr.boards.services.repositories.BoardStateRepository.is_player_name_available`
+
+```python
+is_player_name_available(board_id, player_name, exclude_identity_id=None)
+```
+
+Check if a player name is available on a board (case-insensitive).
+
+For RUN_IDENTITY/COUNTER boards that use BoardState table.
+
+**Parameters:**
+
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – The board to check.
+- **player_name** (<code>[str](#str)</code>) – The player name to check.
+- **exclude_identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity to exclude (allows name reuse by owner).
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if name is available, False if taken by another identity.
+
 ####### `leadr.boards.services.repositories.BoardStateRepository.session`
 
 ```python
@@ -6417,6 +6475,7 @@ where every submission is ranked.
 - [**get_by_board_and_score_event**](#leadr.boards.services.repositories.RunEntryRepository.get_by_board_and_score_event) – Get a run entry by board and score event.
 - [**get_by_id**](#leadr.boards.services.repositories.RunEntryRepository.get_by_id) – Get an entity by its ID.
 - [**get_rank**](#leadr.boards.services.repositories.RunEntryRepository.get_rank) – Compute rank for a run entry using COUNT approach.
+- [**is_player_name_available**](#leadr.boards.services.repositories.RunEntryRepository.is_player_name_available) – Check if a player name is available on a board (case-insensitive).
 - [**update**](./boards.md#leadr.boards.services.repositories.RunEntryRepository.update) – Update an existing entity in the database.
 
 **Attributes:**
@@ -6589,6 +6648,26 @@ same multi-field comparison logic used for sorting.
 **Returns:**
 
 - <code>[int](#int)</code> – Rank (1-indexed, where 1 is the best).
+
+####### `leadr.boards.services.repositories.RunEntryRepository.is_player_name_available`
+
+```python
+is_player_name_available(board_id, player_name, exclude_identity_id=None)
+```
+
+Check if a player name is available on a board (case-insensitive).
+
+For RUN_RUNS boards that use RunEntry table.
+
+**Parameters:**
+
+- **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – The board to check.
+- **player_name** (<code>[str](#str)</code>) – The player name to check.
+- **exclude_identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity to exclude (allows name reuse by owner).
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if name is available, False if taken by another identity.
 
 ####### `leadr.boards.services.repositories.RunEntryRepository.session`
 

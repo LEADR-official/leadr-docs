@@ -670,6 +670,109 @@ Raises:
 !!! success
     This operation does not require authentication
 
+## Check Player Name
+
+=== "Python"
+
+    ```python
+    import requests
+    headers = {
+      'Accept': 'application/json',
+      'leadr-api-key': 'string',
+      'authorization': 'string',
+      'leadr-client-nonce': 'string'
+    }
+
+    r = requests.get('/v1/client/player-names/check', params={
+      'name': 'string'
+    }, headers = headers)
+
+    print(r.json())
+
+    ```
+
+=== "JavaScript"
+
+    ```javascript
+
+    const headers = {
+      'Accept':'application/json',
+      'leadr-api-key':'string',
+      'authorization':'string',
+      'leadr-client-nonce':'string'
+    };
+
+    fetch('/v1/client/player-names/check?name=string',
+    {
+      method: 'GET',
+
+      headers: headers
+    })
+    .then(function(res) {
+        return res.json();
+    }).then(function(body) {
+        console.log(body);
+    });
+
+    ```
+`GET /v1/client/player-names/check`
+
+Check if a player name is available before gameplay.
+
+Checks whether the given player name is available on boards that have
+unique_player_names enabled. This allows games to validate names early,
+before gameplay begins.
+
+Args:
+    name: The player name to check.
+    auth: Client authentication context.
+    service: Injected score service.
+    board_service: Injected board service.
+    board_ids: Optional comma-separated board IDs to check. If omitted,
+        checks all boards for the game that have unique_player_names enabled.
+
+Returns:
+    PlayerNameCheckResponse with availability status and any conflicts.
+
+### Parameters
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|name|query|string|true|Player name to check|
+|board_ids|query|any|false|Comma-separated board IDs to check. If omitted, checks all game boards.|
+|account_id|query|any|false|none|
+|leadr-api-key|header|any|false|none|
+|authorization|header|any|false|none|
+|leadr-client-nonce|header|any|false|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "name": "string",
+  "normalised_name": "string",
+  "available": true,
+  "conflicts": [
+    {
+      "board_id": "string",
+      "board_name": "string"
+    }
+  ]
+}
+```
+
+### Responses
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful Response|[PlayerNameCheckResponse](./schemas.md#playernamecheckresponse)|
+|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|Validation Error|[HTTPValidationError](./schemas.md#httpvalidationerror)|
+
+!!! success
+    This operation does not require authentication
+
 ## Get Score Client
 
 === "Python"

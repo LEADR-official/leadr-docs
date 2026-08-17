@@ -124,6 +124,10 @@ field names (case-sensitive).
 - [**MAXMIND_CITY_DB_URL**](#leadr.config.CommonSettings.MAXMIND_CITY_DB_URL) (<code>[str](#str)</code>) –
 - [**MAXMIND_COUNTRY_DB_URL**](#leadr.config.CommonSettings.MAXMIND_COUNTRY_DB_URL) (<code>[str](#str)</code>) –
 - [**MAXMIND_LICENSE_KEY**](#leadr.config.CommonSettings.MAXMIND_LICENSE_KEY) (<code>[str](#str)</code>) –
+- [**RATELIMIT_4XX_THRESHOLD**](#leadr.config.CommonSettings.RATELIMIT_4XX_THRESHOLD) (<code>[int](#int)</code>) –
+- [**RATELIMIT_ENABLED**](#leadr.config.CommonSettings.RATELIMIT_ENABLED) (<code>[bool](#bool)</code>) –
+- [**RATELIMIT_INITIAL_BLOCK_SECONDS**](#leadr.config.CommonSettings.RATELIMIT_INITIAL_BLOCK_SECONDS) (<code>[int](#int)</code>) –
+- [**RATELIMIT_MAX_BLOCK_SECONDS**](#leadr.config.CommonSettings.RATELIMIT_MAX_BLOCK_SECONDS) (<code>[int](#int)</code>) –
 - [**REFRESH_TOKEN_EXPIRY_DAYS**](#leadr.config.CommonSettings.REFRESH_TOKEN_EXPIRY_DAYS) (<code>[int](#int)</code>) –
 - [**REGISTRATION_RATE_LIMIT_PER_HOUR**](#leadr.config.CommonSettings.REGISTRATION_RATE_LIMIT_PER_HOUR) (<code>[int](#int)</code>) –
 - [**SCORE_METADATA_MAX_SIZE_BYTES**](#leadr.config.CommonSettings.SCORE_METADATA_MAX_SIZE_BYTES) (<code>[int](#int)</code>) –
@@ -548,6 +552,30 @@ MAXMIND_COUNTRY_DB_URL: str = Field(default='https://download.maxmind.com/geoip/
 MAXMIND_LICENSE_KEY: str = Field(default='', description='MaxMind license key for database downloads (used for basic auth)')
 ```
 
+##### `leadr.config.CommonSettings.RATELIMIT_4XX_THRESHOLD`
+
+```python
+RATELIMIT_4XX_THRESHOLD: int = Field(default=10, description='Number of consecutive 4xx responses before blocking an IP')
+```
+
+##### `leadr.config.CommonSettings.RATELIMIT_ENABLED`
+
+```python
+RATELIMIT_ENABLED: bool = Field(default=True, description='Enable 4xx-based adaptive rate limiting middleware')
+```
+
+##### `leadr.config.CommonSettings.RATELIMIT_INITIAL_BLOCK_SECONDS`
+
+```python
+RATELIMIT_INITIAL_BLOCK_SECONDS: int = Field(default=60, description='Initial block duration in seconds after threshold exceeded')
+```
+
+##### `leadr.config.CommonSettings.RATELIMIT_MAX_BLOCK_SECONDS`
+
+```python
+RATELIMIT_MAX_BLOCK_SECONDS: int = Field(default=3600, description='Maximum block duration in seconds (with exponential backoff)')
+```
+
 ##### `leadr.config.CommonSettings.REFRESH_TOKEN_EXPIRY_DAYS`
 
 ```python
@@ -746,6 +774,10 @@ This is the default settings class used when ENV != 'TEST'.
 - [**MAXMIND_CITY_DB_URL**](#leadr.config.Settings.MAXMIND_CITY_DB_URL) (<code>[str](#str)</code>) –
 - [**MAXMIND_COUNTRY_DB_URL**](#leadr.config.Settings.MAXMIND_COUNTRY_DB_URL) (<code>[str](#str)</code>) –
 - [**MAXMIND_LICENSE_KEY**](#leadr.config.Settings.MAXMIND_LICENSE_KEY) (<code>[str](#str)</code>) –
+- [**RATELIMIT_4XX_THRESHOLD**](#leadr.config.Settings.RATELIMIT_4XX_THRESHOLD) (<code>[int](#int)</code>) –
+- [**RATELIMIT_ENABLED**](#leadr.config.Settings.RATELIMIT_ENABLED) (<code>[bool](#bool)</code>) –
+- [**RATELIMIT_INITIAL_BLOCK_SECONDS**](#leadr.config.Settings.RATELIMIT_INITIAL_BLOCK_SECONDS) (<code>[int](#int)</code>) –
+- [**RATELIMIT_MAX_BLOCK_SECONDS**](#leadr.config.Settings.RATELIMIT_MAX_BLOCK_SECONDS) (<code>[int](#int)</code>) –
 - [**REFRESH_TOKEN_EXPIRY_DAYS**](#leadr.config.Settings.REFRESH_TOKEN_EXPIRY_DAYS) (<code>[int](#int)</code>) –
 - [**REGISTRATION_RATE_LIMIT_PER_HOUR**](#leadr.config.Settings.REGISTRATION_RATE_LIMIT_PER_HOUR) (<code>[int](#int)</code>) –
 - [**SCORE_METADATA_MAX_SIZE_BYTES**](#leadr.config.Settings.SCORE_METADATA_MAX_SIZE_BYTES) (<code>[int](#int)</code>) –
@@ -849,6 +881,10 @@ Test-specific overrides can be added here.
 - [**MAXMIND_CITY_DB_URL**](#leadr.config.TestSettings.MAXMIND_CITY_DB_URL) (<code>[str](#str)</code>) –
 - [**MAXMIND_COUNTRY_DB_URL**](#leadr.config.TestSettings.MAXMIND_COUNTRY_DB_URL) (<code>[str](#str)</code>) –
 - [**MAXMIND_LICENSE_KEY**](#leadr.config.TestSettings.MAXMIND_LICENSE_KEY) (<code>[str](#str)</code>) –
+- [**RATELIMIT_4XX_THRESHOLD**](#leadr.config.TestSettings.RATELIMIT_4XX_THRESHOLD) (<code>[int](#int)</code>) –
+- [**RATELIMIT_ENABLED**](#leadr.config.TestSettings.RATELIMIT_ENABLED) (<code>[bool](#bool)</code>) –
+- [**RATELIMIT_INITIAL_BLOCK_SECONDS**](#leadr.config.TestSettings.RATELIMIT_INITIAL_BLOCK_SECONDS) (<code>[int](#int)</code>) –
+- [**RATELIMIT_MAX_BLOCK_SECONDS**](#leadr.config.TestSettings.RATELIMIT_MAX_BLOCK_SECONDS) (<code>[int](#int)</code>) –
 - [**REFRESH_TOKEN_EXPIRY_DAYS**](#leadr.config.TestSettings.REFRESH_TOKEN_EXPIRY_DAYS) (<code>[int](#int)</code>) –
 - [**REGISTRATION_RATE_LIMIT_PER_HOUR**](#leadr.config.TestSettings.REGISTRATION_RATE_LIMIT_PER_HOUR) (<code>[int](#int)</code>) –
 - [**SCORE_METADATA_MAX_SIZE_BYTES**](#leadr.config.TestSettings.SCORE_METADATA_MAX_SIZE_BYTES) (<code>[int](#int)</code>) –
@@ -1271,6 +1307,30 @@ MAXMIND_COUNTRY_DB_URL: str = Field(default='https://download.maxmind.com/geoip/
 
 ```python
 MAXMIND_LICENSE_KEY: str = Field(default='', description='MaxMind license key for database downloads (used for basic auth)')
+```
+
+##### `leadr.config.TestSettings.RATELIMIT_4XX_THRESHOLD`
+
+```python
+RATELIMIT_4XX_THRESHOLD: int = Field(default=10, description='Number of consecutive 4xx responses before blocking an IP')
+```
+
+##### `leadr.config.TestSettings.RATELIMIT_ENABLED`
+
+```python
+RATELIMIT_ENABLED: bool = Field(default=True, description='Enable 4xx-based adaptive rate limiting middleware')
+```
+
+##### `leadr.config.TestSettings.RATELIMIT_INITIAL_BLOCK_SECONDS`
+
+```python
+RATELIMIT_INITIAL_BLOCK_SECONDS: int = Field(default=60, description='Initial block duration in seconds after threshold exceeded')
+```
+
+##### `leadr.config.TestSettings.RATELIMIT_MAX_BLOCK_SECONDS`
+
+```python
+RATELIMIT_MAX_BLOCK_SECONDS: int = Field(default=3600, description='Maximum block duration in seconds (with exponential backoff)')
 ```
 
 ##### `leadr.config.TestSettings.REFRESH_TOKEN_EXPIRY_DAYS`
