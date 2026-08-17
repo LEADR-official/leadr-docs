@@ -993,6 +993,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#unique-player-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unique Player Names
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1920,6 +1929,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#unique-player-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unique Player Names
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2052,6 +2070,13 @@
 <td>Yes</td>
 <td>Whether to generate a web page for this board</td>
 </tr>
+<tr>
+<td><strong>Unique Names</strong></td>
+<td>No</td>
+<td><code>No</code></td>
+<td>No</td>
+<td>Enforce unique player names (case-insensitive)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="board-types">Board Types<a class="headerlink" href="#board-types" title="Permanent link">&para;</a></h2>
@@ -2129,6 +2154,15 @@
 <li><strong>Ratio</strong>: No direct submissions (calculated from Counter boards)</li>
 </ul>
 </div>
+<h2 id="unique-player-names">Unique Player Names<a class="headerlink" href="#unique-player-names" title="Permanent link">&para;</a></h2>
+<p>When enabled, each player name on the board must be unique (case-insensitive). If a player submits a score with a name already used by another player, the submission is rejected with a 409 Conflict error.</p>
+<ul>
+<li>The same identity can reuse their own name between submissions</li>
+<li>Existing duplicate names are grandfathered when enabling</li>
+<li>Names are compared case-insensitively ("John" = "john" = "JOHN")</li>
+<li>Leading/trailing whitespace is normalized</li>
+</ul>
+<p>This is useful for boards where you want to ensure each display name represents a unique player, preventing impersonation or confusion.</p>
 <hr />
 <p><em>Need Help? The LEADR team and community is always happy to help on the <a href="https://discord.gg/RMUukcAxSZ">LEADR Discord</a></em></p>
 
