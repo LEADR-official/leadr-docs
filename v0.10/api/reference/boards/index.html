@@ -2481,6 +2481,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrboardsadaptersormboardtemplateormunique_player_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.adapters.orm.BoardTemplateORM.unique_player_names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrboardsadaptersormboardtemplateormunit" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.adapters.orm.BoardTemplateORM.unit
@@ -4179,6 +4188,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestunique_player_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unique_player_names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestunit" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unit
@@ -4386,6 +4404,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrboardsapiboard_template_schemasboardtemplateresponseunique_player_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.api.board_template_schemas.BoardTemplateResponse.unique_player_names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrboardsapiboard_template_schemasboardtemplateresponseunit" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.api.board_template_schemas.BoardTemplateResponse.unit
@@ -4551,6 +4578,15 @@
   <a href="#leadrboardsapiboard_template_schemasboardtemplateupdaterequesttags" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.tags
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrboardsapiboard_template_schemasboardtemplateupdaterequestunique_player_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unique_player_names
     </span>
   </a>
   
@@ -5871,6 +5907,15 @@
   <a href="#leadrboardsdomainboard_templateboardtemplatetags" class="md-nav__link">
     <span class="md-ellipsis">
       # leadr.boards.domain.board_template.BoardTemplate.tags
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrboardsdomainboard_templateboardtemplateunique_player_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      # leadr.boards.domain.board_template.BoardTemplate.unique_player_names
     </span>
   </a>
   
@@ -7895,6 +7940,7 @@ Uses JSONB column for config to support flexible procedural generation configura
 <li><a href="#leadr.boards.adapters.orm.BoardTemplateORM.sort_direction"><strong>sort_direction</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a>]</code>) –</li>
 <li><a href="#leadr.boards.adapters.orm.BoardTemplateORM.starts_at"><strong>starts_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#datetime.datetime">datetime</a> | None]</code>) –</li>
 <li><a href="./#leadr.boards.adapters.orm.BoardTemplateORM.tags"><strong>tags</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#list">list</a>[<a href="#str">str</a>]]</code>) –</li>
+<li><a href="#leadr.boards.adapters.orm.BoardTemplateORM.unique_player_names"><strong>unique_player_names</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#bool">bool</a>]</code>) –</li>
 <li><a href="./#leadr.boards.adapters.orm.BoardTemplateORM.unit"><strong>unit</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="#str">str</a> | None]</code>) –</li>
 <li><a href="#leadr.boards.adapters.orm.BoardTemplateORM.updated_at"><strong>updated_at</strong></a> (<code><a href="#sqlalchemy.orm.Mapped">Mapped</a>[<a href="../common/#leadr.common.orm.timestamp">timestamp</a>]</code>) –</li>
 </ul>
@@ -7987,6 +8033,9 @@ Uses JSONB column for config to support flexible procedural generation configura
 <ul>
 <li><code><a href="#leadr.boards.domain.board_template.BoardTemplate">BoardTemplate</a></code> – BoardTemplate domain entity with all fields populated from ORM model.</li>
 </ul>
+<h6 id="leadrboardsadaptersormboardtemplateormunique_player_names"># <code>leadr.boards.adapters.orm.BoardTemplateORM.unique_player_names</code><a class="headerlink" href="#leadrboardsadaptersormboardtemplateormunique_player_names" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">unique_player_names</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">Boolean</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">server_default</span><span class="o">=</span><span class="p">(</span><span class="n">sa</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s1">&#39;false&#39;</span><span class="p">)))</span>
+</code></pre></div>
 <h6 id="leadrboardsadaptersormboardtemplateormunit"># <code>leadr.boards.adapters.orm.BoardTemplateORM.unit</code><a class="headerlink" href="#leadrboardsadaptersormboardtemplateormunit" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">unit</span><span class="p">:</span> <span class="n">Mapped</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapped_column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
@@ -9090,6 +9139,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.sort_direction"><strong>sort_direction</strong></a> (<code><a href="./#leadr.boards.domain.board.SortDirection">SortDirection</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.starts_at"><strong>starts_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.tags"><strong>tags</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>] | None</code>) –</li>
+<li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unique_player_names"><strong>unique_player_names</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unit"><strong>unit</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 </ul>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequestaccount_id"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.account_id</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestaccount_id" title="Permanent link">&para;</a></h6>
@@ -9146,6 +9196,9 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequesttags"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.tags</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequesttags" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;List of tags for categorizing boards created from this template&#39;</span><span class="p">)</span>
 </code></pre></div>
+<h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequestunique_player_names"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unique_player_names</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestunique_player_names" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">unique_player_names</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether player names must be unique on boards created from this template&#39;</span><span class="p">)</span>
+</code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplatecreaterequestunit"># <code>leadr.boards.api.board_template_schemas.BoardTemplateCreateRequest.unit</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplatecreaterequestunit" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unit of measurement for scores (e.g., &#39;seconds&#39;, &#39;points&#39;)&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -9178,6 +9231,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.sort_direction"><strong>sort_direction</strong></a> (<code><a href="./#leadr.boards.domain.board.SortDirection">SortDirection</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.starts_at"><strong>starts_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.tags"><strong>tags</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.unique_player_names"><strong>unique_player_names</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.unit"><strong>unit</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateResponse.updated_at"><strong>updated_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
 </ul>
@@ -9253,6 +9307,9 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateresponsetags"># <code>leadr.boards.api.board_template_schemas.BoardTemplateResponse.tags</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateresponsetags" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;List of tags for categorizing boards created from this template&#39;</span><span class="p">)</span>
 </code></pre></div>
+<h6 id="leadrboardsapiboard_template_schemasboardtemplateresponseunique_player_names"># <code>leadr.boards.api.board_template_schemas.BoardTemplateResponse.unique_player_names</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateresponseunique_player_names" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">unique_player_names</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether player names must be unique on boards created from this template&#39;</span><span class="p">)</span>
+</code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateresponseunit"># <code>leadr.boards.api.board_template_schemas.BoardTemplateResponse.unit</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateresponseunit" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unit of measurement for scores (e.g., &#39;seconds&#39;, &#39;points&#39;)&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -9280,6 +9337,7 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.sort_direction"><strong>sort_direction</strong></a> (<code><a href="./#leadr.boards.domain.board.SortDirection">SortDirection</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.starts_at"><strong>starts_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.tags"><strong>tags</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>] | None</code>) –</li>
+<li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unique_player_names"><strong>unique_player_names</strong></a> (<code><a href="#bool">bool</a> | None</code>) –</li>
 <li><a href="#leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unit"><strong>unit</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 </ul>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateupdaterequestconfig"># <code>leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.config</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateupdaterequestconfig" title="Permanent link">&para;</a></h6>
@@ -9329,6 +9387,9 @@ GET /v1/board-templates?account_id=acc_123&game_id=gam_456&limit=50&sort=name:as
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateupdaterequesttags"># <code>leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.tags</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateupdaterequesttags" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Updated tags list&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrboardsapiboard_template_schemasboardtemplateupdaterequestunique_player_names"># <code>leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unique_player_names</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateupdaterequestunique_player_names" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">unique_player_names</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether player names must be unique on boards created from this template&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrboardsapiboard_template_schemasboardtemplateupdaterequestunit"># <code>leadr.boards.api.board_template_schemas.BoardTemplateUpdateRequest.unit</code><a class="headerlink" href="#leadrboardsapiboard_template_schemasboardtemplateupdaterequestunit" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Updated unit of measurement&#39;</span><span class="p">)</span>
@@ -10115,6 +10176,7 @@ generation. Templates can be activated/deactivated and track the next scheduled 
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.sort_direction"><strong>sort_direction</strong></a> (<code><a href="./#leadr.boards.domain.board.SortDirection">SortDirection</a></code>) –</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.starts_at"><strong>starts_at</strong></a> (<code><a href="#datetime.datetime">datetime</a> | None</code>) –</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.tags"><strong>tags</strong></a> (<code><a href="#list">list</a>[<a href="#str">str</a>]</code>) –</li>
+<li><a href="#leadr.boards.domain.board_template.BoardTemplate.unique_player_names"><strong>unique_player_names</strong></a> (<code><a href="#bool">bool</a></code>) –</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.unit"><strong>unit</strong></a> (<code><a href="#str">str</a> | None</code>) –</li>
 <li><a href="#leadr.boards.domain.board_template.BoardTemplate.updated_at"><strong>updated_at</strong></a> (<code><a href="#datetime.datetime">datetime</a></code>) –</li>
 </ul>
@@ -10250,6 +10312,9 @@ already deleted are not affected (deleted_at remains at original deletion time).
 </code></pre></div>
 <h6 id="leadrboardsdomainboard_templateboardtemplatetags"># <code>leadr.boards.domain.board_template.BoardTemplate.tags</code><a class="headerlink" href="#leadrboardsdomainboard_templateboardtemplatetags" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">tags</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;List of tags for categorizing boards created from this template&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h6 id="leadrboardsdomainboard_templateboardtemplateunique_player_names"># <code>leadr.boards.domain.board_template.BoardTemplate.unique_player_names</code><a class="headerlink" href="#leadrboardsdomainboard_templateboardtemplateunique_player_names" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">unique_player_names</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Whether player names must be unique on boards created from this template&#39;</span><span class="p">)</span>
 </code></pre></div>
 <h6 id="leadrboardsdomainboard_templateboardtemplateunit"># <code>leadr.boards.domain.board_template.BoardTemplate.unit</code><a class="headerlink" href="#leadrboardsdomainboard_templateboardtemplateunit" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">unit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Unit of measurement for scores (e.g., &#39;seconds&#39;, &#39;points&#39;)&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -11253,7 +11318,7 @@ Ensures business rules like game validation are enforced.</p>
 </details>
 
 <h6 id="leadrboardsservicesboard_template_serviceboardtemplateservicecreate_board_template"># <code>leadr.boards.services.board_template_service.BoardTemplateService.create_board_template</code><a class="headerlink" href="#leadrboardsservicesboard_template_serviceboardtemplateservicecreate_board_template" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">create_board_template</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">slug</span><span class="p">,</span> <span class="n">repeat_interval</span><span class="p">,</span> <span class="n">next_run_at</span><span class="p">,</span> <span class="n">is_active</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;fa-crown&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="n">SortDirection</span><span class="o">.</span><span class="n">DESCENDING</span><span class="p">,</span> <span class="n">board_type</span><span class="o">=</span><span class="n">BoardType</span><span class="o">.</span><span class="n">RUN_IDENTITY</span><span class="p">,</span> <span class="n">keep_strategy</span><span class="o">=</span><span class="n">KeepStrategy</span><span class="o">.</span><span class="n">BEST</span><span class="p">,</span> <span class="n">starts_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">create_board_template</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">slug</span><span class="p">,</span> <span class="n">repeat_interval</span><span class="p">,</span> <span class="n">next_run_at</span><span class="p">,</span> <span class="n">is_active</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unique_player_names</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">series</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s1">&#39;fa-crown&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sort_direction</span><span class="o">=</span><span class="n">SortDirection</span><span class="o">.</span><span class="n">DESCENDING</span><span class="p">,</span> <span class="n">board_type</span><span class="o">=</span><span class="n">BoardType</span><span class="o">.</span><span class="n">RUN_IDENTITY</span><span class="p">,</span> <span class="n">keep_strategy</span><span class="o">=</span><span class="n">KeepStrategy</span><span class="o">.</span><span class="n">BEST</span><span class="p">,</span> <span class="n">starts_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ends_at</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Create a new board template.</p>
 <p><strong>Parameters:</strong></p>
