@@ -41,6 +41,7 @@ The short code is automatically generated and cannot be customised.
 | **Tags** | No | `challenge, points` | None | Comma-separated tags for organising boards |
 | **Active** | No | `Yes` | Yes | Whether the board accepts new scores |
 | **Published** | No | `Yes` | Yes | Whether to generate a web page for this board |
+| **Unique Names** | No | `No` | No | Enforce unique player names (case-insensitive) |
 
 ## Board Types
 
@@ -102,6 +103,17 @@ Controls what happens when a player submits multiple scores to a **Per Player** 
     - **Per Run**: All submissions are kept and ranked
     - **Counter**: Submissions are deltas that accumulate
     - **Ratio**: No direct submissions (calculated from Counter boards)
+
+## Unique Player Names
+
+When enabled, each player name on the board must be unique (case-insensitive). If a player submits a score with a name already used by another player, the submission is rejected with a 409 Conflict error.
+
+- The same identity can reuse their own name between submissions
+- Existing duplicate names are grandfathered when enabling
+- Names are compared case-insensitively ("John" = "john" = "JOHN")
+- Leading/trailing whitespace is normalized
+
+This is useful for boards where you want to ensure each display name represents a unique player, preventing impersonation or confusion.
 
 ---
 
