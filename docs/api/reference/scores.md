@@ -1049,6 +1049,7 @@ API routes for score management.
 
 **Functions:**
 
+- [**check_player_name**](#leadr.scores.api.score_routes.check_player_name) – Check if a player name is available before gameplay.
 - [**create_score_client**](#leadr.scores.api.score_routes.create_score_client) – Create a new score (Client API).
 - [**get_score**](#leadr.scores.api.score_routes.get_score) – Get a score by ID.
 - [**get_score_client**](#leadr.scores.api.score_routes.get_score_client) – Get a score by ID (Client API).
@@ -1060,6 +1061,31 @@ API routes for score management.
 
 - [**client_router**](#leadr.scores.api.score_routes.client_router) –
 - [**router**](#leadr.scores.api.score_routes.router) –
+
+###### `leadr.scores.api.score_routes.check_player_name`
+
+```python
+check_player_name(name, auth, service, board_service, board_ids=None)
+```
+
+Check if a player name is available before gameplay.
+
+Checks whether the given player name is available on boards that have
+unique_player_names enabled. This allows games to validate names early,
+before gameplay begins.
+
+**Parameters:**
+
+- **name** (<code>[Annotated](#typing.Annotated)\[[str](#str), [Query](#fastapi.Query)(description='Player name to check')\]</code>) – The player name to check.
+- **auth** (<code>[ClientAuthContextDep](./auth.md#leadr.auth.dependencies.ClientAuthContextDep)</code>) – Client authentication context.
+- **service** (<code>[ScoreServiceDep](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep)</code>) – Injected score service.
+- **board_service** (<code>[BoardServiceDep](./boards.md#leadr.boards.services.dependencies.BoardServiceDep)</code>) – Injected board service.
+- **board_ids** (<code>[Annotated](#typing.Annotated)\[[str](#str) | None, [Query](#fastapi.Query)(description='Comma-separated board IDs to check. If omitted, checks all game boards.')\]</code>) – Optional comma-separated board IDs to check. If omitted,
+  checks all boards for the game that have unique_player_names enabled.
+
+**Returns:**
+
+- <code>[PlayerNameCheckResponse](#leadr.scores.api.score_schemas.PlayerNameCheckResponse)</code> – PlayerNameCheckResponse with availability status and any conflicts.
 
 ###### `leadr.scores.api.score_routes.client_router`
 
@@ -1328,6 +1354,8 @@ API request and response models for scores.
 **Classes:**
 
 - [**IsTestFilter**](#leadr.scores.api.score_schemas.IsTestFilter) – Filter options for is_test query parameter in admin score listing.
+- [**PlayerNameCheckResponse**](#leadr.scores.api.score_schemas.PlayerNameCheckResponse) – Response for player name availability check.
+- [**PlayerNameConflict**](#leadr.scores.api.score_schemas.PlayerNameConflict) – A board where the player name conflicts.
 - [**ScoreClientCreateRequest**](#leadr.scores.api.score_schemas.ScoreClientCreateRequest) – Request model for creating a score (Client API).
 - [**ScoreClientResponse**](#leadr.scores.api.score_schemas.ScoreClientResponse) – Response model for a score returned to clients.
 - [**ScoreCreateRequestBase**](#leadr.scores.api.score_schemas.ScoreCreateRequestBase) – Base request model for score creation with common fields.
@@ -1361,6 +1389,66 @@ FALSE = 'false'
 
 ```python
 TRUE = 'true'
+```
+
+###### `leadr.scores.api.score_schemas.PlayerNameCheckResponse`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+Response for player name availability check.
+
+**Attributes:**
+
+- [**available**](#leadr.scores.api.score_schemas.PlayerNameCheckResponse.available) (<code>[bool](#bool)</code>) –
+- [**conflicts**](#leadr.scores.api.score_schemas.PlayerNameCheckResponse.conflicts) (<code>[list](#list)\[[PlayerNameConflict](#leadr.scores.api.score_schemas.PlayerNameConflict)\]</code>) –
+- [**name**](#leadr.scores.api.score_schemas.PlayerNameCheckResponse.name) (<code>[str](#str)</code>) –
+- [**normalised_name**](#leadr.scores.api.score_schemas.PlayerNameCheckResponse.normalised_name) (<code>[str](#str)</code>) –
+
+####### `leadr.scores.api.score_schemas.PlayerNameCheckResponse.available`
+
+```python
+available: bool = Field(description='Whether name is available on all checked boards')
+```
+
+####### `leadr.scores.api.score_schemas.PlayerNameCheckResponse.conflicts`
+
+```python
+conflicts: list[PlayerNameConflict] = Field(default_factory=list, description='Boards where this name is already taken')
+```
+
+####### `leadr.scores.api.score_schemas.PlayerNameCheckResponse.name`
+
+```python
+name: str = Field(description='Original name submitted')
+```
+
+####### `leadr.scores.api.score_schemas.PlayerNameCheckResponse.normalised_name`
+
+```python
+normalised_name: str = Field(description='Normalised name (lowercase, trimmed)')
+```
+
+###### `leadr.scores.api.score_schemas.PlayerNameConflict`
+
+Bases: <code>[BaseModel](#pydantic.BaseModel)</code>
+
+A board where the player name conflicts.
+
+**Attributes:**
+
+- [**board_id**](#leadr.scores.api.score_schemas.PlayerNameConflict.board_id) (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) –
+- [**board_name**](#leadr.scores.api.score_schemas.PlayerNameConflict.board_name) (<code>[str](#str)</code>) –
+
+####### `leadr.scores.api.score_schemas.PlayerNameConflict.board_id`
+
+```python
+board_id: BoardID = Field(description='ID of the board with the conflict')
+```
+
+####### `leadr.scores.api.score_schemas.PlayerNameConflict.board_name`
+
+```python
+board_name: str = Field(description='Name of the board with the conflict')
 ```
 
 ###### `leadr.scores.api.score_schemas.ScoreClientCreateRequest`
@@ -4470,6 +4558,7 @@ All GET queries return BoardState or RunEntry data with IDs masked to scr\_ pref
 
 **Functions:**
 
+- [**check_player_name_availability**](#leadr.scores.services.score_service.ScoreService.check_player_name_availability) – Check if player name is available across multiple boards.
 - [**get_score_by_id**](#leadr.scores.services.score_service.ScoreService.get_score_by_id) – Get a score by its ID with computed rank.
 - [**list_scores**](#leadr.scores.services.score_service.ScoreService.list_scores) – List scores for a board with optional filters and pagination.
 - [**submit_score**](#leadr.scores.services.score_service.ScoreService.submit_score) – Submit a score using the event-sourcing architecture.
@@ -4481,6 +4570,30 @@ All GET queries return BoardState or RunEntry data with IDs masked to scr\_ pref
 **Parameters:**
 
 - **session** (<code>[AsyncSession](#sqlalchemy.ext.asyncio.AsyncSession)</code>) – SQLAlchemy async session
+
+####### `leadr.scores.services.score_service.ScoreService.check_player_name_availability`
+
+```python
+check_player_name_availability(boards, player_name, exclude_identity_id=None)
+```
+
+Check if player name is available across multiple boards.
+
+Checks the appropriate table per board type:
+
+- RUN_RUNS → RunEntry table
+- RUN_IDENTITY/COUNTER → BoardState table
+
+**Parameters:**
+
+- **boards** (<code>[list](#list)\[[tuple](#tuple)\[[BoardID](./common.md#leadr.common.domain.ids.BoardID), [str](#str), [BoardType](./boards.md#leadr.boards.domain.board.BoardType)\]\]</code>) – List of (board_id, board_name, board_type) tuples to check.
+- **player_name** (<code>[str](#str)</code>) – The player name to check.
+- **exclude_identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID) | None</code>) – Optional identity ID to exclude (same identity can reuse own name).
+
+**Returns:**
+
+- <code>[str](#str)</code> – Tuple of (normalised_name, is_available, conflicts_list)
+- <code>[bool](#bool)</code> – where conflicts_list contains (board_id, board_name) tuples.
 
 ####### `leadr.scores.services.score_service.ScoreService.get_score_by_id`
 
