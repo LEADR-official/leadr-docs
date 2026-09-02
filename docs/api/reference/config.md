@@ -57,6 +57,7 @@ field names (case-sensitive).
 **Attributes:**
 
 - [**ACCESS_TOKEN_EXPIRY_HOURS**](#leadr.config.CommonSettings.ACCESS_TOKEN_EXPIRY_HOURS) (<code>[int](#int)</code>) –
+- [**ADMIN_NOTIFICATION_EMAIL**](#leadr.config.CommonSettings.ADMIN_NOTIFICATION_EMAIL) (<code>[str](#str)</code>) –
 - [**ANTICHEAT_DUPLICATE_WINDOW_SECONDS**](#leadr.config.CommonSettings.ANTICHEAT_DUPLICATE_WINDOW_SECONDS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_ENABLED**](#leadr.config.CommonSettings.ANTICHEAT_ENABLED) (<code>[bool](#bool)</code>) –
 - [**ANTICHEAT_MIN_SAMPLES_FOR_STATS**](#leadr.config.CommonSettings.ANTICHEAT_MIN_SAMPLES_FOR_STATS) (<code>[int](#int)</code>) –
@@ -74,6 +75,7 @@ field names (case-sensitive).
 - [**BACKGROUND_TASKS_ENABLED**](#leadr.config.CommonSettings.BACKGROUND_TASKS_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
+- [**BACKGROUND_TASK_RETRY_DELAYS**](#leadr.config.CommonSettings.BACKGROUND_TASK_RETRY_DELAYS) (<code>[list](#list)\[[int](#int)\]</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.CommonSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKUP_ENABLED**](#leadr.config.CommonSettings.BACKUP_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKUP_STORAGE_ACCESS_KEY_ID**](#leadr.config.CommonSettings.BACKUP_STORAGE_ACCESS_KEY_ID) (<code>[str](#str)</code>) –
@@ -148,6 +150,12 @@ field names (case-sensitive).
 
 ```python
 ACCESS_TOKEN_EXPIRY_HOURS: int = Field(default=24, description='Device access token expiration time in hours (default: 24 hours)')
+```
+
+##### `leadr.config.CommonSettings.ADMIN_NOTIFICATION_EMAIL`
+
+```python
+ADMIN_NOTIFICATION_EMAIL: str = Field(default='', description='Email address for admin notifications (e.g., task failures). Leave empty to disable admin notifications.')
 ```
 
 ##### `leadr.config.CommonSettings.ANTICHEAT_DUPLICATE_WINDOW_SECONDS`
@@ -250,6 +258,12 @@ BACKGROUND_TASK_EXPIRE_INTERVAL: int = Field(default=60, description='Interval i
 
 ```python
 BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL: int = Field(default=3600, description='Interval in seconds for cleaning up expired nonces (default: 3600s / 1 hour)')
+```
+
+##### `leadr.config.CommonSettings.BACKGROUND_TASK_RETRY_DELAYS`
+
+```python
+BACKGROUND_TASK_RETRY_DELAYS: list[int] = Field(default=[30, 60, 120, 240, 480], description='Retry delays in seconds. Length = max attempts. Default: 5 retries with exponential backoff (30s, 60s, 2min, 4min, 8min).')
 ```
 
 ##### `leadr.config.CommonSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL`
@@ -707,6 +721,7 @@ This is the default settings class used when ENV != 'TEST'.
 **Attributes:**
 
 - [**ACCESS_TOKEN_EXPIRY_HOURS**](#leadr.config.Settings.ACCESS_TOKEN_EXPIRY_HOURS) (<code>[int](#int)</code>) –
+- [**ADMIN_NOTIFICATION_EMAIL**](#leadr.config.Settings.ADMIN_NOTIFICATION_EMAIL) (<code>[str](#str)</code>) –
 - [**ANTICHEAT_DUPLICATE_WINDOW_SECONDS**](#leadr.config.Settings.ANTICHEAT_DUPLICATE_WINDOW_SECONDS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_ENABLED**](#leadr.config.Settings.ANTICHEAT_ENABLED) (<code>[bool](#bool)</code>) –
 - [**ANTICHEAT_MIN_SAMPLES_FOR_STATS**](#leadr.config.Settings.ANTICHEAT_MIN_SAMPLES_FOR_STATS) (<code>[int](#int)</code>) –
@@ -724,6 +739,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**BACKGROUND_TASKS_ENABLED**](#leadr.config.Settings.BACKGROUND_TASKS_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
+- [**BACKGROUND_TASK_RETRY_DELAYS**](#leadr.config.Settings.BACKGROUND_TASK_RETRY_DELAYS) (<code>[list](#list)\[[int](#int)\]</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.Settings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKUP_ENABLED**](#leadr.config.Settings.BACKUP_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKUP_STORAGE_ACCESS_KEY_ID**](#leadr.config.Settings.BACKUP_STORAGE_ACCESS_KEY_ID) (<code>[str](#str)</code>) –
@@ -814,6 +830,7 @@ Test-specific overrides can be added here.
 **Attributes:**
 
 - [**ACCESS_TOKEN_EXPIRY_HOURS**](#leadr.config.TestSettings.ACCESS_TOKEN_EXPIRY_HOURS) (<code>[int](#int)</code>) –
+- [**ADMIN_NOTIFICATION_EMAIL**](#leadr.config.TestSettings.ADMIN_NOTIFICATION_EMAIL) (<code>[str](#str)</code>) –
 - [**ANTICHEAT_DUPLICATE_WINDOW_SECONDS**](#leadr.config.TestSettings.ANTICHEAT_DUPLICATE_WINDOW_SECONDS) (<code>[int](#int)</code>) –
 - [**ANTICHEAT_ENABLED**](#leadr.config.TestSettings.ANTICHEAT_ENABLED) (<code>[bool](#bool)</code>) –
 - [**ANTICHEAT_MIN_SAMPLES_FOR_STATS**](#leadr.config.TestSettings.ANTICHEAT_MIN_SAMPLES_FOR_STATS) (<code>[int](#int)</code>) –
@@ -831,6 +848,7 @@ Test-specific overrides can be added here.
 - [**BACKGROUND_TASKS_ENABLED**](#leadr.config.TestSettings.BACKGROUND_TASKS_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKGROUND_TASK_EXPIRE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_EXPIRE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL) (<code>[int](#int)</code>) –
+- [**BACKGROUND_TASK_RETRY_DELAYS**](#leadr.config.TestSettings.BACKGROUND_TASK_RETRY_DELAYS) (<code>[list](#list)\[[int](#int)\]</code>) –
 - [**BACKGROUND_TASK_TEMPLATE_INTERVAL**](#leadr.config.TestSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL) (<code>[int](#int)</code>) –
 - [**BACKUP_ENABLED**](#leadr.config.TestSettings.BACKUP_ENABLED) (<code>[bool](#bool)</code>) –
 - [**BACKUP_STORAGE_ACCESS_KEY_ID**](#leadr.config.TestSettings.BACKUP_STORAGE_ACCESS_KEY_ID) (<code>[str](#str)</code>) –
@@ -905,6 +923,12 @@ Test-specific overrides can be added here.
 
 ```python
 ACCESS_TOKEN_EXPIRY_HOURS: int = Field(default=24, description='Device access token expiration time in hours (default: 24 hours)')
+```
+
+##### `leadr.config.TestSettings.ADMIN_NOTIFICATION_EMAIL`
+
+```python
+ADMIN_NOTIFICATION_EMAIL: str = Field(default='', description='Email address for admin notifications (e.g., task failures). Leave empty to disable admin notifications.')
 ```
 
 ##### `leadr.config.TestSettings.ANTICHEAT_DUPLICATE_WINDOW_SECONDS`
@@ -1007,6 +1031,12 @@ BACKGROUND_TASK_EXPIRE_INTERVAL: int = Field(default=60, description='Interval i
 
 ```python
 BACKGROUND_TASK_NONCE_CLEANUP_INTERVAL: int = Field(default=3600, description='Interval in seconds for cleaning up expired nonces (default: 3600s / 1 hour)')
+```
+
+##### `leadr.config.TestSettings.BACKGROUND_TASK_RETRY_DELAYS`
+
+```python
+BACKGROUND_TASK_RETRY_DELAYS: list[int] = Field(default=[30, 60, 120, 240, 480], description='Retry delays in seconds. Length = max attempts. Default: 5 retries with exponential backoff (30s, 60s, 2min, 4min, 8min).')
 ```
 
 ##### `leadr.config.TestSettings.BACKGROUND_TASK_TEMPLATE_INTERVAL`

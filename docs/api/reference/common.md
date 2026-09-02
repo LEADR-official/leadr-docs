@@ -3,6 +3,7 @@
 **Modules:**
 
 - [**api**](./common.md#leadr.common.api) – API utilities and exception handlers.
+- [**background_task_alerts**](#leadr.common.background_task_alerts) – Background task failure alerting.
 - [**background_tasks**](#leadr.common.background_tasks) – Background task scheduler using asyncio.
 - [**database**](./common.md#leadr.common.database) – Database connection and session management.
 - [**dependencies**](./common.md#leadr.common.dependencies) – Shared FastAPI dependencies for the application.
@@ -712,12 +713,47 @@ ResponseT = TypeVar('ResponseT', bound=BaseModel)
 T = TypeVar('T')
 ```
 
+#### `leadr.common.background_task_alerts`
+
+Background task failure alerting.
+
+Provides email notification when background tasks exceed their maximum
+retry attempts, allowing administrators to be alerted to persistent failures.
+
+**Functions:**
+
+- [**send_task_failure_alert**](#leadr.common.background_task_alerts.send_task_failure_alert) – Send admin email notification when a task exceeds max retry attempts.
+
+**Attributes:**
+
+- [**logger**](#leadr.common.background_task_alerts.logger) –
+
+##### `leadr.common.background_task_alerts.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
+
+##### `leadr.common.background_task_alerts.send_task_failure_alert`
+
+```python
+send_task_failure_alert(task_name, failure_count, error)
+```
+
+Send admin email notification when a task exceeds max retry attempts.
+
+**Parameters:**
+
+- **task_name** (<code>[str](#str)</code>) – Name of the failed task.
+- **failure_count** (<code>[int](#int)</code>) – Number of consecutive failures.
+- **error** (<code>[Exception](#Exception)</code>) – The last exception that was raised.
+
 #### `leadr.common.background_tasks`
 
 Background task scheduler using asyncio.
 
 Provides a simple background task scheduler that runs periodic tasks
-within the FastAPI application process.
+within the FastAPI application process, with retry logic and failure alerting.
 
 **Classes:**
 
@@ -729,6 +765,7 @@ within the FastAPI application process.
 
 **Attributes:**
 
+- [**MaxRetriesExceededCallback**](#leadr.common.background_tasks.MaxRetriesExceededCallback) –
 - [**logger**](#leadr.common.background_tasks.logger) –
 
 ##### `leadr.common.background_tasks.BackgroundTaskScheduler`
@@ -741,6 +778,9 @@ Manages periodic background tasks using asyncio.
 
 Tasks run in the same process as the FastAPI application,
 making them easy to test and deploy without additional infrastructure.
+
+Supports retry with configurable backoff delays and optional alerting
+when max retries are exceeded.
 
 <details class="example" open markdown="1">
 <summary>Example</summary>
@@ -756,6 +796,7 @@ making them easy to test and deploy without additional infrastructure.
 **Functions:**
 
 - [**add_task**](#leadr.common.background_tasks.BackgroundTaskScheduler.add_task) – Register a periodic task.
+- [**set_on_max_retries_exceeded**](#leadr.common.background_tasks.BackgroundTaskScheduler.set_on_max_retries_exceeded) – Set callback for when a task exceeds max retries.
 - [**start**](#leadr.common.background_tasks.BackgroundTaskScheduler.start) – Start all registered tasks.
 - [**stop**](#leadr.common.background_tasks.BackgroundTaskScheduler.stop) – Stop all running tasks gracefully.
 
@@ -767,7 +808,7 @@ making them easy to test and deploy without additional infrastructure.
 ###### `leadr.common.background_tasks.BackgroundTaskScheduler.add_task`
 
 ```python
-add_task(name, func, interval_seconds)
+add_task(name, func, interval_seconds, alert_on_max_retries=False)
 ```
 
 Register a periodic task.
@@ -777,6 +818,7 @@ Register a periodic task.
 - **name** (<code>[str](#str)</code>) – Unique identifier for the task.
 - **func** (<code>[Callable](#collections.abc.Callable)\[[], [Awaitable](#collections.abc.Awaitable)[None]\]</code>) – Async function to call periodically.
 - **interval_seconds** (<code>[int](#int)</code>) – How often to run the task (in seconds).
+- **alert_on_max_retries** (<code>[bool](#bool)</code>) – If True, trigger callback when max retries exceeded.
 
 **Raises:**
 
@@ -787,6 +829,18 @@ Register a periodic task.
 ```python
 running = False
 ```
+
+###### `leadr.common.background_tasks.BackgroundTaskScheduler.set_on_max_retries_exceeded`
+
+```python
+set_on_max_retries_exceeded(callback)
+```
+
+Set callback for when a task exceeds max retries.
+
+**Parameters:**
+
+- **callback** (<code>[MaxRetriesExceededCallback](#leadr.common.background_tasks.MaxRetriesExceededCallback)</code>) – Async function called with (task_name, failure_count, error).
 
 ###### `leadr.common.background_tasks.BackgroundTaskScheduler.start`
 
@@ -813,6 +867,12 @@ Waits for currently executing tasks to complete before stopping.
 
 ```python
 tasks: dict[str, dict[str, Any]] = {}
+```
+
+##### `leadr.common.background_tasks.MaxRetriesExceededCallback`
+
+```python
+MaxRetriesExceededCallback = Callable[[str, int, Exception], Awaitable[None]]
 ```
 
 ##### `leadr.common.background_tasks.get_scheduler`
