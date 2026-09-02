@@ -2350,6 +2350,39 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrcommonbackground_task_alerts" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.background_task_alerts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="leadr.common.background_task_alerts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonbackground_task_alertslogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.background_task_alerts.logger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonbackground_task_alertssend_task_failure_alert" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.background_task_alerts.send_task_failure_alert
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommonbackground_tasks" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.background_tasks
@@ -2388,6 +2421,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#leadrcommonbackground_tasksbackgroundtaskschedulerset_on_max_retries_exceeded" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.background_tasks.BackgroundTaskScheduler.set_on_max_retries_exceeded
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#leadrcommonbackground_tasksbackgroundtaskschedulerstart" class="md-nav__link">
     <span class="md-ellipsis">
       leadr.common.background_tasks.BackgroundTaskScheduler.start
@@ -2416,6 +2458,15 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leadrcommonbackground_tasksmaxretriesexceededcallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.common.background_tasks.MaxRetriesExceededCallback
+    </span>
+  </a>
   
 </li>
         
@@ -4833,6 +4884,7 @@
 <p><strong>Modules:</strong></p>
 <ul>
 <li><a href="./#leadr.common.api"><strong>api</strong></a> – API utilities and exception handlers.</li>
+<li><a href="#leadr.common.background_task_alerts"><strong>background_task_alerts</strong></a> – Background task failure alerting.</li>
 <li><a href="#leadr.common.background_tasks"><strong>background_tasks</strong></a> – Background task scheduler using asyncio.</li>
 <li><a href="./#leadr.common.database"><strong>database</strong></a> – Database connection and session management.</li>
 <li><a href="./#leadr.common.dependencies"><strong>dependencies</strong></a> – Shared FastAPI dependencies for the application.</li>
@@ -5292,10 +5344,35 @@ Always appends 'id:asc' to sort specification for stable sorting.</p>
 <h6 id="leadrcommonapipaginationt"><code>leadr.common.api.pagination.T</code><a class="headerlink" href="#leadrcommonapipaginationt" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span>
 </code></pre></div>
+<h4 id="leadrcommonbackground_task_alerts"><code>leadr.common.background_task_alerts</code><a class="headerlink" href="#leadrcommonbackground_task_alerts" title="Permanent link">&para;</a></h4>
+<p>Background task failure alerting.</p>
+<p>Provides email notification when background tasks exceed their maximum
+retry attempts, allowing administrators to be alerted to persistent failures.</p>
+<p><strong>Functions:</strong></p>
+<ul>
+<li><a href="#leadr.common.background_task_alerts.send_task_failure_alert"><strong>send_task_failure_alert</strong></a> – Send admin email notification when a task exceeds max retry attempts.</li>
+</ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.common.background_task_alerts.logger"><strong>logger</strong></a> –</li>
+</ul>
+<h5 id="leadrcommonbackground_task_alertslogger"><code>leadr.common.background_task_alerts.logger</code><a class="headerlink" href="#leadrcommonbackground_task_alertslogger" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
+<h5 id="leadrcommonbackground_task_alertssend_task_failure_alert"><code>leadr.common.background_task_alerts.send_task_failure_alert</code><a class="headerlink" href="#leadrcommonbackground_task_alertssend_task_failure_alert" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">send_task_failure_alert</span><span class="p">(</span><span class="n">task_name</span><span class="p">,</span> <span class="n">failure_count</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+</code></pre></div>
+<p>Send admin email notification when a task exceeds max retry attempts.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>task_name</strong> (<code><a href="#str">str</a></code>) – Name of the failed task.</li>
+<li><strong>failure_count</strong> (<code><a href="#int">int</a></code>) – Number of consecutive failures.</li>
+<li><strong>error</strong> (<code><a href="#Exception">Exception</a></code>) – The last exception that was raised.</li>
+</ul>
 <h4 id="leadrcommonbackground_tasks"><code>leadr.common.background_tasks</code><a class="headerlink" href="#leadrcommonbackground_tasks" title="Permanent link">&para;</a></h4>
 <p>Background task scheduler using asyncio.</p>
 <p>Provides a simple background task scheduler that runs periodic tasks
-within the FastAPI application process.</p>
+within the FastAPI application process, with retry logic and failure alerting.</p>
 <p><strong>Classes:</strong></p>
 <ul>
 <li><a href="#leadr.common.background_tasks.BackgroundTaskScheduler"><strong>BackgroundTaskScheduler</strong></a> – Manages periodic background tasks using asyncio.</li>
@@ -5306,6 +5383,7 @@ within the FastAPI application process.</p>
 </ul>
 <p><strong>Attributes:</strong></p>
 <ul>
+<li><a href="#leadr.common.background_tasks.MaxRetriesExceededCallback"><strong>MaxRetriesExceededCallback</strong></a> –</li>
 <li><a href="#leadr.common.background_tasks.logger"><strong>logger</strong></a> –</li>
 </ul>
 <h5 id="leadrcommonbackground_tasksbackgroundtaskscheduler"><code>leadr.common.background_tasks.BackgroundTaskScheduler</code><a class="headerlink" href="#leadrcommonbackground_tasksbackgroundtaskscheduler" title="Permanent link">&para;</a></h5>
@@ -5314,6 +5392,8 @@ within the FastAPI application process.</p>
 <p>Manages periodic background tasks using asyncio.</p>
 <p>Tasks run in the same process as the FastAPI application,
 making them easy to test and deploy without additional infrastructure.</p>
+<p>Supports retry with configurable backoff delays and optional alerting
+when max retries are exceeded.</p>
 <details class="example" open markdown="1">
 <summary>Example</summary>
 
@@ -5328,6 +5408,7 @@ making them easy to test and deploy without additional infrastructure.</p>
 <p><strong>Functions:</strong></p>
 <ul>
 <li><a href="#leadr.common.background_tasks.BackgroundTaskScheduler.add_task"><strong>add_task</strong></a> – Register a periodic task.</li>
+<li><a href="#leadr.common.background_tasks.BackgroundTaskScheduler.set_on_max_retries_exceeded"><strong>set_on_max_retries_exceeded</strong></a> – Set callback for when a task exceeds max retries.</li>
 <li><a href="#leadr.common.background_tasks.BackgroundTaskScheduler.start"><strong>start</strong></a> – Start all registered tasks.</li>
 <li><a href="#leadr.common.background_tasks.BackgroundTaskScheduler.stop"><strong>stop</strong></a> – Stop all running tasks gracefully.</li>
 </ul>
@@ -5337,7 +5418,7 @@ making them easy to test and deploy without additional infrastructure.</p>
 <li><a href="#leadr.common.background_tasks.BackgroundTaskScheduler.tasks"><strong>tasks</strong></a> (<code><a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#dict">dict</a>[<a href="#str">str</a>, <a href="#typing.Any">Any</a>]]</code>) –</li>
 </ul>
 <h6 id="leadrcommonbackground_tasksbackgroundtaskscheduleradd_task"><code>leadr.common.background_tasks.BackgroundTaskScheduler.add_task</code><a class="headerlink" href="#leadrcommonbackground_tasksbackgroundtaskscheduleradd_task" title="Permanent link">&para;</a></h6>
-<div class="highlight"><pre><span></span><code><span class="n">add_task</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">interval_seconds</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">add_task</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">interval_seconds</span><span class="p">,</span> <span class="n">alert_on_max_retries</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <p>Register a periodic task.</p>
 <p><strong>Parameters:</strong></p>
@@ -5345,6 +5426,7 @@ making them easy to test and deploy without additional infrastructure.</p>
 <li><strong>name</strong> (<code><a href="#str">str</a></code>) – Unique identifier for the task.</li>
 <li><strong>func</strong> (<code><a href="#collections.abc.Callable">Callable</a>[[], <a href="#collections.abc.Awaitable">Awaitable</a>[None]]</code>) – Async function to call periodically.</li>
 <li><strong>interval_seconds</strong> (<code><a href="#int">int</a></code>) – How often to run the task (in seconds).</li>
+<li><strong>alert_on_max_retries</strong> (<code><a href="#bool">bool</a></code>) – If True, trigger callback when max retries exceeded.</li>
 </ul>
 <p><strong>Raises:</strong></p>
 <ul>
@@ -5353,6 +5435,14 @@ making them easy to test and deploy without additional infrastructure.</p>
 <h6 id="leadrcommonbackground_tasksbackgroundtaskschedulerrunning"><code>leadr.common.background_tasks.BackgroundTaskScheduler.running</code><a class="headerlink" href="#leadrcommonbackground_tasksbackgroundtaskschedulerrunning" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
 </code></pre></div>
+<h6 id="leadrcommonbackground_tasksbackgroundtaskschedulerset_on_max_retries_exceeded"><code>leadr.common.background_tasks.BackgroundTaskScheduler.set_on_max_retries_exceeded</code><a class="headerlink" href="#leadrcommonbackground_tasksbackgroundtaskschedulerset_on_max_retries_exceeded" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">set_on_max_retries_exceeded</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span>
+</code></pre></div>
+<p>Set callback for when a task exceeds max retries.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>callback</strong> (<code><a href="#leadr.common.background_tasks.MaxRetriesExceededCallback">MaxRetriesExceededCallback</a></code>) – Async function called with (task_name, failure_count, error).</li>
+</ul>
 <h6 id="leadrcommonbackground_tasksbackgroundtaskschedulerstart"><code>leadr.common.background_tasks.BackgroundTaskScheduler.start</code><a class="headerlink" href="#leadrcommonbackground_tasksbackgroundtaskschedulerstart" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">start</span><span class="p">()</span>
 </code></pre></div>
@@ -5366,6 +5456,9 @@ It returns immediately after starting the tasks.</p>
 <p>Waits for currently executing tasks to complete before stopping.</p>
 <h6 id="leadrcommonbackground_tasksbackgroundtaskschedulertasks"><code>leadr.common.background_tasks.BackgroundTaskScheduler.tasks</code><a class="headerlink" href="#leadrcommonbackground_tasksbackgroundtaskschedulertasks" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">tasks</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div>
+<h5 id="leadrcommonbackground_tasksmaxretriesexceededcallback"><code>leadr.common.background_tasks.MaxRetriesExceededCallback</code><a class="headerlink" href="#leadrcommonbackground_tasksmaxretriesexceededcallback" title="Permanent link">&para;</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">MaxRetriesExceededCallback</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="kc">None</span><span class="p">]]</span>
 </code></pre></div>
 <h5 id="leadrcommonbackground_tasksget_scheduler"><code>leadr.common.background_tasks.get_scheduler</code><a class="headerlink" href="#leadrcommonbackground_tasksget_scheduler" title="Permanent link">&para;</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">get_scheduler</span><span class="p">()</span>
