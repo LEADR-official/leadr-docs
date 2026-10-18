@@ -6650,6 +6650,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#leadrboardsservicesboard_state_servicelogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      leadr.boards.services.board_state_service.logger
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -11043,6 +11052,10 @@ clear optional fields.</p>
 <ul>
 <li><a href="#leadr.boards.services.board_state_service.BoardStateService"><strong>BoardStateService</strong></a> – Service for managing board states.</li>
 </ul>
+<p><strong>Attributes:</strong></p>
+<ul>
+<li><a href="#leadr.boards.services.board_state_service.logger"><strong>logger</strong></a> –</li>
+</ul>
 <h6 id="leadrboardsservicesboard_state_serviceboardstateservice"><code>leadr.boards.services.board_state_service.BoardStateService</code><a class="headerlink" href="#leadrboardsservicesboard_state_serviceboardstateservice" title="Permanent link">&para;</a></h6>
 <div class="highlight"><pre><span></span><code><span class="n">BoardStateService</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 </code></pre></div>
@@ -11224,6 +11237,9 @@ Otherwise, a new state is created.</p>
 <ul>
 <li><code><a href="#leadr.boards.domain.board_state.BoardState">BoardState</a></code> – Created or updated BoardState entity</li>
 </ul>
+<h6 id="leadrboardsservicesboard_state_servicelogger"><code>leadr.boards.services.board_state_service.logger</code><a class="headerlink" href="#leadrboardsservicesboard_state_servicelogger" title="Permanent link">&para;</a></h6>
+<div class="highlight"><pre><span></span><code><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
 <h5 id="leadrboardsservicesboard_tasks"><code>leadr.boards.services.board_tasks</code><a class="headerlink" href="#leadrboardsservicesboard_tasks" title="Permanent link">&para;</a></h5>
 <p>Background tasks for board processing.</p>
 <p>Contains tasks for:</p>
