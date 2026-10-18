@@ -5105,6 +5105,10 @@ Board state service for managing materialized ranking state.
 
 - [**BoardStateService**](#leadr.boards.services.board_state_service.BoardStateService) – Service for managing board states.
 
+**Attributes:**
+
+- [**logger**](#leadr.boards.services.board_state_service.logger) –
+
 ###### `leadr.boards.services.board_state_service.BoardStateService`
 
 ```python
@@ -5334,6 +5338,12 @@ Otherwise, a new state is created.
 **Returns:**
 
 - <code>[BoardState](#leadr.boards.domain.board_state.BoardState)</code> – Created or updated BoardState entity
+
+###### `leadr.boards.services.board_state_service.logger`
+
+```python
+logger = logging.getLogger(__name__)
+```
 
 ##### `leadr.boards.services.board_tasks`
 
