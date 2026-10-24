@@ -34,7 +34,7 @@ Connect your game to LEADR using an SDK or the REST API. SDKs handle authenticat
 
     1. Open **Window > Package Manager**
     2. Click **+** > **Add package from git URL**
-    3. Enter: `https://github.com/LEADR-Official/leadr-sdk-unity.git?path=Packages/com.leadr.sd`
+    3. Enter: `https://github.com/LEADR-Official/leadr-sdk-unity.git?path=Packages/com.leadr.sdk`
 
     [Full Unity SDK documentation](../sdks/unity/index.md){ .md-button }
 
