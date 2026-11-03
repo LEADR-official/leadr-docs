@@ -335,7 +335,7 @@ CORS_ALLOW_CREDENTIALS: bool = Field(default=False, description="Allow credentia
 ##### `leadr.config.CommonSettings.CORS_ALLOW_HEADERS`
 
 ```python
-CORS_ALLOW_HEADERS: list[str] = Field(default=['authorization', 'content-type', 'leadr-client-nonce', 'leadr-client', 'leadr-api-key'], description='HTTP headers allowed in CORS requests.')
+CORS_ALLOW_HEADERS: list[str] = Field(default=['authorization', 'content-type', 'leadr-client-nonce', 'leadr-client', 'leadr-api-key', 'user-agent'], description='HTTP headers allowed in CORS requests.')
 ```
 
 ##### `leadr.config.CommonSettings.CORS_ALLOW_METHODS`
@@ -1108,7 +1108,7 @@ CORS_ALLOW_CREDENTIALS: bool = Field(default=False, description="Allow credentia
 ##### `leadr.config.TestSettings.CORS_ALLOW_HEADERS`
 
 ```python
-CORS_ALLOW_HEADERS: list[str] = Field(default=['authorization', 'content-type', 'leadr-client-nonce', 'leadr-client', 'leadr-api-key'], description='HTTP headers allowed in CORS requests.')
+CORS_ALLOW_HEADERS: list[str] = Field(default=['authorization', 'content-type', 'leadr-client-nonce', 'leadr-client', 'leadr-api-key', 'user-agent'], description='HTTP headers allowed in CORS requests.')
 ```
 
 ##### `leadr.config.TestSettings.CORS_ALLOW_METHODS`
