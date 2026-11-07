@@ -111,6 +111,7 @@ field names (case-sensitive).
 - [**GEOIP_DATABASE_PATH**](#leadr.config.CommonSettings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.CommonSettings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.CommonSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
+- [**GODOT_SDK_FINGERPRINT_FIX_VERSION**](#leadr.config.CommonSettings.GODOT_SDK_FINGERPRINT_FIX_VERSION) (<code>[str](#str)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.CommonSettings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JOB_MODE**](#leadr.config.CommonSettings.JOB_MODE) (<code>[bool](#bool)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.CommonSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
@@ -476,6 +477,12 @@ GEOIP_DOWNLOAD_ENABLED: bool = Field(default=True, description='Enable GeoIP dat
 GEOIP_REFRESH_DAYS: int = Field(default=7, description='Number of days between GeoIP database refresh downloads (default: 7 days)')
 ```
 
+##### `leadr.config.CommonSettings.GODOT_SDK_FINGERPRINT_FIX_VERSION`
+
+```python
+GODOT_SDK_FINGERPRINT_FIX_VERSION: str = Field(default='0.2.0', description='First Godot SDK version with web fingerprint fix. Earlier versions on web platform skip identity rate limiting.')
+```
+
 ##### `leadr.config.CommonSettings.INVITE_CODE_EXPIRY_SECONDS`
 
 ```python
@@ -775,6 +782,7 @@ This is the default settings class used when ENV != 'TEST'.
 - [**GEOIP_DATABASE_PATH**](#leadr.config.Settings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.Settings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.Settings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
+- [**GODOT_SDK_FINGERPRINT_FIX_VERSION**](#leadr.config.Settings.GODOT_SDK_FINGERPRINT_FIX_VERSION) (<code>[str](#str)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.Settings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JOB_MODE**](#leadr.config.Settings.JOB_MODE) (<code>[bool](#bool)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.Settings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
@@ -884,6 +892,7 @@ Test-specific overrides can be added here.
 - [**GEOIP_DATABASE_PATH**](#leadr.config.TestSettings.GEOIP_DATABASE_PATH) (<code>[Path](#pathlib.Path)</code>) –
 - [**GEOIP_DOWNLOAD_ENABLED**](#leadr.config.TestSettings.GEOIP_DOWNLOAD_ENABLED) (<code>[bool](#bool)</code>) –
 - [**GEOIP_REFRESH_DAYS**](#leadr.config.TestSettings.GEOIP_REFRESH_DAYS) (<code>[int](#int)</code>) –
+- [**GODOT_SDK_FINGERPRINT_FIX_VERSION**](#leadr.config.TestSettings.GODOT_SDK_FINGERPRINT_FIX_VERSION) (<code>[str](#str)</code>) –
 - [**INVITE_CODE_EXPIRY_SECONDS**](#leadr.config.TestSettings.INVITE_CODE_EXPIRY_SECONDS) (<code>[int](#int)</code>) –
 - [**JOB_MODE**](#leadr.config.TestSettings.JOB_MODE) (<code>[bool](#bool)</code>) –
 - [**JWT_LIFETIME_SECONDS**](#leadr.config.TestSettings.JWT_LIFETIME_SECONDS) (<code>[int](#int)</code>) –
@@ -1247,6 +1256,12 @@ GEOIP_DOWNLOAD_ENABLED: bool = Field(default=True, description='Enable GeoIP dat
 
 ```python
 GEOIP_REFRESH_DAYS: int = Field(default=7, description='Number of days between GeoIP database refresh downloads (default: 7 days)')
+```
+
+##### `leadr.config.TestSettings.GODOT_SDK_FINGERPRINT_FIX_VERSION`
+
+```python
+GODOT_SDK_FINGERPRINT_FIX_VERSION: str = Field(default='0.2.0', description='First Godot SDK version with web fingerprint fix. Earlier versions on web platform skip identity rate limiting.')
 ```
 
 ##### `leadr.config.TestSettings.INVITE_CODE_EXPIRY_SECONDS`

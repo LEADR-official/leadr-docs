@@ -3213,6 +3213,7 @@ Common utility functions.
 - [**backup**](./common.md#leadr.common.utils.backup) – Database backup utilities for LEADR.
 - [**clear_board**](#leadr.common.utils.clear_board) – Board score clearing utility for LEADR.
 - [**ip**](./common.md#leadr.common.utils.ip) – IP address extraction utilities.
+- [**sdk_info**](#leadr.common.utils.sdk_info) – SDK information parsing from leadr-client header.
 - [**slug**](./common.md#leadr.common.utils.slug) – Slug generation utilities.
 
 ##### `leadr.common.utils.backup`
@@ -3539,6 +3540,86 @@ Checks headers in priority order:
 **Returns:**
 
 - <code>[str](#str) | None</code> – IP address string, or None if unable to extract
+
+##### `leadr.common.utils.sdk_info`
+
+SDK information parsing from leadr-client header.
+
+**Classes:**
+
+- [**SdkInfo**](#leadr.common.utils.sdk_info.SdkInfo) – Parsed SDK information from leadr-client header.
+
+**Functions:**
+
+- [**parse_sdk_info**](#leadr.common.utils.sdk_info.parse_sdk_info) – Parse SDK info from leadr-client header.
+- [**version_less_than**](#leadr.common.utils.sdk_info.version_less_than) – Compare semantic versions.
+
+###### `leadr.common.utils.sdk_info.SdkInfo`
+
+```python
+SdkInfo(sdk_type, version, platform)
+```
+
+Parsed SDK information from leadr-client header.
+
+**Attributes:**
+
+- [**sdk_type**](#leadr.common.utils.sdk_info.SdkInfo.sdk_type) (<code>[str](#str)</code>) – SDK identifier (e.g., "sdk-godot", "sdk-unity")
+- [**version**](#leadr.common.utils.sdk_info.SdkInfo.version) (<code>[str](#str)</code>) – SDK version string (e.g., "0.1.2")
+- [**platform**](#leadr.common.utils.sdk_info.SdkInfo.platform) (<code>[str](#str)</code>) – Platform identifier (e.g., "web", "windows", "macos")
+
+####### `leadr.common.utils.sdk_info.SdkInfo.platform`
+
+```python
+platform: str
+```
+
+####### `leadr.common.utils.sdk_info.SdkInfo.sdk_type`
+
+```python
+sdk_type: str
+```
+
+####### `leadr.common.utils.sdk_info.SdkInfo.version`
+
+```python
+version: str
+```
+
+###### `leadr.common.utils.sdk_info.parse_sdk_info`
+
+```python
+parse_sdk_info(leadr_client)
+```
+
+Parse SDK info from leadr-client header.
+
+Expected format: sdk-godot; v=0.1.2; runtime=godot-4.6; platform=web; arch=wasm32
+
+**Parameters:**
+
+- **leadr_client** (<code>[str](#str)</code>) – Raw leadr-client header string
+
+**Returns:**
+
+- <code>[SdkInfo](#leadr.common.utils.sdk_info.SdkInfo) | None</code> – SdkInfo if valid LEADR SDK header, None otherwise
+
+###### `leadr.common.utils.sdk_info.version_less_than`
+
+```python
+version_less_than(version, target)
+```
+
+Compare semantic versions.
+
+**Parameters:**
+
+- **version** (<code>[str](#str)</code>) – Version to check (e.g., "0.1.2")
+- **target** (<code>[str](#str)</code>) – Target version to compare against (e.g., "0.1.5")
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if version < target, False otherwise
 
 ##### `leadr.common.utils.slug`
 
