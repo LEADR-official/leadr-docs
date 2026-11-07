@@ -1096,7 +1096,7 @@ client_router = APIRouter()
 ###### `leadr.scores.api.score_routes.create_score_client`
 
 ```python
-create_score_client(score_request, geo, service, board_service, background_tasks, auth, identity_service, pre_create_hook, post_create_hook)
+create_score_client(request, score_request, geo, service, board_service, background_tasks, auth, identity_service, pre_create_hook, post_create_hook, skip_identity_rate_limit)
 ```
 
 Create a new score (Client API).
@@ -3853,7 +3853,7 @@ the event-sourcing architecture where identity is the ranking key.
 ####### `leadr.scores.services.anti_cheat_service.AntiCheatService.check_submission_for_event`
 
 ```python
-check_submission_for_event(score_event, trust_tier, identity_id, board_id)
+check_submission_for_event(score_event, trust_tier, identity_id, board_id, skip_identity_rate_limit=False)
 ```
 
 Check a score event submission for suspicious patterns.
@@ -3864,6 +3864,7 @@ Check a score event submission for suspicious patterns.
 - **trust_tier** (<code>[TrustTier](#leadr.scores.domain.anti_cheat.enums.TrustTier)</code>) – Trust tier of the identity (A/B/C)
 - **identity_id** (<code>[IdentityID](./common.md#leadr.common.domain.ids.IdentityID)</code>) – ID of the identity submitting the score
 - **board_id** (<code>[BoardID](./common.md#leadr.common.domain.ids.BoardID)</code>) – ID of the board being submitted to
+- **skip_identity_rate_limit** (<code>[bool](#bool)</code>) – If True, skip identity rate limiting (Godot SDK \<0.2.0 web)
 
 **Returns:**
 
@@ -3891,13 +3892,21 @@ Score service dependencies for FastAPI dependency injection.
 - [**get_score_flag_service**](#leadr.scores.services.dependencies.get_score_flag_service) – Get ScoreFlagService dependency.
 - [**get_score_service**](#leadr.scores.services.dependencies.get_score_service) – Get ScoreService dependency.
 - [**get_score_submission_meta_service**](#leadr.scores.services.dependencies.get_score_submission_meta_service) – Get ScoreSubmissionMetaService dependency.
+- [**has_fingerprint_collision_bug**](#leadr.scores.services.dependencies.has_fingerprint_collision_bug) – Check if request is from SDK with fingerprint collision bug on web.
 
 **Attributes:**
 
+- [**HasFingerprintCollisionBugDep**](./scores.md#leadr.scores.services.dependencies.HasFingerprintCollisionBugDep) –
 - [**ScoreEventServiceDep**](./scores.md#leadr.scores.services.dependencies.ScoreEventServiceDep) –
 - [**ScoreFlagServiceDep**](./scores.md#leadr.scores.services.dependencies.ScoreFlagServiceDep) –
 - [**ScoreServiceDep**](./scores.md#leadr.scores.services.dependencies.ScoreServiceDep) –
 - [**ScoreSubmissionMetaServiceDep**](./scores.md#leadr.scores.services.dependencies.ScoreSubmissionMetaServiceDep) –
+
+###### `leadr.scores.services.dependencies.HasFingerprintCollisionBugDep`
+
+```python
+HasFingerprintCollisionBugDep = Annotated[bool, Depends(has_fingerprint_collision_bug)]
+```
 
 ###### `leadr.scores.services.dependencies.ScoreEventServiceDep`
 
@@ -3986,6 +3995,26 @@ Get ScoreSubmissionMetaService dependency.
 **Returns:**
 
 - <code>[ScoreSubmissionMetaService](#leadr.scores.services.score_submission_meta_service.ScoreSubmissionMetaService)</code> – Initialized ScoreSubmissionMetaService instance
+
+###### `leadr.scores.services.dependencies.has_fingerprint_collision_bug`
+
+```python
+has_fingerprint_collision_bug(request)
+```
+
+Check if request is from SDK with fingerprint collision bug on web.
+
+Godot SDK \<0.2.0 on web builds has OS.get_unique_id() returning empty,
+causing all web players to generate near-identical fingerprints.
+This means they share the same identity and hit rate limits collectively.
+
+**Parameters:**
+
+- **request** (<code>[Request](#fastapi.Request)</code>) – FastAPI request object
+
+**Returns:**
+
+- <code>[bool](#bool)</code> – True if request is from affected SDK version, False otherwise
 
 ##### `leadr.scores.services.repositories`
 
@@ -4655,7 +4684,7 @@ session = session
 ####### `leadr.scores.services.score_service.ScoreService.submit_score`
 
 ```python
-submit_score(board_id, identity_id, value=None, delta=None, player_name=None, timezone=None, country=None, city=None, is_test=False, trust_tier=TrustTier.B, background_tasks=None, value_display=None, metadata=None)
+submit_score(board_id, identity_id, value=None, delta=None, player_name=None, timezone=None, country=None, city=None, is_test=False, trust_tier=TrustTier.B, background_tasks=None, value_display=None, metadata=None, skip_identity_rate_limit=False)
 ```
 
 Submit a score using the event-sourcing architecture.
@@ -4679,6 +4708,7 @@ based on the board type and anti-cheat result.
 - **background_tasks** (<code>[BackgroundTasks](#starlette.background.BackgroundTasks) | None</code>) – Optional BackgroundTasks for async ratio updates.
 - **value_display** (<code>[str](#str) | None</code>) – Optional formatted display string for the score value.
 - **metadata** (<code>[dict](#dict)\[[str](#str), [Any](#typing.Any)\] | None</code>) – Optional custom metadata dictionary.
+- **skip_identity_rate_limit** (<code>[bool](#bool)</code>) – If True, skip identity rate limiting (Godot SDK \<0.2.0 web).
 
 **Returns:**
 
